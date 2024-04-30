@@ -1,0 +1,25 @@
+#macOS files
+.DS_Store
+*.dSYM
+
+# Binary files
+*.o
+*.a
+raytracer
+
+# Tests files
+*.gcno
+*.gcda
+__pycache__/
+
+# Log files
+*.log
+
+#IDEs
+.vscode/
+.idea/
+*.code-workspace
+
+# Build files
+build/
+cmake-build-debug/
