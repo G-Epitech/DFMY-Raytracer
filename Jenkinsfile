@@ -2,7 +2,6 @@ pipeline {
     agent none
     stages {
         stage('Project linter') {
-            agent none
             steps {
                 sh 'docker run --rm -v "$PWD:/mnt/delivery" ghcr.io/epitech/coding-style-checker:latest /mnt/delivery /mnt/reports'
             }
