@@ -1,0 +1,45 @@
+name: "CD: Deployment"
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+    DEPLOYMENT_URL: "git@github.com:EpitechPromo2027/B-OOP-400-NAN-4-1-raytracer-matheo.coquet.git"
+
+jobs:
+  ignore_deployment_repository:
+    name: "⏭️ Ignore deployment repository"
+    outputs:
+      ignore: ${{ steps.compare_repository_urls.outputs.ignore }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "🛃 Compare repository urls"
+        id: compare_repository_urls
+        run: |
+          target=$(echo "$DEPLOYMENT_URL" | sed 's/git@github.com://;s/\.git$//')
+          if [[ "${{ github.repository }}" = "$target" ]]; then
+            echo "ignore=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "ignore=0" >> "$GITHUB_OUTPUT"
+          fi
+
+  repository_mirroring:
+    name: "🚀 Repository mirroring"
+    runs-on: ubuntu-latest
+    needs: ignore_deployment_repository
+    if: ${{ needs.ignore_deployment_repository.outputs.ignore == 0 }}
+
+    steps:
+      - name: "📥 Checkout repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "🚀 Epitech mirroring"
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url: ${{ env.DEPLOYMENT_URL }}
+          ssh_private_key: ${{ secrets.DEPLOYMENT_SSH_KEY }}

@@ -1,0 +1,14 @@
+repos:
+  - repo: local
+    hooks:
+    - id: tests_run
+      name: Run tests
+      entry: bash -c 'make tests_run'
+      language: system
+      pass_filenames: false
+
+    - id: compilation
+      name: Project compilation
+      entry: bash -c 'make fclean && make'
+      language: system
+      pass_filenames: false
