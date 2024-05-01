@@ -9,4 +9,4 @@ add_executable(raytracer_tests main.cpp)
 add_subdirectory(types)
 
 gtest_discover_tests(raytracer_tests)
-target_link_libraries(raytracer_tests libraytracer gtest gtest_main gmock gmock_main)
+target_link_libraries(raytracer_tests libraytracer gtest gtest_main)
