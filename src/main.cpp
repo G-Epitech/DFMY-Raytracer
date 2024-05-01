@@ -5,7 +5,11 @@
 ** main
 */
 
+#include "config/Config.hpp"
+
 int main(void)
 {
+    Config config;
+    config.load("text.cfg");
     return 0;
 }
