@@ -10,16 +10,17 @@
 #include <libconfig.h++>
 #include <iostream>
 #include <list>
+#include <tuple>
 
 typedef struct {
+    std::pair<int, int> resolution;
+    std::tuple<double, double, double> position;
+    std::tuple<double, double, double> rotation;
     float fov;
-    float aspect_ratio;
-    float aperture;
-    float focus_distance;
 } camera_config_t;
 
 typedef struct {
-    int caca;
+    std::list<camera_config_t> cameras;
 } scene_config_t;
 
 class Config {
@@ -28,5 +29,12 @@ class Config {
         ~Config() = default;
 
         scene_config_t load(const std::string &path);
+
+    private:
+        std::list<camera_config_t> _loadCameras(const libconfig::Setting &root);
+
+        std::tuple<double, double, double> _get3DPoint(const libconfig::Setting &setting);
+
+        libconfig::Config _cfg;
 };
 

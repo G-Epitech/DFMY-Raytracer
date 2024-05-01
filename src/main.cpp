@@ -10,6 +10,14 @@
 int main(void)
 {
     Config config;
-    config.load("text.cfg");
+    scene_config_t scene_config;
+
+    scene_config = config.load("text.cfg");
+    for (auto camera : scene_config.cameras) {
+        std::cout << "Camera resolution: " << camera.resolution.first << "x" << camera.resolution.second << std::endl;
+        std::cout << "Camera position: " << std::get<0>(camera.position) << ", " << std::get<1>(camera.position) << ", " << std::get<2>(camera.position) << std::endl;
+        std::cout << "Camera rotation: " << std::get<0>(camera.rotation) << ", " << std::get<1>(camera.rotation) << ", " << std::get<2>(camera.rotation) << std::endl;
+        std::cout << "Camera fov: " << camera.fov << std::endl;
+    }
     return 0;
 }
