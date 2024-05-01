@@ -6,6 +6,7 @@
 *.o
 *.a
 raytracer
+raytracer_tests
 
 # Tests files
 *.gcno
