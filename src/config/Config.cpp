@@ -26,6 +26,7 @@ scene_config_t Config::load(const std::string &path)
     }
     const libconfig::Setting &root = cfg.getRoot();
     scene_config.cameras = _loadCameras(root);
+    scene_config.materials = _loadMaterials(root);
     return scene_config;
 }
 
@@ -52,44 +53,92 @@ std::list<camera_config_t> Config::_loadCameras(const libconfig::Setting &root)
         camera_cfg["resolution"].lookupValue("height", height);
         camera_cfg["resolution"].lookupValue("width", width);
         camera.resolution = {height, width};
-        camera.position = _getPoint3D(camera_cfg["position"]);
-        camera.rotation = _getVector3D(camera_cfg["rotation"]);
+        camera.position = _parsePoint3D(camera_cfg["position"]);
+        camera.rotation = _parseVector3D(camera_cfg["rotation"]);
         camera.fov = camera_cfg["fieldOfView"];
         cameras.push_back(camera);
     }
     return cameras;
 }
 
-std::list<scene_object_config_t> Config::_loadSceneObjects(const libconfig::Setting &root)
+std::list<material_config_t> Config::_loadMaterials(const libconfig::Setting &root)
 {
-    std::list<scene_object_config_t> scene_objects;
-    const libconfig::Setting &scene_objects_cfg = root["scene_objects"];
-    std::string type;
+    std::list<material_config_t> materials = {};
+    material_config_t material;
+    const libconfig::Setting &materials_cfg = root["materials"];
 
-    if (!scene_objects_cfg.isList())
-        throw Config::Exception("scene_objects must be a list");
-    if (scene_objects_cfg.getLength() == 0)
-        throw Config::Exception("scene_objects must have at least one object");
-    for (int i = 0; i < scene_objects_cfg.getLength(); i++) {
-        const libconfig::Setting &scene_object_cfg = scene_objects_cfg[i];
-        if (!scene_object_cfg.exists("type")) {
-            throw Config::Exception("scene_object must have a type");
-        }
-        if (scene_object_cfg.lookupValue("type", type) == false) {
-            throw Config::Exception("type must be a string");
-        }
+    if (!materials_cfg.isList()){
+        throw Config::Exception("materials must be a list");
     }
-    return scene_objects;
+    for (int i = 0; i < materials_cfg.getLength(); i++) {
+        materials.push_back(_parseMaterial(materials_cfg[i]));
+    }
+    return materials;
 }
 
-Math::Vector3D Config::_getVector3D(const libconfig::Setting &setting)
+material_config_t Config::_parseMaterial(const libconfig::Setting &setting)
+{
+    material_config_t material;
+
+    if (!setting.isGroup())
+        throw Config::Exception("material must be a group");
+    if (!setting.exists("type") || !setting.exists("name") || !setting.exists("color"))
+        throw Config::Exception("material must have type, name and color");
+    if (setting.lookupValue("type", material.type) == false) {
+        throw Config::Exception("type must be a string");
+    }
+    if (setting.lookupValue("name", material.name) == false) {
+        throw Config::Exception("name must be a string");
+    }
+    material.color = _parseColor(setting["color"]);
+    if (material.type == "emitter") {
+        material.properties.emitter = _parseMaterialEmitter(setting);
+    }
+    if (material.type == "absorber") {
+        material.properties.absorber = _parseMaterialAbsorber(setting);
+    }
+    return material;
+}
+
+material_absorber_config_t Config::_parseMaterialAbsorber(const libconfig::Setting &setting)
+{
+    material_absorber_config_t absorber;
+
+    if (!setting.exists("transparency") || !setting.exists("reflectivity"))
+        throw Config::Exception("absorber must have transparency and reflectivity");
+    if (setting.lookupValue("reflectivity", absorber.reflectivity) == false)
+        throw Config::Exception("reflectivity must be a float");
+    return absorber;
+}
+
+material_emitter_config_t Config::_parseMaterialEmitter(const libconfig::Setting &setting)
+{
+    material_emitter_config_t emitter;
+    std::string emission_type;
+
+    if (!setting.exists("emission_strength") || !setting.exists("emission_type"))
+        throw Config::Exception("emitter must have emission_strength and emission_type");
+    if (setting.lookupValue("emission_strength", emitter.emission_strength) == false)
+        throw Config::Exception("emission_strength must be a float");
+    if (setting.lookupValue("emission_type", emission_type) == false)
+        throw Config::Exception("emission_type must be a string");
+    if (emission_type == "ambient")
+        emitter.emission_type = AMBIENT;
+    else if (emission_type == "directional")
+        emitter.emission_type = DIRECTIONAL;
+    else
+        throw Config::Exception("emission_type must be ambient or directional");
+    return emitter;
+}
+
+Math::Vector3D Config::_parseVector3D(const libconfig::Setting &setting)
 {
     Math::Vector3D vector3;
 
     if (!setting.isGroup())
-        throw Config::Exception("color must be a list of 3 doubles");
+        throw Config::Exception("3D Vector must be a list of 3 floats");
     if (!setting.exists("x") || !setting.exists("y") || !setting.exists("z"))
-        throw Config::Exception("color must have x, y and z");
+        throw Config::Exception("3D Vector must have x, y and z");
     if (!setting["x"].isNumber() || !setting["y"].isNumber() || !setting["z"].isNumber())
         throw Config::Exception("x, y and z must be floats");
     if (setting.lookupValue("x", vector3.x) == false)
@@ -101,14 +150,14 @@ Math::Vector3D Config::_getVector3D(const libconfig::Setting &setting)
     return vector3;
 }
 
-Math::Point3D Config::_getPoint3D(const libconfig::Setting &setting)
+Math::Point3D Config::_parsePoint3D(const libconfig::Setting &setting)
 {
     Math::Point3D point3;
 
     if (!setting.isGroup())
-        throw Config::Exception("color must be a list of 3 doubles");
+        throw Config::Exception("3D point must be a group of 3 floats");
     if (!setting.exists("x") || !setting.exists("y") || !setting.exists("z"))
-        throw Config::Exception("color must have x, y and z");
+        throw Config::Exception("3D point must have x, y and z");
     if (!setting["x"].isNumber() || !setting["y"].isNumber() || !setting["z"].isNumber())
         throw Config::Exception("x, y and z must be floats");
     if (setting.lookupValue("x", point3.x) == false)
@@ -118,4 +167,25 @@ Math::Point3D Config::_getPoint3D(const libconfig::Setting &setting)
     if (setting.lookupValue("z", point3.z) == false)
         throw Config::Exception("z must be a float");
     return point3;
+}
+
+Graphics::Color Config::_parseColor(const libconfig::Setting &setting)
+{
+    Graphics::Color color;
+
+    if (!setting.isGroup())
+        throw Config::Exception("color must be a group of 4 floats");
+    if (!setting.exists("r") || !setting.exists("g") || !setting.exists("b") || !setting.exists("a"))
+        throw Config::Exception("color must have r, g, b and a");
+    if (!setting["r"].isNumber() || !setting["g"].isNumber() || !setting["b"].isNumber() || !setting["a"].isNumber())
+        throw Config::Exception("r, g, b and a must be floats");
+    if (setting.lookupValue("r", color.r) == false)
+        throw Config::Exception("r must be a float");
+    if (setting.lookupValue("g", color.g) == false)
+        throw Config::Exception("g must be a float");
+    if (setting.lookupValue("b", color.b) == false)
+        throw Config::Exception("b must be a float");
+    if (setting.lookupValue("a", color.a) == false)
+        throw Config::Exception("a must be a float");
+    return color;
 }

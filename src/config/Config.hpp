@@ -15,6 +15,11 @@
 #include "types/math/Point.hpp"
 #include "types/graphics/Color.hpp"
 
+typedef enum {
+    DIRECTIONAL,
+    AMBIENT
+} emitter_type_e;
+
 typedef struct {
     std::pair<unsigned, unsigned> resolution;
     Math::Point3D position;
@@ -23,17 +28,29 @@ typedef struct {
 } camera_config_t;
 
 typedef struct {
-    Math::Point3D origin;
-    float radius;
-} sphere_config_t;
+    float emission_strength;
+    emitter_type_e emission_type;
+} material_emitter_config_t;
+
+typedef struct {
+    float reflectivity;
+} material_absorber_config_t;
 
 typedef union {
-    sphere_config_t sphere;
-} scene_object_config_t;
+    material_emitter_config_t emitter;
+    material_absorber_config_t absorber;
+} material_properties_t;
+
+typedef struct {
+    std::string type;
+    std::string name;
+    Graphics::Color color;
+    material_properties_t properties;
+} material_config_t;
 
 typedef struct {
     std::list<camera_config_t> cameras;
-    std::list<scene_object_config_t> scene_objects;
+    std::list<material_config_t> materials;
 } scene_config_t;
 
 class Config {
@@ -59,8 +76,12 @@ class Config {
         };
     private:
         std::list<camera_config_t> _loadCameras(const libconfig::Setting &root);
-        std::list<scene_object_config_t> _loadSceneObjects(const libconfig::Setting &root);
+        std::list<material_config_t> _loadMaterials(const libconfig::Setting &root);
 
-        Math::Vector3D _getVector3D(const libconfig::Setting &setting);
-        Math::Point3D _getPoint3D(const libconfig::Setting &setting);
+        material_config_t _parseMaterial(const libconfig::Setting &setting);
+        material_absorber_config_t _parseMaterialAbsorber(const libconfig::Setting &setting);
+        material_emitter_config_t _parseMaterialEmitter(const libconfig::Setting &setting);
+        Math::Vector3D _parseVector3D(const libconfig::Setting &setting);
+        Math::Point3D _parsePoint3D(const libconfig::Setting &setting);
+        Graphics::Color _parseColor(const libconfig::Setting &setting);
 };
