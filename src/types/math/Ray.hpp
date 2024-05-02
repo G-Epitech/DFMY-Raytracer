@@ -7,24 +7,24 @@
 
 #pragma once
 
-#include "../math/Point.hpp"
-#include "../math/Vector.hpp"
+#include "Point.hpp"
+#include "Vector.hpp"
 
 namespace Math {
     class Ray {
     public:
         /// @brief Create a new ray
-        explicit Ray();
+        Ray();
         /// @brief Create a new ray
-        Ray(const Math::Point3D &origin, const Math::Vector3D &direction);
+        explicit Ray(const Point3D &origin, const Vector3D &direction);
         /// @brief Default copy constructor
         Ray(const Ray &ray) = default;
         /// @brief Default destructor
         ~Ray() = default;
 
         /// @brief Origin of the ray
-        Math::Point3D origin;
+        Point3D origin;
         /// @brief Direction of the ray
-        Math::Vector3D direction;
+        Vector3D direction;
     };
 }

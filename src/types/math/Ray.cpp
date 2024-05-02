@@ -7,11 +7,7 @@
 
 #include "Ray.hpp"
 
-Math::Ray::Ray()
-{
-    origin = Math::Point3D();
-    direction = Math::Vector3D();
-}
+Math::Ray::Ray() = default;
 
 Math::Ray::Ray(const Math::Point3D &origin, const Math::Vector3D &direction)
 {

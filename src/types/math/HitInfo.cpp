@@ -11,6 +11,6 @@ Math::HitInfo::HitInfo()
 {
     didHit = false;
     distance = 0;
-    hitPoint = Math::Point3D();
-    normal = Math::Vector3D();
+    hitPoint = Point3D(0, 0, 0);
+    normal = Vector3D(0, 0, 0);
 }

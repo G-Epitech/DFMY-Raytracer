@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "../math/Point.hpp"
-#include "../math/Vector.hpp"
+#include "Point.hpp"
+#include "Vector.hpp"
 
 namespace Math {
     /// @brief Represent an HitInfo between a ray and a shape
