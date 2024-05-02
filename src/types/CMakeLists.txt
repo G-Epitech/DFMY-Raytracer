@@ -8,6 +8,7 @@ target_sources(libraytracer PRIVATE
         math/HitInfo.hpp
         math/Ray.cpp
         math/Ray.hpp
+        graphics/Pixel.hpp
         graphics/Color.hpp
         graphics/Color.cpp
         graphics/Material.cpp

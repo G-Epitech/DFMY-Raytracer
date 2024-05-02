@@ -7,28 +7,33 @@
 
 #pragma once
 
+#include "Pixel.hpp"
+
 namespace Graphics {
     /// @brief Represent an RGBA color
     typedef struct Color {
         /// @brief Create a color with the given values
-        Color(float r, float g, float b, float a = 255.0f);
+        Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255);
         /// @brief Create a new color, black by default
         Color();
         /// @brief Create a new color from another color
         Color(const Color &color) = default;
         /// @brief Redefine the color from another color
         Color &operator=(const Color &color) = default;
+        /// @brief Convert the color to a pixel
+        [[nodiscard]]
+        Pixel toPixel() const;
         /// @brief Compare two colors
         bool operator==(const Color &color) const;
         /// @brief Compare two colors
         bool operator!=(const Color &color) const;
         /// @brief Red component of the color
-        float r;
+        unsigned char r;
         /// @brief Green component of the color
-        float g;
+        unsigned char g;
         /// @brief Blue component of the color
-        float b;
+        unsigned char b;
         /// @brief Alpha component of the color
-        float a;
+        unsigned char a;
     } Color;
 }

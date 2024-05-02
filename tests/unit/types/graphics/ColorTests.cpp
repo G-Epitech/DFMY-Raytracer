@@ -134,3 +134,14 @@ TEST(ColorTests, Inequality)
     EXPECT_TRUE(red != blue) << "red should be different from blue";
     EXPECT_TRUE(green != blue) << "green should be different from blue";
 }
+
+TEST(ColorTests, ExportColorToSimplePixel)
+{
+    Graphics::Color color(255, 255, 255, 255);
+    auto pixel = color.toPixel();
+
+    EXPECT_EQ(pixel.r, 255) << "r should be 255";
+    EXPECT_EQ(pixel.g, 255) << "g should be 255";
+    EXPECT_EQ(pixel.b, 255) << "b should be 255";
+    EXPECT_EQ(pixel.a, 255) << "a should be 255";
+}
