@@ -11,4 +11,6 @@ target_sources(libraytracer PRIVATE
         graphics/Material.hpp
         graphics/Hit.cpp
         graphics/Hit.hpp
+        graphics/Ray.cpp
+        graphics/Ray.hpp
 )
