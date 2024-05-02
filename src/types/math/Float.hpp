@@ -8,8 +8,8 @@
 #pragma once
 
 namespace Math {
-    /// @brief Representing 3D coordinates
-    class Float3 {
+    /// @brief Representing 2D coordinates
+    class Float2 {
     public:
         /// @brief x coordinate
         float x;
@@ -17,6 +17,17 @@ namespace Math {
         /// @brief y coordinate
         float y;
 
+    protected:
+        /// @brief Create a new Float3
+        explicit Float2(float x = 0, float y = 0);
+
+        /// Default destructor
+        ~Float2() = default;
+    };
+
+    /// @brief Representing 3D coordinates
+    class Float3: public Float2 {
+    public:
         /// @brief z coordinate
         float z;
 

@@ -86,3 +86,59 @@ std::ostream &operator<<(std::ostream &os, const Math::Vector3D &vec) {
     os << "Vector3D(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
     return os;
 }
+
+Math::Vector2D::Vector2D(float x, float y) : Float2(x, y) {}
+
+Math::Vector2D::Vector2D(const Math::Vector2D &vector): Vector2D(vector.x, vector.y) {}
+
+Math::Vector2D Math::Vector2D::operator+(const Math::Vector2D &other) const {
+    return Vector2D(x + other.x, y + other.y);
+}
+
+Math::Vector2D &Math::Vector2D::operator+=(const Math::Vector2D &other) {
+    x += other.x;
+    y += other.y;
+    return *this;
+}
+
+Math::Vector2D Math::Vector2D::operator-(const Math::Vector2D &other) const {
+    return Vector2D(x - other.x, y - other.y);
+}
+
+Math::Vector2D &Math::Vector2D::operator-=(const Math::Vector2D &other) {
+    x -= other.x;
+    y -= other.y;
+    return *this;
+}
+
+Math::Vector2D Math::Vector2D::operator*(const Math::Vector2D &other) const {
+    return Vector2D(x * other.x, y * other.y);
+}
+
+Math::Vector2D &Math::Vector2D::operator*=(const Math::Vector2D &other) {
+    x *= other.x;
+    y *= other.y;
+    return *this;
+}
+
+Math::Vector2D Math::Vector2D::operator*(float c) const {
+    return Vector2D(x * c, y * c);
+}
+
+Math::Vector2D &Math::Vector2D::operator*=(float c) {
+    x *= c;
+    y *= c;
+    return *this;
+}
+
+Math::Vector2D Math::Vector2D::operator/(float c) const {
+    return c == 0 ? Vector2D(0, 0) : operator*(1 / c);
+}
+
+Math::Vector2D &Math::Vector2D::operator/=(float c) {
+    return c == 0 ? *this : operator*=(1 / c);
+}
+
+float Math::Vector2D::length() const {
+    return std::sqrt(x * x + y * y);
+}

@@ -11,6 +11,95 @@
 #include "Float.hpp"
 
 namespace Math {
+    class Vector2D: public Float2 {
+    public:
+        /// @brief Default constructor
+        explicit Vector2D(float x = 0, float y = 0);
+
+        /// @brief Copy constructor
+        Vector2D(const Vector2D &vector);
+
+        /// @brief Default destructor
+        ~Vector2D() = default;
+
+        /**
+         * @brief Add two vectors
+         * @param other Other vector to add
+         * @return Computed vector
+         */
+        Vector2D operator+(const Vector2D &other) const;
+
+        /**
+         * @brief Add an other vector to the current vector
+         * @param other Other vector to add
+         * @return Reference to the current vector
+         */
+        Vector2D &operator+=(const Vector2D &other);
+
+        /**
+         * @brief Subtract two vectors
+         * @param other Other vector to subtract
+         * @return Computed vector
+         */
+        Vector2D operator-(const Vector2D &other) const;
+
+        /**
+         * @brief Subtract an other vector to the current vector
+         * @param other Other vector to subtract
+         * @return Reference to the current vector
+         */
+        Vector2D &operator-=(const Vector2D &other);
+
+        /**
+         * @brief Multiply two vectors
+         * @param other Other vector to multiply
+         * @return Computed vector
+         */
+        Vector2D operator*(const Vector2D &other) const;
+
+        /**
+         * @brief Multiply a vector by a coefficient
+         * @param c Coefficient to multiply the vector by
+         * @return Computed vector
+         */
+        Vector2D operator*(float c) const;
+
+        /**
+         * @brief Multiply the current vector by an other vector
+         * @param other Other vector to multiply
+         * @return Reference to the current vector
+         */
+        Vector2D &operator*=(const Vector2D &other);
+
+        /**
+         * @brief Multiply the current vector by a coefficient
+         * @param c Coefficient to multiply the vector by
+         * @return Reference to the current vector
+         */
+        Vector2D &operator*=(float c);
+
+        /**
+         * @brief Divide a vector by a coefficient
+         * @param c Coefficient to divide the vector by
+         * @return Computed vector
+         */
+        Vector2D operator/(float c) const;
+
+        /**
+         * @brief Divide the current vector by an other vector
+         * @param c Coefficient to divide the vector by
+         * @return Reference to the current vector
+         */
+        Vector2D &operator/=(float c);
+
+        /**
+         * @brief Compute cross product of given vector
+         * @return Computed cross product
+         */
+        [[nodiscard]]
+        float length() const;
+    };
+
     class Vector3D : public Float3 {
     public:
         /// @brief Default constructor

@@ -229,3 +229,179 @@ TEST(Vector3DTests, PrintVector)
 
     EXPECT_EQ(ss.str(), "Vector3D(1, 2, 3)") << "string should be (1, 2, 3)";
 }
+
+
+TEST(Vector2DTests, ValidConstruction)
+{
+    Math::Vector2D v(1, 2);
+
+    EXPECT_EQ(v.x, 1) << "x should be 1";
+    EXPECT_EQ(v.y, 2) << "y should be 2";
+}
+
+TEST(Vector2DTests, EmptyConstruction)
+{
+    Math::Vector2D v;
+
+    EXPECT_EQ(v.x, 0) << "x should be 0";
+    EXPECT_EQ(v.y, 0) << "y should be 0";
+}
+
+TEST(Vector2DTests, ValidCopyConstruction)
+{
+    Math::Vector2D v(1, 2);
+    Math::Vector2D v2(v);
+
+    EXPECT_EQ(v2.x, 1) << "x should be 1";
+    EXPECT_EQ(v2.y, 2) << "y should be 2";
+}
+
+TEST(Vector2DTests, ValidCopyAssignment)
+{
+    Math::Vector2D v(1, 2);
+    Math::Vector2D u(4, 5);
+    u = v;
+
+    EXPECT_EQ(u.x, 1) << "v2.x should be 1";
+    EXPECT_EQ(u.y, 2) << "v2.y should be 2";
+    EXPECT_EQ(v.x, 1) << "v.x should still be 1";
+    EXPECT_EQ(v.y, 2) << "v.y should still be 2";
+}
+
+TEST(Vector2DTests, TwoVectorsAddition)
+{
+    Math::Vector2D u(1, 2);
+    Math::Vector2D v(4, 5);
+    Math::Vector2D w = u + v;
+
+    EXPECT_EQ(w.x, 5) << "w.x should be 5";
+    EXPECT_EQ(w.y, 7) << "w.y should be 7";
+}
+
+TEST(Vector2DTests, VectorAdditionOnThis)
+{
+    Math::Vector2D u(1, 2);
+    Math::Vector2D v(4, 5);
+    u += v;
+
+    EXPECT_EQ(u.x, 5) << "u.x should be 5";
+    EXPECT_EQ(u.y, 7) << "u.y should be 7";
+}
+
+TEST(Vector2DTests, TwoVectorsSubtraction)
+{
+    Math::Vector2D u(1, 2);
+    Math::Vector2D v(4, 5);
+    Math::Vector2D w = u - v;
+
+    EXPECT_EQ(w.x, -3) << "w.x should be -3";
+    EXPECT_EQ(w.y, -3) << "w.y should be -3";
+}
+
+TEST(Vector2DTests, VectorSubstractionOnThis)
+{
+    Math::Vector2D u(1, 2);
+    Math::Vector2D v(4, 5);
+    u -= v;
+
+    EXPECT_EQ(u.x, -3) << "u.x should be -3";
+    EXPECT_EQ(u.y, -3) << "u.y should be -3";
+}
+
+TEST(Vector2DTests, TwoVectorsMultiplication)
+{
+    Math::Vector2D u(1, 2);
+    Math::Vector2D v(4, 5);
+    Math::Vector2D w = u * v;
+
+    EXPECT_EQ(w.x, 4) << "w.x should be 4";
+    EXPECT_EQ(w.y, 10) << "w.y should be 10";
+}
+
+TEST(Vector2DTests, ScalarMultiplication)
+{
+    Math::Vector2D v(1, 2);
+    Math::Vector2D w = v * 2;
+
+    EXPECT_EQ(w.x, 2) << "w.x should be 2";
+    EXPECT_EQ(w.y, 4) << "w.y should be 4";
+}
+
+TEST(Vector2DTests, VectorMultiplicationOnThis)
+{
+    Math::Vector2D u(1, 2);
+    Math::Vector2D v(4, 5);
+    u *= v;
+
+    EXPECT_EQ(u.x, 4) << "u.x should be 4";
+    EXPECT_EQ(u.y, 10) << "u.y should be 10";
+}
+
+TEST(Vector2DTests, ScalarMultiplicationOnThis)
+{
+    Math::Vector2D v(1, 2);
+    v *= 2;
+
+    EXPECT_EQ(v.x, 2) << "v.x should be 2";
+    EXPECT_EQ(v.y, 4) << "v.y should be 4";
+}
+
+TEST(Vector2DTests, VectorDivisionBy2)
+{
+    Math::Vector2D v(4, 8);
+    Math::Vector2D w = v / 2;
+
+    EXPECT_EQ(w.x, 2) << "w.x should be 2";
+    EXPECT_EQ(w.y, 4) << "w.y should be 4";
+}
+
+TEST(Vector2DTests, VectorDivisionBy0)
+{
+    Math::Vector2D v(4, 8);
+    Math::Vector2D w = v / 0;
+
+    EXPECT_EQ(w.x, 0) << "w.x should be 0";
+    EXPECT_EQ(w.y, 0) << "w.y should be 0";
+}
+
+TEST(Vector2DTests, VectorDivisionOnThis)
+{
+    Math::Vector2D v(4, 8);
+    v /= 2;
+
+    EXPECT_EQ(v.x, 2) << "v.x should be 2";
+    EXPECT_EQ(v.y, 4) << "v.y should be 4";
+}
+
+TEST(Vector2DTests, VectorDivisionBy0OnThis)
+{
+    Math::Vector2D v(4, 8);
+    v /= 0;
+
+    EXPECT_EQ(v.x, 4) << "v.x should be 4";
+    EXPECT_EQ(v.y, 8) << "v.y should be 8";
+}
+
+TEST(Vector2DTests, LengthOfNullVector)
+{
+    Math::Vector2D v(0, 0);
+    auto length = v.length();
+
+    EXPECT_EQ(length, 0) << "length should be 0";
+}
+
+TEST(Vector2DTests, LengthOfPositiveVector)
+{
+    Math::Vector2D v(1, 2);
+    auto length = v.length();
+
+    EXPECT_FLOAT_EQ(length, 2.236068) << "length should be 2.236068";
+}
+
+TEST(Vector2DTests, LengthOfNegativeVector)
+{
+    Math::Vector2D v(-1, -2);
+    auto length = v.length();
+
+    EXPECT_FLOAT_EQ(length, 2.236068) << "length should be 2.236068";
+}
