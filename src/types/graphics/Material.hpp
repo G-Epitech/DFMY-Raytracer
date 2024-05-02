@@ -13,12 +13,14 @@ namespace Graphics {
     class Material {
     public:
         /// @brief Create a new material
-        Material(
+        explicit Material(
             const Color &color,
             const Color &emissionColor,
             const Color &specularColor,
             float emissionStrength
         );
+        /// @brief Default copy constructor
+        Material(const Material &material) = default;
         /// @brief Default destructor
         ~Material() = default;
 

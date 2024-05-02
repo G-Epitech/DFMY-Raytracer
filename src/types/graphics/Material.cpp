@@ -9,8 +9,12 @@
 
 using namespace Graphics;
 
-Material::Material(const Color &color, const Color &emissionColor, const Color &specularColor,
-    float emissionStrength) {
+Material::Material(
+    const Color &color,
+    const Color &emissionColor,
+    const Color &specularColor,
+    float emissionStrength
+) {
     this->color = color;
     this->emissionColor = emissionColor;
     this->specularColor = specularColor;
