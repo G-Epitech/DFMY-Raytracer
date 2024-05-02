@@ -11,6 +11,7 @@
 #include <iostream>
 #include <list>
 #include <tuple>
+#include <vector>
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
 #include "types/graphics/Color.hpp"
@@ -30,6 +31,7 @@ typedef struct {
 typedef struct {
     float emission_strength;
     emitter_type_e emission_type;
+    std::tuple<float, float, float> emission_direction;
 } material_emitter_config_t;
 
 typedef struct {
@@ -49,8 +51,24 @@ typedef struct {
 } material_config_t;
 
 typedef struct {
+    Math::Point3D position;
+    float radius;
+} object_sphere_config_t;
+
+typedef union {
+    object_sphere_config_t sphere;
+} object_properties_t;
+
+typedef struct {
+    std::string type;
+    std::string material;
+    object_properties_t properties;
+} object_config_t;
+
+typedef struct {
     std::list<camera_config_t> cameras;
     std::list<material_config_t> materials;
+    std::list<object_config_t> objects;
 } scene_config_t;
 
 class Config {
@@ -77,6 +95,7 @@ class Config {
     private:
         std::list<camera_config_t> _loadCameras(const libconfig::Setting &root);
         std::list<material_config_t> _loadMaterials(const libconfig::Setting &root);
+        std::list<object_config_t> _loadObjects(const libconfig::Setting &root);
 
         material_config_t _parseMaterial(const libconfig::Setting &setting);
         material_absorber_config_t _parseMaterialAbsorber(const libconfig::Setting &setting);
@@ -84,4 +103,8 @@ class Config {
         Math::Vector3D _parseVector3D(const libconfig::Setting &setting);
         Math::Point3D _parsePoint3D(const libconfig::Setting &setting);
         Graphics::Color _parseColor(const libconfig::Setting &setting);
+        std::tuple<float, float, float> _parseTuple3f(const libconfig::Setting &setting, const std::string (&keys)[3]);
+
+        void _settingHasValidKeys(const std::string &prop, const libconfig::Setting &setting,
+            const std::vector<std::string> &keys);
 };

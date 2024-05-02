@@ -25,8 +25,10 @@ scene_config_t Config::load(const std::string &path)
             + ": " + pex.getError() + " - " + pex.getFile());
     }
     const libconfig::Setting &root = cfg.getRoot();
+    _settingHasValidKeys("root", root, {"cameras", "materials", "objects"});
     scene_config.cameras = _loadCameras(root);
     scene_config.materials = _loadMaterials(root);
+    scene_config.objects = _loadObjects(root);
     return scene_config;
 }
 
@@ -64,7 +66,6 @@ std::list<camera_config_t> Config::_loadCameras(const libconfig::Setting &root)
 std::list<material_config_t> Config::_loadMaterials(const libconfig::Setting &root)
 {
     std::list<material_config_t> materials = {};
-    material_config_t material;
     const libconfig::Setting &materials_cfg = root["materials"];
 
     if (!materials_cfg.isList()){
@@ -76,9 +77,14 @@ std::list<material_config_t> Config::_loadMaterials(const libconfig::Setting &ro
     return materials;
 }
 
+std::list<object_config_t> Config::_loadObjects(const libconfig::Setting &root)
+{
+    std::list<object_config_t> objects = {};
+}
+
 material_config_t Config::_parseMaterial(const libconfig::Setting &setting)
 {
-    material_config_t material;
+    material_config_t material = {};
 
     if (!setting.isGroup())
         throw Config::Exception("material must be a group");
@@ -104,8 +110,8 @@ material_absorber_config_t Config::_parseMaterialAbsorber(const libconfig::Setti
 {
     material_absorber_config_t absorber;
 
-    if (!setting.exists("transparency") || !setting.exists("reflectivity"))
-        throw Config::Exception("absorber must have transparency and reflectivity");
+    if (!setting.exists("reflectivity"))
+        throw Config::Exception("absorber must have and reflectivity");
     if (setting.lookupValue("reflectivity", absorber.reflectivity) == false)
         throw Config::Exception("reflectivity must be a float");
     return absorber;
@@ -127,45 +133,53 @@ material_emitter_config_t Config::_parseMaterialEmitter(const libconfig::Setting
     else if (emission_type == "directional")
         emitter.emission_type = DIRECTIONAL;
     else
-        throw Config::Exception("emission_type must be ambient or directional");
+        throw Config::Exception("emission_type must be \"ambient\" or \"directional\"");
+    if (emitter.emission_type == DIRECTIONAL) {
+        if (!setting.exists("emission_direction"))
+            throw Config::Exception("directional emission type must have emission_direction");
+        emitter.emission_direction = _parseTuple3f(setting["emission_direction"], {"x", "y", "z"});
+    } else {
+        emitter.emission_direction = {0, 0, 0};
+    }
     return emitter;
+}
+
+
+std::tuple<float, float, float> Config::_parseTuple3f(const libconfig::Setting &setting,
+    const std::string (&keys)[3])
+{
+    if (!setting.exists(keys[0]) || !setting.exists(keys[1]) || !setting.exists(keys[2]))
+        throw Config::Exception("tuple must have " + keys[0] + ", " + keys[1] + " and " + keys[2]);
+    if (!setting[keys[0].c_str()].isNumber() || !setting[keys[1].c_str()].isNumber() || !setting[keys[2].c_str()].isNumber())
+        throw Config::Exception(keys[0] + ", " + keys[1] + " and " + keys[2] + " must be floats");
+    return {setting[keys[0].c_str()], setting[keys[1].c_str()], setting[keys[2].c_str()]};
 }
 
 Math::Vector3D Config::_parseVector3D(const libconfig::Setting &setting)
 {
     Math::Vector3D vector3;
+    std::tuple<float, float, float> tuple;
 
     if (!setting.isGroup())
         throw Config::Exception("3D Vector must be a list of 3 floats");
-    if (!setting.exists("x") || !setting.exists("y") || !setting.exists("z"))
-        throw Config::Exception("3D Vector must have x, y and z");
-    if (!setting["x"].isNumber() || !setting["y"].isNumber() || !setting["z"].isNumber())
-        throw Config::Exception("x, y and z must be floats");
-    if (setting.lookupValue("x", vector3.x) == false)
-        throw Config::Exception("x must be a float");
-    if (setting.lookupValue("y", vector3.y) == false)
-        throw Config::Exception("y must be a float");
-    if (setting.lookupValue("z", vector3.z) == false)
-        throw Config::Exception("z must be a float");
+    tuple = _parseTuple3f(setting, {"x", "y", "z"});
+    vector3.x = std::get<0>(tuple);
+    vector3.y = std::get<1>(tuple);
+    vector3.z = std::get<2>(tuple);
     return vector3;
 }
 
 Math::Point3D Config::_parsePoint3D(const libconfig::Setting &setting)
 {
     Math::Point3D point3;
+    std::tuple<float, float, float> tuple;
 
     if (!setting.isGroup())
-        throw Config::Exception("3D point must be a group of 3 floats");
-    if (!setting.exists("x") || !setting.exists("y") || !setting.exists("z"))
-        throw Config::Exception("3D point must have x, y and z");
-    if (!setting["x"].isNumber() || !setting["y"].isNumber() || !setting["z"].isNumber())
-        throw Config::Exception("x, y and z must be floats");
-    if (setting.lookupValue("x", point3.x) == false)
-        throw Config::Exception("x must be a float");
-    if (setting.lookupValue("y", point3.y) == false)
-        throw Config::Exception("y must be a float");
-    if (setting.lookupValue("z", point3.z) == false)
-        throw Config::Exception("z must be a float");
+        throw Config::Exception("3D Point must be a list of 3 floats");
+    tuple = _parseTuple3f(setting, {"x", "y", "z"});
+    point3.x = std::get<0>(tuple);
+    point3.y = std::get<1>(tuple);
+    point3.z = std::get<2>(tuple);
     return point3;
 }
 
@@ -188,4 +202,25 @@ Graphics::Color Config::_parseColor(const libconfig::Setting &setting)
     if (setting.lookupValue("a", color.a) == false)
         throw Config::Exception("a must be a float");
     return color;
+}
+
+void Config::_settingHasValidKeys(const std::string &prop, const libconfig::Setting &setting,
+    const std::vector<std::string> &keys)
+{
+    bool has_all_keys = true;
+    std::string error_msg = prop + " must have ";
+
+    for (int i = 0; i < keys.size(); i++){
+        if (!setting.exists(keys[i])) {
+            has_all_keys = false;
+        }
+        if (i == keys.size() - 1) {
+            error_msg += keys[i];
+        } else {
+            error_msg += keys[i] + ", ";
+        }
+    }
+    if (!has_all_keys) {
+        throw Config::Exception(error_msg);
+    }
 }
