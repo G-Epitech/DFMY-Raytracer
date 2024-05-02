@@ -11,6 +11,8 @@
 #include <iostream>
 #include <list>
 #include <tuple>
+#include "types/math/Vector.hpp"
+#include "types/math/Point.hpp"
 
 typedef struct {
     std::pair<int, int> resolution;
@@ -60,5 +62,7 @@ class Config {
         std::list<scene_object_config_t> _loadSceneObjects(const libconfig::Setting &root);
 
         std::tuple<double, double, double> _get3DPoint(const libconfig::Setting &setting);
+        Math::Vector3D _getVector3D(const libconfig::Setting &setting);
+        Math::Point3D _getPoint3D(const libconfig::Setting &setting);
 };
 

@@ -100,3 +100,41 @@ std::tuple<double, double, double> Config::_get3DPoint(const libconfig::Setting 
         throw Config::Exception("z must be a double");
     return {x, y, z};
 }
+
+Math::Vector3D Config::_getVector3D(const libconfig::Setting &setting)
+{
+    Math::Vector3D vector3;
+
+    if (!setting.isGroup())
+        throw Config::Exception("color must be a list of 3 doubles");
+    if (!setting.exists("x") || !setting.exists("y") || !setting.exists("z"))
+        throw Config::Exception("color must have x, y and z");
+    if (!setting["x"].isNumber() || !setting["y"].isNumber() || !setting["z"].isNumber())
+        throw Config::Exception("x, y and z must be floats");
+    if (setting.lookupValue("x", vector3.x) == false)
+        throw Config::Exception("x must be a float");
+    if (setting.lookupValue("y", vector3.y) == false)
+        throw Config::Exception("y must be a float");
+    if (setting.lookupValue("z", vector3.z) == false)
+        throw Config::Exception("z must be a float");
+    return vector3;
+}
+
+Math::Point3D Config::_getPoint3D(const libconfig::Setting &setting)
+{
+    Math::Point3D point3;
+
+    if (!setting.isGroup())
+        throw Config::Exception("color must be a list of 3 doubles");
+    if (!setting.exists("x") || !setting.exists("y") || !setting.exists("z"))
+        throw Config::Exception("color must have x, y and z");
+    if (!setting["x"].isNumber() || !setting["y"].isNumber() || !setting["z"].isNumber())
+        throw Config::Exception("x, y and z must be floats");
+    if (setting.lookupValue("x", point3.x) == false)
+        throw Config::Exception("x must be a float");
+    if (setting.lookupValue("y", point3.y) == false)
+        throw Config::Exception("y must be a float");
+    if (setting.lookupValue("z", point3.z) == false)
+        throw Config::Exception("z must be a float");
+    return point3;
+}
