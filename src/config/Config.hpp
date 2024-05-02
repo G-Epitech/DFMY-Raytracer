@@ -30,11 +30,22 @@ class Config {
 
         scene_config_t load(const std::string &path);
 
+        class Exception : public std::exception {
+            public:
+                explicit Exception(std::string const &message)
+                    : _message(message) {}
+
+                const char *what() const noexcept override {
+                    return _message.c_str();
+                }
+                const std::string &getMessage() const {
+                    return _message;
+                }
+            private:
+                std::string _message;
+        };
     private:
         std::list<camera_config_t> _loadCameras(const libconfig::Setting &root);
-
         std::tuple<double, double, double> _get3DPoint(const libconfig::Setting &setting);
-
-        libconfig::Config _cfg;
 };
 
