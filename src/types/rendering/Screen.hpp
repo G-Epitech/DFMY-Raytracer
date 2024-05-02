@@ -8,38 +8,34 @@
 #pragma once
 
 #include <cstddef>
-#include <array>
 
-#include "../graphics/Pixel.hpp"
+#include "types/graphics/Pixel.hpp"
 
 using namespace std;
 using namespace Graphics;
 
 namespace Rendering {
-    template<size_t Width, size_t Height>
     class Screen {
     public:
-        /// @brief Constructor of the screen
-        Screen() {
-            for (size_t i = 0; i < height; i++) {
-                _pixels[i].fill(Pixel{0, 0, 0, 0});
-            }
-        }
+        /**
+         * @brief Construct a new Screen object
+         * @param width Width of the screen
+         * @param height Height of the screen
+         */
+        Screen(size_t width, size_t height);
         /// @brief Default destructor of the screen
         ~Screen() = default;
 
         /// @brief Width of the screen
-        const size_t width = Width;
+        const size_t width;
         /// @brief Height of the screen
-        const size_t height = Height;
+        const size_t height;
 
         /// @brief Get the pixel at the given coordinates
-        Pixel &operator()(size_t x, size_t y) {
-            return _pixels[y][x];
-        }
+        Pixel &operator()(size_t x, size_t y);
 
     private:
         /// @brief Pixels of the screen
-        array<array<Pixel, Width>, Height> _pixels;
+        unique_ptr<Pixel[]> _pixels;
     };
 }

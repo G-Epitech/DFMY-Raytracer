@@ -14,4 +14,5 @@ target_sources(libraytracer PRIVATE
         graphics/Material.cpp
         graphics/Material.hpp
         rendering/Screen.hpp
+        rendering/Screen.cpp
 )
