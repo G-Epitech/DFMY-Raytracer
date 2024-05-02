@@ -15,4 +15,6 @@ target_sources(libraytracer PRIVATE
         graphics/Material.hpp
         rendering/Screen.hpp
         rendering/Screen.cpp
+        rendering/Camera.cpp
+        rendering/Camera.hpp
 )

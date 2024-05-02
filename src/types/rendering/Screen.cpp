@@ -8,10 +8,10 @@
 #include <memory>
 #include "Screen.hpp"
 
-Rendering::Screen::Screen(size_t width, size_t height): width(width), height(height) {
-    _pixels = std::make_unique<Pixel[]>(width * height);
+Rendering::Screen::Screen(const Size &size) : size(size) {
+    _pixels = std::make_unique<Pixel[]>(size.width * size.height);
 }
 
 Pixel &Rendering::Screen::operator()(size_t x, size_t y) {
-    return _pixels[x + y * width];
+    return _pixels[x + y * size.height];
 }

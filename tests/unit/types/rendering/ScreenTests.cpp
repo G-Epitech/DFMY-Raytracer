@@ -11,15 +11,15 @@
 
 TEST(ScreenTests, Create4x4Screen)
 {
-    Rendering::Screen screen(4, 4);
+    Rendering::Screen screen({4, 4});
 
-    ASSERT_EQ(screen.width, 4);
-    ASSERT_EQ(screen.height, 4);
+    ASSERT_EQ(screen.size.width, 4);
+    ASSERT_EQ(screen.size.height, 4);
 }
 
 TEST(ScreenTests, UpdateAPixel)
 {
-    Rendering::Screen screen(4, 4);
+    Rendering::Screen screen({4, 4});
 
     screen(0, 3) = { 255, 255, 255, 255 };
 

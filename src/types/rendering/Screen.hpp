@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <memory>
 #include <cstddef>
 
 #include "types/graphics/Pixel.hpp"
@@ -17,19 +18,23 @@ using namespace Graphics;
 namespace Rendering {
     class Screen {
     public:
+        typedef struct Size {
+            /// @brief Width of the screen
+            size_t width;
+            /// @brief Height of the screen
+            size_t height;
+        } Size;
+
         /**
          * @brief Construct a new Screen object
-         * @param width Width of the screen
-         * @param height Height of the screen
+         * @param size Size of the screen
          */
-        Screen(size_t width, size_t height);
+        explicit Screen(const Size &size);
         /// @brief Default destructor of the screen
         ~Screen() = default;
 
         /// @brief Width of the screen
-        const size_t width;
-        /// @brief Height of the screen
-        const size_t height;
+        const Size size;
 
         /// @brief Get the pixel at the given coordinates
         Pixel &operator()(size_t x, size_t y);
