@@ -5,7 +5,6 @@ target_sources(libraytracer PRIVATE
         math/Vector.cpp
         math/Float.hpp
         math/Float.cpp
-        math/HitInfo.cpp
         math/HitInfo.hpp
         math/Ray.cpp
         math/Ray.hpp

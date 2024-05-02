@@ -13,17 +13,13 @@
 namespace Math {
     /// @brief Represent an HitInfo between a ray and a shape
     typedef struct HitInfo {
-        /// @brief Create a new HitInfo
-        HitInfo();
-        /// @brief Create a new HitInfo from another HitInfo
-        HitInfo(const HitInfo &HitInfo) = default;
         /// @brief Did the ray hit the shape
-        bool didHit;
+        bool didHit = false;
         /// @brief Distance between the ray and the shape
-        float distance;
+        float distance = 0;
         /// @brief Hit point
-        Math::Point3D hitPoint;
+        Point3D hitPoint = Point3D(0, 0, 0);
         /// @brief Normal at the hit point
-        Math::Vector3D normal;
+        Vector3D normal = Vector3D(0, 0, 0);
     } HitInfo;
 }

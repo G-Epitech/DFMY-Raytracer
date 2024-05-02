@@ -17,11 +17,8 @@ namespace Math {
         Ray();
         /// @brief Create a new ray
         explicit Ray(const Point3D &origin, const Vector3D &direction);
-        /// @brief Default copy constructor
-        Ray(const Ray &ray) = default;
         /// @brief Default destructor
         ~Ray() = default;
-
         /// @brief Origin of the ray
         Point3D origin;
         /// @brief Direction of the ray
