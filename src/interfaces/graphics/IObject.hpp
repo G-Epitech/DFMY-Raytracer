@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include "Ray.hpp"
-#include "HitInfo.hpp"
-#include "Material.hpp"
+#include "types/math/Ray.hpp"
+#include "types/math/HitInfo.hpp"
+#include "types/graphics/Material.hpp"
 
 namespace Graphics {
     class IObject {
@@ -21,6 +21,6 @@ namespace Graphics {
         virtual Math::HitInfo computeCollision(const Math::Ray &ray) = 0;
 
         /// @brief Get the Material of the object
-        virtual Graphics::Material GetMaterial() = 0;
+        virtual Material getMaterial() = 0;
     };
 }

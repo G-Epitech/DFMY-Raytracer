@@ -1,3 +1,3 @@
 target_sources(libraytracer PRIVATE
-    IObject.hpp
+        graphics/IObject.hpp
 )
