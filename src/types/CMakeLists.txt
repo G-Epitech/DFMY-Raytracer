@@ -5,12 +5,12 @@ target_sources(libraytracer PRIVATE
         math/Vector.cpp
         math/Float.hpp
         math/Float.cpp
+        math/HitInfo.cpp
+        math/HitInfo.hpp
+        math/Ray.cpp
+        math/Ray.hpp
         graphics/Color.hpp
         graphics/Color.cpp
         graphics/Material.cpp
         graphics/Material.hpp
-        graphics/Hit.cpp
-        graphics/Hit.hpp
-        graphics/Ray.cpp
-        graphics/Ray.hpp
 )

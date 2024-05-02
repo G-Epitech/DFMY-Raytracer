@@ -10,7 +10,7 @@
 #include "../math/Point.hpp"
 #include "../math/Vector.hpp"
 
-namespace Graphics {
+namespace Math {
     class Ray {
     public:
         /// @brief Create a new ray

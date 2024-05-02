@@ -10,10 +10,10 @@
 #include "../math/Point.hpp"
 #include "../math/Vector.hpp"
 
-namespace Graphics {
+namespace Math {
     /// @brief Represent an HitInfo between a ray and a shape
     typedef struct HitInfo {
-        /// @brief Create a new HitInfo, black by default
+        /// @brief Create a new HitInfo
         HitInfo();
         /// @brief Create a new HitInfo from another HitInfo
         HitInfo(const HitInfo &HitInfo) = default;

@@ -5,9 +5,9 @@
 ** Hit
 */
 
-#include "Hit.hpp"
+#include "HitInfo.hpp"
 
-Graphics::HitInfo::HitInfo()
+Math::HitInfo::HitInfo()
 {
     didHit = false;
     distance = 0;
