@@ -10,11 +10,12 @@
 #include <cstddef>
 #include <array>
 
-#include "Pixel.hpp"
+#include "../graphics/Pixel.hpp"
 
 using namespace std;
+using namespace Graphics;
 
-namespace Graphics {
+namespace Rendering {
     template<size_t Width, size_t Height>
     class Screen {
     public:

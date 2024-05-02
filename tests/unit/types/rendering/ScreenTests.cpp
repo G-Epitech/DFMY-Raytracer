@@ -7,12 +7,11 @@
 
 #include <gtest/gtest.h>
 
-#include "types/graphics/Screen.hpp"
+#include "types/rendering/Screen.hpp"
 
 TEST(ScreenTests, Create4x4Screen)
 {
-    Graphics::Screen<4, 4> screen;
-
+    Rendering::Screen<4, 4> screen;
 
     ASSERT_EQ(screen.width, 4);
     ASSERT_EQ(screen.height, 4);
@@ -28,7 +27,7 @@ TEST(ScreenTests, Create4x4Screen)
 
 TEST(ScreenTests, UpdateAPixel)
 {
-    Graphics::Screen<4, 4> screen;
+    Rendering::Screen<4, 4> screen;
 
     screen(0, 3) = { 255, 255, 255, 255 };
 
