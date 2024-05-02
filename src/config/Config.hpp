@@ -20,7 +20,18 @@ typedef struct {
 } camera_config_t;
 
 typedef struct {
+    std::tuple<double, double, double> position;
+    float radius;
+    std::tuple<double, double, double> color;
+} sphere_config_t;
+
+typedef union {
+    sphere_config_t sphere;
+} scene_object_config_t;
+
+typedef struct {
     std::list<camera_config_t> cameras;
+    std::list<scene_object_config_t> scene_objects;
 } scene_config_t;
 
 class Config {
@@ -46,6 +57,9 @@ class Config {
         };
     private:
         std::list<camera_config_t> _loadCameras(const libconfig::Setting &root);
+        std::list<scene_object_config_t> _loadSceneObjects(const libconfig::Setting &root);
+        scene_object_config_t _loadSphere
+
         std::tuple<double, double, double> _get3DPoint(const libconfig::Setting &setting);
 };
 
