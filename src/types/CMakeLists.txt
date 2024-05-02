@@ -7,4 +7,6 @@ target_sources(libraytracer PRIVATE
         math/Float.cpp
         graphics/Color.hpp
         graphics/Color.cpp
+        graphics/Material.cpp
+        graphics/Material.hpp
 )
