@@ -5,4 +5,6 @@ target_sources(libraytracer PRIVATE
         math/Vector.cpp
         math/Float.hpp
         math/Float.cpp
+        graphics/Color.hpp
+        graphics/Color.cpp
 )
