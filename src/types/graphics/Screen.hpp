@@ -18,7 +18,13 @@ namespace Graphics {
     template<size_t Width, size_t Height>
     class Screen {
     public:
-        Screen() = default;
+        /// @brief Constructor of the screen
+        Screen() {
+            for (size_t i = 0; i < height; i++) {
+                _pixels[i].fill(Pixel{0, 0, 0, 0});
+            }
+        }
+        /// @brief Default destructor of the screen
         ~Screen() = default;
 
         /// @brief Width of the screen
