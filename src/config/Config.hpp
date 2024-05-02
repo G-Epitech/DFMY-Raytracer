@@ -13,18 +13,18 @@
 #include <tuple>
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
+#include "types/graphics/Color.hpp"
 
 typedef struct {
-    std::pair<int, int> resolution;
-    std::tuple<double, double, double> position;
-    std::tuple<double, double, double> rotation;
+    std::pair<unsigned, unsigned> resolution;
+    Math::Point3D position;
+    Math::Vector3D rotation;
     float fov;
 } camera_config_t;
 
 typedef struct {
-    std::tuple<double, double, double> position;
+    Math::Point3D origin;
     float radius;
-    std::tuple<double, double, double> color;
 } sphere_config_t;
 
 typedef union {
@@ -61,8 +61,6 @@ class Config {
         std::list<camera_config_t> _loadCameras(const libconfig::Setting &root);
         std::list<scene_object_config_t> _loadSceneObjects(const libconfig::Setting &root);
 
-        std::tuple<double, double, double> _get3DPoint(const libconfig::Setting &setting);
         Math::Vector3D _getVector3D(const libconfig::Setting &setting);
         Math::Point3D _getPoint3D(const libconfig::Setting &setting);
 };
-

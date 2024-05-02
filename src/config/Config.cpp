@@ -33,7 +33,7 @@ std::list<camera_config_t> Config::_loadCameras(const libconfig::Setting &root)
 {
     std::list<camera_config_t> cameras = {};
     camera_config_t camera;
-    int height, width;
+    unsigned height, width;
     const libconfig::Setting &cameras_cfg = root["cameras"];
 
     if (!cameras_cfg.isList()){
@@ -52,8 +52,8 @@ std::list<camera_config_t> Config::_loadCameras(const libconfig::Setting &root)
         camera_cfg["resolution"].lookupValue("height", height);
         camera_cfg["resolution"].lookupValue("width", width);
         camera.resolution = {height, width};
-        camera.position = _get3DPoint(camera_cfg["position"]);
-        camera.rotation = _get3DPoint(camera_cfg["rotation"]);
+        camera.position = _getPoint3D(camera_cfg["position"]);
+        camera.rotation = _getVector3D(camera_cfg["rotation"]);
         camera.fov = camera_cfg["fieldOfView"];
         cameras.push_back(camera);
     }
@@ -80,25 +80,6 @@ std::list<scene_object_config_t> Config::_loadSceneObjects(const libconfig::Sett
         }
     }
     return scene_objects;
-}
-
-std::tuple<double, double, double> Config::_get3DPoint(const libconfig::Setting &setting)
-{
-    double x, y, z;
-
-    if (!setting.isGroup())
-        throw Config::Exception("point must be a list of 3 doubles");
-    if (!setting.exists("x") || !setting.exists("y") || !setting.exists("z"))
-        throw Config::Exception("point must have x, y and z");
-    if (!setting["x"].isNumber() || !setting["y"].isNumber() || !setting["z"].isNumber())
-        throw Config::Exception("x, y and z must be doubles");
-    if (setting.lookupValue("x", x) == false)
-        throw Config::Exception("x must be a double");
-    if (setting.lookupValue("y", y) == false)
-        throw Config::Exception("y must be a double");
-    if (setting.lookupValue("z", z) == false)
-        throw Config::Exception("z must be a double");
-    return {x, y, z};
 }
 
 Math::Vector3D Config::_getVector3D(const libconfig::Setting &setting)
