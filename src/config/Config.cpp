@@ -26,7 +26,6 @@ scene_config_t Config::load(const std::string &path)
     }
     const libconfig::Setting &root = cfg.getRoot();
     scene_config.cameras = _loadCameras(root);
-    scene_config.scene_objects = _loadSceneObjects(root);
     return scene_config;
 }
 

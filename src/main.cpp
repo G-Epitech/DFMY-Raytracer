@@ -1,19 +1,19 @@
 /*
 ** EPITECH PROJECT, 2024
-** { project name }
+** raytracer
 ** File description:
 ** main
 */
 
 #include "config/Config.hpp"
 
-int main(void)
+int main(int ac, char **av)
 {
     Config config;
     scene_config_t scene_config;
 
     try {
-        scene_config = config.load("text.cfg");
+        scene_config = config.load(av[1]);
     } catch (Config::Exception &e) {
         std::cerr << e.what() << std::endl;
         return 84;

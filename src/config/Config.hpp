@@ -58,7 +58,6 @@ class Config {
     private:
         std::list<camera_config_t> _loadCameras(const libconfig::Setting &root);
         std::list<scene_object_config_t> _loadSceneObjects(const libconfig::Setting &root);
-        scene_object_config_t _loadSphere
 
         std::tuple<double, double, double> _get3DPoint(const libconfig::Setting &setting);
 };
