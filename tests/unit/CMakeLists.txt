@@ -1,5 +1,5 @@
-include_directories(../../core)
-include_directories(../../common)
+include_directories(${PROJECT_SOURCE_DIR}/core)
+include_directories(${PROJECT_SOURCE_DIR}/common)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 include(GoogleTest)
