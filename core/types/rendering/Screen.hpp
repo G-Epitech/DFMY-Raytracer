@@ -11,6 +11,7 @@
 #include <cstddef>
 
 #include "types/graphics/Pixel.hpp"
+#include "types/math/Point.hpp"
 
 using namespace std;
 
@@ -24,16 +25,26 @@ namespace Raytracer::Core::Rendering {
             size_t height;
         } Size;
 
+        typedef struct Config {
+            /// @brief Size of the screen
+            Size size;
+            /// @brief Origin of the screen
+            Common::Math::Point3D origin;
+        } Config;
+
         /**
          * @brief Construct a new Screen object
          * @param size Size of the screen
          */
-        explicit Screen(const Size &size);
+        explicit Screen(const Config &config);
         /// @brief Default destructor of the screen
         ~Screen() = default;
 
         /// @brief Width of the screen
         const Size size;
+
+        /// @brief Origin of the screen
+        const Common::Math::Point3D origin;
 
         /// @brief Get the pixel at the given coordinates
         Common::Graphics::Pixel &operator()(size_t x, size_t y);

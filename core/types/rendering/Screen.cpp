@@ -11,7 +11,7 @@
 using namespace Raytracer::Core;
 using namespace Raytracer::Common;
 
-Rendering::Screen::Screen(const Size &size) : size(size) {
+Rendering::Screen::Screen(const Config &config) : size(config.size), origin(config.origin) {
     _pixels = std::make_unique<Graphics::Pixel[]>(size.width * size.height);
 }
 
