@@ -10,9 +10,9 @@
 using namespace Raytracer::Core;
 using namespace Raytracer::Common;
 
-Rendering::Camera::Camera(
-    const Screen::Size &screenSize,
-    const Math::Point3D &position,
-    const Math::Vector3D &rotation,
-    float fov
-) : screen(screenSize), position(position), rotation(rotation), fov(fov) {}
+Rendering::Camera::Camera(const Config &config) :
+    screen(config.screen),
+    position(config.position),
+    direction(config.direction),
+    fov(config.fov),
+    name(config.name) {}

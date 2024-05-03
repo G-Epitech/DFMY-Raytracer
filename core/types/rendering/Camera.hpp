@@ -14,19 +14,27 @@
 namespace Raytracer::Core::Rendering {
     class Camera {
     public:
+        /// @brief Shared pointer to a camera
+        typedef std::shared_ptr<Camera> Ptr;
+        /// @brief Camera configuration
+        typedef struct Config {
+            /// @brief Name of the camera
+            std::string name;
+            /// @brief Screen configuration
+            Screen::Config screen;
+            /// @brief Camera position
+            Common::Math::Point3D position;
+            /// @brief Camera direction
+            Common::Math::Vector3D direction;
+            /// @brief Camera field of view
+            float fov;
+        } Config;
+
         /**
          * @brief Create a new camera
-         * @param screenSize Camera screen size
-         * @param position Position of the camera
-         * @param rotation Rotation of the camera
-         * @param fov FOV of the camera
+         * @param config Configuration of the camera
          */
-        explicit Camera(
-            const Screen::Size &size,
-            const Common::Math::Point3D &position,
-            const Common::Math::Vector3D &rotation,
-            float fov
-        );
+        explicit Camera(const Config &config);
 
         /// @brief Default constructor
         Camera() = delete;
@@ -36,11 +44,13 @@ namespace Raytracer::Core::Rendering {
 
         /// @brief The position of the camera
         Common::Math::Point3D position;
-        /// @brief The rotation of the camera
-        Common::Math::Vector3D rotation;
+        /// @brief The direction of the camera
+        Common::Math::Vector3D direction;
         /// @brief The field of view of the camera
         float fov;
         /// @brief The screen of the camera
         Screen screen;
+        /// @brief The name of the camera
+        std::string name;
     };
 }
