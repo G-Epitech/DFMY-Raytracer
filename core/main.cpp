@@ -16,6 +16,6 @@ int main()
 
     auto dot = u.dot(v);
 
-    std::cout << dot << std::endl;
+    std::cout << dot + 10 << std::endl;
     return 0;
 }
