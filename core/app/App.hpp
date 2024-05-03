@@ -20,5 +20,11 @@ namespace Raytracer::Core {
          * @return Program exit code
          */
         int run(int argc, char **argv);
+
+        /**
+         * @brief Print help message
+         * @return Program exit code
+         */
+        static int help() ;
     };
 }
