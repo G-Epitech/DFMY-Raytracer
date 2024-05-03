@@ -2,6 +2,8 @@
 add_library(raytracer-common STATIC)
 target_include_directories(raytracer-common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+
 if (COVERAGE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
     target_link_libraries(raytracer-common gcov)

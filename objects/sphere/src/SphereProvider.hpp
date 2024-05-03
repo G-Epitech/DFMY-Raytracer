@@ -5,16 +5,21 @@
 ** SphereProvider
 */
 
-#pragma once
+#include "common/interfaces/IObjectProvider.hpp"
 
-#include "common/types/object/Provider.hpp"
-#include "common/interfaces/graphics/IObject.hpp"
-
-namespace Raytracer::Objects::Sphere {
-    class SphereProvider : public Raytracer::Common::Object::Provider {
-        public:
-            // void *create() override;
-            // void destroy(void *object) override;
-            int getType() override;
-    };
+namespace Raytracer::Objects {
+    class SphereProvider;
 }
+
+class Raytracer::Objects::SphereProvider : public Raytracer::Common::IObjectProvider {
+public:
+    /// @brief Default constructor
+    SphereProvider() = default;
+    /// @brief Default destructor
+    ~SphereProvider() = default;
+
+    /// @brief Create a new object
+    std::shared_ptr<Raytracer::Common::IObject> create() override;
+    /// @brief Get the manifest of the object
+    Raytracer::Common::Object::Manifest getManifest() override;
+};
