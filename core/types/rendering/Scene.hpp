@@ -18,6 +18,16 @@ namespace Raytracer::Core::Rendering {
     public:
         /// @brief Map of cameras
         typedef std::map<std::string, Camera::Ptr> CamerasMap;
+
+        /// @brief Map of cameras
+        typedef std::map<std::string, Common::Graphics::Material::Ptr> MaterialsMap;
+
+        /// @brief Vector of objects of vector
+        typedef std::vector<Graphics::IObject::Ptr> ObjectsVector;
+
+        /// @brief Shared pointer to a scene
+        typedef std::shared_ptr<Scene> Ptr;
+
         /**
          * @brief Construct a new Scene object
          * @param camera Camera object reference
@@ -33,8 +43,11 @@ namespace Raytracer::Core::Rendering {
         /// @brief Camera object
         CamerasMap cameras;
 
+        /// @brief Materials object
+        MaterialsMap materials;
+
         /// @brief Objects vector
-        std::vector<Graphics::IObject::Ptr> objects;
+        ObjectsVector objects;
 
         /// @brief Name of the scene
         const std::string name;

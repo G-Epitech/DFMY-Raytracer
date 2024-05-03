@@ -25,6 +25,6 @@ namespace Raytracer::Graphics {
         virtual Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) = 0;
 
         /// @brief Get the Material of the object
-        virtual Common::Graphics::Material getMaterial() = 0;
+        virtual Common::Graphics::Material::Ptr getMaterial() = 0;
     };
 }
