@@ -8,7 +8,7 @@
 NAME 		= raytracer
 TESTS_NAME 	= raytracer_tests
 PLUGINS 	= sphere
-PLUGINS_DIR = plugins
+PLUGINS_DIR	= plugins
 BUILD_PATH 	= build
 LIB_PATH 	= lib
 COVERAGE_IGNORE_TARGETS = 	tests \

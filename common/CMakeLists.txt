@@ -1,4 +1,4 @@
-## Source code library
+# Source code library
 add_library(raytracer_common STATIC)
 target_include_directories(raytracer_common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -9,6 +9,6 @@ if (COVERAGE)
     target_link_libraries(raytracer_common gcov)
 endif()
 
-## Add subdirectories
+# Add subdirectories
 add_subdirectory(types)
 add_subdirectory(interfaces)
