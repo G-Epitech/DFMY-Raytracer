@@ -21,7 +21,7 @@ endif
 
 all:
 			@cmake -S . -B $(BUILD_PATH) $(CMAKE_FLAGS)
-			@cmake --build $(BUILD_PATH) --target $(NAME)
+			@cmake --build $(BUILD_PATH)
 
 clean:
 			@rm -rf $(BUILD_PATH)
