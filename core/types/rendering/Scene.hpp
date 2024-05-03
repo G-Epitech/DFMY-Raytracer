@@ -23,7 +23,7 @@ namespace Raytracer::Core::Rendering {
         typedef std::map<std::string, Common::Graphics::Material::Ptr> MaterialsMap;
 
         /// @brief Vector of objects of vector
-        typedef std::vector<Graphics::IObject::Ptr> ObjectsVector;
+        typedef std::vector<Common::Graphics::IObject::Ptr> ObjectsVector;
 
         /// @brief Shared pointer to a scene
         typedef std::shared_ptr<Scene> Ptr;
