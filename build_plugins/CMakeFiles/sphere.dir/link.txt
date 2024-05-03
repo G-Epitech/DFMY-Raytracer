@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -O3 -DNDEBUG -shared -Wl,-soname,libsphere.so -o libsphere.so CMakeFiles/sphere.dir/export.o 
