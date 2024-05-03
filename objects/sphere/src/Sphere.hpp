@@ -8,6 +8,7 @@
 #pragma once
 
 #include "common/interfaces/IObject.hpp"
+#include "common/interfaces/IObjectProvider.hpp"
 
 namespace Raytracer::Objects {
     class Sphere;
@@ -16,7 +17,7 @@ namespace Raytracer::Objects {
 class Raytracer::Objects::Sphere : public Raytracer::Common::IObject {
 public:
     /// @brief Default constructor
-    Sphere(const Common::Graphics::Material &material, const Common::Math::Point3D &position);
+    Sphere(const Common::Graphics::Material &material, const Common::Math::Point3D &position, const Common::ObjectProperty &property);
     /// @brief Default destructor
     ~Sphere() = default;
 
@@ -29,4 +30,5 @@ public:
 private:
     const Common::Graphics::Material _material;
     const Common::Math::Point3D _position;
+    float _radius;
 };

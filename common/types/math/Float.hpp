@@ -17,7 +17,6 @@ namespace Raytracer::Common::Math {
         /// @brief y coordinate
         float y;
 
-    protected:
         /// @brief Create a new Float3
         explicit Float2(float x = 0, float y = 0);
 
@@ -31,7 +30,6 @@ namespace Raytracer::Common::Math {
         /// @brief z coordinate
         float z;
 
-    protected:
         /// @brief Create a new Float3
         explicit Float3(float x = 0, float y = 0, float z = 0);
 
