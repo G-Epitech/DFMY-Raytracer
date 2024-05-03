@@ -11,7 +11,7 @@
 #include "types/math/HitInfo.hpp"
 #include "types/graphics/Material.hpp"
 
-namespace Raytracer::Graphics {
+namespace Raytracer::Common {
     class IObject {
     public:
         /// @brief Default destructor
@@ -21,6 +21,6 @@ namespace Raytracer::Graphics {
         virtual Math::HitInfo computeCollision(const Math::Ray &ray) = 0;
 
         /// @brief Get the Material of the object
-        virtual Material getMaterial() = 0;
+        virtual Graphics::Material getMaterial() = 0;
     };
 }

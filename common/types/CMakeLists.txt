@@ -13,4 +13,5 @@ target_sources(raytracer-common PRIVATE
         graphics/Color.cpp
         graphics/Material.cpp
         graphics/Material.hpp
+        object/Manifest.hpp
 )
