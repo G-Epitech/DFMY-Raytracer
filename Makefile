@@ -7,9 +7,9 @@
 
 NAME 		= raytracer
 TESTS_NAME 	= raytracer_tests
-PLUGINS_NAMES = sphere
-PLUGINS 	= $(addsuffix .so, $(addprefix plugins/raytracer_, \
-	$(PLUGINS_NAMES)))
+PLUGINS = sphere
+# PLUGINS 	= $(addsuffix .so, $(addprefix plugins/raytracer_, \
+# 	$(PLUGINS_NAMES)))
 BUILD_PATH 	= build
 LIB_PATH 	= lib
 COVERAGE_IGNORE_TARGETS = 	tests \
@@ -22,15 +22,17 @@ else
 	CMAKE_FLAGS = -DCMAKE_BUILD_TYPE=Release
 endif
 
-all:		$(NAME) $(PLUGINS)
+all:		$(NAME) plugins
 
 $(NAME):
 			@cmake -S . -B $(BUILD_PATH) $(CMAKE_FLAGS)
 			@cmake --build $(BUILD_PATH) --target $(NAME)
 
-plugins/%.so:
-			@cmake -S . -B $(BUILD_PATH) $(CMAKE_FLAGS)
-			@cmake --build $(BUILD_PATH) --target $*
+plugins:
+			@for plugin in $(PLUGINS); do \
+				cmake -S . -B $(BUILD_PATH) $(CMAKE_FLAGS); \
+				cmake --build $(BUILD_PATH) --target raytracer_$$plugin; \
+			done
 
 clean:
 			@rm -rf $(BUILD_PATH)
@@ -56,5 +58,5 @@ coverage:
 coverage-branch:
 			@gcovr $(COVERAGE_IGNORE) --branch
 
-.PHONY: all clean fclean re tests_run update coverage coverage-branch
+.PHONY: all clean fclean re tests_run update coverage coverage-branch $(NAME) plugins
 DEFAULT_GOAL := all
