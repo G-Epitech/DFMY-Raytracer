@@ -5,6 +5,7 @@
 ** main
 */
 
+#include <variant>
 #include "config/Config.hpp"
 
 int main(int ac, char **av)
@@ -31,6 +32,18 @@ int main(int ac, char **av)
         std::cout << "Material specular color: " << material.specularColor.r << ", " << material.specularColor.g << ", " << material.specularColor.b << std::endl;
         std::cout << "Material reflectivity: " << material.reflectivity << std::endl;
         std::cout << "Material emission strength: " << material.emissionStrength << std::endl;
+    }
+    for (auto object : scene_config.objects) {
+        std::cout << "Object type: " << object.type << std::endl;
+        std::cout << "Object material: " << object.material << std::endl;
+        std::cout << "Object origin: " << object.origin.x << ", " << object.origin.y << ", " << object.origin.z << std::endl;
+        if (object.type == "cube") {
+            auto cube = std::get<object_cube_config_t>(object.properties);
+            std::cout << "Cube size: " << std::get<0>(cube.size) << ", " << std::get<1>(cube.size) << ", " << std::get<2>(cube.size)  <<std::endl;
+        } else if (object.type == "sphere") {
+            auto sphere = std::get<object_sphere_config_t>(object.properties);
+            std::cout << "Sphere radius: " << sphere.radius << std::endl;
+        }
     }
     return 0;
 }

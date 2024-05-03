@@ -12,16 +12,12 @@
 #include <list>
 #include <tuple>
 #include <vector>
+#include <variant>
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
 #include "types/graphics/Color.hpp"
 
 using namespace Raytracer::Common;
-
-typedef enum {
-    DIRECTIONAL,
-    AMBIENT
-} emitter_type_e;
 
 typedef struct {
     std::pair<unsigned, unsigned> resolution;
@@ -40,17 +36,19 @@ typedef struct {
 } material_config_t;
 
 typedef struct {
-    Math::Point3D position;
     float radius;
 } object_sphere_config_t;
 
-typedef union {
-    object_sphere_config_t sphere;
-} object_properties_t;
+typedef struct {
+    std::tuple<float, float, float> size;
+} object_cube_config_t;
+
+using object_properties_t = std::variant<object_cube_config_t, object_sphere_config_t>;
 
 typedef struct {
     std::string type;
     std::string material;
+    Math::Vector3D origin;
     object_properties_t properties;
 } object_config_t;
 
@@ -87,6 +85,9 @@ class Config {
         std::list<object_config_t> _loadObjects(const libconfig::Setting &root);
 
         material_config_t _parseMaterial(const libconfig::Setting &setting);
+        object_config_t _parseObject(const libconfig::Setting &setting);
+        object_sphere_config_t _parseSphere(const libconfig::Setting &setting);
+        object_cube_config_t _parseCube(const libconfig::Setting &setting);
         Math::Vector3D _parseVector3D(const libconfig::Setting &setting);
         Math::Point3D _parsePoint3D(const libconfig::Setting &setting);
         Graphics::Color _parseColor(const libconfig::Setting &setting);

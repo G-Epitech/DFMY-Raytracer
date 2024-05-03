@@ -28,7 +28,7 @@ scene_config_t Config::load(const std::string &path)
     _settingHasValidKeys("root", root, {"cameras", "materials", "objects"});
     scene_config.cameras = _loadCameras(root);
     scene_config.materials = _loadMaterials(root);
-    // scene_config.objects = _loadObjects(root);
+    scene_config.objects = _loadObjects(root);
     return scene_config;
 }
 
@@ -77,11 +77,6 @@ std::list<material_config_t> Config::_loadMaterials(const libconfig::Setting &ro
     return materials;
 }
 
-std::list<object_config_t> Config::_loadObjects(const libconfig::Setting &root)
-{
-    std::list<object_config_t> objects = {};
-}
-
 material_config_t Config::_parseMaterial(const libconfig::Setting &setting)
 {
     material_config_t material = {};
@@ -104,6 +99,72 @@ material_config_t Config::_parseMaterial(const libconfig::Setting &setting)
     }
     std::cout << "Material name: " << material.name << std::endl;
     return material;
+}
+
+std::list<object_config_t> Config::_loadObjects(const libconfig::Setting &root)
+{
+    std::list<object_config_t> objects = {};
+    const libconfig::Setting &objects_cfg = root["objects"];
+
+    if (!objects_cfg.isList()){
+        throw Config::Exception("objects must be a list");
+    }
+    for (int i = 0; i < objects_cfg.getLength(); i++) {
+        objects.push_back(_parseObject(objects_cfg[i]));
+    }
+    return objects;
+}
+
+object_config_t Config::_parseObject(const libconfig::Setting &setting)
+{
+    object_config_t object;
+
+    if (!setting.isGroup())
+        throw Config::Exception("object must be a group");
+    _settingHasValidKeys("object", setting, {"type", "material", "properties", "origin"});
+    if (setting.lookupValue("type", object.type) == false) {
+        throw Config::Exception("type must be a string");
+    }
+    if (setting.lookupValue("material", object.material) == false) {
+        throw Config::Exception("material must be a string");
+    }
+    object.origin = _parseVector3D(setting["origin"]);
+    if (object.type == "sphere") {
+        object.properties = _parseSphere(setting["properties"]);
+    }
+    if (object.type == "cube") {
+        object.properties = _parseCube(setting["properties"]);
+    }
+    return object;
+}
+
+object_sphere_config_t Config::_parseSphere(const libconfig::Setting &setting)
+{
+    object_sphere_config_t sphere;
+
+    if (!setting.isGroup())
+        throw Config::Exception("sphere must be a group");
+    _settingHasValidKeys("sphere", setting, {"radius"});
+    if (setting.lookupValue("radius", sphere.radius) == false) {
+        throw Config::Exception("radius must be a float");
+    }
+    return sphere;
+}
+
+object_cube_config_t Config::_parseCube(const libconfig::Setting &settings)
+{
+    object_cube_config_t cube;
+    std::tuple<float, float, float> tuple;
+
+    if (!settings.isGroup())
+        throw Config::Exception("cube must be a group");
+    _settingHasValidKeys("cube", settings, {"size"});
+    if (!settings["size"].isGroup())
+        throw Config::Exception("size must be a group");
+    _settingHasValidKeys("size", settings["size"], {"width", "height", "depth"});
+    tuple = _parseTuple3f(settings["size"], {"width", "height", "depth"});
+    cube.size = {std::get<0>(tuple), std::get<1>(tuple), std::get<2>(tuple)};
+    return cube;
 }
 
 std::tuple<float, float, float> Config::_parseTuple3f(const libconfig::Setting &setting,
