@@ -25,15 +25,12 @@ int main(int ac, char **av)
         std::cout << "Camera fov: " << camera.fov << std::endl;
     }
     for (auto material : scene_config.materials) {
-        std::cout << "Material type: " << material.type << std::endl;
         std::cout << "Material name: " << material.name << std::endl;
-        std::cout << "Material color: " << static_cast<int>(material.color.r) << ", " << static_cast<int>(material.color.g) << ", " << static_cast<int>(material.color.b) << ", " << static_cast<int>(material.color.a) << std::endl;
-        if (material.type == "emitter") {
-            std::cout << "Material emission strength: " << material.properties.emitter.emission_strength << std::endl;
-            std::cout << "Material emission type: " << material.properties.emitter.emission_type << std::endl;
-        } else {
-            std::cout << "Material reflectivity: " << material.properties.absorber.reflectivity << std::endl;
-        }
+        std::cout << "Material color: " << material.objectColor.r << ", " << material.objectColor.g << ", " << material.objectColor.b << std::endl;
+        std::cout << "Material emission color: " << material.emissionColor.r << ", " << material.emissionColor.g << ", " << material.emissionColor.b << std::endl;
+        std::cout << "Material specular color: " << material.specularColor.r << ", " << material.specularColor.g << ", " << material.specularColor.b << std::endl;
+        std::cout << "Material reflectivity: " << material.reflectivity << std::endl;
+        std::cout << "Material emission strength: " << material.emissionStrength << std::endl;
     }
     return 0;
 }

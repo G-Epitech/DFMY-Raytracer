@@ -88,62 +88,23 @@ material_config_t Config::_parseMaterial(const libconfig::Setting &setting)
 
     if (!setting.isGroup())
         throw Config::Exception("material must be a group");
-    if (!setting.exists("type") || !setting.exists("name") || !setting.exists("color"))
-        throw Config::Exception("material must have type, name and color");
-    if (setting.lookupValue("type", material.type) == false) {
-        throw Config::Exception("type must be a string");
-    }
+    _settingHasValidKeys("material", setting, {"name", "objectColor", "emissionColor",
+        "specularColor", "reflectivity", "emissionStrength"});
     if (setting.lookupValue("name", material.name) == false) {
         throw Config::Exception("name must be a string");
     }
-    material.color = _parseColor(setting["color"]);
-    if (material.type == "emitter") {
-        material.properties.emitter = _parseMaterialEmitter(setting);
+    material.objectColor = _parseColor(setting["objectColor"]);
+    material.emissionColor = _parseColor(setting["emissionColor"]);
+    material.specularColor = _parseColor(setting["specularColor"]);
+    if (setting.lookupValue("reflectivity", material.reflectivity) == false) {
+        throw Config::Exception("reflectivity must be a float");
     }
-    if (material.type == "absorber") {
-        material.properties.absorber = _parseMaterialAbsorber(setting);
+    if (setting.lookupValue("emissionStrength", material.emissionStrength) == false) {
+        throw Config::Exception("emissionStrength must be a float");
     }
+    std::cout << "Material name: " << material.name << std::endl;
     return material;
 }
-
-material_absorber_config_t Config::_parseMaterialAbsorber(const libconfig::Setting &setting)
-{
-    material_absorber_config_t absorber;
-
-    if (!setting.exists("reflectivity"))
-        throw Config::Exception("absorber must have and reflectivity");
-    if (setting.lookupValue("reflectivity", absorber.reflectivity) == false)
-        throw Config::Exception("reflectivity must be a float");
-    return absorber;
-}
-
-material_emitter_config_t Config::_parseMaterialEmitter(const libconfig::Setting &setting)
-{
-    material_emitter_config_t emitter;
-    std::string emission_type;
-
-    if (!setting.exists("emission_strength") || !setting.exists("emission_type"))
-        throw Config::Exception("emitter must have emission_strength and emission_type");
-    if (setting.lookupValue("emission_strength", emitter.emission_strength) == false)
-        throw Config::Exception("emission_strength must be a float");
-    if (setting.lookupValue("emission_type", emission_type) == false)
-        throw Config::Exception("emission_type must be a string");
-    if (emission_type == "ambient")
-        emitter.emission_type = AMBIENT;
-    else if (emission_type == "directional")
-        emitter.emission_type = DIRECTIONAL;
-    else
-        throw Config::Exception("emission_type must be \"ambient\" or \"directional\"");
-    if (emitter.emission_type == DIRECTIONAL) {
-        if (!setting.exists("emission_direction"))
-            throw Config::Exception("directional emission type must have emission_direction");
-        emitter.emission_direction = _parseTuple3f(setting["emission_direction"], {"x", "y", "z"});
-    } else {
-        emitter.emission_direction = {0, 0, 0};
-    }
-    return emitter;
-}
-
 
 std::tuple<float, float, float> Config::_parseTuple3f(const libconfig::Setting &setting,
     const std::string (&keys)[3])
