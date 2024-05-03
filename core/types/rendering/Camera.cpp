@@ -14,4 +14,5 @@ Rendering::Camera::Camera(const Config &config) :
     screen(config.screen),
     position(config.position),
     direction(config.direction),
-    fov(config.fov) {}
+    fov(config.fov),
+    name(config.name) {}

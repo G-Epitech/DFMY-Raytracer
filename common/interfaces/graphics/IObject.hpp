@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <memory>
 #include "types/math/Ray.hpp"
 #include "types/math/HitInfo.hpp"
 #include "types/graphics/Material.hpp"
@@ -14,13 +15,16 @@
 namespace Raytracer::Graphics {
     class IObject {
     public:
+        /// @brief Alias for shared pointer to IObject
+        typedef std::shared_ptr<IObject> Ptr;
+
         /// @brief Default destructor
         virtual ~IObject() = default;
 
         /// @brief Get the HitInfo of the object
-        virtual Math::HitInfo computeCollision(const Math::Ray &ray) = 0;
+        virtual Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) = 0;
 
         /// @brief Get the Material of the object
-        virtual Material getMaterial() = 0;
+        virtual Common::Graphics::Material getMaterial() = 0;
     };
 }

@@ -14,8 +14,12 @@
 namespace Raytracer::Core::Rendering {
     class Camera {
     public:
+        /// @brief Shared pointer to a camera
+        typedef std::shared_ptr<Camera> Ptr;
         /// @brief Camera configuration
         typedef struct Config {
+            /// @brief Name of the camera
+            std::string name;
             /// @brief Screen configuration
             Screen::Config screen;
             /// @brief Camera position
@@ -46,5 +50,7 @@ namespace Raytracer::Core::Rendering {
         float fov;
         /// @brief The screen of the camera
         Screen screen;
+        /// @brief The name of the camera
+        std::string name;
     };
 }

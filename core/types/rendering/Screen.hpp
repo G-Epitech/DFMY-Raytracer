@@ -18,6 +18,7 @@ using namespace std;
 namespace Raytracer::Core::Rendering {
     class Screen {
     public:
+        /// @brief Size of the screen
         typedef struct Size {
             /// @brief Width of the screen
             size_t width;
@@ -25,6 +26,7 @@ namespace Raytracer::Core::Rendering {
             size_t height;
         } Size;
 
+        /// @brief Configuration of the screen
         typedef struct Config {
             /// @brief Size of the screen
             Size size;
