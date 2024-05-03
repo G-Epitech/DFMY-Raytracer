@@ -18,8 +18,10 @@
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
 #include "types/graphics/Color.hpp"
+#include "types/rendering/Screen.hpp"
 
 using namespace Raytracer::Common;
+using namespace Raytracer::Core;
 
 namespace Raytracer::Core {
     class Config;
@@ -29,14 +31,16 @@ class Raytracer::Core::Config {
     public:
         /// @brief Camera configuration
         typedef struct {
-            /// @brief Camera resolution
-            std::pair<unsigned, unsigned> resolution;
+            /// @brief Camera name
+            std::string name;
             /// @brief Camera position
             Math::Point3D position;
             /// @brief Camera direction
             Math::Vector3D direction;
             /// @brief Camera field of view
             float fov;
+            /// @brief Camera screen (already initialized)
+            Rendering::Screen::Config screen;
         } CameraConfig;
 
         /// @brief Emission direction configuration
@@ -161,6 +165,11 @@ class Raytracer::Core::Config {
          */
         std::list<ObjectConfig> _loadObjects(const libconfig::Setting &root);
 
+        /**
+         * @brief Parse a camera group from the configuration
+         * @param setting Setting of the camera group
+         */
+        Rendering::Screen::Config _parseCameraScreen(const libconfig::Setting &setting);
         /**
          * @brief Parse a material group from the configuration
          * @param setting Setting of the material group

@@ -7,8 +7,6 @@
 
 #include "Config.hpp"
 
-using namespace Raytracer::Core;
-
 Config::Config()
 {
 }
@@ -69,7 +67,6 @@ std::list<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting &r
 {
     std::list<CameraConfig> cameras = {};
     CameraConfig camera;
-    unsigned height, width;
     const libconfig::Setting &cameras_cfg = root["cameras"];
 
     if (!cameras_cfg.isList()){
@@ -77,20 +74,39 @@ std::list<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting &r
     }
     for (int i = 0; i < cameras_cfg.getLength(); i++) {
         const libconfig::Setting &camera_cfg = cameras_cfg[i];
-        _settingHasValidKeys("camera", camera_cfg, {"resolution", "direction",
-            "position", "fieldOfView"});
+        _settingHasValidKeys("camera", camera_cfg, {"direction",
+            "position", "fieldOfView", "name", "screen"});
         if (!camera_cfg["resolution"].isGroup()) {
             throw Config::Exception("resolution must be a group of 2 integers");
         }
-        _lookupValueWrapper("height", camera_cfg["resolution"], height);
-        _lookupValueWrapper("width", camera_cfg["resolution"], width);
-        camera.resolution = {height, width};
+        _lookupValueWrapper("name", camera_cfg, camera.name);
         camera.position = _parsePoint3D("position", camera_cfg["position"]);
         camera.direction = _parseVector3D("direction", camera_cfg["direction"]);
         _lookupValueWrapper("fieldOfView", camera_cfg, camera.fov);
+        camera.screen = _parseCameraScreen(camera_cfg["screen"]);
         cameras.push_back(camera);
     }
     return cameras;
+}
+
+Rendering::Screen::Config Config::_parseCameraScreen(const libconfig::Setting &setting)
+{
+    Rendering::Screen::Config screen;
+    unsigned height, width;
+
+    if (!setting.isGroup()) {
+        throw Config::Exception("screen must be a group");
+    }
+    _settingHasValidKeys("screen", setting, {"origin", "size"});
+    screen.origin = _parsePoint3D("screen origin", setting["origin"]);
+    if (!setting["size"].isGroup()) {
+        throw Config::Exception("size must be a group of 2 integers");
+    }
+    _settingHasValidKeys("size", setting["size"], {"width", "height"});
+    _lookupValueWrapper("width", setting["size"], width);
+    _lookupValueWrapper("height", setting["size"], height);
+    screen.size = {width, height};
+    return screen;
 }
 
 std::list<Config::MaterialConfig> Config::_loadMaterials(const libconfig::Setting &root)

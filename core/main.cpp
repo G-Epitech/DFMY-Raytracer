@@ -24,7 +24,9 @@ int main(int ac, char **av)
     std::cout << "Ambient strength: " << scene_config.ambient.strength << std::endl;
     std::cout << "-----" << std::endl;
     for (auto camera : scene_config.cameras) {
-        std::cout << "Camera resolution: " << camera.resolution.first << "x" << camera.resolution.second << std::endl;
+        std::cout << "Camera name: " << camera.name << std::endl;
+        std::cout << "Screen size: " << camera.screen.size.width << ", " << camera.screen.size.height << std::endl;
+        std::cout << "Screen origin: " << camera.screen.origin.x << ", " << camera.screen.origin.y << ", " << camera.screen.origin.z << std::endl;
         std::cout << "Camera position: " << camera.position.x << ", " << camera.position.y << ", " << camera.position.z << std::endl;
         std::cout << "Camera direction: " << camera.direction.x << ", " << camera.direction.y << ", " << camera.direction.z << std::endl;
         std::cout << "Camera fov: " << camera.fov << std::endl;
