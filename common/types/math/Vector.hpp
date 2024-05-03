@@ -202,6 +202,13 @@ namespace Raytracer::Common::Math {
          */
         [[nodiscard]]
         float length() const;
+
+        /**
+         * @brief Normalize the vector
+         * @return Normalized vector
+         */
+        [[nodiscard]]
+        Vector3D normalize() const;
     };
 }
 
