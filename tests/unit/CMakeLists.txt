@@ -11,4 +11,4 @@ add_subdirectory(core)
 add_subdirectory(common)
 
 gtest_discover_tests(raytracer_tests)
-target_link_libraries(raytracer_tests raytracer-core raytracer-common gtest gtest_main)
+target_link_libraries(raytracer_tests raytracer-core raytracer_common gtest gtest_main)
