@@ -12,7 +12,7 @@
 #include "types/math/HitInfo.hpp"
 #include "types/graphics/Material.hpp"
 
-namespace Raytracer::Graphics {
+namespace Raytracer::Common::Graphics {
     class IObject {
     public:
         /// @brief Alias for shared pointer to IObject
