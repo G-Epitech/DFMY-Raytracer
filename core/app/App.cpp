@@ -6,13 +6,23 @@
 */
 
 #include <iostream>
+#include <getopt.h>
 #include "App.hpp"
 
 using namespace Raytracer::Core;
 
 int App::run(int argc, char **argv)
 {
-    return help();
+    Arguments args;
+
+    if (!_readArgs(argc, argv, args))
+        return 84;
+    if (args.options.help)
+        return help();
+    for (const auto &scene : args.scenes) {
+        std::cout << "Rendering scene: " << scene << std::endl;
+    }
+    return 0;
 }
 
 int App::help() {
@@ -33,4 +43,40 @@ int App::help() {
                 << "Yann Masson"
     << std::endl;
     return 0;
+}
+
+bool App::_readArgs(int argc, char **argv, App::Arguments &args) {
+    if (!_readOptions(argc, argv, args.options))
+        return false;
+
+    for (int i = optind; i < argc; i++) {
+        args.scenes.emplace_back(argv[i]);
+    }
+    return true;
+}
+
+bool App::_readOptions(int argc, char **argv, App::Options &options) {
+    static struct option long_options[] = {
+        {"gui", no_argument, nullptr, 'g'},
+        {"help", no_argument, nullptr, 'h'},
+        {nullptr, 0, nullptr, 0}
+    };
+    int parsedChar;
+
+    do {
+        parsedChar = getopt_long(argc, argv, "gh", long_options, nullptr);
+        switch (parsedChar) {
+            case -1:
+                break;
+            case 'g':
+                options.gui = true;
+                break;
+            case 'h':
+                options.help = true;
+                return true;
+            default:
+                return false;
+        }
+    } while (parsedChar != -1);
+    return true;
 }
