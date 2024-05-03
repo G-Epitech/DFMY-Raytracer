@@ -13,6 +13,8 @@
 #include <tuple>
 #include <vector>
 #include <variant>
+#include <cstdlib>
+#include <cxxabi.h>
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
 #include "types/graphics/Color.hpp"
@@ -68,7 +70,7 @@ class Config {
         class Exception : public std::exception {
             public:
                 explicit Exception(std::string const &message)
-                    : _message(message) {}
+                    : _message("Config error: " + message) {}
 
                 const char *what() const noexcept override {
                     return _message.c_str();
@@ -88,11 +90,17 @@ class Config {
         object_config_t _parseObject(const libconfig::Setting &setting);
         object_sphere_config_t _parseSphere(const libconfig::Setting &setting);
         object_cube_config_t _parseCube(const libconfig::Setting &setting);
-        Math::Vector3D _parseVector3D(const libconfig::Setting &setting);
-        Math::Point3D _parsePoint3D(const libconfig::Setting &setting);
+        Math::Vector3D _parseVector3D(const std::string propName, const libconfig::Setting &setting);
+        Math::Point3D _parsePoint3D(const std::string propName, const libconfig::Setting &setting);
         Graphics::Color _parseColor(const libconfig::Setting &setting);
         std::tuple<float, float, float> _parseTuple3f(const libconfig::Setting &setting, const std::string (&keys)[3]);
 
         void _settingHasValidKeys(const std::string &prop, const libconfig::Setting &setting,
             const std::vector<std::string> &keys);
+
+        template <typename T>
+        void _lookupValueWrapper(const std::string &prop, const libconfig::Setting &setting, T &value);
+
+        template <typename T>
+        std::string _typeName(T &value);
 };

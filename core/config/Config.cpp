@@ -44,20 +44,15 @@ std::list<camera_config_t> Config::_loadCameras(const libconfig::Setting &root)
     }
     for (int i = 0; i < cameras_cfg.getLength(); i++) {
         const libconfig::Setting &camera_cfg = cameras_cfg[i];
-        if (!camera_cfg.exists("resolution") || !camera_cfg.exists("position") || !camera_cfg.exists("rotation") || !camera_cfg.exists("fieldOfView"))
-            throw Config::Exception("camera must have resolution, position, rotation and fieldOfView");
+        _settingHasValidKeys("camera", camera_cfg, {"resolution", "rotation", "position", "fieldOfView"});
         if (!camera_cfg["resolution"].isGroup())
             throw Config::Exception("resolution must be a group of 2 integers");
-        if (!camera_cfg["rotation"].isGroup())
-            throw Config::Exception("rotation must be a group of 3 doubles");
-        if (!camera_cfg["position"].isGroup())
-            throw Config::Exception("position must be a group of 3 doubles");
-        camera_cfg["resolution"].lookupValue("height", height);
-        camera_cfg["resolution"].lookupValue("width", width);
+        _lookupValueWrapper("height", camera_cfg["resolution"], height);
+        _lookupValueWrapper("width", camera_cfg["resolution"], width);
         camera.resolution = {height, width};
-        camera.position = _parsePoint3D(camera_cfg["position"]);
-        camera.rotation = _parseVector3D(camera_cfg["rotation"]);
-        camera_cfg.lookupValue("fieldOfView", camera.fov);
+        camera.position = _parsePoint3D("position", camera_cfg["position"]);
+        camera.rotation = _parseVector3D("rotation", camera_cfg["rotation"]);
+        _lookupValueWrapper("fieldOfView", camera_cfg, camera.fov);
         cameras.push_back(camera);
     }
     return cameras;
@@ -81,23 +76,17 @@ material_config_t Config::_parseMaterial(const libconfig::Setting &setting)
 {
     material_config_t material = {};
 
-    if (!setting.isGroup())
+    if (!setting.isGroup()) {
         throw Config::Exception("material must be a group");
+    }
     _settingHasValidKeys("material", setting, {"name", "objectColor", "emissionColor",
         "specularColor", "reflectivity", "emissionStrength"});
-    if (setting.lookupValue("name", material.name) == false) {
-        throw Config::Exception("name must be a string");
-    }
+    _lookupValueWrapper("name", setting, material.name);
     material.objectColor = _parseColor(setting["objectColor"]);
     material.emissionColor = _parseColor(setting["emissionColor"]);
     material.specularColor = _parseColor(setting["specularColor"]);
-    if (setting.lookupValue("reflectivity", material.reflectivity) == false) {
-        throw Config::Exception("reflectivity must be a float");
-    }
-    if (setting.lookupValue("emissionStrength", material.emissionStrength) == false) {
-        throw Config::Exception("emissionStrength must be a float");
-    }
-    std::cout << "Material name: " << material.name << std::endl;
+    _lookupValueWrapper("reflectivity", setting, material.reflectivity);
+    _lookupValueWrapper("emissionStrength", setting, material.emissionStrength);
     return material;
 }
 
@@ -122,13 +111,9 @@ object_config_t Config::_parseObject(const libconfig::Setting &setting)
     if (!setting.isGroup())
         throw Config::Exception("object must be a group");
     _settingHasValidKeys("object", setting, {"type", "material", "properties", "origin"});
-    if (setting.lookupValue("type", object.type) == false) {
-        throw Config::Exception("type must be a string");
-    }
-    if (setting.lookupValue("material", object.material) == false) {
-        throw Config::Exception("material must be a string");
-    }
-    object.origin = _parseVector3D(setting["origin"]);
+    _lookupValueWrapper("type", setting, object.type);
+    _lookupValueWrapper("material", setting, object.material);
+    object.origin = _parseVector3D("object origin", setting["origin"]);
     if (object.type == "sphere") {
         object.properties = _parseSphere(setting["properties"]);
     }
@@ -145,9 +130,7 @@ object_sphere_config_t Config::_parseSphere(const libconfig::Setting &setting)
     if (!setting.isGroup())
         throw Config::Exception("sphere must be a group");
     _settingHasValidKeys("sphere", setting, {"radius"});
-    if (setting.lookupValue("radius", sphere.radius) == false) {
-        throw Config::Exception("radius must be a float");
-    }
+    _lookupValueWrapper("radius", setting, sphere.radius);
     return sphere;
 }
 
@@ -177,13 +160,13 @@ std::tuple<float, float, float> Config::_parseTuple3f(const libconfig::Setting &
     return {setting[keys[0].c_str()], setting[keys[1].c_str()], setting[keys[2].c_str()]};
 }
 
-Math::Vector3D Config::_parseVector3D(const libconfig::Setting &setting)
+Math::Vector3D Config::_parseVector3D(const std::string propName, const libconfig::Setting &setting)
 {
     Math::Vector3D vector3;
     std::tuple<float, float, float> tuple;
 
     if (!setting.isGroup())
-        throw Config::Exception("3D Vector must be a list of 3 floats");
+        throw Config::Exception(propName + "must be a group of 3 floats {x, y, z}");
     tuple = _parseTuple3f(setting, {"x", "y", "z"});
     vector3.x = std::get<0>(tuple);
     vector3.y = std::get<1>(tuple);
@@ -191,13 +174,13 @@ Math::Vector3D Config::_parseVector3D(const libconfig::Setting &setting)
     return vector3;
 }
 
-Math::Point3D Config::_parsePoint3D(const libconfig::Setting &setting)
+Math::Point3D Config::_parsePoint3D(const std::string propName, const libconfig::Setting &setting)
 {
     Math::Point3D point3;
     std::tuple<float, float, float> tuple;
 
     if (!setting.isGroup())
-        throw Config::Exception("3D Point must be a list of 3 floats");
+        throw Config::Exception(propName + " must be a list of 3 floats");
     tuple = _parseTuple3f(setting, {"x", "y", "z"});
     point3.x = std::get<0>(tuple);
     point3.y = std::get<1>(tuple);
@@ -212,18 +195,11 @@ Graphics::Color Config::_parseColor(const libconfig::Setting &setting)
 
     if (!setting.isGroup())
         throw Config::Exception("color must be a group of 4 floats");
-    if (!setting.exists("r") || !setting.exists("g") || !setting.exists("b") || !setting.exists("a"))
-        throw Config::Exception("color must have r, g, b and a");
-    if (!setting["r"].isNumber() || !setting["g"].isNumber() || !setting["b"].isNumber() || !setting["a"].isNumber())
-        throw Config::Exception("r, g, b and a must be floats");
-    if (setting.lookupValue("r", std::get<0>(icolor)) == false)
-        throw Config::Exception("r must be a float");
-    if (setting.lookupValue("g", std::get<1>(icolor)) == false)
-        throw Config::Exception("g must be a float");
-    if (setting.lookupValue("b", std::get<2>(icolor)) == false)
-        throw Config::Exception("b must be a float");
-    if (setting.lookupValue("a", std::get<3>(icolor)) == false)
-        throw Config::Exception("a must be a float");
+    _settingHasValidKeys("color", setting, {"r", "g", "b", "a"});
+    _lookupValueWrapper("r", setting, std::get<0>(icolor));
+    _lookupValueWrapper("g", setting, std::get<1>(icolor));
+    _lookupValueWrapper("b", setting, std::get<2>(icolor));
+    _lookupValueWrapper("a", setting, std::get<3>(icolor));
     color.r = std::get<0>(icolor);
     color.g = std::get<1>(icolor);
     color.b = std::get<2>(icolor);
@@ -250,4 +226,28 @@ void Config::_settingHasValidKeys(const std::string &prop, const libconfig::Sett
     if (!has_all_keys) {
         throw Config::Exception(error_msg);
     }
+}
+
+template <typename T>
+void Config::_lookupValueWrapper( const std::string &prop, const libconfig::Setting &setting, T &value)
+{
+    if (setting.lookupValue(prop, value) == false) {
+        throw Config::Exception(prop + " must be a " + _typeName(value));
+    }
+}
+
+template <typename T>
+std::string Config::_typeName(T &value)
+{
+    int status;
+    std::string tname = typeid(T).name();
+    char *demangled = abi::__cxa_demangle(tname.c_str(), nullptr, nullptr, &status);
+
+    if (status == 0) {
+        tname = demangled;
+        free(demangled);
+    } else {
+        tname = "unknown";
+    }
+    return tname;
 }

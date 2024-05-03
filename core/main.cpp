@@ -25,6 +25,7 @@ int main(int ac, char **av)
         std::cout << "Camera rotation: " << camera.rotation.x << ", " << camera.rotation.y << ", " << camera.rotation.z << std::endl;
         std::cout << "Camera fov: " << camera.fov << std::endl;
     }
+    std::cout << "-----" << std::endl;
     for (auto material : scene_config.materials) {
         std::cout << "Material name: " << material.name << std::endl;
         std::cout << "Material color: " << material.objectColor.r << ", " << material.objectColor.g << ", " << material.objectColor.b << std::endl;
@@ -33,6 +34,7 @@ int main(int ac, char **av)
         std::cout << "Material reflectivity: " << material.reflectivity << std::endl;
         std::cout << "Material emission strength: " << material.emissionStrength << std::endl;
     }
+    std::cout << "-----" << std::endl;
     for (auto object : scene_config.objects) {
         std::cout << "Object type: " << object.type << std::endl;
         std::cout << "Object material: " << object.material << std::endl;
@@ -44,6 +46,7 @@ int main(int ac, char **av)
             auto sphere = std::get<object_sphere_config_t>(object.properties);
             std::cout << "Sphere radius: " << sphere.radius << std::endl;
         }
+        std::cout << "--" << std::endl;
     }
     return 0;
 }
