@@ -11,7 +11,7 @@
 int main(int ac, char **av)
 {
     Config config;
-    SceneConfig scene_config;
+    Config::SceneConfig scene_config;
 
     try {
         scene_config = config.load(av[1]);
@@ -19,6 +19,10 @@ int main(int ac, char **av)
         std::cerr << e.what() << std::endl;
         return 84;
     }
+    std::cout << "Scene name: " << scene_config.name << std::endl;
+    std::cout << "Ambient light: " << scene_config.ambient.color.r << ", " << scene_config.ambient.color.g << ", " << scene_config.ambient.color.b << std::endl;
+    std::cout << "Ambient strength: " << scene_config.ambient.strength << std::endl;
+    std::cout << "-----" << std::endl;
     for (auto camera : scene_config.cameras) {
         std::cout << "Camera resolution: " << camera.resolution.first << "x" << camera.resolution.second << std::endl;
         std::cout << "Camera position: " << camera.position.x << ", " << camera.position.y << ", " << camera.position.z << std::endl;
@@ -42,10 +46,10 @@ int main(int ac, char **av)
         std::cout << "Object material: " << object.material << std::endl;
         std::cout << "Object origin: " << object.origin.x << ", " << object.origin.y << ", " << object.origin.z << std::endl;
         if (object.type == "cube") {
-            auto cube = std::get<CubeConfig>(object.properties);
+            auto cube = std::get<Config::CubeConfig>(object.properties);
             std::cout << "Cube size: " << std::get<0>(cube.size) << ", " << std::get<1>(cube.size) << ", " << std::get<2>(cube.size)  <<std::endl;
         } else if (object.type == "sphere") {
-            auto sphere = std::get<SphereConfig>(object.properties);
+            auto sphere = std::get<Config::SphereConfig>(object.properties);
             std::cout << "Sphere radius: " << sphere.radius << std::endl;
         }
         std::cout << "--" << std::endl;

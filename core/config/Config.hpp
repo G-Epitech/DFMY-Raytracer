@@ -21,51 +21,58 @@
 
 using namespace Raytracer::Common;
 
-typedef struct {
-    std::pair<unsigned, unsigned> resolution;
-    Math::Point3D position;
-    Math::Vector3D rotation;
-    float fov;
-} CameraConfig;
-
-typedef struct {
-    Graphics::Color color;
-    float strength;
-    Math::Vector3D vector;
-} EmissionDirectionConfig;
-
-typedef struct {
-    std::string name;
-    Graphics::Color objectColor;
-    std::vector<EmissionDirectionConfig> emissionDirections;
-    float reflectivity;
-} MaterialConfig;
-
-typedef struct {
-    float radius;
-} SphereConfig;
-
-typedef struct {
-    std::tuple<float, float, float> size;
-} CubeConfig;
-
-using ObjectPropertiesConfig = std::variant<CubeConfig, SphereConfig>;
-
-typedef struct {
-    std::string type;
-    std::string material;
-    Math::Vector3D origin;
-    ObjectPropertiesConfig properties;
-} ObjectConfig;
-
-typedef struct {
-    std::list<CameraConfig> cameras;
-    std::list<MaterialConfig> materials;
-    std::list<ObjectConfig> objects;
-} SceneConfig;
-
 class Config {
     public:
+        typedef struct {
+            std::pair<unsigned, unsigned> resolution;
+            Math::Point3D position;
+            Math::Vector3D rotation;
+            float fov;
+        } CameraConfig;
+
+        typedef struct {
+            Graphics::Color color;
+            float strength;
+            Math::Vector3D vector;
+        } EmissionDirectionConfig;
+
+        typedef struct {
+            std::string name;
+            Graphics::Color objectColor;
+            std::vector<EmissionDirectionConfig> emissionDirections;
+            float reflectivity;
+        } MaterialConfig;
+
+        typedef struct {
+            float radius;
+        } SphereConfig;
+
+        typedef struct {
+            std::tuple<float, float, float> size;
+        } CubeConfig;
+
+        using ObjectPropertiesConfig = std::variant<CubeConfig, SphereConfig>;
+
+        typedef struct {
+            std::string type;
+            std::string material;
+            Math::Vector3D origin;
+            ObjectPropertiesConfig properties;
+        } ObjectConfig;
+
+        typedef struct {
+            Graphics::Color color;
+            float strength;
+        } AmbientConfig;
+
+        typedef struct {
+            std::string name;
+            AmbientConfig ambient;
+            std::list<CameraConfig> cameras;
+            std::list<MaterialConfig> materials;
+            std::list<ObjectConfig> objects;
+        } SceneConfig;
+
         Config();
         ~Config() = default;
 
@@ -86,6 +93,8 @@ class Config {
                 std::string _message;
         };
     private:
+        std::string _loadName(const std::string &path);
+        AmbientConfig _loadAmbient(const libconfig::Setting &root);
         std::list<CameraConfig> _loadCameras(const libconfig::Setting &root);
         std::list<MaterialConfig> _loadMaterials(const libconfig::Setting &root);
         std::list<ObjectConfig> _loadObjects(const libconfig::Setting &root);

@@ -11,7 +11,7 @@ Config::Config()
 {
 }
 
-SceneConfig Config::load(const std::string &path)
+Config::SceneConfig Config::load(const std::string &path)
 {
     SceneConfig scene_config;
     libconfig::Config cfg;
@@ -25,14 +25,45 @@ SceneConfig Config::load(const std::string &path)
             + ": " + pex.getError() + " - " + pex.getFile());
     }
     const libconfig::Setting &root = cfg.getRoot();
-    _settingHasValidKeys("root", root, {"cameras", "materials", "objects"});
+    _settingHasValidKeys("root", root, {"cameras", "materials", "objects", "ambient"});
+    scene_config.name = _loadName(path);
+    scene_config.ambient = _loadAmbient(root);
     scene_config.cameras = _loadCameras(root);
     scene_config.materials = _loadMaterials(root);
     scene_config.objects = _loadObjects(root);
     return scene_config;
 }
 
-std::list<CameraConfig> Config::_loadCameras(const libconfig::Setting &root)
+std::string Config::_loadName(const std::string &path)
+{
+    std::string name = path;
+    size_t found = name.find_last_of("/");
+
+    if (found != std::string::npos) {
+        name = name.substr(found + 1);
+    }
+    found = name.find_last_of(".");
+    if (found != std::string::npos) {
+        name = name.substr(0, found);
+    }
+    return name;
+}
+
+Config::AmbientConfig Config::_loadAmbient(const libconfig::Setting &root)
+{
+    AmbientConfig ambient;
+    const libconfig::Setting &ambient_cfg = root["ambient"];
+
+    if (!root.isGroup()) {
+        throw Config::Exception("ambient must be a group");
+    }
+    _settingHasValidKeys("ambient", ambient_cfg, {"color", "strength"});
+    ambient.color = _parseColor(ambient_cfg["color"]);
+    _lookupValueWrapper("strength", ambient_cfg, ambient.strength);
+    return ambient;
+}
+
+std::list<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting &root)
 {
     std::list<CameraConfig> cameras = {};
     CameraConfig camera;
@@ -58,7 +89,7 @@ std::list<CameraConfig> Config::_loadCameras(const libconfig::Setting &root)
     return cameras;
 }
 
-std::list<MaterialConfig> Config::_loadMaterials(const libconfig::Setting &root)
+std::list<Config::MaterialConfig> Config::_loadMaterials(const libconfig::Setting &root)
 {
     std::list<MaterialConfig> materials = {};
     const libconfig::Setting &materials_cfg = root["materials"];
@@ -72,7 +103,7 @@ std::list<MaterialConfig> Config::_loadMaterials(const libconfig::Setting &root)
     return materials;
 }
 
-MaterialConfig Config::_parseMaterial(const libconfig::Setting &setting)
+Config::MaterialConfig Config::_parseMaterial(const libconfig::Setting &setting)
 {
     MaterialConfig material = {};
 
@@ -87,7 +118,7 @@ MaterialConfig Config::_parseMaterial(const libconfig::Setting &setting)
     return material;
 }
 
-std::vector<EmissionDirectionConfig> Config::_parseEmissionDirections(const libconfig::Setting &setting)
+std::vector<Config::EmissionDirectionConfig> Config::_parseEmissionDirections(const libconfig::Setting &setting)
 {
     std::vector<EmissionDirectionConfig> emissionDirections = {};
     EmissionDirectionConfig emissionDirection;
@@ -110,7 +141,7 @@ std::vector<EmissionDirectionConfig> Config::_parseEmissionDirections(const libc
     return emissionDirections;
 }
 
-std::list<ObjectConfig> Config::_loadObjects(const libconfig::Setting &root)
+std::list<Config::ObjectConfig> Config::_loadObjects(const libconfig::Setting &root)
 {
     std::list<ObjectConfig> objects = {};
     const libconfig::Setting &objects_cfg = root["objects"];
@@ -124,7 +155,7 @@ std::list<ObjectConfig> Config::_loadObjects(const libconfig::Setting &root)
     return objects;
 }
 
-ObjectConfig Config::_parseObject(const libconfig::Setting &setting)
+Config::ObjectConfig Config::_parseObject(const libconfig::Setting &setting)
 {
     ObjectConfig object;
 
@@ -143,7 +174,7 @@ ObjectConfig Config::_parseObject(const libconfig::Setting &setting)
     return object;
 }
 
-SphereConfig Config::_parseSphere(const libconfig::Setting &setting)
+Config::SphereConfig Config::_parseSphere(const libconfig::Setting &setting)
 {
     SphereConfig sphere;
 
@@ -154,7 +185,7 @@ SphereConfig Config::_parseSphere(const libconfig::Setting &setting)
     return sphere;
 }
 
-CubeConfig Config::_parseCube(const libconfig::Setting &settings)
+Config::CubeConfig Config::_parseCube(const libconfig::Setting &settings)
 {
     CubeConfig cube;
     std::tuple<float, float, float> tuple;
