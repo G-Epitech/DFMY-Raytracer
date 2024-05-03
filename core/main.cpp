@@ -10,12 +10,12 @@
 
 int main(int ac, char **av)
 {
-    Config config;
-    Config::SceneConfig scene_config;
+    Raytracer::Core::Config config;
+    Raytracer::Core::Config::SceneConfig scene_config;
 
     try {
         scene_config = config.load(av[1]);
-    } catch (Config::Exception &e) {
+    } catch (Raytracer::Core::Config::Exception &e) {
         std::cerr << e.what() << std::endl;
         return 84;
     }
@@ -46,10 +46,10 @@ int main(int ac, char **av)
         std::cout << "Object material: " << object.material << std::endl;
         std::cout << "Object origin: " << object.origin.x << ", " << object.origin.y << ", " << object.origin.z << std::endl;
         if (object.type == "cube") {
-            auto cube = std::get<Config::CubeConfig>(object.properties);
+            auto cube = std::get<Raytracer::Core::Config::CubeConfig>(object.properties);
             std::cout << "Cube size: " << std::get<0>(cube.size) << ", " << std::get<1>(cube.size) << ", " << std::get<2>(cube.size)  <<std::endl;
         } else if (object.type == "sphere") {
-            auto sphere = std::get<Config::SphereConfig>(object.properties);
+            auto sphere = std::get<Raytracer::Core::Config::SphereConfig>(object.properties);
             std::cout << "Sphere radius: " << sphere.radius << std::endl;
         }
         std::cout << "--" << std::endl;

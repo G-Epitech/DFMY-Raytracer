@@ -7,6 +7,8 @@
 
 #include "Config.hpp"
 
+using namespace Raytracer::Core;
+
 Config::Config()
 {
 }

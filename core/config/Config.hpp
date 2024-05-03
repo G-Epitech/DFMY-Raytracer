@@ -21,7 +21,11 @@
 
 using namespace Raytracer::Common;
 
-class Config {
+namespace Raytracer::Core {
+    class Config;
+};
+
+class Raytracer::Core::Config {
     public:
         /// @brief Camera configuration
         typedef struct {
@@ -69,7 +73,7 @@ class Config {
             std::tuple<float, float, float> size;
         } CubeConfig;
 
-        using ObjectPropertiesConfig = std::variant<CubeConfig, SphereConfig>;
+        typedef std::variant<CubeConfig, SphereConfig> ObjectPropertiesConfig;
 
         /// @brief Object configuration
         typedef struct {
