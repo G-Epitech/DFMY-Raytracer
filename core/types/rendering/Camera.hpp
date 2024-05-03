@@ -11,6 +11,8 @@
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
 
+#define COMPUTE_THREADS 4
+
 namespace Raytracer::Core::Rendering {
     class Camera {
     public:
@@ -30,6 +32,24 @@ namespace Raytracer::Core::Rendering {
             float fov;
         } Config;
 
+        class ComputeError : public exception {
+        public:
+            /**
+             * @brief Create a error of compute
+             * @param msg
+             */
+            explicit ComputeError(const std::string &msg = "unknown");
+
+            /// @brief Default destructor
+            ~ComputeError() override = default;
+
+            /// @brief Get the message of the exception
+            const char *what() const noexcept override;
+
+        private:
+            std::string _msg;
+        };
+
         /**
          * @brief Create a new camera
          * @param config Configuration of the camera
@@ -41,6 +61,12 @@ namespace Raytracer::Core::Rendering {
 
         /// @brief Default destructor
         ~Camera() = default;
+
+        /**
+         * @brief Compute all pixels of the screen
+         * @param threads Number of threads to use
+         */
+        void compute(size_t threads);
 
         /// @brief The position of the camera
         Common::Math::Point3D position;
