@@ -8,7 +8,8 @@
 NAME 		= raytracer
 TESTS_NAME 	= raytracer_tests
 PLUGINS_NAMES = sphere
-PLUGINS 	= $(addsuffix .so, $(addprefix plugins/raytracer_, $(PLUGINS_NAMES)))
+PLUGINS 	= $(addsuffix .so, $(addprefix plugins/raytracer_, \
+	$(PLUGINS_NAMES)))
 BUILD_PATH 	= build
 LIB_PATH 	= lib
 COVERAGE_IGNORE_TARGETS = 	tests \
