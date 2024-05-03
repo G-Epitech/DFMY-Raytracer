@@ -17,6 +17,8 @@ namespace Raytracer::Common {
         /// @brief Default destructor
         virtual ~IObject() = default;
 
+        typedef std::shared_ptr<IObject> Ptr;
+
         /**
          * @brief Compute the collision of the object with a ray
          * @param ray Ray to compute the collision with
