@@ -6,14 +6,15 @@
 */
 
 #include <vector>
+#include <memory>
 #include "Sphere.hpp"
 #include "SphereProvider.hpp"
 
 using Raytracer::Objects::SphereProvider;
 
-std::shared_ptr<Raytracer::Common::IObject> SphereProvider::create()
+std::shared_ptr<Raytracer::Common::IObject> SphereProvider::create(Raytracer::Common::Graphics::Material &material)
 {
-    return std::make_shared<Raytracer::Objects::Sphere>();
+    return std::make_shared<Raytracer::Objects::Sphere>(material);
 }
 
 Raytracer::Common::Object::Manifest SphereProvider::getManifest()
@@ -30,5 +31,6 @@ Raytracer::Common::Object::Manifest SphereProvider::getManifest()
             }
         }
     };
+
     return manifest;
 }

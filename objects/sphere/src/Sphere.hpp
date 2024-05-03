@@ -16,7 +16,7 @@ namespace Raytracer::Objects {
 class Raytracer::Objects::Sphere : public Raytracer::Common::IObject {
 public:
     /// @brief Default constructor
-    Sphere();
+    Sphere(Raytracer::Common::Graphics::Material &material);
     /// @brief Default destructor
     ~Sphere() = default;
 
@@ -25,4 +25,6 @@ public:
 
     /// @brief Get the Material of the object
     Common::Graphics::Material getMaterial() override;
+private:
+    Common::Graphics::Material _material;
 };

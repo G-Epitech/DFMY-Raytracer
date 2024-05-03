@@ -19,7 +19,7 @@ public:
     ~SphereProvider() = default;
 
     /// @brief Create a new object
-    std::shared_ptr<Raytracer::Common::IObject> create() override;
+    std::shared_ptr<Common::IObject> create(Common::Graphics::Material &material) override;
     /// @brief Get the manifest of the object
-    Raytracer::Common::Object::Manifest getManifest() override;
+    Common::Object::Manifest getManifest() override;
 };

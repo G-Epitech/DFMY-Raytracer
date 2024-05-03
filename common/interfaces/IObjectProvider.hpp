@@ -10,6 +10,7 @@
 #include <memory>
 #include "IObject.hpp"
 #include "types/object/Manifest.hpp"
+#include "types/graphics/Material.hpp"
 
 namespace Raytracer::Common {
     class IObjectProvider {
@@ -19,9 +20,10 @@ namespace Raytracer::Common {
 
         /**
          * @brief Create a new object
+         * @param material Material of the object
          * @return Shared pointer to the new object 
          */
-        virtual std::shared_ptr<IObject> create() = 0;
+        virtual std::shared_ptr<IObject> create(Graphics::Material &material) = 0;
 
         /**
          * @brief Get the manifest of the object
