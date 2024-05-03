@@ -16,15 +16,17 @@ namespace Raytracer::Objects {
 class Raytracer::Objects::Sphere : public Raytracer::Common::IObject {
 public:
     /// @brief Default constructor
-    Sphere(Raytracer::Common::Graphics::Material &material);
+    Sphere(const Common::Graphics::Material &material, const Common::Math::Point3D &position);
     /// @brief Default destructor
     ~Sphere() = default;
 
-    /// @brief Get the HitInfo of the object
+    void setRadius(float radius);
+
     Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
 
-    /// @brief Get the Material of the object
     Common::Graphics::Material getMaterial() override;
+
 private:
-    Common::Graphics::Material _material;
+    const Common::Graphics::Material _material;
+    const Common::Math::Point3D _position;
 };

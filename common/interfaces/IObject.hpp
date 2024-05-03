@@ -17,10 +17,17 @@ namespace Raytracer::Common {
         /// @brief Default destructor
         virtual ~IObject() = default;
 
-        /// @brief Get the HitInfo of the object
+        /**
+         * @brief Compute the collision of the object with a ray
+         * @param ray Ray to compute the collision with
+         * @return HitInfo containing the collision information
+         */
         virtual Math::HitInfo computeCollision(const Math::Ray &ray) = 0;
 
-        /// @brief Get the Material of the object
+        /**
+         * @brief Get the Material object
+         * @return Material of the object
+         */
         virtual Graphics::Material getMaterial() = 0;
     };
 }

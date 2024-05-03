@@ -7,8 +7,9 @@
 
 #include "Sphere.hpp"
 
-Raytracer::Objects::Sphere::Sphere(Raytracer::Common::Graphics::Material &material)
-    : _material(material) {}
+Raytracer::Objects::Sphere::Sphere(
+    const Raytracer::Common::Graphics::Material &material,
+    const Common::Math::Point3D &position) : _material(material), _position(position) {}
 
 Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(const Raytracer::Common::Math::Ray &ray)
 {

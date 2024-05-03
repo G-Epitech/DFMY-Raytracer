@@ -9,17 +9,29 @@
 
 #include "Point.hpp"
 #include "Vector.hpp"
+#include "types/graphics/Color.hpp"
 
 namespace Raytracer::Common::Math {
+
+    /// @brief Represent a color of a hit
+    typedef struct HitColor {
+        /// @brief Color of the hit
+        Graphics::Color color;
+        /// @brief Emission color of the hit
+        float emissionStrength;
+    } HitColor;
+
     /// @brief Represent an HitInfo between a ray and a shape
     typedef struct HitInfo {
         /// @brief Did the ray hit the shape
-        bool didHit = false;
+        bool didHit;
         /// @brief Distance between the ray and the shape
-        float distance = 0;
+        float distance;
         /// @brief Hit point
-        Point3D hitPoint = Point3D(0, 0, 0);
+        Point3D hitPoint;
         /// @brief Normal at the hit point
-        Vector3D normal = Vector3D(0, 0, 0);
+        Vector3D normal;
+        /// @brief Color of the hit
+        HitColor hitColor;
     } HitInfo;
 }

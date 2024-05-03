@@ -12,9 +12,11 @@
 
 using Raytracer::Objects::SphereProvider;
 
-std::shared_ptr<Raytracer::Common::IObject> SphereProvider::create(Raytracer::Common::Graphics::Material &material)
+std::shared_ptr<Raytracer::Common::IObject> SphereProvider::create(
+    const Raytracer::Common::Graphics::Material &material,
+    const Raytracer::Common::Math::Point3D &position)
 {
-    return std::make_shared<Raytracer::Objects::Sphere>(material);
+    return std::make_shared<Raytracer::Objects::Sphere>(material, position);
 }
 
 Raytracer::Common::Object::Manifest SphereProvider::getManifest()

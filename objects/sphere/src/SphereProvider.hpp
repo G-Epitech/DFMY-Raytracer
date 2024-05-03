@@ -19,7 +19,7 @@ public:
     ~SphereProvider() = default;
 
     /// @brief Create a new object
-    std::shared_ptr<Common::IObject> create(Common::Graphics::Material &material) override;
+    std::shared_ptr<Common::IObject> create(const Common::Graphics::Material &material, const Common::Math::Point3D &position) override;
     /// @brief Get the manifest of the object
     Common::Object::Manifest getManifest() override;
 };
