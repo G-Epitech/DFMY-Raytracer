@@ -26,7 +26,7 @@ int main(int ac, char **av)
     for (auto camera : scene_config.cameras) {
         std::cout << "Camera resolution: " << camera.resolution.first << "x" << camera.resolution.second << std::endl;
         std::cout << "Camera position: " << camera.position.x << ", " << camera.position.y << ", " << camera.position.z << std::endl;
-        std::cout << "Camera rotation: " << camera.rotation.x << ", " << camera.rotation.y << ", " << camera.rotation.z << std::endl;
+        std::cout << "Camera direction: " << camera.direction.x << ", " << camera.direction.y << ", " << camera.direction.z << std::endl;
         std::cout << "Camera fov: " << camera.fov << std::endl;
     }
     std::cout << "-----" << std::endl;

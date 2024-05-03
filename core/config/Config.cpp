@@ -75,14 +75,14 @@ std::list<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting &r
     }
     for (int i = 0; i < cameras_cfg.getLength(); i++) {
         const libconfig::Setting &camera_cfg = cameras_cfg[i];
-        _settingHasValidKeys("camera", camera_cfg, {"resolution", "rotation", "position", "fieldOfView"});
+        _settingHasValidKeys("camera", camera_cfg, {"resolution", "direction", "position", "fieldOfView"});
         if (!camera_cfg["resolution"].isGroup())
             throw Config::Exception("resolution must be a group of 2 integers");
         _lookupValueWrapper("height", camera_cfg["resolution"], height);
         _lookupValueWrapper("width", camera_cfg["resolution"], width);
         camera.resolution = {height, width};
         camera.position = _parsePoint3D("position", camera_cfg["position"]);
-        camera.rotation = _parseVector3D("rotation", camera_cfg["rotation"]);
+        camera.direction = _parseVector3D("direction", camera_cfg["direction"]);
         _lookupValueWrapper("fieldOfView", camera_cfg, camera.fov);
         cameras.push_back(camera);
     }

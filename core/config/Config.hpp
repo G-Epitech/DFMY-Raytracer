@@ -26,7 +26,7 @@ class Config {
         typedef struct {
             std::pair<unsigned, unsigned> resolution;
             Math::Point3D position;
-            Math::Vector3D rotation;
+            Math::Vector3D direction;
             float fov;
         } CameraConfig;
 
