@@ -2,8 +2,6 @@
 add_library(raytracer-core STATIC)
 target_link_libraries(raytracer-core raytracer-common)
 target_include_directories(raytracer-core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(raytracer-core PUBLIC ${PROJECT_SOURCE_DIR}/core)
-target_include_directories(raytracer-core PUBLIC ${PROJECT_SOURCE_DIR}/common)
 target_include_directories(raytracer-core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 ## Binary executable
