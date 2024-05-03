@@ -75,9 +75,11 @@ std::list<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting &r
     }
     for (int i = 0; i < cameras_cfg.getLength(); i++) {
         const libconfig::Setting &camera_cfg = cameras_cfg[i];
-        _settingHasValidKeys("camera", camera_cfg, {"resolution", "direction", "position", "fieldOfView"});
-        if (!camera_cfg["resolution"].isGroup())
+        _settingHasValidKeys("camera", camera_cfg, {"resolution", "direction",
+            "position", "fieldOfView"});
+        if (!camera_cfg["resolution"].isGroup()) {
             throw Config::Exception("resolution must be a group of 2 integers");
+        }
         _lookupValueWrapper("height", camera_cfg["resolution"], height);
         _lookupValueWrapper("width", camera_cfg["resolution"], width);
         camera.resolution = {height, width};
@@ -110,9 +112,10 @@ Config::MaterialConfig Config::_parseMaterial(const libconfig::Setting &setting)
     if (!setting.isGroup()) {
         throw Config::Exception("material must be a group");
     }
-    _settingHasValidKeys("material", setting, {"name", "objectColor", "emissionDirections", "reflectivity"});
+    _settingHasValidKeys("material", setting, {"name", "objectColor",
+        "emissionDirections", "reflectivity"});
     _lookupValueWrapper("name", setting, material.name);
-    material.objectColor = _parseColor(setting["objectColor"]);
+    material.color = _parseColor(setting["objectColor"]);
     _lookupValueWrapper("reflectivity", setting, material.reflectivity);
     material.emissionDirections = _parseEmissionDirections(setting["emissionDirections"]);
     return material;
@@ -132,7 +135,8 @@ std::vector<Config::EmissionDirectionConfig> Config::_parseEmissionDirections(co
         if (!emissionDirection_cfg.isGroup()) {
             throw Config::Exception("emissionDirection must be a list of groups");
         }
-        _settingHasValidKeys("emissionDirection", emissionDirection_cfg, {"vector", "color", "strength"});
+        _settingHasValidKeys("emissionDirection", emissionDirection_cfg,
+            {"vector", "color", "strength"});
         emissionDirection.vector = _parseVector3D("vector", emissionDirection_cfg["vector"]);
         emissionDirection.color = _parseColor(emissionDirection_cfg["color"]);
         _lookupValueWrapper("strength", emissionDirection_cfg, emissionDirection.strength);
@@ -161,7 +165,8 @@ Config::ObjectConfig Config::_parseObject(const libconfig::Setting &setting)
 
     if (!setting.isGroup())
         throw Config::Exception("object must be a group");
-    _settingHasValidKeys("object", setting, {"type", "material", "properties", "origin"});
+    _settingHasValidKeys("object", setting, {"type", "material", "properties",
+        "origin"});
     _lookupValueWrapper("type", setting, object.type);
     _lookupValueWrapper("material", setting, object.material);
     object.origin = _parseVector3D("object origin", setting["origin"]);
@@ -178,8 +183,9 @@ Config::SphereConfig Config::_parseSphere(const libconfig::Setting &setting)
 {
     SphereConfig sphere;
 
-    if (!setting.isGroup())
+    if (!setting.isGroup()) {
         throw Config::Exception("sphere must be a group");
+    }
     _settingHasValidKeys("sphere", setting, {"radius"});
     _lookupValueWrapper("radius", setting, sphere.radius);
     return sphere;
@@ -283,7 +289,8 @@ void Config::_settingHasValidKeys(const std::string prop, const libconfig::Setti
 }
 
 template <typename T>
-void Config::_lookupValueWrapper(const std::string prop, const libconfig::Setting &setting, T &value)
+void Config::_lookupValueWrapper(const std::string prop,
+    const libconfig::Setting &setting, T &value)
 {
     if (setting.lookupValue(prop, value) == false) {
         throw Config::Exception(prop + " must be a " + _typeName(value));
