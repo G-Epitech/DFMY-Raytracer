@@ -29,10 +29,12 @@ int main(int ac, char **av)
     for (auto material : scene_config.materials) {
         std::cout << "Material name: " << material.name << std::endl;
         std::cout << "Material color: " << material.objectColor.r << ", " << material.objectColor.g << ", " << material.objectColor.b << std::endl;
-        std::cout << "Material emission color: " << material.emissionColor.r << ", " << material.emissionColor.g << ", " << material.emissionColor.b << std::endl;
-        std::cout << "Material specular color: " << material.specularColor.r << ", " << material.specularColor.g << ", " << material.specularColor.b << std::endl;
         std::cout << "Material reflectivity: " << material.reflectivity << std::endl;
-        std::cout << "Material emission strength: " << material.emissionStrength << std::endl;
+        for (auto emission : material.emissionDirections) {
+            std::cout << "Emission direction color: " << emission.color.r << ", " << emission.color.g << ", " << emission.color.b << std::endl;
+            std::cout << "Emission direction strength: " << emission.strength << std::endl;
+            std::cout << "Emission direction vector: " << emission.vector.x << ", " << emission.vector.y << ", " << emission.vector.z << std::endl;
+        }
     }
     std::cout << "-----" << std::endl;
     for (auto object : scene_config.objects) {

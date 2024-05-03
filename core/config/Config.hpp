@@ -29,12 +29,16 @@ typedef struct {
 } camera_config_t;
 
 typedef struct {
+    Graphics::Color color;
+    float strength;
+    Math::Vector3D vector;
+} emission_direction_config_t;
+
+typedef struct {
     std::string name;
     Graphics::Color objectColor;
-    Graphics::Color emissionColor;
-    Graphics::Color specularColor;
+    std::vector<emission_direction_config_t> emissionDirections;
     float reflectivity;
-    float emissionStrength;
 } material_config_t;
 
 typedef struct {
@@ -87,6 +91,7 @@ class Config {
         std::list<object_config_t> _loadObjects(const libconfig::Setting &root);
 
         material_config_t _parseMaterial(const libconfig::Setting &setting);
+        std::vector<emission_direction_config_t> _parseEmissionDirections(const libconfig::Setting &setting);
         object_config_t _parseObject(const libconfig::Setting &setting);
         object_sphere_config_t _parseSphere(const libconfig::Setting &setting);
         object_cube_config_t _parseCube(const libconfig::Setting &setting);

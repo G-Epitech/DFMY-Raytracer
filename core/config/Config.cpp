@@ -79,15 +79,35 @@ material_config_t Config::_parseMaterial(const libconfig::Setting &setting)
     if (!setting.isGroup()) {
         throw Config::Exception("material must be a group");
     }
-    _settingHasValidKeys("material", setting, {"name", "objectColor", "emissionColor",
-        "specularColor", "reflectivity", "emissionStrength"});
+    _settingHasValidKeys("material", setting, {"name", "objectColor", "emissionDirections", "reflectivity"});
     _lookupValueWrapper("name", setting, material.name);
     material.objectColor = _parseColor(setting["objectColor"]);
-    material.emissionColor = _parseColor(setting["emissionColor"]);
-    material.specularColor = _parseColor(setting["specularColor"]);
     _lookupValueWrapper("reflectivity", setting, material.reflectivity);
-    _lookupValueWrapper("emissionStrength", setting, material.emissionStrength);
+    material.emissionDirections = _parseEmissionDirections(setting["emissionDirections"]);
     return material;
+}
+
+std::vector<emission_direction_config_t> Config::_parseEmissionDirections(const libconfig::Setting &setting)
+{
+    std::vector<emission_direction_config_t> emissionDirections = {};
+    emission_direction_config_t emissionDirection;
+
+    if (!setting.isList()) {
+        throw Config::Exception("emissionDirections must be a list");
+    }
+    for (int i = 0; i < setting.getLength(); i++) {
+        const libconfig::Setting &emissionDirection_cfg = setting[i];
+
+        if (!emissionDirection_cfg.isGroup()) {
+            throw Config::Exception("emissionDirection must be a list of groups");
+        }
+        _settingHasValidKeys("emissionDirection", emissionDirection_cfg, {"vector", "color", "strength"});
+        emissionDirection.vector = _parseVector3D("vector", emissionDirection_cfg["vector"]);
+        emissionDirection.color = _parseColor(emissionDirection_cfg["color"]);
+        _lookupValueWrapper("strength", emissionDirection_cfg, emissionDirection.strength);
+        emissionDirections.push_back(emissionDirection);
+    }
+    return emissionDirections;
 }
 
 std::list<object_config_t> Config::_loadObjects(const libconfig::Setting &root)
