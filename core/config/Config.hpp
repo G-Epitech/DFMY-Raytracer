@@ -26,50 +26,50 @@ typedef struct {
     Math::Point3D position;
     Math::Vector3D rotation;
     float fov;
-} camera_config_t;
+} CameraConfig;
 
 typedef struct {
     Graphics::Color color;
     float strength;
     Math::Vector3D vector;
-} emission_direction_config_t;
+} EmissionDirectionConfig;
 
 typedef struct {
     std::string name;
     Graphics::Color objectColor;
-    std::vector<emission_direction_config_t> emissionDirections;
+    std::vector<EmissionDirectionConfig> emissionDirections;
     float reflectivity;
-} material_config_t;
+} MaterialConfig;
 
 typedef struct {
     float radius;
-} object_sphere_config_t;
+} SphereConfig;
 
 typedef struct {
     std::tuple<float, float, float> size;
-} object_cube_config_t;
+} CubeConfig;
 
-using object_properties_t = std::variant<object_cube_config_t, object_sphere_config_t>;
+using ObjectPropertiesConfig = std::variant<CubeConfig, SphereConfig>;
 
 typedef struct {
     std::string type;
     std::string material;
     Math::Vector3D origin;
-    object_properties_t properties;
-} object_config_t;
+    ObjectPropertiesConfig properties;
+} ObjectConfig;
 
 typedef struct {
-    std::list<camera_config_t> cameras;
-    std::list<material_config_t> materials;
-    std::list<object_config_t> objects;
-} scene_config_t;
+    std::list<CameraConfig> cameras;
+    std::list<MaterialConfig> materials;
+    std::list<ObjectConfig> objects;
+} SceneConfig;
 
 class Config {
     public:
         Config();
         ~Config() = default;
 
-        scene_config_t load(const std::string &path);
+        SceneConfig load(const std::string &path);
 
         class Exception : public std::exception {
             public:
@@ -86,25 +86,25 @@ class Config {
                 std::string _message;
         };
     private:
-        std::list<camera_config_t> _loadCameras(const libconfig::Setting &root);
-        std::list<material_config_t> _loadMaterials(const libconfig::Setting &root);
-        std::list<object_config_t> _loadObjects(const libconfig::Setting &root);
+        std::list<CameraConfig> _loadCameras(const libconfig::Setting &root);
+        std::list<MaterialConfig> _loadMaterials(const libconfig::Setting &root);
+        std::list<ObjectConfig> _loadObjects(const libconfig::Setting &root);
 
-        material_config_t _parseMaterial(const libconfig::Setting &setting);
-        std::vector<emission_direction_config_t> _parseEmissionDirections(const libconfig::Setting &setting);
-        object_config_t _parseObject(const libconfig::Setting &setting);
-        object_sphere_config_t _parseSphere(const libconfig::Setting &setting);
-        object_cube_config_t _parseCube(const libconfig::Setting &setting);
+        MaterialConfig _parseMaterial(const libconfig::Setting &setting);
+        std::vector<EmissionDirectionConfig> _parseEmissionDirections(const libconfig::Setting &setting);
+        ObjectConfig _parseObject(const libconfig::Setting &setting);
+        SphereConfig _parseSphere(const libconfig::Setting &setting);
+        CubeConfig _parseCube(const libconfig::Setting &setting);
         Math::Vector3D _parseVector3D(const std::string propName, const libconfig::Setting &setting);
         Math::Point3D _parsePoint3D(const std::string propName, const libconfig::Setting &setting);
         Graphics::Color _parseColor(const libconfig::Setting &setting);
-        std::tuple<float, float, float> _parseTuple3f(const libconfig::Setting &setting, const std::string (&keys)[3]);
+        std::tuple<float, float, float> _parseTuple3f(const std::string prop, const libconfig::Setting &setting, const std::vector<std::string> keys);
 
-        void _settingHasValidKeys(const std::string &prop, const libconfig::Setting &setting,
+        void _settingHasValidKeys(const std::string prop, const libconfig::Setting &setting,
             const std::vector<std::string> &keys);
 
         template <typename T>
-        void _lookupValueWrapper(const std::string &prop, const libconfig::Setting &setting, T &value);
+        void _lookupValueWrapper(const std::string prop, const libconfig::Setting &setting, T &value);
 
         template <typename T>
         std::string _typeName(T &value);

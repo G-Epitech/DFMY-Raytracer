@@ -11,9 +11,9 @@ Config::Config()
 {
 }
 
-scene_config_t Config::load(const std::string &path)
+SceneConfig Config::load(const std::string &path)
 {
-    scene_config_t scene_config;
+    SceneConfig scene_config;
     libconfig::Config cfg;
 
     try {
@@ -32,10 +32,10 @@ scene_config_t Config::load(const std::string &path)
     return scene_config;
 }
 
-std::list<camera_config_t> Config::_loadCameras(const libconfig::Setting &root)
+std::list<CameraConfig> Config::_loadCameras(const libconfig::Setting &root)
 {
-    std::list<camera_config_t> cameras = {};
-    camera_config_t camera;
+    std::list<CameraConfig> cameras = {};
+    CameraConfig camera;
     unsigned height, width;
     const libconfig::Setting &cameras_cfg = root["cameras"];
 
@@ -58,9 +58,9 @@ std::list<camera_config_t> Config::_loadCameras(const libconfig::Setting &root)
     return cameras;
 }
 
-std::list<material_config_t> Config::_loadMaterials(const libconfig::Setting &root)
+std::list<MaterialConfig> Config::_loadMaterials(const libconfig::Setting &root)
 {
-    std::list<material_config_t> materials = {};
+    std::list<MaterialConfig> materials = {};
     const libconfig::Setting &materials_cfg = root["materials"];
 
     if (!materials_cfg.isList()){
@@ -72,9 +72,9 @@ std::list<material_config_t> Config::_loadMaterials(const libconfig::Setting &ro
     return materials;
 }
 
-material_config_t Config::_parseMaterial(const libconfig::Setting &setting)
+MaterialConfig Config::_parseMaterial(const libconfig::Setting &setting)
 {
-    material_config_t material = {};
+    MaterialConfig material = {};
 
     if (!setting.isGroup()) {
         throw Config::Exception("material must be a group");
@@ -87,10 +87,10 @@ material_config_t Config::_parseMaterial(const libconfig::Setting &setting)
     return material;
 }
 
-std::vector<emission_direction_config_t> Config::_parseEmissionDirections(const libconfig::Setting &setting)
+std::vector<EmissionDirectionConfig> Config::_parseEmissionDirections(const libconfig::Setting &setting)
 {
-    std::vector<emission_direction_config_t> emissionDirections = {};
-    emission_direction_config_t emissionDirection;
+    std::vector<EmissionDirectionConfig> emissionDirections = {};
+    EmissionDirectionConfig emissionDirection;
 
     if (!setting.isList()) {
         throw Config::Exception("emissionDirections must be a list");
@@ -110,9 +110,9 @@ std::vector<emission_direction_config_t> Config::_parseEmissionDirections(const 
     return emissionDirections;
 }
 
-std::list<object_config_t> Config::_loadObjects(const libconfig::Setting &root)
+std::list<ObjectConfig> Config::_loadObjects(const libconfig::Setting &root)
 {
-    std::list<object_config_t> objects = {};
+    std::list<ObjectConfig> objects = {};
     const libconfig::Setting &objects_cfg = root["objects"];
 
     if (!objects_cfg.isList()){
@@ -124,9 +124,9 @@ std::list<object_config_t> Config::_loadObjects(const libconfig::Setting &root)
     return objects;
 }
 
-object_config_t Config::_parseObject(const libconfig::Setting &setting)
+ObjectConfig Config::_parseObject(const libconfig::Setting &setting)
 {
-    object_config_t object;
+    ObjectConfig object;
 
     if (!setting.isGroup())
         throw Config::Exception("object must be a group");
@@ -143,9 +143,9 @@ object_config_t Config::_parseObject(const libconfig::Setting &setting)
     return object;
 }
 
-object_sphere_config_t Config::_parseSphere(const libconfig::Setting &setting)
+SphereConfig Config::_parseSphere(const libconfig::Setting &setting)
 {
-    object_sphere_config_t sphere;
+    SphereConfig sphere;
 
     if (!setting.isGroup())
         throw Config::Exception("sphere must be a group");
@@ -154,9 +154,9 @@ object_sphere_config_t Config::_parseSphere(const libconfig::Setting &setting)
     return sphere;
 }
 
-object_cube_config_t Config::_parseCube(const libconfig::Setting &settings)
+CubeConfig Config::_parseCube(const libconfig::Setting &settings)
 {
-    object_cube_config_t cube;
+    CubeConfig cube;
     std::tuple<float, float, float> tuple;
 
     if (!settings.isGroup())
@@ -165,19 +165,22 @@ object_cube_config_t Config::_parseCube(const libconfig::Setting &settings)
     if (!settings["size"].isGroup())
         throw Config::Exception("size must be a group");
     _settingHasValidKeys("size", settings["size"], {"width", "height", "depth"});
-    tuple = _parseTuple3f(settings["size"], {"width", "height", "depth"});
+    tuple = _parseTuple3f("size", settings["size"], {"width", "height", "depth"});
     cube.size = {std::get<0>(tuple), std::get<1>(tuple), std::get<2>(tuple)};
     return cube;
 }
 
-std::tuple<float, float, float> Config::_parseTuple3f(const libconfig::Setting &setting,
-    const std::string (&keys)[3])
+std::tuple<float, float, float> Config::_parseTuple3f(const std::string prop,
+    const libconfig::Setting &setting, const std::vector<std::string> keys)
 {
-    if (!setting.exists(keys[0]) || !setting.exists(keys[1]) || !setting.exists(keys[2]))
-        throw Config::Exception("tuple must have " + keys[0] + ", " + keys[1] + " and " + keys[2]);
-    if (!setting[keys[0].c_str()].isNumber() || !setting[keys[1].c_str()].isNumber() || !setting[keys[2].c_str()].isNumber())
-        throw Config::Exception(keys[0] + ", " + keys[1] + " and " + keys[2] + " must be floats");
-    return {setting[keys[0].c_str()], setting[keys[1].c_str()], setting[keys[2].c_str()]};
+    std::tuple<float, float, float> tuple;
+    if (!setting.isGroup())
+        throw Config::Exception(prop + " must be a group of 3 floats {x, y, z}");
+    _settingHasValidKeys(prop, setting, keys);
+    _lookupValueWrapper(keys[0], setting, std::get<0>(tuple));
+    _lookupValueWrapper(keys[1], setting, std::get<1>(tuple));
+    _lookupValueWrapper(keys[2], setting, std::get<2>(tuple));
+    return tuple;
 }
 
 Math::Vector3D Config::_parseVector3D(const std::string propName, const libconfig::Setting &setting)
@@ -187,7 +190,7 @@ Math::Vector3D Config::_parseVector3D(const std::string propName, const libconfi
 
     if (!setting.isGroup())
         throw Config::Exception(propName + "must be a group of 3 floats {x, y, z}");
-    tuple = _parseTuple3f(setting, {"x", "y", "z"});
+    tuple = _parseTuple3f(propName, setting, {"x", "y", "z"});
     vector3.x = std::get<0>(tuple);
     vector3.y = std::get<1>(tuple);
     vector3.z = std::get<2>(tuple);
@@ -201,7 +204,7 @@ Math::Point3D Config::_parsePoint3D(const std::string propName, const libconfig:
 
     if (!setting.isGroup())
         throw Config::Exception(propName + " must be a list of 3 floats");
-    tuple = _parseTuple3f(setting, {"x", "y", "z"});
+    tuple = _parseTuple3f(propName, setting, {"x", "y", "z"});
     point3.x = std::get<0>(tuple);
     point3.y = std::get<1>(tuple);
     point3.z = std::get<2>(tuple);
@@ -227,7 +230,7 @@ Graphics::Color Config::_parseColor(const libconfig::Setting &setting)
     return color;
 }
 
-void Config::_settingHasValidKeys(const std::string &prop, const libconfig::Setting &setting,
+void Config::_settingHasValidKeys(const std::string prop, const libconfig::Setting &setting,
     const std::vector<std::string> &keys)
 {
     bool has_all_keys = true;
@@ -249,7 +252,7 @@ void Config::_settingHasValidKeys(const std::string &prop, const libconfig::Sett
 }
 
 template <typename T>
-void Config::_lookupValueWrapper( const std::string &prop, const libconfig::Setting &setting, T &value)
+void Config::_lookupValueWrapper(const std::string prop, const libconfig::Setting &setting, T &value)
 {
     if (setting.lookupValue(prop, value) == false) {
         throw Config::Exception(prop + " must be a " + _typeName(value));

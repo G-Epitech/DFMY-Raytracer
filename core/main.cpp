@@ -11,7 +11,7 @@
 int main(int ac, char **av)
 {
     Config config;
-    scene_config_t scene_config;
+    SceneConfig scene_config;
 
     try {
         scene_config = config.load(av[1]);
@@ -42,10 +42,10 @@ int main(int ac, char **av)
         std::cout << "Object material: " << object.material << std::endl;
         std::cout << "Object origin: " << object.origin.x << ", " << object.origin.y << ", " << object.origin.z << std::endl;
         if (object.type == "cube") {
-            auto cube = std::get<object_cube_config_t>(object.properties);
+            auto cube = std::get<CubeConfig>(object.properties);
             std::cout << "Cube size: " << std::get<0>(cube.size) << ", " << std::get<1>(cube.size) << ", " << std::get<2>(cube.size)  <<std::endl;
         } else if (object.type == "sphere") {
-            auto sphere = std::get<object_sphere_config_t>(object.properties);
+            auto sphere = std::get<SphereConfig>(object.properties);
             std::cout << "Sphere radius: " << sphere.radius << std::endl;
         }
         std::cout << "--" << std::endl;
