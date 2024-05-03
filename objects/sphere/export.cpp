@@ -5,8 +5,14 @@
 ** export
 */
 
+#include "SphereProvider.hpp"
+#include "common/types/Libraries.hpp"
+
+using namespace Raytracer::Common;
+
 extern "C" {
-    int objectGetType() {
-        return 1;
+    IObjectProvider *OBJECT_PROVIDER_GETTER_NAME(void)
+    {
+        return new Raytracer::Objects::SphereProvider();
     }
 }
