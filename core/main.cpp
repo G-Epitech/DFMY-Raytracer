@@ -32,7 +32,7 @@ int main(int ac, char **av)
     std::cout << "-----" << std::endl;
     for (auto material : scene_config.materials) {
         std::cout << "Material name: " << material.name << std::endl;
-        std::cout << "Material color: " << material.objectColor.r << ", " << material.objectColor.g << ", " << material.objectColor.b << std::endl;
+        std::cout << "Material color: " << material.color.r << ", " << material.color.g << ", " << material.color.b << std::endl;
         std::cout << "Material reflectivity: " << material.reflectivity << std::endl;
         for (auto emission : material.emissionDirections) {
             std::cout << "Emission direction color: " << emission.color.r << ", " << emission.color.g << ", " << emission.color.b << std::endl;
