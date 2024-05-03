@@ -296,13 +296,13 @@ void Config::_settingHasValidKeys(const std::string prop, const libconfig::Setti
             has_all_keys = false;
         }
         if (i == keys.size() - 1) {
-            error_msg += keys[i];
+            error_msg += "\"" + keys[i] + "\"";
         } else {
-            error_msg += keys[i] + ", ";
+            error_msg += "\"" + keys[i] + "\"" + ", ";
         }
     }
     if (!has_all_keys) {
-        throw Config::Exception(error_msg);
+        throw Config::Exception(error_msg + " as keys");
     }
 }
 
