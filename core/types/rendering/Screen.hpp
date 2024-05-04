@@ -12,24 +12,17 @@
 
 #include "types/graphics/Pixel.hpp"
 #include "types/math/Point.hpp"
+#include "types/math/Size.hpp"
 
 using namespace std;
 
 namespace Raytracer::Core::Rendering {
     class Screen {
     public:
-        /// @brief Size of the screen
-        typedef struct Size {
-            /// @brief Width of the screen
-            size_t width;
-            /// @brief Height of the screen
-            size_t height;
-        } Size;
-
         /// @brief Configuration of the screen
         typedef struct Config {
             /// @brief Size of the screen
-            Size size;
+            Common::Math::Size size;
             /// @brief Origin of the screen
             Common::Math::Point3D origin;
         } Config;
@@ -43,7 +36,7 @@ namespace Raytracer::Core::Rendering {
         ~Screen() = default;
 
         /// @brief Width of the screen
-        const Size size;
+        const Common::Math::Size size;
 
         /// @brief Origin of the screen
         const Common::Math::Point3D origin;
