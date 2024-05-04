@@ -7,11 +7,14 @@
 
 #pragma once
 
+#include <thread>
+
 #include "Screen.hpp"
+#include "interfaces/graphics/IObject.hpp"
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
 
-#define COMPUTE_THREADS 4
+#define COMPUTE_THREADS 8
 
 namespace Raytracer::Core::Rendering {
     class Camera {
@@ -62,11 +65,13 @@ namespace Raytracer::Core::Rendering {
         /// @brief Default destructor
         ~Camera() = default;
 
+        void computeSegment(Common::Math::Size origin, Common::Math::Size size, std::vector<Graphics::IObject> &objects);
+
         /**
          * @brief Compute all pixels of the screen
          * @param threads Number of threads to use
          */
-        void compute(size_t threads);
+        void compute(size_t threads, std::vector<Graphics::IObject> &objects);
 
         /// @brief The position of the camera
         Common::Math::Point3D position;
@@ -78,5 +83,7 @@ namespace Raytracer::Core::Rendering {
         Screen screen;
         /// @brief The name of the camera
         std::string name;
+        /// @brief Vector of processing threads
+        std::vector<std::thread> _threads;
     };
 }
