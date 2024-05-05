@@ -121,7 +121,7 @@ class Raytracer::Core::Config {
          * @param path Path to the configuration file
          * @return SceneConfig
         */
-        SceneConfig load(const std::string &path);
+        static SceneConfig load(const std::string &path);
 
         class Exception : public std::exception {
             public:
@@ -143,96 +143,96 @@ class Raytracer::Core::Config {
          * @brief Load the name of the scene
          * @param path Path to the configuration file
          */
-        std::string _loadName(const std::string &path);
+        static std::string _loadName(const std::string &path);
         /**
          * @brief Load the scene ambient light configuration
          * @param root Root setting of the configuration file
          */
-        AmbientConfig _loadAmbient(const libconfig::Setting &root);
+        static AmbientConfig _loadAmbient(const libconfig::Setting &root);
         /**
          * @brief Load the scene cameras configuration
          * @param root Root setting of the configuration file
          */
-        std::list<CameraConfig> _loadCameras(const libconfig::Setting &root);
+        static std::list<CameraConfig> _loadCameras(const libconfig::Setting &root);
         /**
          * @brief Load the scene materials configuration
          * @param root Root setting of the configuration file
          */
-        std::list<MaterialConfig> _loadMaterials(const libconfig::Setting &root);
+        static std::list<MaterialConfig> _loadMaterials(const libconfig::Setting &root);
         /**
          * @brief Load the scene objects configuration
          * @param root Root setting of the configuration file
          */
-        std::list<ObjectConfig> _loadObjects(const libconfig::Setting &root);
+        static std::list<ObjectConfig> _loadObjects(const libconfig::Setting &root);
 
         /**
          * @brief Parse a camera group from the configuration
          * @param setting Setting of the camera group
          */
-        Rendering::Screen::Config _parseCameraScreen(const libconfig::Setting &setting);
+        static Rendering::Screen::Config _parseCameraScreen(const libconfig::Setting &setting);
         /**
          * @brief Parse a material group from the configuration
          * @param setting Setting of the material group
          */
-        MaterialConfig _parseMaterial(const libconfig::Setting &setting);
+        static MaterialConfig _parseMaterial(const libconfig::Setting &setting);
         /**
          * @brief Parse an emission direction group from the configuration
          * @param setting Setting of the emission direction group
          */
-        std::vector<EmissionDirectionConfig> _parseEmissionDirections(const libconfig::Setting &setting);
+        static std::vector<EmissionDirectionConfig> _parseEmissionDirections(const libconfig::Setting &setting);
         /**
          * @brief Parse an object group from the configuration
          * @param setting Setting of the object group
          */
-        ObjectConfig _parseObject(const libconfig::Setting &setting);
+        static ObjectConfig _parseObject(const libconfig::Setting &setting);
         /**
          * @brief Parse special properties of a sphere from the configuration
          * @param setting Setting of the sphere group
          */
-        SphereConfig _parseSphere(const libconfig::Setting &setting);
+        static SphereConfig _parseSphere(const libconfig::Setting &setting);
         /**
          * @brief Parse special properties of a cube from the configuration
          * @param setting Setting of the cube group
          */
-        CubeConfig _parseCube(const libconfig::Setting &setting);
+        static CubeConfig _parseCube(const libconfig::Setting &setting);
 
         /**
          * @brief Parse a vector3D group from the configuration
          * @param propName Name of the property
          * @param setting Setting of the vector3D group
          */
-        Math::Vector3D _parseVector3D(const std::string propName, const libconfig::Setting &setting);
+        static Math::Vector3D _parseVector3D(const std::string propName, const libconfig::Setting &setting);
         /**
          * @brief Parse a point3D group from the configuration
          * @param propName Name of the property
          * @param setting Setting of the point3D group
          */
-        Math::Point3D _parsePoint3D(const std::string propName, const libconfig::Setting &setting);
+        static Math::Point3D _parsePoint3D(const std::string propName, const libconfig::Setting &setting);
         /**
          * @brief Parse a color group from the configuration
          * @param setting Setting of the color group
          */
-        Graphics::Color _parseColor(const libconfig::Setting &setting);
+        static Graphics::Color _parseColor(const libconfig::Setting &setting);
         /**
          * @brief Parse a tuple of 3 floats from the configuration
          * @param prop Name of the property
          * @param setting Setting of the tuple group
          * @param keys List of keys to look for in the tuple
          */
-        std::tuple<float, float, float> _parseTuple3f(const std::string prop,
+        static std::tuple<float, float, float> _parseTuple3f(const std::string prop,
             const libconfig::Setting &setting, const std::vector<std::string> keys);
 
         /// @brief Check if a setting has valid keys
-        void _settingHasValidKeys(const std::string prop, const libconfig::Setting &setting,
+        static void _settingHasValidKeys(const std::string prop, const libconfig::Setting &setting,
             const std::vector<std::string> &keys);
 
         /// @brief Wrapper to lookup a value from a setting, and assign it to a variable,
         /// throws an exception if the value is not found or is of the wrong type
         template <typename T>
-        void _lookupValueWrapper(const std::string prop, const libconfig::Setting &setting, T &value);
+        static void _lookupValueWrapper(const std::string prop, const libconfig::Setting &setting, T &value);
 
         /// @brief Get the type name of a template variable
         /// Mainly used for debugging purposes and error messages
         template <typename T>
-        std::string _typeName(T &value);
+        static std::string _typeName(T &value);
 };
