@@ -5,4 +5,7 @@ target_sources(raytracer_core PRIVATE
         rendering/Camera.hpp
         rendering/Scene.cpp
         rendering/Scene.hpp
+        graphics/Image.cpp
+        graphics/Image.hpp
+        graphics/PixelArray.hpp
 )

@@ -48,25 +48,23 @@ namespace Raytracer::Core {
             Options options;
         } Arguments;
 
-        /// @brief List of scenes
-        std::vector<std::string> _scenes;
+        /// @brief Application arguments
+        Arguments _args;
 
         /**
          * @brief Read arguments
          * @param argc Number of arguments
          * @param argv Argument values
-         * @param args Arguments structure in which to store the parsed arguments
          * @return Success status
          */
-        static bool _readArgs(int argc, char **argv, App::Arguments &args);
+        bool _readArgs(int argc, char **argv);
 
         /**
          * @brief Parse options
          * @param argc Number of arguments
          * @param argv Argument values
-         * @param options Options structure in which to store the parsed options
          * @return Success status
          */
-         static bool _readOptions(int argc, char **argv, App::Options &options);
+         bool _readOptions(int argc, char **argv);
     };
 }

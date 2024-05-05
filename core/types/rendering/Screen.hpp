@@ -9,19 +9,16 @@
 
 #include <memory>
 #include <cstddef>
-#include <SFML/Graphics.hpp>
 
 #include "types/graphics/Pixel.hpp"
 #include "types/math/Point.hpp"
+#include "types/graphics/PixelArray.hpp"
 
 using namespace std;
 
 namespace Raytracer::Core::Rendering {
     class Screen {
     public:
-        /// @brief Pixel array of the screen
-        typedef std::unique_ptr<sf::Uint8[]> PixelArray;
-
         /// @brief Size of the screen
         typedef struct Size {
             /// @brief Width of the screen
@@ -59,10 +56,10 @@ namespace Raytracer::Core::Rendering {
          * @brief Get the pixels of the screen
          * @return PixelArray of the screen
          */
-        PixelArray &getPixels();
+        Graphics::PixelArray &getPixels();
 
     private:
         /// @brief Pixels of the screen
-        PixelArray _pixels;
+        Graphics::PixelArray _pixels;
     };
 }

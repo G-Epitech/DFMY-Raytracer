@@ -13,13 +13,11 @@ using namespace Raytracer::Core;
 
 int App::run(int argc, char **argv)
 {
-    Arguments args;
-
-    if (!_readArgs(argc, argv, args))
+    if (!_readArgs(argc, argv))
         return 84;
-    if (args.options.help)
+    if (_args.options.help)
         return help();
-    for (const auto &scene : args.scenes) {
+    for (const auto &scene : _args.scenes) {
         std::cout << "Rendering scene: " << scene << std::endl;
     }
     return 0;
@@ -45,17 +43,16 @@ int App::help() {
     return 0;
 }
 
-bool App::_readArgs(int argc, char **argv, App::Arguments &args) {
-    if (!_readOptions(argc, argv, args.options))
+bool App::_readArgs(int argc, char **argv) {
+    if (!_readOptions(argc, argv))
         return false;
-
     for (int i = optind; i < argc; i++) {
-        args.scenes.emplace_back(argv[i]);
+        _args.scenes.emplace_back(argv[i]);
     }
     return true;
 }
 
-bool App::_readOptions(int argc, char **argv, App::Options &options) {
+bool App::_readOptions(int argc, char **argv) {
     static struct option long_options[] = {
         {"gui", no_argument, nullptr, 'g'},
         {"help", no_argument, nullptr, 'h'},
@@ -69,10 +66,10 @@ bool App::_readOptions(int argc, char **argv, App::Options &options) {
             case -1:
                 break;
             case 'g':
-                options.gui = true;
+                _args.options.gui = true;
                 break;
             case 'h':
-                options.help = true;
+                _args.options.help = true;
                 return true;
             default:
                 return false;
