@@ -18,7 +18,7 @@
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
 #include "types/graphics/Color.hpp"
-#include "types/rendering/Screen.hpp"
+#include "types/rendering/Camera.hpp"
 
 using namespace Raytracer::Common;
 using namespace Raytracer::Core;
@@ -29,20 +29,6 @@ namespace Raytracer::Core {
 
 class Raytracer::Core::Config {
     public:
-        /// @brief Camera configuration
-        typedef struct {
-            /// @brief Camera name
-            std::string name;
-            /// @brief Camera position
-            Math::Point3D position;
-            /// @brief Camera direction
-            Math::Vector3D direction;
-            /// @brief Camera field of view
-            float fov;
-            /// @brief Camera screen (already initialized)
-            Rendering::Screen::Config screen;
-        } CameraConfig;
-
         /// @brief Emission direction configuration
         typedef struct {
             /// @brief Light emission color
@@ -106,7 +92,7 @@ class Raytracer::Core::Config {
             /// @brief Ambient light configuration
             AmbientConfig ambient;
             /// @brief List of camera configurations
-            std::list<CameraConfig> cameras;
+            std::list<Rendering::Camera::Config> cameras;
             /// @brief List of material configurations
             std::list<MaterialConfig> materials;
             /// @brief List of object configurations
@@ -153,7 +139,7 @@ class Raytracer::Core::Config {
          * @brief Load the scene cameras configuration
          * @param root Root setting of the configuration file
          */
-        static std::list<CameraConfig> _loadCameras(const libconfig::Setting &root);
+        static std::list<Rendering::Camera::Config> _loadCameras(const libconfig::Setting &root);
         /**
          * @brief Load the scene materials configuration
          * @param root Root setting of the configuration file

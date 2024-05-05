@@ -63,10 +63,10 @@ Config::AmbientConfig Config::_loadAmbient(const libconfig::Setting &root)
     return ambient;
 }
 
-std::list<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting &root)
+std::list<Rendering::Camera::Config> Config::_loadCameras(const libconfig::Setting &root)
 {
-    std::list<CameraConfig> cameras = {};
-    CameraConfig camera;
+    std::list<Rendering::Camera::Config> cameras = {};
+    Rendering::Camera::Config camera;
     const libconfig::Setting &cameras_cfg = root["cameras"];
 
     if (!cameras_cfg.isList()){
