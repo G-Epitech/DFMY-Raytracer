@@ -23,8 +23,6 @@ namespace Raytracer::Core::Rendering {
         typedef struct Config {
             /// @brief Size of the screen
             Common::Math::Size size;
-            /// @brief Origin of the screen
-            Common::Math::Point3D origin;
         } Config;
 
         /**
@@ -38,9 +36,6 @@ namespace Raytracer::Core::Rendering {
 
         /// @brief Width of the screen
         const Common::Math::Size size;
-
-        /// @brief Origin of the screen
-        const Common::Math::Point3D origin;
 
         /// @brief Get the pixel at the given coordinates
         Common::Graphics::Pixel &operator()(size_t x, size_t y);

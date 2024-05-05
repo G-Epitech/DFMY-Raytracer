@@ -16,8 +16,7 @@ int main()
     Camera::Config camConfig = {
             .name = "Main camera",
             .screen = {
-                    .size = { .width = 1920, .height = 1080 },
-                    .origin = Math::Point3D(0, 0, 0)
+                    .size = { .width = 1920, .height = 1080 }
             },
             .position = Math::Point3D(0, 0, 540),
             .direction = Math::Vector3D(1, 0, -1),
