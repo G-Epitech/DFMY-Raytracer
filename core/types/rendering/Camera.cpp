@@ -18,7 +18,7 @@ Rendering::Camera::Camera(const Config &config) :
         fov(config.fov),
         name(config.name) {}
 
-void Rendering::Camera::compute(size_t threads, std::vector<Graphics::IObject> &objects) {
+void Rendering::Camera::compute(size_t threads, std::vector<Graphics::IObject::Ptr> &objects) {
     if (threads % 2 != 0)
         throw ComputeError("Invalid number of threads. Must be divisible per two.");
 
@@ -39,14 +39,30 @@ void Rendering::Camera::compute(size_t threads, std::vector<Graphics::IObject> &
 }
 
 void Rendering::Camera::computeSegment(Common::Math::Size origin, Common::Math::Size size,
-                                       std::vector<Graphics::IObject> &objects) {
-    std::vector<Graphics::IObject> castObjects;
+                                       std::vector<Graphics::IObject::Ptr> &objects) {
+    std::vector<Graphics::IObject::Ptr> castObjects;
+    auto screenOrigin = Math::Point3D(position.x - screen.size.width / 2, position.y + 1,
+                                      position.z - screen.size.height / 2);
 
     for (size_t y = origin.height; y < origin.height + size.height; y++) {
         for (size_t x = origin.width; x < origin.width + size.width; x++) {
-            for (auto &object : objects) {
-                Math::Ray ray = Math::Ray();
-                auto hitConfig = object.computeCollision();
+            auto pixelPosition = Math::Point3D(screenOrigin.x + x, screenOrigin.y, screenOrigin.z + y);
+            auto rayDirection = Math::Vector3D(pixelPosition.x - position.x, pixelPosition.y - position.y,
+                                               pixelPosition.z - position.z);
+
+            for (auto &object: objects) {
+                Math::Ray ray = Math::Ray(position, rayDirection);
+                auto hitConfig = object->computeCollision(ray);
+
+                if (hitConfig.didHit) {
+                    castObjects.push_back(object);
+                    screen(x, y) = {
+                            .r = 255,
+                            .g = 255,
+                            .b = 255,
+                            .a = 255
+                    };
+                }
             }
         }
     }

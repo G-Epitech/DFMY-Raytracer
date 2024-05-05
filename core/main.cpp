@@ -21,10 +21,10 @@ int main()
             },
             .position = Math::Point3D(0, 0, 540),
             .direction = Math::Vector3D(1, 0, -1),
-            .fov = 10
+            .fov = 50
     };
     Camera camera(camConfig);
-    std::vector<Raytracer::Graphics::IObject> objects;
+    std::vector<Raytracer::Graphics::IObject::Ptr> objects;
 
     camera.compute(COMPUTE_THREADS, objects);
     for (auto& thread : camera._threads) {
