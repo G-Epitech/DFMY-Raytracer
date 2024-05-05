@@ -5,56 +5,17 @@
 ** main
 */
 
-#include <variant>
 #include "config/Config.hpp"
 
 int main(int ac, char **av)
 {
-    Raytracer::Core::Config config;
     Raytracer::Core::Config::SceneConfig scene_config;
 
     try {
-        scene_config = config.load(av[1]);
+        scene_config = Raytracer::Core::Config::load(av[1]);
     } catch (Raytracer::Core::Config::Exception &e) {
         std::cerr << e.what() << std::endl;
         return 84;
-    }
-    std::cout << "Scene name: " << scene_config.name << std::endl;
-    std::cout << "Ambient light: " << scene_config.ambient.color.r << ", " << scene_config.ambient.color.g << ", " << scene_config.ambient.color.b << std::endl;
-    std::cout << "Ambient strength: " << scene_config.ambient.strength << std::endl;
-    std::cout << "-----" << std::endl;
-    for (auto camera : scene_config.cameras) {
-        std::cout << "Camera name: " << camera.name << std::endl;
-        std::cout << "Screen size: " << camera.screen.size.width << ", " << camera.screen.size.height << std::endl;
-        std::cout << "Screen origin: " << camera.screen.origin.x << ", " << camera.screen.origin.y << ", " << camera.screen.origin.z << std::endl;
-        std::cout << "Camera position: " << camera.position.x << ", " << camera.position.y << ", " << camera.position.z << std::endl;
-        std::cout << "Camera direction: " << camera.direction.x << ", " << camera.direction.y << ", " << camera.direction.z << std::endl;
-        std::cout << "Camera fov: " << camera.fov << std::endl;
-    }
-    std::cout << "-----" << std::endl;
-    for (auto material : scene_config.materials) {
-        std::cout << "Material name: " << material.name << std::endl;
-        std::cout << "Material color: " << material.color.r << ", " << material.color.g << ", " << material.color.b << std::endl;
-        std::cout << "Material reflectivity: " << material.reflectivity << std::endl;
-        for (auto emission : material.emissionDirections) {
-            std::cout << "Emission direction color: " << emission.color.r << ", " << emission.color.g << ", " << emission.color.b << std::endl;
-            std::cout << "Emission direction strength: " << emission.strength << std::endl;
-            std::cout << "Emission direction vector: " << emission.vector.x << ", " << emission.vector.y << ", " << emission.vector.z << std::endl;
-        }
-    }
-    std::cout << "-----" << std::endl;
-    for (auto object : scene_config.objects) {
-        std::cout << "Object type: " << object.type << std::endl;
-        std::cout << "Object material: " << object.material << std::endl;
-        std::cout << "Object origin: " << object.origin.x << ", " << object.origin.y << ", " << object.origin.z << std::endl;
-        if (object.type == "cube") {
-            auto cube = std::get<Raytracer::Core::Config::CubeConfig>(object.properties);
-            std::cout << "Cube size: " << std::get<0>(cube.size) << ", " << std::get<1>(cube.size) << ", " << std::get<2>(cube.size)  <<std::endl;
-        } else if (object.type == "sphere") {
-            auto sphere = std::get<Raytracer::Core::Config::SphereConfig>(object.properties);
-            std::cout << "Sphere radius: " << sphere.radius << std::endl;
-        }
-        std::cout << "--" << std::endl;
     }
     return 0;
 }
