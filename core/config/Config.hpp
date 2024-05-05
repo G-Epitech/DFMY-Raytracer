@@ -36,7 +36,7 @@ class Raytracer::Core::Config {
             /// @brief Light emission strength
             float strength;
             /// @brief Light emission direction
-            Math::Vector3D vector;
+            Math::Vector3D direction;
         } EmissionConfig;
 
         /// @brief Material configuration

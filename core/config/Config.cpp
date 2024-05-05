@@ -155,7 +155,7 @@ std::vector<Config::EmissionConfig> Config::_parseEmissions(const libconfig::Set
         }
         _settingHasValidKeys("emission", emission_cfg,
             {"direction", "color", "strength"});
-        emission.vector = _parseVector3D("direction", emission_cfg["direction"]);
+        emission.direction = _parseVector3D("direction", emission_cfg["direction"]);
         emission.color = _parseColor(emission_cfg["color"]);
         _lookupValueWrapper("strength", emission_cfg, emission.strength);
         emissions.push_back(emission);
