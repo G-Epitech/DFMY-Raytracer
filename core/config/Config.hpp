@@ -37,7 +37,7 @@ class Raytracer::Core::Config {
             float strength;
             /// @brief Light emission direction
             Math::Vector3D vector;
-        } EmissionDirectionConfig;
+        } EmissionConfig;
 
         /// @brief Material configuration
         typedef struct {
@@ -46,7 +46,7 @@ class Raytracer::Core::Config {
             /// @brief Material color for the object
             Graphics::Color color;
             /// @brief Material light emission directions
-            std::vector<EmissionDirectionConfig> emissionDirections;
+            std::vector<EmissionConfig> emissions;
             /// @brief Material index of reflectivity
             float reflectivity;
         } MaterialConfig;
@@ -165,7 +165,7 @@ class Raytracer::Core::Config {
          * @brief Parse an emission direction group from the configuration
          * @param setting Setting of the emission direction group
          */
-        static std::vector<EmissionDirectionConfig> _parseEmissionDirections(const libconfig::Setting &setting);
+        static std::vector<EmissionConfig> _parseEmissions(const libconfig::Setting &setting);
         /**
          * @brief Parse an object group from the configuration
          * @param setting Setting of the object group

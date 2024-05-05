@@ -130,37 +130,37 @@ Config::MaterialConfig Config::_parseMaterial(const libconfig::Setting &setting)
     if (!setting.isGroup()) {
         throw Config::Exception("material must be a group");
     }
-    _settingHasValidKeys("material", setting, {"name", "objectColor",
-        "emissionDirections", "reflectivity"});
+    _settingHasValidKeys("material", setting, {"name", "color",
+        "emissions", "reflectivity"});
     _lookupValueWrapper("name", setting, material.name);
-    material.color = _parseColor(setting["objectColor"]);
+    material.color = _parseColor(setting["color"]);
     _lookupValueWrapper("reflectivity", setting, material.reflectivity);
-    material.emissionDirections = _parseEmissionDirections(setting["emissionDirections"]);
+    material.emissions = _parseEmissions(setting["emissions"]);
     return material;
 }
 
-std::vector<Config::EmissionDirectionConfig> Config::_parseEmissionDirections(const libconfig::Setting &setting)
+std::vector<Config::EmissionConfig> Config::_parseEmissions(const libconfig::Setting &setting)
 {
-    std::vector<EmissionDirectionConfig> emissionDirections = {};
-    EmissionDirectionConfig emissionDirection;
+    std::vector<EmissionConfig> emissions = {};
+    EmissionConfig emission;
 
     if (!setting.isList()) {
-        throw Config::Exception("emissionDirections must be a list");
+        throw Config::Exception("emissions must be a list");
     }
     for (int i = 0; i < setting.getLength(); i++) {
-        const libconfig::Setting &emissionDirection_cfg = setting[i];
+        const libconfig::Setting &emission_cfg = setting[i];
 
-        if (!emissionDirection_cfg.isGroup()) {
-            throw Config::Exception("emissionDirection must be a list of groups");
+        if (!emission_cfg.isGroup()) {
+            throw Config::Exception("emission must be a list of groups");
         }
-        _settingHasValidKeys("emissionDirection", emissionDirection_cfg,
-            {"vector", "color", "strength"});
-        emissionDirection.vector = _parseVector3D("vector", emissionDirection_cfg["vector"]);
-        emissionDirection.color = _parseColor(emissionDirection_cfg["color"]);
-        _lookupValueWrapper("strength", emissionDirection_cfg, emissionDirection.strength);
-        emissionDirections.push_back(emissionDirection);
+        _settingHasValidKeys("emission", emission_cfg,
+            {"direction", "color", "strength"});
+        emission.vector = _parseVector3D("direction", emission_cfg["direction"]);
+        emission.color = _parseColor(emission_cfg["color"]);
+        _lookupValueWrapper("strength", emission_cfg, emission.strength);
+        emissions.push_back(emission);
     }
-    return emissionDirections;
+    return emissions;
 }
 
 std::list<Config::ObjectConfig> Config::_loadObjects(const libconfig::Setting &root)
