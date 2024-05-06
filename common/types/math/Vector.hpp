@@ -202,7 +202,20 @@ namespace Raytracer::Common::Math {
          */
         [[nodiscard]]
         float length() const;
+
+        /**
+         * @brief Normalize the vector
+         * @return Normalized vector
+         */
+        [[nodiscard]]
+        Vector3D normalize() const;
     };
 }
 
+/**
+ * @brief Overload of the << operator
+ * @param os Output stream
+ * @param v Vector to display
+ * @return Output stream
+ */
 std::ostream &operator<<(std::ostream &os, const Raytracer::Common::Math::Vector3D &v);
