@@ -20,6 +20,10 @@ float Math::Vector3D::dot(const Math::Vector3D &other) const {
            this->z * other.z;
 }
 
+Math::Vector3D Math::Vector3D::normalize() const {
+    return *this / length();
+}
+
 Math::Vector3D Math::Vector3D::operator+(const Math::Vector3D &other) const {
     return Vector3D(x + other.x, y + other.y, z + other.z);
 }
