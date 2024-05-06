@@ -30,6 +30,25 @@ namespace Raytracer::Core {
 
 class Raytracer::Core::Config {
     public:
+        typedef struct {
+            std::pair<size_t, size_t> size;
+            Common::Math::Point3D origin;
+        } ScreenConfig;
+
+        /// @brief Camera configuration
+        typedef struct {
+            /// @brief Name of the camera
+            std::string name;
+            /// @brief Screen configuration
+            ScreenConfig screen;
+            /// @brief Camera position
+            Common::Math::Point3D position;
+            /// @brief Camera direction
+            Common::Math::Vector3D direction;
+            /// @brief Camera field of view
+            float fov;
+        } CameraConfig;
+
         /// @brief Emission direction configuration
         typedef struct {
             /// @brief Light emission color
@@ -94,7 +113,7 @@ class Raytracer::Core::Config {
             /// @brief Ambient light configuration
             AmbientConfig ambient;
             /// @brief List of camera configurations
-            std::list<Rendering::Camera::Config> cameras;
+            std::list<CameraConfig> cameras;
             /// @brief List of material configurations
             std::list<MaterialConfig> materials;
             /// @brief List of object configurations
@@ -126,7 +145,7 @@ class Raytracer::Core::Config {
          * @brief Load the scene cameras configuration
          * @param root Root setting of the configuration file
          */
-        static std::list<Rendering::Camera::Config> _loadCameras(const libconfig::Setting &root);
+        static std::list<CameraConfig> _loadCameras(const libconfig::Setting &root);
         /**
          * @brief Load the scene materials configuration
          * @param root Root setting of the configuration file
@@ -142,7 +161,7 @@ class Raytracer::Core::Config {
          * @brief Parse a camera group from the configuration
          * @param setting Setting of the camera group
          */
-        static Rendering::Screen::Config _parseCameraScreen(const libconfig::Setting &setting);
+        static ScreenConfig _parseCameraScreen(const libconfig::Setting &setting);
         /**
          * @brief Parse a material group from the configuration
          * @param setting Setting of the material group

@@ -9,7 +9,7 @@
 
 Config::SceneConfig Config::load(const std::string &path)
 {
-    SceneConfig scene_config;
+    SceneConfig sceneConfig;
     libconfig::Config cfg;
 
     try {
@@ -22,12 +22,12 @@ Config::SceneConfig Config::load(const std::string &path)
     }
     const libconfig::Setting &root = cfg.getRoot();
     _settingHasValidKeys("root", root, {"cameras", "materials", "objects", "ambient"});
-    scene_config.name = _loadName(path);
-    scene_config.ambient = _loadAmbient(root);
-    scene_config.cameras = _loadCameras(root);
-    scene_config.materials = _loadMaterials(root);
-    scene_config.objects = _loadObjects(root);
-    return scene_config;
+    sceneConfig.name = _loadName(path);
+    sceneConfig.ambient = _loadAmbient(root);
+    sceneConfig.cameras = _loadCameras(root);
+    sceneConfig.materials = _loadMaterials(root);
+    sceneConfig.objects = _loadObjects(root);
+    return sceneConfig;
 }
 
 std::string Config::_loadName(const std::string &path)
@@ -48,46 +48,46 @@ std::string Config::_loadName(const std::string &path)
 Config::AmbientConfig Config::_loadAmbient(const libconfig::Setting &root)
 {
     AmbientConfig ambient;
-    const libconfig::Setting &ambient_cfg = root["ambient"];
+    const libconfig::Setting &ambientCfg = root["ambient"];
 
     if (!root.isGroup()) {
         throw Raytracer::Core::ConfigException("ambient must be a group");
     }
-    _settingHasValidKeys("ambient", ambient_cfg, {"color", "strength"});
-    ambient.color = _parseColor(ambient_cfg["color"]);
-    _lookupValueWrapper("strength", ambient_cfg, ambient.strength);
+    _settingHasValidKeys("ambient", ambientCfg, {"color", "strength"});
+    ambient.color = _parseColor(ambientCfg["color"]);
+    _lookupValueWrapper("strength", ambientCfg, ambient.strength);
     return ambient;
 }
 
-std::list<Rendering::Camera::Config> Config::_loadCameras(const libconfig::Setting &root)
+std::list<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting &root)
 {
-    std::list<Rendering::Camera::Config> cameras = {};
-    Rendering::Camera::Config camera;
-    const libconfig::Setting &cameras_cfg = root["cameras"];
+    std::list<Config::CameraConfig> cameras = {};
+    Config::CameraConfig camera;
+    const libconfig::Setting &camerasCfg = root["cameras"];
 
-    if (!cameras_cfg.isList()){
+    if (!camerasCfg.isList()){
         throw Raytracer::Core::ConfigException("cameras must be a list");
     }
-    for (int i = 0; i < cameras_cfg.getLength(); i++) {
-        const libconfig::Setting &camera_cfg = cameras_cfg[i];
-        _settingHasValidKeys("camera", camera_cfg, {"direction",
+    for (int i = 0; i < camerasCfg.getLength(); i++) {
+        const libconfig::Setting &cameraCfg = camerasCfg[i];
+        _settingHasValidKeys("camera", cameraCfg, {"direction",
             "position", "fieldOfView", "name", "screen"});
-        if (!camera_cfg["resolution"].isGroup()) {
+        if (!cameraCfg["resolution"].isGroup()) {
             throw Raytracer::Core::ConfigException("resolution must be a group of 2 integers");
         }
-        _lookupValueWrapper("name", camera_cfg, camera.name);
-        camera.position = _parsePoint3D("position", camera_cfg["position"]);
-        camera.direction = _parseVector3D("direction", camera_cfg["direction"]);
-        _lookupValueWrapper("fieldOfView", camera_cfg, camera.fov);
-        camera.screen = _parseCameraScreen(camera_cfg["screen"]);
+        _lookupValueWrapper("name", cameraCfg, camera.name);
+        camera.position = _parsePoint3D("position", cameraCfg["position"]);
+        camera.direction = _parseVector3D("direction", cameraCfg["direction"]);
+        _lookupValueWrapper("fieldOfView", cameraCfg, camera.fov);
+        camera.screen = _parseCameraScreen(cameraCfg["screen"]);
         cameras.push_back(camera);
     }
     return cameras;
 }
 
-Rendering::Screen::Config Config::_parseCameraScreen(const libconfig::Setting &setting)
+Config::ScreenConfig Config::_parseCameraScreen(const libconfig::Setting &setting)
 {
-    Rendering::Screen::Config screen;
+    Config::ScreenConfig screen;
     unsigned height, width;
 
     if (!setting.isGroup()) {
@@ -108,13 +108,13 @@ Rendering::Screen::Config Config::_parseCameraScreen(const libconfig::Setting &s
 std::list<Config::MaterialConfig> Config::_loadMaterials(const libconfig::Setting &root)
 {
     std::list<MaterialConfig> materials = {};
-    const libconfig::Setting &materials_cfg = root["materials"];
+    const libconfig::Setting &materialsCfg = root["materials"];
 
-    if (!materials_cfg.isList()){
+    if (!materialsCfg.isList()){
         throw Raytracer::Core::ConfigException("materials must be a list");
     }
-    for (int i = 0; i < materials_cfg.getLength(); i++) {
-        materials.push_back(_parseMaterial(materials_cfg[i]));
+    for (int i = 0; i < materialsCfg.getLength(); i++) {
+        materials.push_back(_parseMaterial(materialsCfg[i]));
     }
     return materials;
 }
@@ -144,16 +144,16 @@ std::vector<Config::EmissionConfig> Config::_parseEmissions(const libconfig::Set
         throw Raytracer::Core::ConfigException("emissions must be a list");
     }
     for (int i = 0; i < setting.getLength(); i++) {
-        const libconfig::Setting &emission_cfg = setting[i];
+        const libconfig::Setting &emissionCfg = setting[i];
 
-        if (!emission_cfg.isGroup()) {
+        if (!emissionCfg.isGroup()) {
             throw Raytracer::Core::ConfigException("emission must be a list of groups");
         }
-        _settingHasValidKeys("emission", emission_cfg,
+        _settingHasValidKeys("emission", emissionCfg,
             {"direction", "color", "strength"});
-        emission.direction = _parseVector3D("direction", emission_cfg["direction"]);
-        emission.color = _parseColor(emission_cfg["color"]);
-        _lookupValueWrapper("strength", emission_cfg, emission.strength);
+        emission.direction = _parseVector3D("direction", emissionCfg["direction"]);
+        emission.color = _parseColor(emissionCfg["color"]);
+        _lookupValueWrapper("strength", emissionCfg, emission.strength);
         emissions.push_back(emission);
     }
     return emissions;
@@ -162,13 +162,13 @@ std::vector<Config::EmissionConfig> Config::_parseEmissions(const libconfig::Set
 std::list<Config::ObjectConfig> Config::_loadObjects(const libconfig::Setting &root)
 {
     std::list<ObjectConfig> objects = {};
-    const libconfig::Setting &objects_cfg = root["objects"];
+    const libconfig::Setting &objectsCfg = root["objects"];
 
-    if (!objects_cfg.isList()){
+    if (!objectsCfg.isList()){
         throw Raytracer::Core::ConfigException("objects must be a list");
     }
-    for (int i = 0; i < objects_cfg.getLength(); i++) {
-        objects.push_back(_parseObject(objects_cfg[i]));
+    for (int i = 0; i < objectsCfg.getLength(); i++) {
+        objects.push_back(_parseObject(objectsCfg[i]));
     }
     return objects;
 }
