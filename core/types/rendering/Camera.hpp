@@ -10,7 +10,7 @@
 #include <thread>
 
 #include "Screen.hpp"
-#include "interfaces/graphics/IObject.hpp"
+#include "interfaces/IObject.hpp"
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
 
@@ -65,13 +65,13 @@ namespace Raytracer::Core::Rendering {
         /// @brief Default destructor
         ~Camera() = default;
 
-        void computeSegment(Common::Math::Size origin, Common::Math::Size size, std::vector<Graphics::IObject::Ptr> &objects);
+        void computeSegment(Common::Math::Size origin, Common::Math::Size size, std::vector<Common::IObject::Ptr> &objects);
 
         /**
          * @brief Compute all pixels of the screen
          * @param threads Number of threads to use
          */
-        void compute(size_t threads, std::vector<Graphics::IObject::Ptr> &objects);
+        void compute(size_t threads, std::vector<Common::IObject::Ptr> &objects);
 
         /// @brief The position of the camera
         Common::Math::Point3D position;

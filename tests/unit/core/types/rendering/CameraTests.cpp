@@ -16,7 +16,6 @@ using namespace Raytracer::Common;
 TEST(CameraTests, CreateSimpleCamera) {
     Rendering::Screen::Config screen = {
         .size = {4, 8},
-        .origin = Math::Point3D(0, 34, 6)
     };
     Rendering::Camera::Config config = {
         .name = "Camera 1",
@@ -29,9 +28,6 @@ TEST(CameraTests, CreateSimpleCamera) {
 
     ASSERT_EQ(camera.screen.size.width, 4);
     ASSERT_EQ(camera.screen.size.height, 8);
-    ASSERT_EQ(camera.screen.origin.x, 0);
-    ASSERT_EQ(camera.screen.origin.y, 34);
-    ASSERT_EQ(camera.screen.origin.z, 6);
     ASSERT_EQ(camera.position.x, -1);
     ASSERT_EQ(camera.position.y, 0);
     ASSERT_EQ(camera.position.z, -1);

@@ -18,7 +18,7 @@ Rendering::Camera::Camera(const Config &config) :
         fov(config.fov),
         name(config.name) {}
 
-void Rendering::Camera::compute(size_t threads, std::vector<Graphics::IObject::Ptr> &objects) {
+void Rendering::Camera::compute(size_t threads, std::vector<IObject::Ptr> &objects) {
     if (threads % 2 != 0)
         throw ComputeError("Invalid number of threads. Must be divisible per two.");
 
@@ -39,8 +39,8 @@ void Rendering::Camera::compute(size_t threads, std::vector<Graphics::IObject::P
 }
 
 void Rendering::Camera::computeSegment(Common::Math::Size origin, Common::Math::Size size,
-                                       std::vector<Graphics::IObject::Ptr> &objects) {
-    std::vector<Graphics::IObject::Ptr> castObjects;
+                                       std::vector<IObject::Ptr> &objects) {
+    std::vector<IObject::Ptr> castObjects;
     auto screenOrigin = Math::Point3D(position.x - screen.size.width / 2, position.y + 1,
                                       position.z - screen.size.height / 2);
 
@@ -56,12 +56,12 @@ void Rendering::Camera::computeSegment(Common::Math::Size origin, Common::Math::
 
                 if (hitConfig.didHit) {
                     castObjects.push_back(object);
-                    screen(x, y) = {
+                    screen.setPixel(x, y, {
                             .r = 255,
                             .g = 255,
                             .b = 255,
                             .a = 255
-                    };
+                    });
                 }
             }
         }
