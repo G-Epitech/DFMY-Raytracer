@@ -9,18 +9,21 @@
 #include <getopt.h>
 #include "App.hpp"
 
+#include "gui/Handler.hpp"
+#include "cli/Handler.hpp"
+
 using namespace Raytracer::Core;
 
 int App::run(int argc, char **argv)
 {
+    Gui::Handler guiHandler(_args);
+    Cli::Handler cliHandler(_args);
+
     if (!_readArgs(argc, argv))
         return 84;
     if (_args.options.help)
         return help();
-    for (const auto &scene : _args.scenes) {
-        std::cout << "Rendering scene: " << scene << std::endl;
-    }
-    return 0;
+    return _args.options.gui ? guiHandler.run() : cliHandler.run();
 }
 
 int App::help() {

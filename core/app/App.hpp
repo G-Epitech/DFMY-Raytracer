@@ -13,8 +13,30 @@
 namespace Raytracer::Core {
     class App {
     public:
-        /// @brief Default constructor
+        /// @brief Options structure
+        typedef struct Options {
+            /// @brief GUI flag
+            bool gui = false;
+            /// @brief Help flag
+            bool help = false;
+        } Options;
+
+        /// @brief Arguments structure
+        typedef struct Arguments {
+            /// @brief Scene file path
+            std::vector<std::string> scenes;
+            /// @brief Options
+            Options options;
+        } Arguments;
+
+        /**
+         * @brief Default constructor
+         */
         App() = default;
+
+        /**
+         * @brief Default destructor
+         */
         ~App() = default;
 
         /**
@@ -32,22 +54,6 @@ namespace Raytracer::Core {
         static int help();
 
     private:
-        /// @brief Options structure
-        typedef struct Options {
-            /// @brief GUI flag
-            bool gui = false;
-            /// @brief Help flag
-            bool help = false;
-        } Options;
-
-        /// @brief Arguments structure
-        typedef struct Arguments {
-            /// @brief Scene file path
-            std::vector<std::string> scenes;
-            /// @brief Options
-            Options options;
-        } Arguments;
-
         /// @brief Application arguments
         Arguments _args;
 
