@@ -23,12 +23,12 @@ public:
      * @param position Position of the sphere
      * @param property Property of the sphere
      */
-    Sphere(const Common::Graphics::Material::Ptr material, const Common::Math::Point3D &position, const Common::ObjectProperty &property);
+    Sphere(Common::Graphics::Material::Ptr material, const Common::Math::Point3D &position, const Common::ObjectProperty &property);
     
     /**
      * @brief Destroy the Sphere object
      */
-    ~Sphere() = default;
+    ~Sphere() override = default;
 
     Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
 
