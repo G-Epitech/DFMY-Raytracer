@@ -15,9 +15,9 @@ Config::SceneConfig Config::load(const std::string &path)
     try {
         cfg.readFile(path.c_str());
     } catch (const libconfig::FileIOException &fioex) {
-        throw Config::Exception("I/O error while reading file.");
+        throw Raytracer::Core::ConfigException("I/O error while reading file.");
     } catch (const libconfig::ParseException &pex) {
-        throw Config::Exception("Parse error at " + std::to_string(pex.getLine())
+        throw Raytracer::Core::ConfigException("Parse error at " + std::to_string(pex.getLine())
             + ": " + pex.getError() + " - " + pex.getFile());
     }
     const libconfig::Setting &root = cfg.getRoot();
@@ -51,7 +51,7 @@ Config::AmbientConfig Config::_loadAmbient(const libconfig::Setting &root)
     const libconfig::Setting &ambient_cfg = root["ambient"];
 
     if (!root.isGroup()) {
-        throw Config::Exception("ambient must be a group");
+        throw Raytracer::Core::ConfigException("ambient must be a group");
     }
     _settingHasValidKeys("ambient", ambient_cfg, {"color", "strength"});
     ambient.color = _parseColor(ambient_cfg["color"]);
@@ -66,14 +66,14 @@ std::list<Rendering::Camera::Config> Config::_loadCameras(const libconfig::Setti
     const libconfig::Setting &cameras_cfg = root["cameras"];
 
     if (!cameras_cfg.isList()){
-        throw Config::Exception("cameras must be a list");
+        throw Raytracer::Core::ConfigException("cameras must be a list");
     }
     for (int i = 0; i < cameras_cfg.getLength(); i++) {
         const libconfig::Setting &camera_cfg = cameras_cfg[i];
         _settingHasValidKeys("camera", camera_cfg, {"direction",
             "position", "fieldOfView", "name", "screen"});
         if (!camera_cfg["resolution"].isGroup()) {
-            throw Config::Exception("resolution must be a group of 2 integers");
+            throw Raytracer::Core::ConfigException("resolution must be a group of 2 integers");
         }
         _lookupValueWrapper("name", camera_cfg, camera.name);
         camera.position = _parsePoint3D("position", camera_cfg["position"]);
@@ -91,12 +91,12 @@ Rendering::Screen::Config Config::_parseCameraScreen(const libconfig::Setting &s
     unsigned height, width;
 
     if (!setting.isGroup()) {
-        throw Config::Exception("screen must be a group");
+        throw Raytracer::Core::ConfigException("screen must be a group");
     }
     _settingHasValidKeys("screen", setting, {"origin", "size"});
     screen.origin = _parsePoint3D("screen origin", setting["origin"]);
     if (!setting["size"].isGroup()) {
-        throw Config::Exception("size must be a group of 2 integers");
+        throw Raytracer::Core::ConfigException("size must be a group of 2 integers");
     }
     _settingHasValidKeys("size", setting["size"], {"width", "height"});
     _lookupValueWrapper("width", setting["size"], width);
@@ -111,7 +111,7 @@ std::list<Config::MaterialConfig> Config::_loadMaterials(const libconfig::Settin
     const libconfig::Setting &materials_cfg = root["materials"];
 
     if (!materials_cfg.isList()){
-        throw Config::Exception("materials must be a list");
+        throw Raytracer::Core::ConfigException("materials must be a list");
     }
     for (int i = 0; i < materials_cfg.getLength(); i++) {
         materials.push_back(_parseMaterial(materials_cfg[i]));
@@ -124,7 +124,7 @@ Config::MaterialConfig Config::_parseMaterial(const libconfig::Setting &setting)
     MaterialConfig material = {};
 
     if (!setting.isGroup()) {
-        throw Config::Exception("material must be a group");
+        throw Raytracer::Core::ConfigException("material must be a group");
     }
     _settingHasValidKeys("material", setting, {"name", "color",
         "emissions", "reflectivity"});
@@ -141,13 +141,13 @@ std::vector<Config::EmissionConfig> Config::_parseEmissions(const libconfig::Set
     EmissionConfig emission;
 
     if (!setting.isList()) {
-        throw Config::Exception("emissions must be a list");
+        throw Raytracer::Core::ConfigException("emissions must be a list");
     }
     for (int i = 0; i < setting.getLength(); i++) {
         const libconfig::Setting &emission_cfg = setting[i];
 
         if (!emission_cfg.isGroup()) {
-            throw Config::Exception("emission must be a list of groups");
+            throw Raytracer::Core::ConfigException("emission must be a list of groups");
         }
         _settingHasValidKeys("emission", emission_cfg,
             {"direction", "color", "strength"});
@@ -165,7 +165,7 @@ std::list<Config::ObjectConfig> Config::_loadObjects(const libconfig::Setting &r
     const libconfig::Setting &objects_cfg = root["objects"];
 
     if (!objects_cfg.isList()){
-        throw Config::Exception("objects must be a list");
+        throw Raytracer::Core::ConfigException("objects must be a list");
     }
     for (int i = 0; i < objects_cfg.getLength(); i++) {
         objects.push_back(_parseObject(objects_cfg[i]));
@@ -178,7 +178,7 @@ Config::ObjectConfig Config::_parseObject(const libconfig::Setting &setting)
     ObjectConfig object;
 
     if (!setting.isGroup())
-        throw Config::Exception("object must be a group");
+        throw Raytracer::Core::ConfigException("object must be a group");
     _settingHasValidKeys("object", setting, {"type", "material", "properties",
         "origin"});
     _lookupValueWrapper("type", setting, object.type);
@@ -198,7 +198,7 @@ Config::SphereConfig Config::_parseSphere(const libconfig::Setting &setting)
     SphereConfig sphere;
 
     if (!setting.isGroup()) {
-        throw Config::Exception("sphere must be a group");
+        throw Raytracer::Core::ConfigException("sphere must be a group");
     }
     _settingHasValidKeys("sphere", setting, {"radius"});
     _lookupValueWrapper("radius", setting, sphere.radius);
@@ -211,10 +211,10 @@ Config::CubeConfig Config::_parseCube(const libconfig::Setting &settings)
     std::tuple<float, float, float> tuple;
 
     if (!settings.isGroup())
-        throw Config::Exception("cube must be a group");
+        throw Raytracer::Core::ConfigException("cube must be a group");
     _settingHasValidKeys("cube", settings, {"size"});
     if (!settings["size"].isGroup())
-        throw Config::Exception("size must be a group");
+        throw Raytracer::Core::ConfigException("size must be a group");
     _settingHasValidKeys("size", settings["size"], {"width", "height", "depth"});
     tuple = _parseTuple3f("size", settings["size"], {"width", "height", "depth"});
     cube.size = {std::get<0>(tuple), std::get<1>(tuple), std::get<2>(tuple)};
@@ -226,7 +226,7 @@ std::tuple<float, float, float> Config::_parseTuple3f(const std::string prop,
 {
     std::tuple<float, float, float> tuple;
     if (!setting.isGroup())
-        throw Config::Exception(prop + " must be a group of 3 floats {x, y, z}");
+        throw Raytracer::Core::ConfigException(prop + " must be a group of 3 floats {x, y, z}");
     _settingHasValidKeys(prop, setting, keys);
     _lookupValueWrapper(keys[0], setting, std::get<0>(tuple));
     _lookupValueWrapper(keys[1], setting, std::get<1>(tuple));
@@ -240,7 +240,7 @@ Math::Vector3D Config::_parseVector3D(const std::string propName, const libconfi
     std::tuple<float, float, float> tuple;
 
     if (!setting.isGroup())
-        throw Config::Exception(propName + "must be a group of 3 floats {x, y, z}");
+        throw Raytracer::Core::ConfigException(propName + "must be a group of 3 floats {x, y, z}");
     tuple = _parseTuple3f(propName, setting, {"x", "y", "z"});
     vector3.x = std::get<0>(tuple);
     vector3.y = std::get<1>(tuple);
@@ -254,7 +254,7 @@ Math::Point3D Config::_parsePoint3D(const std::string propName, const libconfig:
     std::tuple<float, float, float> tuple;
 
     if (!setting.isGroup())
-        throw Config::Exception(propName + " must be a list of 3 floats");
+        throw Raytracer::Core::ConfigException(propName + " must be a list of 3 floats");
     tuple = _parseTuple3f(propName, setting, {"x", "y", "z"});
     point3.x = std::get<0>(tuple);
     point3.y = std::get<1>(tuple);
@@ -268,7 +268,7 @@ Graphics::Color Config::_parseColor(const libconfig::Setting &setting)
     std::tuple<int, int, int, int> icolor;
 
     if (!setting.isGroup())
-        throw Config::Exception("color must be a group of 4 floats");
+        throw Raytracer::Core::ConfigException("color must be a group of 4 floats");
     _settingHasValidKeys("color", setting, {"r", "g", "b", "a"});
     _lookupValueWrapper("r", setting, std::get<0>(icolor));
     _lookupValueWrapper("g", setting, std::get<1>(icolor));
@@ -298,7 +298,7 @@ void Config::_settingHasValidKeys(const std::string prop, const libconfig::Setti
         }
     }
     if (!has_all_keys) {
-        throw Config::Exception(error_msg + " as keys");
+        throw Raytracer::Core::ConfigException(error_msg + " as keys");
     }
 }
 
@@ -307,7 +307,7 @@ void Config::_lookupValueWrapper(const std::string prop,
     const libconfig::Setting &setting, T &value)
 {
     if (setting.lookupValue(prop, value) == false) {
-        throw Config::Exception(prop + " must be a " + _typeName(value));
+        throw Raytracer::Core::ConfigException(prop + " must be a " + _typeName(value));
     }
 }
 

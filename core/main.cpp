@@ -13,7 +13,7 @@ int main(int ac, char **av)
 
     try {
         scene_config = Raytracer::Core::Config::load(av[1]);
-    } catch (Raytracer::Core::Config::Exception &e) {
+    } catch (Raytracer::Core::ConfigException &e) {
         std::cerr << e.what() << std::endl;
         return 84;
     }

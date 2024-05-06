@@ -19,6 +19,7 @@
 #include "types/math/Point.hpp"
 #include "types/graphics/Color.hpp"
 #include "types/rendering/Camera.hpp"
+#include "ConfigException.hpp"
 
 using namespace Raytracer::Common;
 using namespace Raytracer::Core;
@@ -109,21 +110,6 @@ class Raytracer::Core::Config {
          * @return SceneConfig
         */
         static SceneConfig load(const std::string &path);
-
-        class Exception : public std::exception {
-            public:
-                explicit Exception(std::string const &message)
-                    : _message("Config error: " + message) {}
-
-                const char *what() const noexcept override {
-                    return _message.c_str();
-                }
-                const std::string &getMessage() const {
-                    return _message;
-                }
-            private:
-                std::string _message;
-        };
 
     private:
         /**
