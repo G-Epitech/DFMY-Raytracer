@@ -11,6 +11,8 @@ target_sources(raytracer_mesh PRIVATE
     src/MeshProvider.cpp
     src/Mesh.hpp
     src/Mesh.cpp
+    src/faces/QuadFace.hpp
+    src/faces/QuadFace.cpp
 )
 
 # Include directories for Raytracer mesh library
