@@ -40,8 +40,11 @@ namespace Raytracer::Core::Rendering {
          * @param size Size of the screen
          */
         explicit Screen(const Config &config);
-        /// @brief Default destructor of the screen
-        ~Screen() = default;
+
+        /**
+         * @brief Default constructor of the screen
+         */
+        ~Screen();
 
         /// @brief Width of the screen
         const Size size;

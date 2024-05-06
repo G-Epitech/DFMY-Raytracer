@@ -28,3 +28,5 @@ void Rendering::Screen::setPixel(size_t x, size_t y, const Common::Graphics::Pix
 Raytracer::Core::Graphics::PixelArray &Rendering::Screen::getPixels() {
     return _pixels;
 }
+
+Rendering::Screen::~Screen() = default;
