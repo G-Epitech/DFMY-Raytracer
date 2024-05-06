@@ -1,4 +1,4 @@
-target_sources(raytracer-core PRIVATE
+target_sources(raytracer_core PRIVATE
         rendering/Screen.hpp
         rendering/Screen.cpp
         rendering/Camera.cpp

@@ -407,3 +407,13 @@ TEST(Vector2DTests, LengthOfNegativeVector)
 
     EXPECT_FLOAT_EQ(length, 2.236068) << "length should be 2.236068";
 }
+
+TEST(Vector3DTests, NormalizeVector)
+{
+    Math::Vector3D v(1, 2, 3);
+    Math::Vector3D w = v.normalize();
+
+    EXPECT_FLOAT_EQ(w.x, 0.26726124f) << "x should be 0.26726124";
+    EXPECT_FLOAT_EQ(w.y, 0.53452247f) << "y should be 0.53452247";
+    EXPECT_FLOAT_EQ(w.z, 0.8017837f) << "z should be 0.8017837";
+}

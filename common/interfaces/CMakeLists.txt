@@ -1,3 +1,4 @@
-target_sources(raytracer-common PRIVATE
-        graphics/IObject.hpp
+target_sources(raytracer_common PRIVATE
+        IObject.hpp
+        IObjectProvider.hpp
 )

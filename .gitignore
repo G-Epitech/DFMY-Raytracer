@@ -5,6 +5,7 @@
 # Binary files
 *.o
 *.a
+*.so
 raytracer
 raytracer_tests
 

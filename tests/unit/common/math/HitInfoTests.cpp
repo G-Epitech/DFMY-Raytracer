@@ -84,7 +84,12 @@ TEST(HitInfoTests, CopyAssignment)
 
 TEST(HitInfoTests, DefaultConstruction)
 {
-    Math::HitInfo info;
+    Math::HitInfo info = {
+        .didHit = false,
+        .distance = 0.0f,
+        .hitPoint = Math::Point3D(0, 0, 0),
+        .normal = Math::Vector3D(0, 0, 0),
+    };
 
     EXPECT_EQ(info.didHit, false) << "didHit should be false";
     EXPECT_EQ(info.distance, 0.0f) << "distance should be 0.0f";
