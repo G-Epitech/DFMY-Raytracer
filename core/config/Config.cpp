@@ -7,10 +7,6 @@
 
 #include "Config.hpp"
 
-Config::Config()
-{
-}
-
 Config::SceneConfig Config::load(const std::string &path)
 {
     SceneConfig scene_config;
@@ -318,7 +314,7 @@ void Config::_lookupValueWrapper(const std::string prop,
 template <typename T>
 std::string Config::_typeName(T &value)
 {
-    int status;
+    int status = 0;
     std::string tname = typeid(T).name();
     char *demangled = abi::__cxa_demangle(tname.c_str(), nullptr, nullptr, &status);
 
