@@ -11,6 +11,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/plugins)
 
 # Add Subdirectories
 add_subdirectory(core)
+add_subdirectory(libs)
 add_subdirectory(common)
 add_subdirectory(objects)
 add_subdirectory(tests/unit)
