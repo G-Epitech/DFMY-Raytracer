@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** DFMY-Raytracer [WSL: Ubuntu-22.04]
+** DFMY-Raytracer
 ** File description:
 ** Config
 */
