@@ -41,5 +41,13 @@ namespace Raytracer::Core::Graphics {
     private:
         /// @brief Inner SFML image
         sf::Image _image;
+
+        /**
+         * @brief Save the image as a PPM file
+         * @param path Path to save the image
+         * @return Success status
+         */
+        [[nodiscard]]
+        bool _saveAsPpm(const std::string &path) const;
     };
 }
