@@ -13,7 +13,7 @@
 using namespace Raytracer::Core;
 using namespace Raytracer::Common;
 
-TEST(CameraTests, Create4x4Screen) {
+TEST(CameraTests, CreateSimpleCamera) {
     Rendering::Screen::Config screen = {
         .size = {4, 8},
         .origin = Math::Point3D(0, 34, 6)
