@@ -5,17 +5,13 @@
 ** main
 */
 
-#include "config/Config.hpp"
+#include "app/App.hpp"
 
-int main(int ac, char **av)
+using namespace Raytracer::Core;
+
+int main(int argc, char **argv)
 {
-    Raytracer::Core::Config::SceneConfig scene_config;
+    App app;
 
-    try {
-        scene_config = Raytracer::Core::Config::load(av[1]);
-    } catch (Raytracer::Core::ConfigException &e) {
-        std::cerr << e.what() << std::endl;
-        return 84;
-    }
-    return 0;
+    return app.run(argc, argv);
 }
