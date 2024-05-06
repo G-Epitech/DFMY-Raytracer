@@ -8,6 +8,7 @@
 #pragma once
 
 #include <set>
+#include <functional>
 #include "Config.hpp"
 
 using namespace Raytracer::Core;
@@ -21,8 +22,12 @@ class Raytracer::Core::ConfigValidator {
         ConfigValidator() = default;
         ~ConfigValidator() = default;
 
+        typedef std::function<void(const Config::SceneConfig&)> ValidatorFunction;
+
         static void sceneIsValid(const Config::SceneConfig &cfg);
 
-    private:
-        static void _materialsAreValid(const std::list<Config::MaterialConfig> materials);
+        static void _materialsAreValid(const Config::SceneConfig &cfg);
+        static void _camerasAreValid(const Config::SceneConfig &cfg);
+        static void _objectsAreValid(const Config::SceneConfig &cfg);
 };
+
