@@ -1,4 +1,4 @@
-target_sources(raytracer-common PRIVATE
+target_sources(raytracer_common PRIVATE
         math/Point.hpp
         math/Point.cpp
         math/Vector.hpp
@@ -14,4 +14,5 @@ target_sources(raytracer-common PRIVATE
         graphics/Color.cpp
         graphics/Material.cpp
         graphics/Material.hpp
+        object/Manifest.hpp
 )

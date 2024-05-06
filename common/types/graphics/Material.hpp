@@ -16,7 +16,13 @@ namespace Raytracer::Common::Graphics {
         /// @brief Shared pointer to a material
         typedef std::shared_ptr<Material> Ptr;
 
-        /// @brief Create a new material
+        /**
+         * @brief Construct a new Material object
+         * @param color Color of the material
+         * @param emissionColor Emission color of the material
+         * @param specularColor Specular color of the material
+         * @param emissionStrength Emission strength of the material
+         */
         explicit Material(
             const Color &color,
             const Color &emissionColor,
@@ -24,10 +30,15 @@ namespace Raytracer::Common::Graphics {
             float emissionStrength
         );
 
-        /// @brief Default copy constructor
+        /**
+         * @brief Construct a new Material object
+         * @param material Material to copy
+         */
         Material(const Material &material) = default;
 
-        /// @brief Default destructor
+        /**
+         * @brief Destroy the Material object
+         */
         ~Material() = default;
 
         /// @brief Color of the material

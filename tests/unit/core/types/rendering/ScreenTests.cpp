@@ -30,14 +30,16 @@ TEST(ScreenTests, Create4x4Screen)
 TEST(ScreenTests, UpdateAPixel)
 {
     Rendering::Screen::Config config = {
-        .size = {4, 4},
+        .size = {6, 6},
         .origin = Math::Point3D(0, 34, 6)
     };
     Rendering::Screen screen(config);
+    auto pos = static_cast<ptrdiff_t>(3 * 6 * 4);
+    auto &pixels = screen.getPixels();
 
-    screen(0, 3) = { 255, 255, 255, 255 };
-    ASSERT_EQ(screen(0, 3).r, 255);
-    ASSERT_EQ(screen(0, 3).g, 255);
-    ASSERT_EQ(screen(0, 3).b, 255);
-    ASSERT_EQ(screen(0, 3).a, 255);
+    screen.setPixel(0, 3, { 255, 255, 255, 255 });
+    ASSERT_EQ(pixels[pos], 255);
+    ASSERT_EQ(pixels[pos + 1], 255);
+    ASSERT_EQ(pixels[pos + 2], 255);
+    ASSERT_EQ(pixels[pos + 3], 255);
 }

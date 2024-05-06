@@ -5,29 +5,13 @@
 ** main
 */
 
-#include "types/math/Vector.hpp"
-#include "types/rendering/Camera.hpp"
+#include "app/App.hpp"
 
-using namespace Raytracer::Common;
-using namespace Raytracer::Core::Rendering;
+using namespace Raytracer::Core;
 
-int main()
+int main(int argc, char **argv)
 {
-    Camera::Config camConfig = {
-            .name = "Main camera",
-            .screen = {
-                    .size = { .width = 1920, .height = 1080 }
-            },
-            .position = Math::Point3D(0, 0, 540),
-            .direction = Math::Vector3D(1, 0, -1),
-            .fov = 50
-    };
-    Camera camera(camConfig);
-    std::vector<Raytracer::Graphics::IObject::Ptr> objects;
+    App app;
 
-    camera.compute(COMPUTE_THREADS, objects);
-    for (auto& thread : camera._threads) {
-        thread.join();
-    }
-    return 0;
+    return app.run(argc, argv);
 }

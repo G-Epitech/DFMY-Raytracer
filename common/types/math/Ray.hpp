@@ -13,12 +13,24 @@
 namespace Raytracer::Common::Math {
     class Ray {
     public:
-        /// @brief Create a new ray
+
+        /**
+         * @brief Construct a new Ray object
+         */
         Ray();
-        /// @brief Create a new ray
+        
+        /**
+         * @brief Construct a new Ray object
+         * @param origin Origin of the ray
+         * @param direction Direction of the ray
+         */
         explicit Ray(const Point3D &origin, const Vector3D &direction);
-        /// @brief Default destructor
+        
+        /**
+         * @brief Destroy the Ray object
+         */
         ~Ray() = default;
+
         /// @brief Origin of the ray
         Point3D origin;
         /// @brief Direction of the ray
