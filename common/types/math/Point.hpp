@@ -42,6 +42,29 @@ namespace Raytracer::Common::Math {
          */
         Common::Math::Vector3D normalize() const;
     };
+
+    /// @brief Representing a 2D point
+    class Point2D : public Float2 {
+    public:
+
+        /**
+         * @brief Construct a new 2D point object
+         * @param x Coordinate x
+         * @param y Coordinate y
+         */
+        explicit Point2D(float x = 0, float y = 0);
+
+        /**
+         * @brief Construct a new 2D point object
+         * @param point Point to copy
+         */
+        Point2D(const Point2D &point);
+
+        /**
+         * @brief Destroy the 2D point object
+         */
+        ~Point2D() = default;
+    };
 }
 
 /**
@@ -67,3 +90,27 @@ Raytracer::Common::Math::Point3D operator+(const Raytracer::Common::Math::Point3
  * @return New point
  */
 Raytracer::Common::Math::Point3D operator-(const Raytracer::Common::Math::Point3D &point1, const Raytracer::Common::Math::Point3D &point2);
+
+/**
+ * @brief Overload of the << operator
+ * @param os Output stream
+ * @param point Point to display
+ * @return Output stream
+ */
+std::ostream &operator<<(std::ostream &os, const Raytracer::Common::Math::Point2D &point);
+
+/**
+ * @brief Overload of the + operator
+ * @param point1 First point
+ * @param point2 Second point
+ * @return New point
+ */
+Raytracer::Common::Math::Point2D operator+(const Raytracer::Common::Math::Point2D &point1, const Raytracer::Common::Math::Point2D &point2);
+
+/**
+ * @brief Overload of the - operator
+ * @param point1 First point
+ * @param point2 Second point
+ * @return New point
+ */
+Raytracer::Common::Math::Point2D operator-(const Raytracer::Common::Math::Point2D &point1, const Raytracer::Common::Math::Point2D &point2);
