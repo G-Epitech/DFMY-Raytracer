@@ -6,6 +6,7 @@
 */
 
 #include "Config.hpp"
+#include "ConfigValidator.hpp"
 
 Config::SceneConfig Config::load(const std::string &path)
 {
@@ -27,6 +28,7 @@ Config::SceneConfig Config::load(const std::string &path)
     sceneConfig.cameras = _loadCameras(root);
     sceneConfig.materials = _loadMaterials(root);
     sceneConfig.objects = _loadObjects(root);
+    ConfigValidator::sceneIsValid(sceneConfig);
     return sceneConfig;
 }
 
