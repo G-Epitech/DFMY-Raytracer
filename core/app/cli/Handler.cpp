@@ -12,6 +12,7 @@
 #include "common/interfaces/IObjectProvider.hpp"
 #include "common/types/Libraries.hpp"
 #include "objects/sphere/src/SphereProvider.hpp"
+#include "types/graphics/Image.hpp"
 
 using namespace Raytracer::Core::Cli;
 
@@ -52,5 +53,9 @@ int Handler::run() {
         thread.join();
     }
     std::cout << "Rendering done!" << std::endl;
+    Core::Graphics::Image image(camera.screen.size.width, camera.screen.size.height, camera.screen.getPixels());
+
+    image.saveTo("output.png");
+    
     return 0;
 }
