@@ -1,4 +1,4 @@
-target_sources(raytracer PRIVATE
+target_sources(raytracer_core PRIVATE
     Config.cpp
     Config.hpp
 )
