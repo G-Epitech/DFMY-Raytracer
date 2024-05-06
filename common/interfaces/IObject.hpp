@@ -17,6 +17,7 @@ namespace Raytracer::Common {
         /// @brief Default destructor
         virtual ~IObject() = default;
 
+        /// @brief Smart pointer on IObject
         typedef std::shared_ptr<IObject> Ptr;
 
         /**
@@ -30,6 +31,6 @@ namespace Raytracer::Common {
          * @brief Get the Material object
          * @return Material of the object
          */
-        virtual Graphics::Material getMaterial() = 0;
+        virtual Graphics::Material::Ptr getMaterial() = 0;
     };
 }

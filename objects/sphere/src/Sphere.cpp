@@ -9,7 +9,7 @@
 #include "Sphere.hpp"
 
 Raytracer::Objects::Sphere::Sphere(
-    const Raytracer::Common::Graphics::Material &material,
+    const Raytracer::Common::Graphics::Material::Ptr material,
     const Common::Math::Point3D &position,
     const Raytracer::Common::ObjectProperty &property) : _material(material), _position(position)
 {
@@ -52,13 +52,13 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
     hitInfo.hitPoint = ray.origin + hitPointData;
     hitInfo.normal = (hitInfo.hitPoint - _position).normalize();
     hitInfo.hitColor = {
-        .color = _material.color,
-        .emissionStrength = _material.emissionStrength
+        .color = _material->color,
+        .emissionStrength = _material->emissionStrength
     };
     return hitInfo;
 }
 
-Raytracer::Common::Graphics::Material Raytracer::Objects::Sphere::getMaterial()
+Raytracer::Common::Graphics::Material::Ptr Raytracer::Objects::Sphere::getMaterial()
 {
     return _material;
 }

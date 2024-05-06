@@ -212,4 +212,10 @@ namespace Raytracer::Common::Math {
     };
 }
 
+/**
+ * @brief Overload of the << operator
+ * @param os Output stream
+ * @param v Vector to display
+ * @return Output stream
+ */
 std::ostream &operator<<(std::ostream &os, const Raytracer::Common::Math::Vector3D &v);

@@ -13,7 +13,7 @@
 using Raytracer::Objects::SphereProvider;
 
 std::shared_ptr<Raytracer::Common::IObject> SphereProvider::create(
-    const Raytracer::Common::Graphics::Material &material,
+    const Raytracer::Common::Graphics::Material::Ptr material,
     const Raytracer::Common::Math::Point3D &position,
     const Raytracer::Common::ObjectProperty &property)
 {

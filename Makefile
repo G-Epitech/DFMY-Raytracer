@@ -57,5 +57,6 @@ coverage:
 coverage-branch:
 			@gcovr $(COVERAGE_IGNORE) --branch
 
-.PHONY: all clean fclean re tests_run update coverage coverage-branch $(NAME) plugins
+.PHONY: all clean fclean re tests_run update coverage coverage-branch $(NAME) \
+	plugins
 DEFAULT_GOAL := all
