@@ -30,8 +30,11 @@ namespace Raytracer::Core {
 
 class Raytracer::Core::Config {
     public:
+        /// @brief Screen configuration
         typedef struct {
-            std::pair<size_t, size_t> size;
+            /// @brief Screen size
+            Raytracer::Core::Rendering::Screen::Size size;
+            /// @brief Screen origin
             Common::Math::Point3D origin;
         } ScreenConfig;
 
