@@ -24,14 +24,17 @@ namespace Raytracer::Common::Math {
     /// @brief Represent an HitInfo between a ray and a shape
     typedef struct HitInfo {
         /// @brief Did the ray hit the shape
-        bool didHit;
+        bool didHit = false;
         /// @brief Distance between the ray and the shape
-        float distance;
+        float distance = 0;
         /// @brief Hit point
-        Point3D hitPoint;
+        Point3D hitPoint = Point3D(0, 0, 0);
         /// @brief Normal at the hit point
-        Vector3D normal;
+        Vector3D normal = Vector3D(0, 0, 0);
         /// @brief Color of the hit
-        HitColor hitColor;
+        HitColor hitColor = {
+            .color = Graphics::Color(0, 0, 0),
+            .emissionStrength = 0
+        };
     } HitInfo;
 }
