@@ -301,28 +301,3 @@ void Config::_settingHasValidKeys(const std::string prop, const libconfig::Setti
         throw Raytracer::Core::ConfigException(error_msg + " as keys");
     }
 }
-
-template <typename T>
-void Config::_lookupValueWrapper(const std::string prop,
-    const libconfig::Setting &setting, T &value)
-{
-    if (setting.lookupValue(prop, value) == false) {
-        throw Raytracer::Core::ConfigException(prop + " must be a " + _typeName(value));
-    }
-}
-
-template <typename T>
-std::string Config::_typeName(T &value)
-{
-    int status = 0;
-    std::string tname = typeid(T).name();
-    char *demangled = abi::__cxa_demangle(tname.c_str(), nullptr, nullptr, &status);
-
-    if (status == 0) {
-        tname = demangled;
-        free(demangled);
-    } else {
-        tname = "unknown";
-    }
-    return tname;
-}

@@ -221,10 +221,28 @@ class Raytracer::Core::Config {
         /// @brief Wrapper to lookup a value from a setting, and assign it to a variable,
         /// throws an exception if the value is not found or is of the wrong type
         template <typename T>
-        static void _lookupValueWrapper(const std::string prop, const libconfig::Setting &setting, T &value);
+        static void _lookupValueWrapper(const std::string prop, const libconfig::Setting &setting, T &value)
+        {
+            if (setting.lookupValue(prop, value) == false) {
+                throw Raytracer::Core::ConfigException(prop + " must be a " + _typeName(value));
+            }
+        }
 
         /// @brief Get the type name of a template variable
         /// Mainly used for debugging purposes and error messages
         template <typename T>
-        static std::string _typeName(T &value);
+        static std::string _typeName(T &value)
+        {
+            int status = 0;
+            std::string tname = typeid(T).name();
+            char *demangled = abi::__cxa_demangle(tname.c_str(), nullptr, nullptr, &status);
+
+            if (status == 0) {
+                tname = demangled;
+                free(demangled);
+            } else {
+                tname = "unknown";
+            }
+            return tname;
+        }
 };
