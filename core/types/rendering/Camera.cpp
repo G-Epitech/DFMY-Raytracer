@@ -41,7 +41,7 @@ void Rendering::Camera::compute(size_t threads, std::vector<IObject::Ptr> &objec
 void Rendering::Camera::computeSegment(Common::Math::Size origin, Common::Math::Size size,
                                        std::vector<IObject::Ptr> &objects) {
     std::vector<IObject::Ptr> castObjects;
-    auto screenOrigin = Math::Point3D(position.x - screen.size.width / 2, position.y + 1,
+    auto screenOrigin = Math::Point3D(position.x - screen.size.width / 2, position.y + 100,
                                       position.z + screen.size.height / 2);
 
     for (size_t y = origin.height; y < origin.height + size.height; y++) {
@@ -60,8 +60,8 @@ void Rendering::Camera::computeSegment(Common::Math::Size origin, Common::Math::
                     castObjects.push_back(object);
                     screen.setPixel(x, y, {
                             .r = 255,
-                            .g = 255,
-                            .b = 255,
+                            .g = 0,
+                            .b = 0,
                             .a = 255
                     });
                 }

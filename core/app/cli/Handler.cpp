@@ -32,7 +32,7 @@ int Handler::run() {
     );
 
     auto objectProvider = dlloader.loadSymbol<Common::ObjectProviderGetter>(SHARED_STRINGIFY(OBJECT_PROVIDER_GETTER_NAME));
-    auto sphere = objectProvider()->create(material, Common::Math::Point3D(0, 10, 10), 10.0f);
+    auto sphere = objectProvider()->create(material, Common::Math::Point3D(0, 150, 10), 10.0f);
 
     Rendering::Camera::Config camConfig = {
             .name = "Main camera",
