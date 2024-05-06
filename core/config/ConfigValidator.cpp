@@ -7,10 +7,10 @@
 
 #include "ConfigValidator.hpp"
 
-static const ConfigValidator::ValidatorFunction _validators[] = {
-    ConfigValidator::_materialsAreValid,
-    ConfigValidator::_camerasAreValid,
-    ConfigValidator::_objectsAreValid
+const ConfigValidator::ValidatorFunction ConfigValidator::_validators[] = {
+    &_materialsAreValid,
+    &_camerasAreValid,
+    &_objectsAreValid
 };
 
 void ConfigValidator::sceneIsValid(const Config::SceneConfig &cfg)
@@ -66,6 +66,11 @@ void ConfigValidator::_objectsAreValid(const Config::SceneConfig &cfg)
                 return material.name == object.material;
             }) == materials.end()) {
             throw ConfigException("object material \"" + object.material + "\" does not exist");
+        }
+        if (object.type == "sphere") {
+            if (std::get<Config::SphereConfig>(object.properties).radius <= 0) {
+                throw ConfigException("sphere radius must be greater than 0");
+            }
         }
     }
 }
