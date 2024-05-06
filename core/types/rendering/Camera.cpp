@@ -25,11 +25,11 @@ void Rendering::Camera::compute(size_t threads, std::vector<IObject::Ptr> &objec
     for (size_t y = 0; y < 2; y++) {
         for (size_t x = 0; x < threads / 2; x++) {
             Common::Math::Size origin{
-                    .width = (screen.size.width / threads) * x,
+                    .width = (screen.size.width / (threads / 2)) * x,
                     .height = (screen.size.height / 2) * y
             };
             Common::Math::Size size{
-                    .width = screen.size.width / threads,
+                    .width = screen.size.width / (threads / 2),
                     .height = screen.size.height / 2
             };
 
@@ -42,11 +42,11 @@ void Rendering::Camera::computeSegment(Common::Math::Size origin, Common::Math::
                                        std::vector<IObject::Ptr> &objects) {
     std::vector<IObject::Ptr> castObjects;
     auto screenOrigin = Math::Point3D(position.x - screen.size.width / 2, position.y + 1,
-                                      position.z - screen.size.height / 2);
+                                      position.z + screen.size.height / 2);
 
     for (size_t y = origin.height; y < origin.height + size.height; y++) {
         for (size_t x = origin.width; x < origin.width + size.width; x++) {
-            auto pixelPosition = Math::Point3D(screenOrigin.x + x, screenOrigin.y, screenOrigin.z + y);
+            auto pixelPosition = Math::Point3D(screenOrigin.x + x, screenOrigin.y, screenOrigin.z - y);
             auto rayDirection = Math::Vector3D(pixelPosition.x - position.x, pixelPosition.y - position.y,
                                                pixelPosition.z - position.z);
 
@@ -55,6 +55,8 @@ void Rendering::Camera::computeSegment(Common::Math::Size origin, Common::Math::
                 auto hitConfig = object->computeCollision(ray);
 
                 if (hitConfig.didHit) {
+                    std::cout << "Hit object!" << std::endl;
+
                     castObjects.push_back(object);
                     screen.setPixel(x, y, {
                             .r = 255,
