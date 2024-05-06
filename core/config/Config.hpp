@@ -33,7 +33,7 @@ class Raytracer::Core::Config {
         /// @brief Emission direction configuration
         typedef struct {
             /// @brief Light emission color
-            Graphics::Color color;
+            Raytracer::Common::Graphics::Color color;
             /// @brief Light emission strength
             float strength;
             /// @brief Light emission direction
@@ -45,7 +45,7 @@ class Raytracer::Core::Config {
             /// @brief Material name
             std::string name;
             /// @brief Material color for the object
-            Graphics::Color color;
+            Raytracer::Common::Graphics::Color color;
             /// @brief Material light emission directions
             std::vector<EmissionConfig> emissions;
             /// @brief Material index of reflectivity
@@ -82,7 +82,7 @@ class Raytracer::Core::Config {
         /// @brief Ambient light configuration
         typedef struct {
             /// @brief Ambient light color
-            Graphics::Color color;
+            Raytracer::Common::Graphics::Color color;
             /// @brief Ambient light strength
             float strength;
         } AmbientConfig;
@@ -185,7 +185,7 @@ class Raytracer::Core::Config {
          * @brief Parse a color group from the configuration
          * @param setting Setting of the color group
          */
-        static Graphics::Color _parseColor(const libconfig::Setting &setting);
+        static Raytracer::Common::Graphics::Color _parseColor(const libconfig::Setting &setting);
         /**
          * @brief Parse a tuple of 3 floats from the configuration
          * @param prop Name of the property

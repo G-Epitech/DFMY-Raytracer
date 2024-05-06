@@ -262,9 +262,9 @@ Math::Point3D Config::_parsePoint3D(const std::string propName, const libconfig:
     return point3;
 }
 
-Graphics::Color Config::_parseColor(const libconfig::Setting &setting)
+Raytracer::Common::Graphics::Color Config::_parseColor(const libconfig::Setting &setting)
 {
-    Graphics::Color color;
+    Raytracer::Common::Graphics::Color color;
     std::tuple<int, int, int, int> icolor;
 
     if (!setting.isGroup())
