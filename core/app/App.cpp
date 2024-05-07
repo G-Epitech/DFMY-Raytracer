@@ -27,7 +27,6 @@ int App::run(int argc, char **argv)
         return 84;
     configLoader.load();
     configLoader.toScene(_pluginsManager);
-
     return _runHandler();
 }
 
