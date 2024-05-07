@@ -10,6 +10,7 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <sstream>
 #include "interfaces/IFace.hpp"
 #include "faces/TriFace.hpp"
 #include "faces/QuadFace.hpp"
@@ -71,4 +72,17 @@ private:
      */
     void _loadObj(const std::string &filename);
 
+    /**
+     * @brief Load a face
+     * @param iss Input string stream
+     * @param line Line of the face
+     */
+    void _loadFace(std::istringstream &iss, std::string &line);
+
+    /**
+     * @brief Load a face point. Points are represented as tuples of 3 integers
+     * @param iss 
+     * @param point 
+     */
+    void _loadFacePoint(std::istringstream &iss, std::tuple<int, int, int> &point);
 };

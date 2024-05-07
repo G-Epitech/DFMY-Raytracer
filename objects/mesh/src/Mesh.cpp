@@ -104,66 +104,7 @@ void Mesh::_loadObj(const std::string &filename)
             iss >> vertex.x >> vertex.y >> vertex.z;
             vertices.push_back(vertex);
         } else if (type == "f") {
-            std::string face;
-
-
-            iss >> face;
-            if (std::count(face.begin(), face.end(), '/') == 2) {
-                std::tuple<int, int, int>
-                    face1,
-                    face2,
-                    face3;
-                std::replace(face.begin(), face.end(), '/', ' ');
-
-                std::istringstream
-                    isstmp(face);
-
-                isstmp >> std::get<0>(face1) >> std::get<1>(face1) >> std::get<2>(face1);
-
-                iss >> face;
-                std::replace(face.begin(), face.end(), '/', ' ');
-                isstmp = std::istringstream(face);
-                isstmp >> std::get<0>(face2) >> std::get<1>(face2) >> std::get<2>(face2);
-
-                iss >> face;
-                std::replace(face.begin(), face.end(), '/', ' ');
-                isstmp = std::istringstream(face);
-                isstmp >> std::get<0>(face3) >> std::get<1>(face3) >> std::get<2>(face3);
-
-                triFaces.push_back(std::make_tuple(face1, face2, face3));
-            } else if (std::count(face.begin(), face.end(), '/') == 3) {
-                std::tuple<int, int, int>
-                    face1,
-                    face2,
-                    face3,
-                    face4;
-                
-                std::replace(face.begin(), face.end(), '/', ' ');
-
-                std::istringstream
-                    isstmp(face);
-
-                isstmp >> std::get<0>(face1) >> std::get<1>(face1) >> std::get<2>(face1);
-
-                iss >> face;
-                std::replace(face.begin(), face.end(), '/', ' ');
-                isstmp = std::istringstream(face);
-                isstmp >> std::get<0>(face2) >> std::get<1>(face2) >> std::get<2>(face2);
-
-                iss >> face;
-                std::replace(face.begin(), face.end(), '/', ' ');
-                isstmp = std::istringstream(face);
-                isstmp >> std::get<0>(face3) >> std::get<1>(face3) >> std::get<2>(face3);
-
-                iss >> face;
-                std::replace(face.begin(), face.end(), '/', ' ');
-                isstmp = std::istringstream(face);
-                isstmp >> std::get<0>(face4) >> std::get<1>(face4) >> std::get<2>(face4);
-
-                quadFaces.push_back(std::make_tuple(face1, face2, face3, face4));
-            } else {
-                std::cerr << "Invalid face: " << face << std::endl;
-            }
+            _loadFace(iss, line);
         } else if (type == "vn") {
             Common::Math::Vector3D
                 normal;
@@ -184,4 +125,43 @@ void Mesh::_loadObj(const std::string &filename)
     _quadFaces = quadFaces;
     _normals = normals;
     _textureCoordinates = textureCoords;
+}
+
+void Mesh::_loadFace(std::istringstream &iss, std::string &line)
+{
+    if (std::count(line.begin(), line.end(), ' ') == 3) {
+        std::tuple<int, int, int> face1, face2, face3;
+
+        this->_loadFacePoint(iss, face1);
+        this->_loadFacePoint(iss, face2);
+        this->_loadFacePoint(iss, face3);
+
+        _triFaces.push_back(std::make_tuple(face1, face2, face3));
+    } else if (std::count(line.begin(), line.end(), ' ') == 4) {
+        std::tuple<int, int, int> face1, face2, face3, face4;
+
+        this->_loadFacePoint(iss, face1);
+        this->_loadFacePoint(iss, face2);
+        this->_loadFacePoint(iss, face3);
+        this->_loadFacePoint(iss, face4);
+
+        std::cout << std::get<0>(face1) << " " << std::get<1>(face1) << " " << std::get<2>(face1) << std::endl;
+        std::cout << std::get<0>(face2) << " " << std::get<1>(face2) << " " << std::get<2>(face2) << std::endl;
+        std::cout << std::get<0>(face3) << " " << std::get<1>(face3) << " " << std::get<2>(face3) << std::endl;
+        std::cout << std::get<0>(face4) << " " << std::get<1>(face4) << " " << std::get<2>(face4) << std::endl;
+
+        _quadFaces.push_back(std::make_tuple(face1, face2, face3, face4));
+    } else {
+        std::cerr << "Invalid face: " << line << std::endl;
+    }
+}
+
+void Mesh::_loadFacePoint(std::istringstream &iss, std::tuple<int, int, int> &point)
+{
+    std::string pointStr;
+
+    iss >> pointStr;
+    std::replace(pointStr.begin(), pointStr.end(), '/', ' ');
+    auto issPoint = std::istringstream(pointStr);
+    issPoint >> std::get<0>(point) >> std::get<1>(point) >> std::get<2>(point);
 }
