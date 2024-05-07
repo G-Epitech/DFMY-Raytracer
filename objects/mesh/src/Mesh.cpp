@@ -91,9 +91,16 @@ Mesh::Mesh(
 
 Raytracer::Common::Math::HitInfo Mesh::computeCollision(const Raytracer::Common::Math::Ray &ray)
 {
-    Common::Math::HitInfo hitInfo;
+    Common::Math::HitInfo closesHitInfo;
 
-    return hitInfo;
+    for (auto &face : _faces) {
+        auto faceHitInfo = face->computeCollision(ray);
+
+        if (faceHitInfo.didHit && closesHitInfo.distance > faceHitInfo.distance) {
+            closesHitInfo = faceHitInfo;
+        }
+    }
+    return closesHitInfo;
 }
 
 Raytracer::Common::Graphics::Material::Ptr Mesh::getMaterial()
@@ -137,22 +144,22 @@ void Mesh::_loadVertex(std::istringstream &iss)
 void Mesh::_loadFace(std::istringstream &iss, std::string &line)
 {
     if (std::count(line.begin(), line.end(), ' ') == 3) {
-        std::tuple<int, int, int> face1, face2, face3;
+        std::tuple<int, int, int> point1, point2, point3;
 
-        this->_loadFacePoint(iss, face1);
-        this->_loadFacePoint(iss, face2);
-        this->_loadFacePoint(iss, face3);
+        this->_loadFacePoint(iss, point1);
+        this->_loadFacePoint(iss, point2);
+        this->_loadFacePoint(iss, point3);
 
-        _triFaces.push_back(std::make_tuple(face1, face2, face3));
+        _triFaces.push_back(std::make_tuple(point1, point2, point3));
     } else if (std::count(line.begin(), line.end(), ' ') == 4) {
-        std::tuple<int, int, int> face1, face2, face3, face4;
+        std::tuple<int, int, int> point1, point2, point3, point4;
 
-        this->_loadFacePoint(iss, face1);
-        this->_loadFacePoint(iss, face2);
-        this->_loadFacePoint(iss, face3);
-        this->_loadFacePoint(iss, face4);
+        this->_loadFacePoint(iss, point1);
+        this->_loadFacePoint(iss, point2);
+        this->_loadFacePoint(iss, point3);
+        this->_loadFacePoint(iss, point4);
 
-        _quadFaces.push_back(std::make_tuple(face1, face2, face3, face4));
+        _quadFaces.push_back(std::make_tuple(point1, point2, point3, point4));
     } else {
         std::cerr << "Invalid face: " << line << std::endl;
     }
