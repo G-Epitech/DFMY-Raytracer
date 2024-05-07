@@ -40,11 +40,11 @@ void Rendering::Camera::compute(size_t threads, std::vector<IObject::Ptr> &objec
 
 void Rendering::Camera::computeSegment(Common::Math::Size origin, Common::Math::Size size,
                                        std::vector<IObject::Ptr> &objects) {
-    float screenHeight = 5 * tan(fov * 0.5 * (M_PI / 180.0)) * 2;
+    float screenHeight = 2 * tan(fov * 0.5 * (M_PI / 180.0)) * 2;
     float cameraAspect = (float) screen.size.width / (float) screen.size.height;
     float screenWidth = screenHeight * cameraAspect;
 
-    auto screenOrigin = Math::Point3D(position.x - screenWidth / 2, position.y + 5,
+    auto screenOrigin = Math::Point3D(position.x - screenWidth / 2, position.y + 2,
                                       position.z + screenHeight / 2);
 
     std::vector<IObject::Ptr> castObjects;
