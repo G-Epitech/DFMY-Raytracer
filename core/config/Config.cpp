@@ -11,7 +11,7 @@
 Config::Config(const std::string &path)
     : _path(path) {}
 
-Rendering::Scene::Ptr Config::toScene()
+Rendering::Scene::Ptr Config::toScene(PluginsManager &pluginsManager)
 {
     Rendering::Scene::Ptr scene = std::make_shared<Rendering::Scene>(_sceneConfig.name);
 
@@ -19,6 +19,7 @@ Rendering::Scene::Ptr Config::toScene()
     scene->ambient.second = _sceneConfig.ambient.strength;
     _buildSceneCameras(scene);
     _buildSceneMaterials(scene);
+    _buildSceneObjects(scene, pluginsManager);
     return scene;
 }
 
@@ -47,6 +48,20 @@ void Config::_buildSceneMaterials(Rendering::Scene::Ptr scene)
                 Common::Graphics::Color(0, 0, 0, 0),
                 material.reflectivity
             );
+    }
+}
+
+void Config::_buildSceneObjects(Rendering::Scene::Ptr scene, PluginsManager &pluginsManager)
+{
+    Raytracer::Core::ObjectFactory objectFactory(pluginsManager);
+
+    for (auto &object: _sceneConfig.objects) {
+        scene->objects.push_back(objectFactory.create(
+            object.type,
+            scene->materials[object.material],
+            object.origin,
+            object.property
+        ));
     }
 }
 
@@ -226,31 +241,31 @@ Config::ObjectConfig Config::_parseObject(const libconfig::Setting &setting)
         "origin"});
     _lookupValueWrapper("type", setting, object.type);
     _lookupValueWrapper("material", setting, object.material);
-    object.origin = _parseVector3D("object origin", setting["origin"]);
+    object.origin = _parsePoint3D("object origin", setting["origin"]);
     if (object.type == "sphere") {
-        object.properties = _parseSphere(setting["properties"]);
+        object.property = _parseSphere(setting["properties"]);
     }
     if (object.type == "cube") {
-        object.properties = _parseCube(setting["properties"]);
+        object.property = _parseCube(setting["properties"]);
     }
     return object;
 }
 
-Config::SphereConfig Config::_parseSphere(const libconfig::Setting &setting)
+float Config::_parseSphere(const libconfig::Setting &setting)
 {
-    SphereConfig sphere;
+    float radius;
 
     if (!setting.isGroup()) {
         throw Raytracer::Core::ConfigException("sphere must be a group");
     }
     _settingHasValidKeys("sphere", setting, {"radius"});
-    _lookupValueWrapper("radius", setting, sphere.radius);
-    return sphere;
+    _lookupValueWrapper("radius", setting, radius);
+    return radius;
 }
 
-Config::CubeConfig Config::_parseCube(const libconfig::Setting &settings)
+Math::Float3 Config::_parseCube(const libconfig::Setting &settings)
 {
-    CubeConfig cube;
+    Math::Float3 cubeSize;
     std::tuple<float, float, float> tuple;
 
     if (!settings.isGroup())
@@ -260,8 +275,10 @@ Config::CubeConfig Config::_parseCube(const libconfig::Setting &settings)
         throw Raytracer::Core::ConfigException("size must be a group");
     _settingHasValidKeys("size", settings["size"], {"width", "height", "depth"});
     tuple = _parseTuple3f("size", settings["size"], {"width", "height", "depth"});
-    cube.size = {std::get<0>(tuple), std::get<1>(tuple), std::get<2>(tuple)};
-    return cube;
+    cubeSize.x = std::get<0>(tuple);
+    cubeSize.y = std::get<1>(tuple);
+    cubeSize.z = std::get<2>(tuple);
+    return cubeSize;
 }
 
 std::tuple<float, float, float> Config::_parseTuple3f(const std::string& prop,

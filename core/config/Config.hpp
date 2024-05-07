@@ -7,20 +7,23 @@
 
 #pragma once
 
-#include <libconfig.h++>
-#include <iostream>
 #include <list>
 #include <tuple>
 #include <vector>
 #include <variant>
 #include <cstdlib>
 #include <cxxabi.h>
-#include "types/math/Vector.hpp"
-#include "types/math/Point.hpp"
-#include "types/graphics/Color.hpp"
-#include "types/rendering/Scene.hpp"
-#include "types/graphics/Material.hpp"
+#include <iostream>
+#include <libconfig.h++>
 #include "ConfigException.hpp"
+#include "types/math/Point.hpp"
+#include "types/math/Vector.hpp"
+#include "interfaces/IObjectProvider.hpp"
+#include "types/graphics/Color.hpp"
+#include "factory/ObjectFactory.hpp"
+#include "types/rendering/Scene.hpp"
+#include "plugins/PluginsManager.hpp"
+#include "types/graphics/Material.hpp"
 
 using namespace Raytracer::Common;
 using namespace Raytracer::Core;
@@ -97,9 +100,9 @@ class Raytracer::Core::Config {
             /// @brief The material name for the object
             std::string material;
             /// @brief Object origin
-            Math::Vector3D origin;
+            Math::Point3D origin;
             /// @brief Object special properties (cube, sphere, etc.)
-            ObjectPropertiesConfig properties;
+            Raytracer::Common::ObjectProperty property;
         } ObjectConfig;
 
         /// @brief Ambient light configuration
@@ -134,7 +137,7 @@ class Raytracer::Core::Config {
         */
         void load();
 
-        Rendering::Scene::Ptr toScene();
+        Rendering::Scene::Ptr toScene(PluginsManager &pluginsManager);
 
     private:
         std::string _path;
@@ -145,6 +148,8 @@ class Raytracer::Core::Config {
         void _buildSceneCameras(Rendering::Scene::Ptr scene);
 
         void _buildSceneMaterials(Rendering::Scene::Ptr scene);
+
+        void _buildSceneObjects(Rendering::Scene::Ptr scene, PluginsManager &pluginsManager);
 
         /**
          * @brief Load the name of the scene
@@ -196,12 +201,12 @@ class Raytracer::Core::Config {
          * @brief Parse special properties of a sphere from the configuration
          * @param setting Setting of the sphere group
          */
-        SphereConfig _parseSphere(const libconfig::Setting &setting);
+        float _parseSphere(const libconfig::Setting &setting);
         /**
          * @brief Parse special properties of a cube from the configuration
          * @param setting Setting of the cube group
          */
-        CubeConfig _parseCube(const libconfig::Setting &setting);
+        Math::Float3 _parseCube(const libconfig::Setting &setting);
 
         /**
          * @brief Parse a vector3D group from the configuration
