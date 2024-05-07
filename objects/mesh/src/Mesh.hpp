@@ -46,6 +46,12 @@ private:
     /// @brief Face point on the mesh. Can be a point of a triangle or a quadrilateral
     typedef std::tuple<int, int, int> FacePoint;
 
+    /// @brief Triangle face
+    typedef std::tuple<FacePoint, FacePoint, FacePoint> TriFace;
+
+    /// @brief Quadrilateral face
+    typedef std::tuple<FacePoint, FacePoint, FacePoint, FacePoint> QuadFace;
+
     /// @brief Material of the mesh
     Common::Graphics::Material::Ptr _material;
 
@@ -65,10 +71,10 @@ private:
     std::vector<std::shared_ptr<MeshFaces::IFace>> _faces;
 
     /// @brief Array of trifaces
-    std::vector<std::tuple<FacePoint, FacePoint, FacePoint>> _triFaces;
+    std::vector<TriFace> _triFaces;
 
     /// @brief Array of quadfaces
-    std::vector<std::tuple<FacePoint, FacePoint, FacePoint, FacePoint>> _quadFaces;
+    std::vector<QuadFace> _quadFaces;
 
     /**
      * @brief Load the obj file
@@ -117,4 +123,39 @@ private:
      * @brief Load the quads faces
      */
     void _loadQuads();
+
+    /**
+     * @brief Check if the indexes are valid
+     * @param point Point to check
+     * @return true if the indexes are valid, false otherwise
+     */
+    bool _checkPointIndex(FacePoint &point);
+
+    /**
+     * @brief Check if the indexes of a triangle are valid
+     * @param points Points of the triangle
+     * @return true if the indexes are valid, false otherwise
+     */
+    bool _checkFaceIndexes(TriFace &points);
+
+    /**
+     * @brief Check if the indexes of a quadrilateral are valid
+     * @param points Points of the quadrilateral
+     * @return true if the indexes are valid, false otherwise
+     */
+    bool _checkFaceIndexes(QuadFace &points);
+
+    /**
+     * @brief Check if all the textures are set
+     * @param points Points of the triangle
+     * @return true if all the textures are set, false otherwise
+     */
+    bool _allTexturesAreSet(TriFace &points);
+
+    /**
+     * @brief Check if all the textures are set
+     * @param points Points of the quadrilateral
+     * @return true if all the textures are set, false otherwise
+     */
+    bool _allTexturesAreSet(QuadFace &points);
 };

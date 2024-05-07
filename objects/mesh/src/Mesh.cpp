@@ -148,6 +148,10 @@ void Mesh::_loadTextureCoordinate(std::istringstream &iss)
 void Mesh::_loadTriangles()
 {
     for (auto &face : _triFaces) {
+
+        if (!_checkFaceIndexes(face))
+            continue;
+
         MeshFaces::TriFace::TriPoints points {
             _vertices[std::get<0>(std::get<0>(face)) - 1],
             _vertices[std::get<0>(std::get<1>(face)) - 1],
@@ -160,11 +164,15 @@ void Mesh::_loadTriangles()
             _normals[std::get<2>(std::get<2>(face)) - 1]
         };
 
-        MeshFaces::TriFace::TriTextureCoordinates textureCoordinates {
-            _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
-            _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
-            _textureCoordinates[std::get<1>(std::get<2>(face)) - 1]
-        };
+        MeshFaces::TriFace::TriTextureCoordinates textureCoordinates;
+
+        if (_allTexturesAreSet(face)) {
+            textureCoordinates = {
+                _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
+                _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
+                _textureCoordinates[std::get<1>(std::get<2>(face)) - 1]
+            };
+        }
 
         MeshFaces::TriFace::Tri tri {
             points,
@@ -179,6 +187,10 @@ void Mesh::_loadTriangles()
 void Mesh::_loadQuads()
 {
     for (auto &face : _quadFaces) {
+
+        if (!_checkFaceIndexes(face))
+            continue;
+
         MeshFaces::QuadFace::QuadPoints points {
             _vertices[std::get<0>(std::get<0>(face)) - 1],
             _vertices[std::get<0>(std::get<1>(face)) - 1],
@@ -193,12 +205,16 @@ void Mesh::_loadQuads()
             _normals[std::get<2>(std::get<3>(face)) - 1]
         };
 
-        MeshFaces::QuadFace::QuadTextureCoordinates textureCoordinates {
-            _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
-            _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
-            _textureCoordinates[std::get<1>(std::get<2>(face)) - 1],
-            _textureCoordinates[std::get<1>(std::get<3>(face)) - 1]
-        };
+        MeshFaces::QuadFace::QuadTextureCoordinates textureCoordinates;
+
+        if (_allTexturesAreSet(face)) {
+            textureCoordinates = {
+                _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
+                _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
+                _textureCoordinates[std::get<1>(std::get<2>(face)) - 1],
+                _textureCoordinates[std::get<1>(std::get<3>(face)) - 1]
+            };
+        }
 
         MeshFaces::QuadFace::Quad quad {
             points,
@@ -208,4 +224,35 @@ void Mesh::_loadQuads()
 
         _faces.push_back(std::make_shared<MeshFaces::QuadFace>(quad));
     }
+}
+
+bool Mesh::_checkPointIndex(Mesh::FacePoint &point)
+{
+    if (std::get<0>(point) <= 0 || std::get<0>(point) > _vertices.size())
+        return false;
+    if (std::get<1>(point) < 0 || std::get<1>(point) > _textureCoordinates.size())
+        return false;
+    if (std::get<2>(point) <= 0 || std::get<2>(point) > _normals.size())
+        return false;
+    return true;
+}
+
+bool Mesh::_checkFaceIndexes(Mesh::TriFace &points)
+{
+    return _checkPointIndex(std::get<0>(points)) && _checkPointIndex(std::get<1>(points)) && _checkPointIndex(std::get<2>(points));
+}
+
+bool Mesh::_checkFaceIndexes(Mesh::QuadFace &points)
+{
+    return _checkPointIndex(std::get<0>(points)) && _checkPointIndex(std::get<1>(points)) && _checkPointIndex(std::get<2>(points)) && _checkPointIndex(std::get<3>(points));
+}
+
+bool Mesh::_allTexturesAreSet(Mesh::TriFace &points)
+{
+    return std::get<1>(std::get<0>(points)) > 0 && std::get<1>(std::get<1>(points)) > 0 && std::get<1>(std::get<2>(points)) > 0;
+}
+
+bool Mesh::_allTexturesAreSet(Mesh::QuadFace &points)
+{
+    return std::get<1>(std::get<0>(points)) > 0 && std::get<1>(std::get<1>(points)) > 0 && std::get<1>(std::get<2>(points)) > 0 && std::get<1>(std::get<3>(points)) > 0;
 }

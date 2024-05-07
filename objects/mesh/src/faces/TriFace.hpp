@@ -16,31 +16,31 @@ namespace Raytracer::Objects::MeshFaces {
         /// @brief Representing tri points
         typedef struct {
             /// @brief P1 point
-            Common::Math::Point3D p1;
+            Common::Math::Point3D p1{0, 0, 0};
             /// @brief P2 point
-            Common::Math::Point3D p2;
+            Common::Math::Point3D p2{0, 0, 0};
             /// @brief P3 point
-            Common::Math::Point3D p3;
+            Common::Math::Point3D p3{0, 0, 0};
         } TriPoints;
 
         /// @brief Representing tri normals points
         typedef struct {
             /// @brief N1 point
-            Common::Math::Vector3D n1;
+            Common::Math::Vector3D n1{0, 0, 0};
             /// @brief N2 point
-            Common::Math::Vector3D n2;
+            Common::Math::Vector3D n2{0, 0, 0};
             /// @brief N3 point
-            Common::Math::Vector3D n3;
+            Common::Math::Vector3D n3{0, 0, 0};
         } TriNormals;
 
         /// @brief Representing tri texture coordinates
         typedef struct {
             /// @brief T1 point
-            Common::Math::Point2D t1;
+            Common::Math::Point2D t1{0, 0};
             /// @brief T2 point
-            Common::Math::Point2D t2;
+            Common::Math::Point2D t2{0, 0};
             /// @brief T3 point
-            Common::Math::Point2D t3;
+            Common::Math::Point2D t3{0, 0};
         } TriTextureCoordinates;
 
         /// @brief Representing a tri
