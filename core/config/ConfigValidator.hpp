@@ -19,7 +19,6 @@ namespace Raytracer::Core {
 
 class Raytracer::Core::ConfigValidator {
     public:
-        /// @brief Validate a scene configuration
         ConfigValidator() = delete;
         ~ConfigValidator() = delete;
 
