@@ -11,6 +11,45 @@
 Config::Config(const std::string &path)
     : _path(path) {}
 
+Rendering::Scene::Ptr Config::toScene()
+{
+    Rendering::Scene::Ptr scene = std::make_shared<Rendering::Scene>(_sceneConfig.name);
+
+    scene->ambient.first = _sceneConfig.ambient.color;
+    scene->ambient.second = _sceneConfig.ambient.strength;
+    _buildSceneCameras(scene);
+    _buildSceneMaterials(scene);
+    return scene;
+}
+
+void Config::_buildSceneCameras(Rendering::Scene::Ptr scene)
+{
+    Rendering::Camera::Config cameraConfig;
+
+    for (auto &camera: _sceneConfig.cameras) {
+        cameraConfig.name = camera.name;
+        cameraConfig.position = camera.position;
+        cameraConfig.direction = camera.direction;
+        cameraConfig.fov = camera.fov;
+        cameraConfig.screen.origin = camera.screen.origin;
+        cameraConfig.screen.size = camera.screen.size;
+        scene->cameras[cameraConfig.name] = std::make_shared<Rendering::Camera>(cameraConfig);
+    }
+}
+
+void Config::_buildSceneMaterials(Rendering::Scene::Ptr scene)
+{
+    for (auto &material: _sceneConfig.materials) {
+        scene->materials[material.name] =
+            std::make_shared<Common::Graphics::Material>(
+                material.color,
+                material.emissions[0].color,
+                Common::Graphics::Color(0, 0, 0, 0),
+                material.reflectivity
+            );
+    }
+}
+
 void Config::load()
 {
     libconfig::Config cfg;

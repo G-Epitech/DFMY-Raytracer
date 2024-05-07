@@ -18,7 +18,8 @@
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
 #include "types/graphics/Color.hpp"
-#include "types/rendering/Camera.hpp"
+#include "types/rendering/Scene.hpp"
+#include "types/graphics/Material.hpp"
 #include "ConfigException.hpp"
 
 using namespace Raytracer::Common;
@@ -133,11 +134,17 @@ class Raytracer::Core::Config {
         */
         void load();
 
+        Rendering::Scene::Ptr toScene();
+
     private:
         std::string _path;
         SceneConfig _sceneConfig;
 
         void _debugPrintSceneConfig();
+
+        void _buildSceneCameras(Rendering::Scene::Ptr scene);
+
+        void _buildSceneMaterials(Rendering::Scene::Ptr scene);
 
         /**
          * @brief Load the name of the scene
