@@ -63,12 +63,7 @@ void Rendering::Camera::computeSegment(Common::Math::Size origin, Common::Math::
 
                 if (hitConfig.didHit) {
                     castObjects.push_back(object);
-                    screen.setPixel(x, y, {
-                            .r = 255,
-                            .g = 0,
-                            .b = 0,
-                            .a = 255
-                    });
+                    screen.setPixel(x, y, hitConfig.hitColor.color.toPixel());
                 }
             }
         }
