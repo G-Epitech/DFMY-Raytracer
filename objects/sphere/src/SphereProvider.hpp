@@ -16,10 +16,10 @@ public:
     /// @brief Default constructor
     SphereProvider() = default;
     /// @brief Default destructor
-    ~SphereProvider() = default;
+    ~SphereProvider() override = default;
 
     std::shared_ptr<Common::IObject> create(
-        const Common::Graphics::Material::Ptr material,
+        Common::Graphics::Material::Ptr material,
         const Common::Math::Point3D &position,
         const Common::ObjectProperty &property) override;
 
