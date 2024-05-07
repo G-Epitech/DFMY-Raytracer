@@ -60,10 +60,7 @@ namespace Raytracer::Objects::Mesh {
 
         /**
          * @brief Construct a new Quad Face object
-         * @param p1 Point 1
-         * @param p2 Point 2
-         * @param p3 Point 3
-         * @param p4 Point 4
+         * @param points Points of the quad
          */
         QuadFace(const Quad &points);
 
@@ -75,6 +72,7 @@ namespace Raytracer::Objects::Mesh {
         Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
 
     private:
+        /// @brief Points of the quadrilateral
         Quad _points;
     };
 }
