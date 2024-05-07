@@ -11,6 +11,7 @@
 #include "common/types/math/HitInfo.hpp"
 
 namespace Raytracer::Objects::MeshFaces {
+    /// @brief Representing a face
     class IFace {
     public:
 

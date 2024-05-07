@@ -42,6 +42,10 @@ public:
     Common::Graphics::Material::Ptr getMaterial() override;
 
 private:
+
+    /// @brief Face point on the mesh. Can be a point of a triangle or a quadrilateral
+    typedef std::tuple<int, int, int> FacePoint;
+
     /// @brief Material of the mesh
     Common::Graphics::Material::Ptr _material;
 
@@ -51,12 +55,6 @@ private:
     /// @brief Array of vertices
     std::vector<Common::Math::Point3D> _vertices;
 
-    /// @brief Array of trifaces
-    std::vector<std::tuple<std::tuple<int, int, int>, std::tuple<int, int, int>, std::tuple<int, int, int>>> _triFaces;
-
-    /// @brief Array of quadfaces
-    std::vector<std::tuple<std::tuple<int, int, int>, std::tuple<int, int, int>, std::tuple<int, int, int>, std::tuple<int, int, int>>> _quadFaces;
-
     /// @brief Array of normals
     std::vector<Common::Math::Vector3D> _normals;
 
@@ -65,6 +63,12 @@ private:
 
     /// @brief Array of faces
     std::vector<std::shared_ptr<MeshFaces::IFace>> _faces;
+
+    /// @brief Array of trifaces
+    std::vector<std::tuple<FacePoint, FacePoint, FacePoint>> _triFaces;
+
+    /// @brief Array of quadfaces
+    std::vector<std::tuple<FacePoint, FacePoint, FacePoint, FacePoint>> _quadFaces;
 
     /**
      * @brief Load the obj file
@@ -103,4 +107,14 @@ private:
      * @param iss Input string stream
      */
     void _loadTextureCoordinate(std::istringstream &iss);
+
+    /**
+     * @brief Load the triangles faces
+     */
+    void _loadTriangles();
+
+    /**
+     * @brief Load the quads faces
+     */
+    void _loadQuads();
 };

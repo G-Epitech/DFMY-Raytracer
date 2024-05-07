@@ -22,71 +22,14 @@ Mesh::Mesh(
 {
     auto filename = std::get<std::string>(property);
 
-    std::cout << "Loading mesh: " << filename << std::endl;
     _loadObj(filename);
     for (auto &vertex : _vertices) {
         vertex.x += _position.x;
         vertex.y += _position.y;
         vertex.z += _position.z;
     }
-    for (auto &face : _triFaces) {
-        MeshFaces::TriFace::TriPoints points {
-            _vertices[std::get<0>(std::get<0>(face)) - 1],
-            _vertices[std::get<0>(std::get<1>(face)) - 1],
-            _vertices[std::get<0>(std::get<2>(face)) - 1]
-        };
-
-        MeshFaces::TriFace::TriNormals normals {
-            _normals[std::get<2>(std::get<0>(face)) - 1],
-            _normals[std::get<2>(std::get<1>(face)) - 1],
-            _normals[std::get<2>(std::get<2>(face)) - 1]
-        };
-
-        MeshFaces::TriFace::TriTextureCoordinates textureCoordinates {
-            _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
-            _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
-            _textureCoordinates[std::get<1>(std::get<2>(face)) - 1]
-        };
-
-        MeshFaces::TriFace::Tri tri {
-            points,
-            normals,
-            textureCoordinates
-        };
-
-        _faces.push_back(std::make_shared<MeshFaces::TriFace>(tri));
-    }
-
-    for (auto &face : _quadFaces) {
-        MeshFaces::QuadFace::QuadPoints points {
-            _vertices[std::get<0>(std::get<0>(face)) - 1],
-            _vertices[std::get<0>(std::get<1>(face)) - 1],
-            _vertices[std::get<0>(std::get<2>(face)) - 1],
-            _vertices[std::get<0>(std::get<3>(face)) - 1]
-        };
-
-        MeshFaces::QuadFace::QuadNormals normals {
-            _normals[std::get<2>(std::get<0>(face)) - 1],
-            _normals[std::get<2>(std::get<1>(face)) - 1],
-            _normals[std::get<2>(std::get<2>(face)) - 1],
-            _normals[std::get<2>(std::get<3>(face)) - 1]
-        };
-
-        MeshFaces::QuadFace::QuadTextureCoordinates textureCoordinates {
-            _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
-            _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
-            _textureCoordinates[std::get<1>(std::get<2>(face)) - 1],
-            _textureCoordinates[std::get<1>(std::get<3>(face)) - 1]
-        };
-
-        MeshFaces::QuadFace::Quad quad {
-            points,
-            normals,
-            textureCoordinates
-        };
-
-        _faces.push_back(std::make_shared<MeshFaces::QuadFace>(quad));
-    }
+    _loadTriangles();
+    _loadQuads();
 }
 
 Raytracer::Common::Math::HitInfo Mesh::computeCollision(const Raytracer::Common::Math::Ray &ray)
@@ -144,7 +87,7 @@ void Mesh::_loadVertex(std::istringstream &iss)
 void Mesh::_loadFace(std::istringstream &iss, std::string &line)
 {
     if (std::count(line.begin(), line.end(), ' ') == 3) {
-        std::tuple<int, int, int> point1, point2, point3;
+        FacePoint point1, point2, point3;
 
         this->_loadFacePoint(iss, point1);
         this->_loadFacePoint(iss, point2);
@@ -152,7 +95,7 @@ void Mesh::_loadFace(std::istringstream &iss, std::string &line)
 
         _triFaces.push_back(std::make_tuple(point1, point2, point3));
     } else if (std::count(line.begin(), line.end(), ' ') == 4) {
-        std::tuple<int, int, int> point1, point2, point3, point4;
+        FacePoint point1, point2, point3, point4;
 
         this->_loadFacePoint(iss, point1);
         this->_loadFacePoint(iss, point2);
@@ -165,7 +108,7 @@ void Mesh::_loadFace(std::istringstream &iss, std::string &line)
     }
 }
 
-void Mesh::_loadFacePoint(std::istringstream &iss, std::tuple<int, int, int> &point)
+void Mesh::_loadFacePoint(std::istringstream &iss, Mesh::FacePoint &point)
 {
     std::string pointStr;
 
@@ -200,4 +143,69 @@ void Mesh::_loadTextureCoordinate(std::istringstream &iss)
 
     iss >> textureCoord.x >> textureCoord.y;
     _textureCoordinates.push_back(textureCoord);
+}
+
+void Mesh::_loadTriangles()
+{
+    for (auto &face : _triFaces) {
+        MeshFaces::TriFace::TriPoints points {
+            _vertices[std::get<0>(std::get<0>(face)) - 1],
+            _vertices[std::get<0>(std::get<1>(face)) - 1],
+            _vertices[std::get<0>(std::get<2>(face)) - 1]
+        };
+
+        MeshFaces::TriFace::TriNormals normals {
+            _normals[std::get<2>(std::get<0>(face)) - 1],
+            _normals[std::get<2>(std::get<1>(face)) - 1],
+            _normals[std::get<2>(std::get<2>(face)) - 1]
+        };
+
+        MeshFaces::TriFace::TriTextureCoordinates textureCoordinates {
+            _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
+            _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
+            _textureCoordinates[std::get<1>(std::get<2>(face)) - 1]
+        };
+
+        MeshFaces::TriFace::Tri tri {
+            points,
+            normals,
+            textureCoordinates
+        };
+
+        _faces.push_back(std::make_shared<MeshFaces::TriFace>(tri));
+    }
+}
+
+void Mesh::_loadQuads()
+{
+    for (auto &face : _quadFaces) {
+        MeshFaces::QuadFace::QuadPoints points {
+            _vertices[std::get<0>(std::get<0>(face)) - 1],
+            _vertices[std::get<0>(std::get<1>(face)) - 1],
+            _vertices[std::get<0>(std::get<2>(face)) - 1],
+            _vertices[std::get<0>(std::get<3>(face)) - 1]
+        };
+
+        MeshFaces::QuadFace::QuadNormals normals {
+            _normals[std::get<2>(std::get<0>(face)) - 1],
+            _normals[std::get<2>(std::get<1>(face)) - 1],
+            _normals[std::get<2>(std::get<2>(face)) - 1],
+            _normals[std::get<2>(std::get<3>(face)) - 1]
+        };
+
+        MeshFaces::QuadFace::QuadTextureCoordinates textureCoordinates {
+            _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
+            _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
+            _textureCoordinates[std::get<1>(std::get<2>(face)) - 1],
+            _textureCoordinates[std::get<1>(std::get<3>(face)) - 1]
+        };
+
+        MeshFaces::QuadFace::Quad quad {
+            points,
+            normals,
+            textureCoordinates
+        };
+
+        _faces.push_back(std::make_shared<MeshFaces::QuadFace>(quad));
+    }
 }

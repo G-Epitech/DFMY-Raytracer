@@ -8,6 +8,7 @@
 #include "QuadFace.hpp"
 
 using namespace Raytracer::Objects::MeshFaces;
+using namespace Raytracer::Common::Math;
 
 QuadFace::QuadFace(const Quad &points)
 {
@@ -17,12 +18,12 @@ QuadFace::QuadFace(const Quad &points)
 Raytracer::Common::Math::HitInfo QuadFace::computeCollision(
     const Raytracer::Common::Math::Ray &ray)
 {
-    Raytracer::Common::Math::HitInfo hitInfo;
-    Raytracer::Common::Math::Point3D e1P = _points.points.p2 - _points.points.p1;
-    Raytracer::Common::Math::Vector3D e1 = Raytracer::Common::Math::Vector3D(e1P.x, e1P.y, e1P.z);
-    Raytracer::Common::Math::Point3D e2P = _points.points.p3 - _points.points.p1;
-    Raytracer::Common::Math::Vector3D e2 = Raytracer::Common::Math::Vector3D(e2P.x, e2P.y, e2P.z);
-    Raytracer::Common::Math::Vector3D h = ray.direction.cross(e2);
+    HitInfo hitInfo;
+    Point3D e1P = _points.points.p2 - _points.points.p1;
+    Vector3D e1 = Vector3D(e1P.x, e1P.y, e1P.z);
+    Point3D e2P = _points.points.p3 - _points.points.p1;
+    Vector3D e2 = Vector3D(e2P.x, e2P.y, e2P.z);
+    Vector3D h = ray.direction.cross(e2);
 
     double a = e1.dot(h);
 
@@ -31,15 +32,15 @@ Raytracer::Common::Math::HitInfo QuadFace::computeCollision(
 
     double f = 1 / a;
 
-    Raytracer::Common::Math::Point3D sP = ray.origin - _points.points.p1;
-    Raytracer::Common::Math::Vector3D s = Raytracer::Common::Math::Vector3D(sP.x, sP.y, sP.z);
+    Point3D sP = ray.origin - _points.points.p1;
+    Vector3D s = Vector3D(sP.x, sP.y, sP.z);
 
     double u = f * s.dot(h);
 
     if (u < 0.0 || u > 1.0)
         return hitInfo;
 
-    Raytracer::Common::Math::Vector3D q = s.cross(e1);
+    Vector3D q = s.cross(e1);
 
     double v = f * ray.direction.dot(q);
 
@@ -53,9 +54,8 @@ Raytracer::Common::Math::HitInfo QuadFace::computeCollision(
         hitInfo.distance = t;
         hitInfo.normal = _points.normals.n1;
         auto intersectionNormal = ray.direction * t;
-        Raytracer::Common::Math::Point3D hitPointData(intersectionNormal.x, intersectionNormal.y, intersectionNormal.z);
+        Point3D hitPointData(intersectionNormal.x, intersectionNormal.y, intersectionNormal.z);
         hitInfo.hitPoint = ray.origin + hitPointData;
-        // hitInfo.textureCoordinates = _points.textureCoordinates.t1;
     }
     return hitInfo;
 }
