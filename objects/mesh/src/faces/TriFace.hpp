@@ -9,7 +9,7 @@
 
 #include "interfaces/IFace.hpp"
 
-namespace Raytracer::Objects::Mesh {
+namespace Raytracer::Objects::MeshFaces {
     class TriFace : public IFace {
     public:
         /// @brief Representing tri points

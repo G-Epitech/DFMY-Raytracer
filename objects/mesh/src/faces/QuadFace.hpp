@@ -9,7 +9,7 @@
 
 #include "interfaces/IFace.hpp"
 
-namespace Raytracer::Objects::Mesh {
+namespace Raytracer::Objects::MeshFaces {
     class QuadFace : public IFace {
     public:
         /// @brief Representing quad points

@@ -7,7 +7,7 @@
 
 #include "TriFace.hpp"
 
-using namespace Raytracer::Objects::Mesh;
+using namespace Raytracer::Objects::MeshFaces;
 
 TriFace::TriFace(const Tri &points)
 {

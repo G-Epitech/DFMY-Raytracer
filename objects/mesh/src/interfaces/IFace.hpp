@@ -10,7 +10,7 @@
 #include "common/types/math/Ray.hpp"
 #include "common/types/math/HitInfo.hpp"
 
-namespace Raytracer::Objects::Mesh {
+namespace Raytracer::Objects::MeshFaces {
     class IFace {
     public:
 

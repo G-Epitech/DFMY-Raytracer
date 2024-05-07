@@ -7,7 +7,7 @@
 
 #include "QuadFace.hpp"
 
-using namespace Raytracer::Objects::Mesh;
+using namespace Raytracer::Objects::MeshFaces;
 
 QuadFace::QuadFace(const Quad &points)
 {

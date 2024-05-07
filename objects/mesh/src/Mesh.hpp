@@ -8,6 +8,11 @@
 #pragma once
 
 #include <map>
+#include <vector>
+#include <memory>
+#include "interfaces/IFace.hpp"
+#include "faces/TriFace.hpp"
+#include "faces/QuadFace.hpp"
 #include "common/interfaces/IObject.hpp"
 #include "common/interfaces/IObjectProvider.hpp"
 
@@ -41,4 +46,29 @@ private:
 
     /// @brief Position of the mesh
     const Common::Math::Point3D _position;
+
+    /// @brief Array of vertices
+    std::vector<Common::Math::Point3D> _vertices;
+
+    /// @brief Array of trifaces
+    std::vector<std::tuple<std::tuple<int, int, int>, std::tuple<int, int, int>, std::tuple<int, int, int>>> _triFaces;
+
+    /// @brief Array of quadfaces
+    std::vector<std::tuple<std::tuple<int, int, int>, std::tuple<int, int, int>, std::tuple<int, int, int>, std::tuple<int, int, int>>> _quadFaces;
+
+    /// @brief Array of normals
+    std::vector<Common::Math::Vector3D> _normals;
+
+    /// @brief Array of texture coordinates
+    std::vector<Common::Math::Point2D> _textureCoordinates;
+
+    /// @brief Array of faces
+    std::vector<std::shared_ptr<MeshFaces::IFace>> _faces;
+
+    /**
+     * @brief Load the obj file
+     * @param filename Filename of the obj file
+     */
+    void _loadObj(const std::string &filename);
+
 };
