@@ -8,8 +8,13 @@
 #include "Config.hpp"
 #include "ConfigValidator.hpp"
 
-Config::Config(const std::string &path)
-    : _path(path) {}
+Config::Config(const std::string &_configContents, bool fromString)
+    : _configContents(_configContents), _fromString(fromString) {}
+
+Raytracer::Core::Config::SceneConfig Config::getSceneConfig() const
+{
+    return _sceneConfig;
+}
 
 Rendering::Scene::Ptr Config::toScene(PluginsManager &pluginsManager)
 {
@@ -70,7 +75,12 @@ void Config::load()
     libconfig::Config cfg;
 
     try {
-        cfg.readFile(_path.c_str());
+        if (_fromString) {
+            cfg.readString(_configContents);
+        }
+        else {
+            cfg.readFile(_configContents.c_str());
+        }
     } catch (const libconfig::FileIOException &fioex) {
         throw Raytracer::Core::ConfigException("I/O error while reading file.");
     } catch (const libconfig::ParseException &pex) {
@@ -89,9 +99,14 @@ void Config::load()
 
 std::string Config::_loadName()
 {
-    std::string name = _path;
-    size_t found = name.find_last_of('/');
+    std::string name;
+    size_t found;
 
+    if (_fromString) {
+        return "scene";
+    }
+    name = _configContents;
+    found = name.find_last_of('/');
     if (found != std::string::npos) {
         name = name.substr(found + 1);
     }
