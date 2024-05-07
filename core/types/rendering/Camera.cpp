@@ -91,7 +91,7 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray &ray, unsigned int rngState,
     Common::Graphics::Color incomingLight(0, 0, 0);
     Common::Graphics::Color rayColour(1, 1, 1);
 
-    for (int i = 0; i <= 30; i++) {
+    for (int i = 0; i <= 15; i++) {
         auto hitConfig = this->_computeRayCollision(ray, objects);
         if (hitConfig.didHit) {
             ray.origin = hitConfig.hitPoint;
@@ -103,7 +103,7 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray &ray, unsigned int rngState,
             incomingLight += localIncomingLight;
             rayColour *= hitConfig.hitColor.color;
         } else {
-            Common::Graphics::Color ambientLight = rayColour * 0.2f;
+            Common::Graphics::Color ambientLight = rayColour * 0.0f;
             incomingLight += ambientLight;
 
             break;

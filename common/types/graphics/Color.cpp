@@ -45,14 +45,11 @@ Graphics::Color Graphics::Color::operator*(float scalar) const {
 Graphics::Color Graphics::Color::operator*(Graphics::Color &other) const {
     Color result;
 
-    result.r = this->r * other.r;
-    result.g = this->g * other.g;
-    result.b = this->b * other.b;
+    result.r = this->r * other.r > 255 ? 255 : this->r * other.r;
+    result.g = this->g * other.g > 255 ? 255 : this->g * other.g;
+    result.b = this->b * other.b > 255 ? 255 : this->b * other.b;
     result.a = this->a;
 
-    if (result.r > 255) result.r = 255;
-    if (result.g > 255) result.g = 255;
-    if (result.b > 255) result.b = 255;
     return result;
 }
 
@@ -64,14 +61,10 @@ Graphics::Color &Graphics::Color::operator*=(Graphics::Color &other) {
 Graphics::Color Graphics::Color::operator+(Graphics::Color &other) const {
     Color result;
 
-    result.r = this->r + other.r;
-    result.g = this->g + other.g;
-    result.b = this->b + other.b;
+    result.r = this->r + other.r > 255 ? 255 : this->r + other.r;
+    result.g = this->g + other.g > 255 ? 255 : this->g + other.g;
+    result.b = this->b + other.b > 255 ? 255 : this->b + other.b;
     result.a = this->a;
-
-    if (result.r > 255) result.r = 255;
-    if (result.g > 255) result.g = 255;
-    if (result.b > 255) result.b = 255;
 
     return result;
 }
