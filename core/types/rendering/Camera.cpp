@@ -5,6 +5,7 @@
 ** Camera.cpp
 */
 
+#include <math.h>
 #include "Camera.hpp"
 #include "types/graphics/Pixel.hpp"
 
