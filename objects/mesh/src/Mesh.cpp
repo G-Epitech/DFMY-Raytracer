@@ -13,6 +13,9 @@ Raytracer::Objects::Mesh::Mesh(
     const Common::Math::Point3D &position,
     const Raytracer::Common::ObjectProperty &property) : _material(material), _position(position)
 {
+    auto filename = std::get<std::string>(property);
+
+    std::cout << "Loading mesh: " << filename << std::endl;
 }
 
 Raytracer::Common::Math::HitInfo Raytracer::Objects::Mesh::computeCollision(const Raytracer::Common::Math::Ray &ray)

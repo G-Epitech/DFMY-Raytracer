@@ -36,6 +36,9 @@ public:
     Common::Graphics::Material::Ptr getMaterial() override;
 
 private:
+    /// @brief Material of the mesh
     Common::Graphics::Material::Ptr _material;
+
+    /// @brief Position of the mesh
     const Common::Math::Point3D _position;
 };
