@@ -5,40 +5,47 @@
 ** TriFace
 */
 
+#include <limits>
 #include "TriFace.hpp"
 
 using namespace Raytracer::Objects::MeshFaces;
 
 TriFace::TriFace(const Tri &points)
 {
-    this->points = points;
+    this->_data = points;
 }
 
 Raytracer::Common::Math::HitInfo TriFace::computeCollision(
     const Raytracer::Common::Math::Ray &ray)
 {
+
     Raytracer::Common::Math::HitInfo hitInfo;
-    // Raytracer::Common::Math::Vector3D edge1 = this->points.p2 - this->points.p1;
-    // Raytracer::Common::Math::Vector3D edge2 = this->points.p3 - this->points.p1;
-    // Raytracer::Common::Math::Vector3D h = ray.direction.crossProduct(edge2);
-    // float a = edge1.dotProduct(h);
-    // if (a > -0.00001 && a < 0.00001)
-    //     return hitInfo;
-    // float f = 1 / a;
-    // Raytracer::Common::Math::Vector3D s = ray.origin - this->points.p1;
-    // float u = f * s.dotProduct(h);
-    // if (u < 0 || u > 1)
-    //     return hitInfo;
-    // Raytracer::Common::Math::Vector3D q = s.crossProduct(edge1);
-    // float v = f * ray.direction.dotProduct(q);
-    // if (v < 0 || u + v > 1)
-    //     return hitInfo;
-    // float t = f * edge2.dotProduct(q);
-    // if (t > 0.00001) {
-    //     hitInfo.hit = true;
-    //     hitInfo.t = t;
-    //     hitInfo.hitPoint = ray.origin + ray.direction * t;
-    //     hitInfo.normal = edge1.crossProduct(edge2).normalize();
-    // }
+
+    auto pointEdge1 = _data.points.p2 - _data.points.p1;
+    Common::Math::Vector3D edge1(pointEdge1.x, pointEdge1.y, pointEdge1.z);
+    auto pointEdge2 = _data.points.p3 - _data.points.p1;
+    Common::Math::Vector3D edge2(pointEdge2.x, pointEdge2.y, pointEdge2.z);
+    auto normalVector = edge1.cross(edge2);
+    auto pointAO = ray.origin - _data.points.p1;
+    Common::Math::Vector3D ao(pointAO.x, pointAO.y, pointAO.z);
+    auto dao = ao.cross(ray.direction);
+
+    auto determinant = -ray.direction.dot(normalVector);
+    auto invDot = 1.0 / determinant;
+
+    auto dst = ao.dot(normalVector) * invDot;
+    auto u = edge2.dot(dao) * invDot;
+    auto v = -edge1.dot(dao) * invDot;
+    auto w = 1 - u - v;
+
+    if (determinant < std::numeric_limits<float>::epsilon() || u < 0 || v < 0 || w < 0)
+        return hitInfo;
+    
+    hitInfo.didHit = true;
+    hitInfo.distance = dst;
+    auto vector = ray.direction * dst;
+    hitInfo.hitPoint = ray.origin + Common::Math::Point3D(vector.x, vector.y, vector.z);
+    hitInfo.normal = (_data.normals.n1 * w + _data.normals.n2 * u + _data.normals.n3 * v).normalize();
+
     return hitInfo;
 }

@@ -67,6 +67,6 @@ namespace Raytracer::Objects::MeshFaces {
 
     private:
         /// @brief Points of the triangle
-        Tri points;
+        Tri _data;
     };
 }
