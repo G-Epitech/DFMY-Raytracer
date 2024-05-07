@@ -42,7 +42,7 @@ TEST_F(AppTests, SimpleAppRun)
     App app;
     char *argv[] = {
         const_cast<char *>("./raytracer"),
-        const_cast<char *>("scenes/test.cfg")
+        const_cast<char *>("scenes/test2.cfg")
     };
     int argc = 2;
 
@@ -55,7 +55,7 @@ TEST_F(AppTests, AppRunWithBadOptions)
     char *argv[] = {
         const_cast<char *>("./raytracer"),
         const_cast<char *>("-a"),
-        const_cast<char *>("scenes/test.cfg")
+        const_cast<char *>("scenes/test2.cfg")
     };
     int argc = 3;
 
