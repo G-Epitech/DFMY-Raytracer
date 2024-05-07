@@ -11,11 +11,6 @@
 using namespace Raytracer::Common;
 
 extern "C" {
-    ObjectType OBJECT_TYPE_GETTER_NAME(void)
-    {
-        return ObjectType::SPHERE;
-    }
-
     IObjectProvider *OBJECT_PROVIDER_GETTER_NAME(void)
     {
         return new Raytracer::Objects::SphereProvider();

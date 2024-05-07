@@ -1,24 +1,26 @@
 /*
 ** EPITECH PROJECT, 2024
-** arcade
+** Raytracer
 ** File description:
 ** DLLoader
 */
 
 #include "DLLoader.hpp"
 
+#include <utility>
+
 void DLLoader::_throwError()
 {
     std::string error = dlerror();
 
-    throw DLLoaderExeption(error.empty() ? "Unknown error while loading library" : error);
+    throw DLLoaderException(error.empty() ? "Unknown error while loading library" : error);
 }
 
 DLLoader::DLLoader(const std::string &filepath, LoadingMode mode)
 {
     this->_handle = dlopen(filepath.c_str(), mode);
     if (!this->_handle)
-        this->_throwError();
+        _throwError();
     dlerror();
 }
 
@@ -32,9 +34,9 @@ std::shared_ptr<DLLoader> DLLoader::open(const std::string &filepath, DLLoader::
     return std::make_shared<DLLoader>(filepath, mode);
 }
 
-DLLoader::DLLoaderExeption::DLLoaderExeption(const std::string &message) : _message(message) {}
+DLLoader::DLLoaderException::DLLoaderException(std::string message) : _message(std::move(message)) {}
 
-const char *DLLoader::DLLoaderExeption::what() const noexcept
+const char *DLLoader::DLLoaderException::what() const noexcept
 {
     return this->_message.c_str();
 }

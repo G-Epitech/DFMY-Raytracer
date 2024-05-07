@@ -6,6 +6,7 @@
 */
 
 #include "Config.hpp"
+#include "ConfigValidator.hpp"
 
 Config::SceneConfig Config::load(const std::string &path)
 {
@@ -27,18 +28,19 @@ Config::SceneConfig Config::load(const std::string &path)
     sceneConfig.cameras = _loadCameras(root);
     sceneConfig.materials = _loadMaterials(root);
     sceneConfig.objects = _loadObjects(root);
+    ConfigValidator::valid(sceneConfig);
     return sceneConfig;
 }
 
 std::string Config::_loadName(const std::string &path)
 {
     std::string name = path;
-    size_t found = name.find_last_of("/");
+    size_t found = name.find_last_of('/');
 
     if (found != std::string::npos) {
         name = name.substr(found + 1);
     }
-    found = name.find_last_of(".");
+    found = name.find_last_of('.');
     if (found != std::string::npos) {
         name = name.substr(0, found);
     }
@@ -221,8 +223,8 @@ Config::CubeConfig Config::_parseCube(const libconfig::Setting &settings)
     return cube;
 }
 
-std::tuple<float, float, float> Config::_parseTuple3f(const std::string prop,
-    const libconfig::Setting &setting, const std::vector<std::string> keys)
+std::tuple<float, float, float> Config::_parseTuple3f(const std::string& prop,
+    const libconfig::Setting &setting, const std::vector<std::string>& keys)
 {
     std::tuple<float, float, float> tuple;
     if (!setting.isGroup())
@@ -234,7 +236,7 @@ std::tuple<float, float, float> Config::_parseTuple3f(const std::string prop,
     return tuple;
 }
 
-Math::Vector3D Config::_parseVector3D(const std::string propName, const libconfig::Setting &setting)
+Math::Vector3D Config::_parseVector3D(const std::string& propName, const libconfig::Setting &setting)
 {
     Math::Vector3D vector3;
     std::tuple<float, float, float> tuple;
@@ -248,7 +250,7 @@ Math::Vector3D Config::_parseVector3D(const std::string propName, const libconfi
     return vector3;
 }
 
-Math::Point3D Config::_parsePoint3D(const std::string propName, const libconfig::Setting &setting)
+Math::Point3D Config::_parsePoint3D(const std::string& propName, const libconfig::Setting &setting)
 {
     Math::Point3D point3;
     std::tuple<float, float, float> tuple;
@@ -268,7 +270,7 @@ Raytracer::Common::Graphics::Color Config::_parseColor(const libconfig::Setting 
     std::tuple<int, int, int, int> icolor;
 
     if (!setting.isGroup())
-        throw Raytracer::Core::ConfigException("color must be a group of 4 floats");
+        throw Raytracer::Core::ConfigException("color must be a group of 4 integers");
     _settingHasValidKeys("color", setting, {"r", "g", "b", "a"});
     _lookupValueWrapper("r", setting, std::get<0>(icolor));
     _lookupValueWrapper("g", setting, std::get<1>(icolor));
@@ -281,7 +283,7 @@ Raytracer::Common::Graphics::Color Config::_parseColor(const libconfig::Setting 
     return color;
 }
 
-void Config::_settingHasValidKeys(const std::string prop, const libconfig::Setting &setting,
+void Config::_settingHasValidKeys(const std::string& prop, const libconfig::Setting &setting,
     const std::vector<std::string> &keys)
 {
     bool has_all_keys = true;

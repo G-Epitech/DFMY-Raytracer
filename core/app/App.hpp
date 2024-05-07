@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <string>
+#include "plugins/PluginsManager.hpp"
 
 namespace Raytracer::Core {
     class App {
@@ -19,6 +20,8 @@ namespace Raytracer::Core {
             bool gui = false;
             /// @brief Help flag
             bool help = false;
+            /// @brief Plugins path
+            std::string pluginsPath = "./plugins";
         } Options;
 
         /// @brief Arguments structure
@@ -57,6 +60,9 @@ namespace Raytracer::Core {
         /// @brief Application arguments
         Arguments _args;
 
+        /// @brief Plugins manager
+        PluginsManager _pluginsManager;
+
         /**
          * @brief Read arguments
          * @param argc Number of arguments
@@ -72,5 +78,16 @@ namespace Raytracer::Core {
          * @return Success status
          */
          bool _readOptions(int argc, char **argv);
+
+         /**
+          * @brief Load plugins
+          * @return Success status of the operation
+          */
+         bool _loadPlugins();
+
+         /**
+          * @brief Launch the handler
+          */
+          int _runHandler();
     };
 }

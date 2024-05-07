@@ -23,6 +23,9 @@ namespace Raytracer::Common {
 
     class IObjectProvider {
     public:
+        /// @brief Shared pointer to the object provider
+        typedef std::unique_ptr<IObjectProvider> Ptr;
+
         /// @brief Default destructor
         virtual ~IObjectProvider() = default;
 
@@ -31,7 +34,7 @@ namespace Raytracer::Common {
          * @param material Material of the object
          * @return Shared pointer to the new object 
          */
-        virtual IObject::Ptr create(const Graphics::Material::Ptr material, const Math::Point3D &position, const ObjectProperty &property) = 0;
+        virtual IObject::Ptr create(Graphics::Material::Ptr material, const Math::Point3D &position, const ObjectProperty &property) = 0;
 
         /**
          * @brief Get the manifest of the object

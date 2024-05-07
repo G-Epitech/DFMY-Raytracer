@@ -123,8 +123,8 @@ class Raytracer::Core::Config {
             std::list<ObjectConfig> objects;
         } SceneConfig;
 
-        Config() = default;
-        ~Config() = default;
+        Config() = delete;
+        ~Config() = delete;
 
         /**
          * @brief Load a scene configuration from a file
@@ -196,13 +196,13 @@ class Raytracer::Core::Config {
          * @param propName Name of the property
          * @param setting Setting of the vector3D group
          */
-        static Math::Vector3D _parseVector3D(const std::string propName, const libconfig::Setting &setting);
+        static Math::Vector3D _parseVector3D(const std::string& propName, const libconfig::Setting &setting);
         /**
          * @brief Parse a point3D group from the configuration
          * @param propName Name of the property
          * @param setting Setting of the point3D group
          */
-        static Math::Point3D _parsePoint3D(const std::string propName, const libconfig::Setting &setting);
+        static Math::Point3D _parsePoint3D(const std::string& propName, const libconfig::Setting &setting);
         /**
          * @brief Parse a color group from the configuration
          * @param setting Setting of the color group
@@ -214,11 +214,11 @@ class Raytracer::Core::Config {
          * @param setting Setting of the tuple group
          * @param keys List of keys to look for in the tuple
          */
-        static std::tuple<float, float, float> _parseTuple3f(const std::string prop,
-            const libconfig::Setting &setting, const std::vector<std::string> keys);
+        static std::tuple<float, float, float> _parseTuple3f(const std::string& prop,
+            const libconfig::Setting &setting, const std::vector<std::string>& keys);
 
         /// @brief Check if a setting has valid keys
-        static void _settingHasValidKeys(const std::string prop, const libconfig::Setting &setting,
+        static void _settingHasValidKeys(const std::string& prop, const libconfig::Setting &setting,
             const std::vector<std::string> &keys);
 
         /// @brief Wrapper to lookup a value from a setting, and assign it to a variable,
