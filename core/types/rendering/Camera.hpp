@@ -35,6 +35,18 @@ namespace Raytracer::Core::Rendering {
             float fov;
         } Config;
 
+        /// @brief Segment of the screen
+        typedef struct Segment {
+            /// @brief Origin of the segment
+            Common::Math::Size origin;
+            /// @brief Size of the segment
+            Common::Math::Size size;
+            /// @brief Local screen size
+            Common::Math::Float2 localScreenSize;
+            /// @brief Local screen origin
+            Common::Math::Point3D localScreenOrigin;
+        } Segment;
+
         class ComputeError : public exception {
         public:
             /**
@@ -65,8 +77,6 @@ namespace Raytracer::Core::Rendering {
         /// @brief Default destructor
         ~Camera() = default;
 
-        void computeSegment(Common::Math::Size origin, Common::Math::Size size, std::vector<Common::IObject::Ptr> &objects);
-
         /**
          * @brief Compute all pixels of the screen
          * @param threads Number of threads to use
@@ -85,5 +95,13 @@ namespace Raytracer::Core::Rendering {
         std::string name;
         /// @brief Vector of processing threads
         std::vector<std::thread> _threads;
+
+    protected:
+        /**
+         * @brief Compute a segment of the screen
+         * @param config Configuration of the segment
+         * @param objects Objects to render
+         */
+        void _computeSegment(Segment config, std::vector<Common::IObject::Ptr> &objects);
     };
 }

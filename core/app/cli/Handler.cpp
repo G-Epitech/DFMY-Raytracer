@@ -41,7 +41,7 @@ int Handler::run() {
             },
             .position = Common::Math::Point3D(0, 0, 30),
             .direction = Common::Math::Vector3D(0, 0, 0),
-            .fov = 50
+            .fov = 150
     };
     Rendering::Camera camera(camConfig);
     std::vector<Common::IObject::Ptr> objects;
