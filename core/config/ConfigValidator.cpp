@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** DFMY-Raytracer [WSL: Ubuntu-22.04]
+** DFMY-Raytracer
 ** File description:
 ** ConfigValidator
 */
@@ -13,7 +13,7 @@ const ConfigValidator::ValidatorFunction ConfigValidator::_validators[] = {
     &_objectsAreValid
 };
 
-void ConfigValidator::sceneIsValid(const Config::SceneConfig &cfg)
+void ConfigValidator::valid(const Config::SceneConfig &cfg)
 {
     for (auto validator : _validators) {
         validator(cfg);

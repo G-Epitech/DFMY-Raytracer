@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** DFMY-Raytracer [WSL: Ubuntu-22.04]
+** DFMY-Raytracer
 ** File description:
 ** ConfigValidator
 */
@@ -20,11 +20,11 @@ namespace Raytracer::Core {
 class Raytracer::Core::ConfigValidator {
     public:
         /// @brief Validate a scene configuration
-        ConfigValidator() = default;
-        ~ConfigValidator() = default;
+        ConfigValidator() = delete;
+        ~ConfigValidator() = delete;
 
         /// @brief Validate a scene configuration
-        static void sceneIsValid(const Config::SceneConfig &cfg);
+        static void valid(const Config::SceneConfig &cfg);
 
     private:
         /// @brief Validate materials
