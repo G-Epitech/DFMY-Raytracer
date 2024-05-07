@@ -123,8 +123,8 @@ class Raytracer::Core::Config {
             std::list<ObjectConfig> objects;
         } SceneConfig;
 
-        Config() = default;
-        ~Config() = default;
+        Config() = delete;
+        ~Config() = delete;
 
         /**
          * @brief Load a scene configuration from a file
