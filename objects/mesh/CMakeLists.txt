@@ -7,6 +7,7 @@ target_link_libraries(raytracer_mesh PRIVATE raytracer_common)
 # Add sources to Raytracer mesh library
 target_sources(raytracer_mesh PRIVATE
     export.cpp
+    src/interfaces/IFace.hpp
     src/MeshProvider.hpp
     src/MeshProvider.cpp
     src/Mesh.hpp

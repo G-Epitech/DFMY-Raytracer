@@ -73,6 +73,12 @@ private:
     void _loadObj(const std::string &filename);
 
     /**
+     * @brief Load a vertex
+     * @param iss Input string stream
+     */
+    void _loadVertex(std::istringstream &iss);
+
+    /**
      * @brief Load a face
      * @param iss Input string stream
      * @param line Line of the face
@@ -85,4 +91,16 @@ private:
      * @param point 
      */
     void _loadFacePoint(std::istringstream &iss, std::tuple<int, int, int> &point);
+
+    /**
+     * @brief Load a normal
+     * @param iss Input string stream
+     */
+    void _loadNormal(std::istringstream &iss);
+
+    /**
+     * @brief Load a texture coordinate
+     * @param iss Input string stream
+     */
+    void _loadTextureCoordinate(std::istringstream &iss);
 };
