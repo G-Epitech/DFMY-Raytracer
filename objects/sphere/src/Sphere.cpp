@@ -43,7 +43,8 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
     hitInfo.normal = (hitInfo.hitPoint - _position).normalize();
     hitInfo.hitColor = {
         .color = _material->color,
-        .emissionStrength = _material->emissionStrength
+        .emissionStrength = _material->emissionStrength,
+        .emissionColor = _material->emissionColor
     };
     return hitInfo;
 }

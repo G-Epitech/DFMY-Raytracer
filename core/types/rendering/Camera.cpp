@@ -89,20 +89,23 @@ Math::HitInfo Camera::_computeRayCollision(const Math::Ray& ray, std::vector<IOb
 
 Graphics::Color Camera::_getIncomingLight(Math::Ray &ray, unsigned int rngState, std::vector<IObject::Ptr> &objects) {
     Common::Graphics::Color incomingLight(0, 0, 0);
-    Common::Graphics::Color rayColour(255, 255, 255);
+    Common::Graphics::Color rayColour(1, 1, 1);
 
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i <= 30; i++) {
         auto hitConfig = this->_computeRayCollision(ray, objects);
         if (hitConfig.didHit) {
             ray.origin = hitConfig.hitPoint;
             ray.direction = this->_getRandomDirection(hitConfig.normal, rngState);
 
-            Common::Graphics::Color emittedLight = hitConfig.hitColor.color * (hitConfig.hitColor.emissionStrength / 100); // Change to emissionColor
+            Common::Graphics::Color emittedLight = hitConfig.hitColor.emissionColor * hitConfig.hitColor.emissionStrength;
             Common::Graphics::Color localIncomingLight = emittedLight * rayColour;
 
             incomingLight += localIncomingLight;
             rayColour *= hitConfig.hitColor.color;
         } else {
+            Common::Graphics::Color ambientLight = rayColour * 0.2f;
+            incomingLight += ambientLight;
+
             break;
         }
     }

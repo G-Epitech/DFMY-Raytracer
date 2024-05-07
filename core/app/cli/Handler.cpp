@@ -43,10 +43,10 @@ int Handler::run() {
             0
     );
     std::shared_ptr<Common::Graphics::Material> light = std::make_shared<Common::Graphics::Material>(
+            Common::Graphics::Color(0, 0, 0),
             Common::Graphics::Color(255, 255, 255),
             Common::Graphics::Color(255, 255, 255),
-            Common::Graphics::Color(255, 255, 255),
-            100.0f
+            1.0f
     );
 
     auto objectProvider = dlloader.loadSymbol<Common::ObjectProviderGetter>(SHARED_STRINGIFY(OBJECT_PROVIDER_GETTER_NAME));
@@ -65,8 +65,8 @@ int Handler::run() {
 
     objects.push_back(objectProvider()->create(light, Common::Math::Point3D(-35, 100, 80), 50.0f));
     objects.push_back(objectProvider()->create(purple, Common::Math::Point3D(0, 80, -75), 100.0f));
+    objects.push_back(objectProvider()->create(green, Common::Math::Point3D(10, 65, 35), 13.0f));
     objects.push_back(objectProvider()->create(red, Common::Math::Point3D(-10, 60, 30), 10.0f));
-    objects.push_back(objectProvider()->create(green, Common::Math::Point3D(10, 75, 35), 13.0f));
 
     camera.compute(COMPUTE_THREADS, objects);
 
