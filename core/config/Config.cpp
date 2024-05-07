@@ -85,7 +85,6 @@ void Config::load()
     _sceneConfig.materials = _loadMaterials(root);
     _sceneConfig.objects = _loadObjects(root);
     ConfigValidator::valid(_sceneConfig);
-    _debugPrintSceneConfig();
 }
 
 std::string Config::_loadName()
@@ -359,35 +358,5 @@ void Config::_settingHasValidKeys(const std::string& prop, const libconfig::Sett
     }
     if (!has_all_keys) {
         throw Raytracer::Core::ConfigException(error_msg + " as keys");
-    }
-}
-
-void Config::_debugPrintSceneConfig()
-{
-    for (auto &camera: _sceneConfig.cameras) {
-        std::cout << "Camera: " << camera.name << std::endl;
-        std::cout << "Position: " << camera.position.x << " " << camera.position.y << " " << camera.position.z << std::endl;
-        std::cout << "Direction: " << camera.direction.x << " " << camera.direction.y << " " << camera.direction.z << std::endl;
-        std::cout << "Field of view: " << camera.fov << std::endl;
-        std::cout << "Screen origin: " << camera.screen.origin.x << " " << camera.screen.origin.y << " " << camera.screen.origin.z << std::endl;
-        std::cout << "Screen size: " << camera.screen.size.height << " " << camera.screen.size.width << std::endl;
-    }
-    std::cout << "------" << std::endl;
-    for (auto &material: _sceneConfig.materials) {
-        std::cout << "Material: " << material.name << std::endl;
-        std::cout << "Color: " << material.color.r << " " << material.color.g << " " << material.color.b << " " << material.color.a << std::endl;
-        std::cout << "Reflectivity: " << material.reflectivity << std::endl;
-        for (auto &emission: material.emissions) {
-            std::cout << "Emission: " << std::endl;
-            std::cout << "Direction: " << emission.direction.x << " " << emission.direction.y << " " << emission.direction.z << std::endl;
-            std::cout << "Color: " << emission.color.r << " " << emission.color.g << " " << emission.color.b << " " << emission.color.a << std::endl;
-            std::cout << "Strength: " << emission.strength << std::endl;
-        }
-    }
-    std::cout << "-------" << std::endl;
-    for (auto &object: _sceneConfig.objects) {
-        std::cout << "Object: " << object.type << std::endl;
-        std::cout << "Material: " << object.material << std::endl;
-        std::cout << "Origin: " << object.origin.x << " " << object.origin.y << " " << object.origin.z << std::endl;
     }
 }

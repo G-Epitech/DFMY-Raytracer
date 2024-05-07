@@ -18,12 +18,12 @@
 #include "ConfigException.hpp"
 #include "types/math/Point.hpp"
 #include "types/math/Vector.hpp"
-#include "interfaces/IObjectProvider.hpp"
 #include "types/graphics/Color.hpp"
 #include "factory/ObjectFactory.hpp"
 #include "types/rendering/Scene.hpp"
 #include "plugins/PluginsManager.hpp"
 #include "types/graphics/Material.hpp"
+#include "interfaces/IObjectProvider.hpp"
 
 using namespace Raytracer::Common;
 using namespace Raytracer::Core;
@@ -127,6 +127,9 @@ class Raytracer::Core::Config {
             std::list<ObjectConfig> objects;
         } SceneConfig;
 
+        /// @brief Construct a new Config object with a path to the configuration file
+        /// no configuration file is loaded at this point
+        /// @see load method
         Config(const std::string &path);
         ~Config() = default;
 
@@ -137,18 +140,38 @@ class Raytracer::Core::Config {
         */
         void load();
 
+        /**
+         * @brief Convert a scene configuration to a Scene object
+         * @param sceneConfig Scene configuration
+         * @return Scene::Ptr
+        */
         Rendering::Scene::Ptr toScene(PluginsManager &pluginsManager);
 
     private:
+        /// @brief Path to the configuration file
         std::string _path;
+        /// @brief Scene configuration
         SceneConfig _sceneConfig;
 
-        void _debugPrintSceneConfig();
-
+        /**
+         * @brief Builds the cameras of the scene
+         * @param scene Scene to build the cameras for
+         * @return void
+         */
         void _buildSceneCameras(Rendering::Scene::Ptr scene);
 
+        /**
+         * @brief Builds the materials of the scene
+         * @param scene Scene to build the materials for
+         * @return void
+         */
         void _buildSceneMaterials(Rendering::Scene::Ptr scene);
 
+        /**
+         * @brief Builds the objects of the scene
+         * @param scene Scene to build the objects for
+         * @return void
+         */
         void _buildSceneObjects(Rendering::Scene::Ptr scene, PluginsManager &pluginsManager);
 
         /**
