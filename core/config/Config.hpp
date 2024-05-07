@@ -120,11 +120,11 @@ class Raytracer::Core::Config {
             /// @brief Ambient light configuration
             AmbientConfig ambient;
             /// @brief List of camera configurations
-            std::list<CameraConfig> cameras;
+            std::vector<CameraConfig> cameras;
             /// @brief List of material configurations
-            std::list<MaterialConfig> materials;
+            std::vector<MaterialConfig> materials;
             /// @brief List of object configurations
-            std::list<ObjectConfig> objects;
+            std::vector<ObjectConfig> objects;
         } SceneConfig;
 
         /// @brief Construct a new Config object with a path to the configuration file
@@ -197,17 +197,17 @@ class Raytracer::Core::Config {
          * @brief Load the scene cameras configuration
          * @param root Root setting of the configuration file
          */
-        std::list<CameraConfig> _loadCameras(const libconfig::Setting &root);
+        std::vector<CameraConfig> _loadCameras(const libconfig::Setting &root);
         /**
          * @brief Load the scene materials configuration
          * @param root Root setting of the configuration file
          */
-        std::list<MaterialConfig> _loadMaterials(const libconfig::Setting &root);
+        std::vector<MaterialConfig> _loadMaterials(const libconfig::Setting &root);
         /**
          * @brief Load the scene objects configuration
          * @param root Root setting of the configuration file
          */
-        std::list<ObjectConfig> _loadObjects(const libconfig::Setting &root);
+        std::vector<ObjectConfig> _loadObjects(const libconfig::Setting &root);
 
         /**
          * @brief Parse a camera group from the configuration

@@ -77,8 +77,7 @@ void Config::load()
     try {
         if (_fromString) {
             cfg.readString(_configContents);
-        }
-        else {
+        } else {
             cfg.readFile(_configContents.c_str());
         }
     } catch (const libconfig::FileIOException &fioex) {
@@ -122,7 +121,7 @@ Config::AmbientConfig Config::_loadAmbient(const libconfig::Setting &root)
     AmbientConfig ambient;
     const libconfig::Setting &ambientCfg = root["ambient"];
 
-    if (!root.isGroup()) {
+    if (!ambientCfg.isGroup()) {
         throw Raytracer::Core::ConfigException("ambient must be a group");
     }
     _settingHasValidKeys("ambient", ambientCfg, {"color", "strength"});
@@ -131,9 +130,9 @@ Config::AmbientConfig Config::_loadAmbient(const libconfig::Setting &root)
     return ambient;
 }
 
-std::list<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting &root)
+std::vector<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting &root)
 {
-    std::list<Config::CameraConfig> cameras = {};
+    std::vector<Config::CameraConfig> cameras = {};
     Config::CameraConfig camera;
     const libconfig::Setting &camerasCfg = root["cameras"];
 
@@ -177,9 +176,9 @@ Config::ScreenConfig Config::_parseCameraScreen(const libconfig::Setting &settin
     return screen;
 }
 
-std::list<Config::MaterialConfig> Config::_loadMaterials(const libconfig::Setting &root)
+std::vector<Config::MaterialConfig> Config::_loadMaterials(const libconfig::Setting &root)
 {
-    std::list<MaterialConfig> materials = {};
+    std::vector<MaterialConfig> materials = {};
     const libconfig::Setting &materialsCfg = root["materials"];
 
     if (!materialsCfg.isList()){
@@ -231,9 +230,9 @@ std::vector<Config::EmissionConfig> Config::_parseEmissions(const libconfig::Set
     return emissions;
 }
 
-std::list<Config::ObjectConfig> Config::_loadObjects(const libconfig::Setting &root)
+std::vector<Config::ObjectConfig> Config::_loadObjects(const libconfig::Setting &root)
 {
-    std::list<ObjectConfig> objects = {};
+    std::vector<ObjectConfig> objects = {};
     const libconfig::Setting &objectsCfg = root["objects"];
 
     if (!objectsCfg.isList()){
