@@ -7,25 +7,20 @@
 
 #pragma once
 
-#include <string>
-#include <map>
-#include "interfaces/IObject.hpp"
-#include "interfaces/IObjectProvider.hpp"
+#include "plugins/PluginsManager.hpp"
 
 namespace Raytracer::Core {
-    using namespace Raytracer::Common;
-
     class ObjectFactory {
     public:
-        /**
-         * @brief Exception class for ObjectFactory
-         */
+
+        /// @brief Exception class for ObjectFactory
         class Exception;
+
         /**
          * @brief Construct a new ObjectFactory object
-         * @param pluginsDir Directory where the plugins are stored
+         * @param pluginsManager Plugins manager to use to create objects
          */
-        explicit ObjectFactory(const std::string &pluginsDir = "./plugins");
+        explicit ObjectFactory(PluginsManager &pluginsManager);
 
         /**
          * @brief Destroy the ObjectFactory object
@@ -42,33 +37,33 @@ namespace Raytracer::Core {
          */
         IObject::Ptr create(
             const std::string &name,
-            const Graphics::Material::Ptr &material,
+            const Graphics::Material::Ptr& material,
             const Math::Point3D &position,
-            const Raytracer::Common::ObjectProperty &property
+            const ObjectProperty &property
         );
 
     private:
-        /// @brief Map of object providers
-        std::map<std::string, Common::IObjectProvider::Ptr> _providers;
+        /// @brief Plugins manager to use to create objects
+        PluginsManager &_pluginsManager;
     };
 
     class ObjectFactory::Exception : public std::exception {
     public:
         /**
          * @brief Construct a new Exception object
-         * @param message Message of the exception
+         * @param message Error message
          */
         explicit Exception(std::string message);
 
         /**
-         * @brief Get the message of the exception
-         * @return Message of the exception
+         * @brief Get the error message
+         * @return Error message
          */
         [[nodiscard]]
         const char *what() const noexcept override;
 
     private:
-        /// @brief Message of the exception
+        /// @brief Error message
         std::string _message;
     };
 }

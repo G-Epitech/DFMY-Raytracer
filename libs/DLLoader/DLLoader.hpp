@@ -15,6 +15,9 @@
 class DLLoader {
     public:
 
+        /// @brief Pointer type
+        typedef std::shared_ptr<DLLoader> Ptr;
+
         /// @brief Loading mode
         typedef enum {
             /// @brief Lazy loading
@@ -47,7 +50,7 @@ class DLLoader {
          * @param filepath Path to the library
          * @param mode Loading mode
          */
-        static std::shared_ptr<DLLoader> open(const std::string &filepath, LoadingMode mode = LAZY);
+        static Ptr open(const std::string &filepath, LoadingMode mode = LAZY);
 
         /**
          * @brief Get a function from the library
