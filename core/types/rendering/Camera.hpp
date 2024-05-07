@@ -80,6 +80,7 @@ namespace Raytracer::Core::Rendering {
         /**
          * @brief Compute all pixels of the screen
          * @param threads Number of threads to use
+         * @param objects Objects to compute
          */
         void compute(size_t threads, std::vector<Common::IObject::Ptr> &objects);
 
@@ -100,8 +101,35 @@ namespace Raytracer::Core::Rendering {
         /**
          * @brief Compute a segment of the screen
          * @param config Configuration of the segment
-         * @param objects Objects to render
+         * @param objects Objects to compute
          */
         void _computeSegment(Segment config, std::vector<Common::IObject::Ptr> &objects);
+
+        /**
+         * @brief Compute the collision of a ray with the objects
+         * @param ray Ray to compute
+         * @param objects Objects to compute
+         * @return HitInfo of the collision
+         */
+        Common::Math::HitInfo
+        _computeRayCollision(const Common::Math::Ray &ray, std::vector<Common::IObject::Ptr> &objects);
+
+        /**
+         * @brief Get the incoming light of a ray
+         * @param ray Ray to compute
+         * @param rngState Random state
+         * @param objects Objects to compute
+         * @return Incoming light of the ray
+         */
+        Common::Graphics::Color _getIncomingLight(Common::Math::Ray &ray, unsigned int rngState,
+                                                  std::vector<Common::IObject::Ptr> &objects);
+
+        /**
+         * @brief Get a random direction (hemisphere) from a normal
+         * @param normal Vector normal of the direction
+         * @param rngState Random state
+         * @return Random direction
+         */
+        Common::Math::Vector3D _getRandomDirection(Common::Math::Vector3D &normal, unsigned int &rngState);
     };
 }
