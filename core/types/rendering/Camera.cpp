@@ -40,13 +40,20 @@ void Rendering::Camera::compute(size_t threads, std::vector<IObject::Ptr> &objec
 
 void Rendering::Camera::computeSegment(Common::Math::Size origin, Common::Math::Size size,
                                        std::vector<IObject::Ptr> &objects) {
-    std::vector<IObject::Ptr> castObjects;
-    auto screenOrigin = Math::Point3D(position.x - screen.size.width / 2, position.y + 100,
-                                      position.z + screen.size.height / 2);
+    float screenHeight = 5 * tan(fov * 0.5 * (M_PI / 180.0)) * 2;
+    float cameraAspect = (float) screen.size.width / (float) screen.size.height;
+    float screenWidth = screenHeight * cameraAspect;
 
+    auto screenOrigin = Math::Point3D(position.x - screenWidth / 2, position.y + 5,
+                                      position.z + screenHeight / 2);
+
+    std::vector<IObject::Ptr> castObjects;
     for (size_t y = origin.height; y < origin.height + size.height; y++) {
         for (size_t x = origin.width; x < origin.width + size.width; x++) {
-            auto pixelPosition = Math::Point3D(screenOrigin.x + x, screenOrigin.y, screenOrigin.z - y);
+            float tx = (float) x / ((float) screen.size.width - 1.0f);
+            float ty = (float) y / ((float) screen.size.height - 1.0f);
+
+            auto pixelPosition = Math::Point3D(screenOrigin.x + screenWidth * tx, screenOrigin.y, screenOrigin.z - screenHeight * ty);
             auto rayDirection = Math::Vector3D(pixelPosition.x - position.x, pixelPosition.y - position.y,
                                                pixelPosition.z - position.z);
 
@@ -55,8 +62,6 @@ void Rendering::Camera::computeSegment(Common::Math::Size origin, Common::Math::
                 auto hitConfig = object->computeCollision(ray);
 
                 if (hitConfig.didHit) {
-                    std::cout << "Hit object!" << std::endl;
-
                     castObjects.push_back(object);
                     screen.setPixel(x, y, {
                             .r = 255,
