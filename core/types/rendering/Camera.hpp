@@ -14,7 +14,7 @@
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
 
-#define COMPUTE_THREADS 8
+#define COMPUTE_THREADS 20
 
 namespace Raytracer::Core::Rendering {
     class Camera {
