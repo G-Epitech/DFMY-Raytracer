@@ -6,6 +6,7 @@
 *.o
 *.a
 *.so
+*.dylib
 raytracer
 raytracer_tests
 
@@ -25,3 +26,4 @@ __pycache__/
 # Build files
 build/
 cmake-build-debug*
+

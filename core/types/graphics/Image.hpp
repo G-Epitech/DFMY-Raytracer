@@ -35,7 +35,6 @@ namespace Raytracer::Core::Graphics {
          * @param path Path to save the image
          * @return Saving status
          */
-        [[nodiscard]]
         bool saveTo(const std::string &path) const;
 
     private:

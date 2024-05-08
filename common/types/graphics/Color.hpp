@@ -27,6 +27,16 @@ namespace Raytracer::Common::Graphics {
         bool operator==(const Color &color) const;
         /// @brief Compare two colors
         bool operator!=(const Color &color) const;
+        /// @brief Multiply the color by a scalar
+        Color operator*(float scalar) const;
+        /// @brief Multiply the color by another color
+        Color operator*(Color &other) const;
+        /// @brief Multiply this color by another color
+        Color &operator*=(Color &other);
+        /// @brief Add two colors
+        Color operator+(Color &other) const;
+        /// @brief Add color to this color
+        Color &operator+=(Color &other);
         /// @brief Red component of the color
         unsigned char r;
         /// @brief Green component of the color

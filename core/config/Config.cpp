@@ -51,7 +51,6 @@ void Config::_buildSceneCameras(Rendering::Scene::Ptr scene)
         cameraConfig.position = camera.position;
         cameraConfig.direction = camera.direction;
         cameraConfig.fov = camera.fov;
-        cameraConfig.screen.origin = camera.screen.origin;
         cameraConfig.screen.size = camera.screen.size;
         scene->cameras[cameraConfig.name] = std::make_shared<Rendering::Camera>(cameraConfig);
     }
