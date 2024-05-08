@@ -129,7 +129,6 @@ class Raytracer::Core::Config {
 
         /// @brief Construct a new Config object with a path to the configuration file
         /// no configuration file is loaded at this point
-        /// @param path Path to the configuration file or string content
         /// @param fromString Flag to indicate to load config from string (mainly used for testing purposes)
         /// @see load method
         Config(const std::string &_configContents, bool fromString = false);

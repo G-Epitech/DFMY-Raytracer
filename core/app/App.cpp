@@ -22,11 +22,11 @@ int App::run(int argc, char **argv)
         return 84;
     if (_args.options.help)
         return help();
-    Config configLoader(_args.scenes[0]);
+    Config config(_args.scenes[0]);
     if (!_loadPlugins())
         return 84;
-    configLoader.load();
-    configLoader.toScene(_pluginsManager);
+    config.load();
+    config.toScene(_pluginsManager);
     return _runHandler();
 }
 
