@@ -138,7 +138,7 @@ namespace Raytracer::Core::Rendering {
          * @param objects Objects to compute
          * @return Incoming light of the ray
          */
-        Common::Graphics::Color _getIncomingLight(Common::Math::Ray &ray, unsigned int rngState,
+        Common::Graphics::Color _getIncomingLight(Common::Math::Ray ray, unsigned int rngState,
                                                   std::vector<Common::IObject::Ptr> &objects);
 
         /**

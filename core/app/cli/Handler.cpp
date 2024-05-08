@@ -24,6 +24,8 @@ using namespace Raytracer::Core::Cli;
     #define PLUGIN_PATH "plugins/raytracer_sphere.dll"
 #endif
 
+#define RESOLUTION 1
+
 Handler::Handler(Raytracer::Core::App::Arguments &args): _args(args) {}
 
 Handler::~Handler() = default;
@@ -74,7 +76,7 @@ int Handler::run() {
     Rendering::Camera::Config camConfig = {
             .name = "Main camera",
             .screen = {
-                    .size = { .width = 1920 * 2, .height = 1080 * 2 }
+                    .size = { .width = 1920 * RESOLUTION , .height = 1080 * RESOLUTION}
             },
             .position = Common::Math::Point3D(0, 0, 30),
             .direction = Common::Math::Vector3D(0, 0, 0),
@@ -83,7 +85,7 @@ int Handler::run() {
     Rendering::Camera camera(camConfig);
     std::vector<Common::IObject::Ptr> objects;
 
-    objects.push_back(objectProvider()->create(light, Common::Math::Point3D(-35, 100, 80), 50.0f));
+    objects.push_back(objectProvider()->create(light, Common::Math::Point3D(-100, 200, 120), 50.0f));
     objects.push_back(objectProvider()->create(light, Common::Math::Point3D(30, 50, 30), 3.0f));
 
     objects.push_back(objectProvider()->create(purple, Common::Math::Point3D(0, 80, -75), 100.0f));

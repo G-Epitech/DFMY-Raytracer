@@ -62,6 +62,10 @@ Graphics::Color Graphics::Color::operator+(Graphics::Color &other) const {
     Math::Float3 of = toFloat3(other);
     Math::Float3 resultFloat3 = tf + of;
 
+    if (resultFloat3.x > 1) resultFloat3.x = 1;
+    if (resultFloat3.y > 1) resultFloat3.y = 1;
+    if (resultFloat3.z > 1) resultFloat3.z = 1;
+
     return toColor(resultFloat3);
 }
 

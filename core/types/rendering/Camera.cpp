@@ -64,8 +64,18 @@ void Camera::_computeSegment(Segment config, std::vector<IObject::Ptr> &objects)
             auto ray = Math::Ray(position, rayDirection);
 
             size_t pixelIndex = y * screen.size.width + x;
-            Common::Graphics::Color color = this->_getIncomingLight(ray, pixelIndex, objects);
-            screen.setPixel(x, y, color.toPixel());
+
+            Common::Graphics::Color totalIncomingLight(0, 0, 0);
+
+            for (size_t ri = 0; ri <= 100; ri++) {
+                auto random = pixelIndex;
+                auto incomingLight = this->_getIncomingLight(ray, random, objects);
+
+                totalIncomingLight += incomingLight;
+            }
+
+            Common::Graphics::Color renderColor = totalIncomingLight * 0.9f;
+            screen.setPixel(x, y, renderColor.toPixel());
 
             this->_statusMutex.lock();
             this->_processedPixels++;
@@ -90,7 +100,7 @@ Math::HitInfo Camera::_computeRayCollision(const Math::Ray &ray, std::vector<IOb
     return closestHit;
 }
 
-Graphics::Color Camera::_getIncomingLight(Math::Ray &ray, unsigned int rngState, std::vector<IObject::Ptr> &objects) {
+Graphics::Color Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, std::vector<IObject::Ptr> &objects) {
     Common::Graphics::Color incomingLight(0, 0, 0);
     Common::Graphics::Color rayColor(255, 255, 255);
 
@@ -108,7 +118,7 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray &ray, unsigned int rngState,
             incomingLight += localIncomingLight;
             rayColor *= hitConfig.hitColor.color;
         } else {
-            Common::Graphics::Color ambientLight = rayColor * 0.3f;
+            Common::Graphics::Color ambientLight = rayColor * 0.0f;
             incomingLight += ambientLight;
 
             break;
@@ -118,9 +128,9 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray &ray, unsigned int rngState,
 }
 
 Math::Vector3D Camera::_getRandomDirection(Math::Vector3D &normal, unsigned int &rngState) {
-    float randomX = rngState * (rngState + 195439) * (rngState + 124395) * (rngState + 845921);
-    float randomY = rngState * (rngState + 59283) * (rngState + 48217) * (rngState + 271829);
-    float randomZ = rngState * (rngState + 712849) * (rngState + 193847) * (rngState + 38291);
+    float randomX = rngState * (rngState + rand() % 1000) * (rngState + rand() % 1000) * (rngState + rand() % 1000);
+    float randomY = rngState * (rngState + rand() % 1000) * (rngState + rand() % 1000) * (rngState + rand() % 1000);
+    float randomZ = rngState * (rngState + rand() % 1000) * (rngState + rand() % 1000) * (rngState + rand() % 1000);
     randomX = randomX / 4294967295.0;
     randomY = randomY / 4294967295.0;
     randomZ = randomZ / 4294967295.0;
