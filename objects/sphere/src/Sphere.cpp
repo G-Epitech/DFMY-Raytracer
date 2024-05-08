@@ -29,7 +29,7 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
 
     if (discriminant < 0)
         return hitInfo;
-    
+
     float distance = (-b - sqrt(discriminant)) / (2.0 * a);
 
     if (distance < 0)

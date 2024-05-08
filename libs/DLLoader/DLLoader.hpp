@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** arcade
+** Raytracer
 ** File description:
 ** DLLoader
 */
@@ -14,6 +14,9 @@
 /// @brief Dynamic library loader
 class DLLoader {
     public:
+
+        /// @brief Pointer type
+        typedef std::shared_ptr<DLLoader> Ptr;
 
         /// @brief Loading mode
         typedef enum {
@@ -35,7 +38,7 @@ class DLLoader {
          * @brief Construct a new DLLoader object
          * @param filepath Path to the library
          */
-        DLLoader(const std::string &filepath, LoadingMode mode = LAZY);
+        explicit DLLoader(const std::string &filepath, LoadingMode mode = LAZY);
 
         /**
          * @brief Destroy the DLLoader object
@@ -47,7 +50,7 @@ class DLLoader {
          * @param filepath Path to the library
          * @param mode Loading mode
          */
-        static std::shared_ptr<DLLoader> open(const std::string &filepath, LoadingMode mode = LAZY);
+        static Ptr open(const std::string &filepath, LoadingMode mode = LAZY);
 
         /**
          * @brief Get a function from the library
@@ -56,25 +59,30 @@ class DLLoader {
          * @return T Function founded
          */
         template <typename T>
-        T loadSymbol(std::string name) {
+        T loadSymbol(std::string &name) {
             if (!this->_handle)
-                throw DLLoaderExeption("Library not loaded");
+                throw DLLoaderException("Library not loaded");
             T symbol = reinterpret_cast<T>(dlsym(this->_handle, name.c_str()));
             if (!symbol)
-                this->_throwError();
+                _throwError();
             return symbol;
         }
 
         /// @brief Exception class
-        class DLLoaderExeption : public std::exception {
+        class DLLoaderException : public std::exception {
             public:
 
                 /**
-                 * @brief Construct a new DLLoaderExeption object
+                 * @brief Construct a new DLLoaderException object
                  * @param message Error message
                  */
-                DLLoaderExeption(const std::string &message);
+                explicit DLLoaderException(std::string message);
 
+                /**
+                 * @brief Get the error message
+                 * @return Error message
+                 */
+                [[nodiscard]]
                 const char *what() const noexcept override;
 
             private:
@@ -88,5 +96,5 @@ class DLLoader {
         /**
          * @brief Throw an error
          */
-        void _throwError();
+        static void _throwError();
 };
