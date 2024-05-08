@@ -8,6 +8,7 @@ target_sources(raytracer_common PRIVATE
         math/HitInfo.hpp
         math/Ray.cpp
         math/Ray.hpp
+        math/Size.hpp
         graphics/Pixel.hpp
         graphics/Color.hpp
         graphics/Color.cpp

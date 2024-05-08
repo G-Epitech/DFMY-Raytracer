@@ -45,6 +45,20 @@ namespace Raytracer::Common::Math {
         explicit Float3(float x = 0, float y = 0, float z = 0);
 
         /**
+         * @brief Multiply two Float3
+         * @param other Other Float3 to multiply
+         * @return Result of the multiplication
+         */
+        Float3 operator*(Float3 &other) const;
+
+        /**
+         * @biref Addition two Float3
+         * @param other Other Float3 to add
+         * @return Result of the addition
+         */
+        Float3 operator+(Float3 &other) const;
+
+        /**
          * @brief Destroy the Float 3 object
          */
         ~Float3() = default;

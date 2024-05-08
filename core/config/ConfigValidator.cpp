@@ -22,7 +22,7 @@ void ConfigValidator::valid(const Config::SceneConfig &cfg)
 
 void ConfigValidator::_materialsAreValid(const Config::SceneConfig &cfg)
 {
-    std::list<Config::MaterialConfig> materials = cfg.materials;
+    std::vector<Config::MaterialConfig> materials = cfg.materials;
     std::set<std::string> materialNames;
 
     for (auto material : materials) {
@@ -38,7 +38,7 @@ void ConfigValidator::_materialsAreValid(const Config::SceneConfig &cfg)
 
 void ConfigValidator::_camerasAreValid(const Config::SceneConfig &cfg)
 {
-    std::list<Config::CameraConfig> cameras = cfg.cameras;
+    std::vector<Config::CameraConfig> cameras = cfg.cameras;
     std::set<std::string> cameraNames;
 
     for (auto camera : cameras) {
@@ -54,8 +54,8 @@ void ConfigValidator::_camerasAreValid(const Config::SceneConfig &cfg)
 
 void ConfigValidator::_objectsAreValid(const Config::SceneConfig &cfg)
 {
-    std::list<Config::ObjectConfig> objects = cfg.objects;
-    std::list<Config::MaterialConfig> materials = cfg.materials;
+    std::vector<Config::ObjectConfig> objects = cfg.objects;
+    std::vector<Config::MaterialConfig> materials = cfg.materials;
 
     for (auto object : objects) {
         if (object.material.empty()) {
@@ -68,7 +68,7 @@ void ConfigValidator::_objectsAreValid(const Config::SceneConfig &cfg)
             throw ConfigException("object material \"" + object.material + "\" does not exist");
         }
         if (object.type == "sphere") {
-            if (std::get<Config::SphereConfig>(object.properties).radius <= 0) {
+            if (std::get<float>(object.property) <= 0) {
                 throw ConfigException("sphere radius must be greater than 0");
             }
         }

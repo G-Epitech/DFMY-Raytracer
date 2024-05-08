@@ -13,26 +13,17 @@
 #include "types/graphics/Pixel.hpp"
 #include "types/math/Point.hpp"
 #include "types/graphics/PixelArray.hpp"
+#include "types/math/Size.hpp"
 
 using namespace std;
 
 namespace Raytracer::Core::Rendering {
     class Screen {
     public:
-        /// @brief Size of the screen
-        typedef struct Size {
-            /// @brief Width of the screen
-            size_t width;
-            /// @brief Height of the screen
-            size_t height;
-        } Size;
-
         /// @brief Configuration of the screen
         typedef struct Config {
             /// @brief Size of the screen
-            Size size;
-            /// @brief Origin of the screen
-            Common::Math::Point3D origin;
+            Common::Math::Size size;
         } Config;
 
         /**
@@ -44,13 +35,10 @@ namespace Raytracer::Core::Rendering {
         /**
          * @brief Default constructor of the screen
          */
-        ~Screen();
+        ~Screen() = default;
 
         /// @brief Width of the screen
-        const Size size;
-
-        /// @brief Origin of the screen
-        const Common::Math::Point3D origin;
+        const Common::Math::Size size;
 
         /// @brief Get the pixel at the given coordinates
         void setPixel(size_t x, size_t y, const Common::Graphics::Pixel &pixel);

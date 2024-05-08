@@ -2,6 +2,7 @@
 add_library(raytracer_core STATIC)
 target_link_libraries(raytracer_core dlloader)
 target_link_libraries(raytracer_core raytracer_common)
+target_link_libraries(raytracer_core sfml-graphics)
 target_link_libraries(raytracer_core config++)
 target_link_libraries(raytracer_core sfml-graphics sfml-window sfml-system tgui)
 
