@@ -157,9 +157,6 @@ std::vector<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting 
         const libconfig::Setting &cameraCfg = camerasCfg[i];
         _settingHasValidKeys("camera", cameraCfg, {"direction",
             "position", "fieldOfView", "name", "screen"});
-        if (!cameraCfg["resolution"].isGroup()) {
-            throw Raytracer::Core::ConfigException("resolution must be a group of 2 integers");
-        }
         _lookupValueWrapper("name", cameraCfg, camera.name);
         camera.position = _parsePoint3D("position", cameraCfg["position"]);
         camera.direction = _parseVector3D("direction", cameraCfg["direction"]);
