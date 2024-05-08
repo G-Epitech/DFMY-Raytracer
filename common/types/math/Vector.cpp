@@ -148,3 +148,16 @@ Math::Vector2D &Math::Vector2D::operator/=(float c) {
 float Math::Vector2D::length() const {
     return std::sqrt(x * x + y * y);
 }
+
+Math::Vector3D Math::Vector3D::rotate(const Math::Vector3D &axis) {
+    float x = this->x;
+    float y = this->y;
+    float z = this->z;
+    float u = axis.x;
+    float v = axis.y;
+    float w = axis.z;
+    float xPrime = u * (u * x + v * y + w * z) * (1 - std::cos(0.1)) + x * std::cos(0.1) + (-w * y + v * z) * std::sin(0.1);
+    float yPrime = v * (u * x + v * y + w * z) * (1 - std::cos(0.1)) + y * std::cos(0.1) + (w * x - u * z) * std::sin(0.1);
+    float zPrime = w * (u * x + v * y + w * z) * (1 - std::cos(0.1)) + z * std::cos(0.1) + (-v * x + u * y) * std::sin(0.1);
+    return Vector3D(xPrime, yPrime, zPrime);
+}

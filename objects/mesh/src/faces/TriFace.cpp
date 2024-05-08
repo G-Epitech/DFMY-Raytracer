@@ -44,7 +44,7 @@ Raytracer::Common::Math::HitInfo TriFace::computeCollision(
         hitInfo.distance = dst;
         auto vector = ray.direction * dst;
         hitInfo.hitPoint = ray.origin + Point3D(vector.x, vector.y, vector.z);
-        hitInfo.normal = (_data.normals.n1 * w + _data.normals.n2 * u + _data.normals.n3 * v).normalize();
+        // hitInfo.normal = (_data.normals.n1 * w + _data.normals.n2 * u + _data.normals.n3 * v).normalize();
     }
     return hitInfo;
 }

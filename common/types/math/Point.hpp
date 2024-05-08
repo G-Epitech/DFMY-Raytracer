@@ -41,6 +41,28 @@ namespace Raytracer::Common::Math {
          * @return Distance between the two points
          */
         Common::Math::Vector3D normalize() const;
+
+        /**
+         * @brief Rotate the point around the x axis
+         * @param angle Angle to rotate
+         * @return Rotated point
+         */
+        void rotateX(float angle);
+
+        /**
+         * @brief Rotate the point around the y axis
+         * @param angle Angle to rotate
+         * @return Rotated point
+         */
+        void rotateY(float angle);
+
+        /**
+         * @brief Rotate the point around the z axis
+         * @param angle Angle to rotate
+         * @return Rotated point
+         */
+        void rotateZ(float angle);
+
     };
 
     /// @brief Representing a 2D point

@@ -5,6 +5,7 @@
 ** Point.cpp
 */
 
+#include <cmath>
 #include "Point.hpp"
 
 using namespace Raytracer::Common;
@@ -22,6 +23,30 @@ Math::Point3D::Point3D(const Math::Point3D &point): Point3D(point.x, point.y, po
 Math::Vector3D Math::Point3D::normalize() const
 {
     return Math::Vector3D(x, y, z).normalize();
+}
+
+void Math::Point3D::rotateX(float angle)
+{
+    float rad = angle * M_PI / 180;
+
+    this->y = this->y * cos(rad) - this->z * sin(rad);
+    this->z = this->y * sin(rad) + this->z * cos(rad);
+}
+
+void Math::Point3D::rotateY(float angle)
+{
+    float rad = angle * M_PI / 180;
+
+    this->x = this->x * cos(rad) + this->z * sin(rad);
+    this->z = -this->x * sin(rad) + this->z * cos(rad);
+}
+
+void Math::Point3D::rotateZ(float angle)
+{
+    float rad = angle * M_PI / 180;
+
+    this->x = this->x * cos(rad) - this->y * sin(rad);
+    this->y = this->x * sin(rad) + this->y * cos(rad);
 }
 
 Math::Point3D operator+(const Math::Point3D &point1, const Math::Point3D &point2)

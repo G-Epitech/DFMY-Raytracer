@@ -22,7 +22,6 @@ Mesh::Mesh(
 {
     auto filename = std::get<std::string>(property);
 
-    Common::Math::Vector3D rotation(12, 0, 0);
 
     _loadObj(filename);
     for (auto &vertex : _vertices) {
@@ -30,6 +29,11 @@ Mesh::Mesh(
         vertex.y += _position.y;
         vertex.z += _position.z;
     }
+
+    for (auto &vertex : _vertices) {
+        vertex.rotateY(30);
+    }
+
     _loadTriangles();
     _loadQuads();
     std::cout << "Loaded mesh: " << filename << std::endl;

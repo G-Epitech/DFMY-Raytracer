@@ -58,7 +58,7 @@ int Handler::run() {
     Rendering::Camera::Config camConfig = {
             .name = "Main camera",
             .screen = {
-                    .size = { .width = 1920 * 2, .height = 1080 * 2 }
+                    .size = { .width = 1920, .height = 1080 }
             },
             .position = Common::Math::Point3D(0, 0, 30),
             .direction = Common::Math::Vector3D(0, 0, 0),
