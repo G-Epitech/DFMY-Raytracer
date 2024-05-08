@@ -7,3 +7,4 @@ RUN curl -L https://github.com/texus/TGUI/archive/refs/tags/v1.2.0.zip -o /tmp/t
 
 WORKDIR /usr/local/include/tgui
 RUN cmake . -DTGUI_BACKEND=SFML_GRAPHICS && make install
+CMD [ "export", "LD_LIBRARY_PATH=/usr/local/lib64:$LD_LIBRARY_PATH" ]
