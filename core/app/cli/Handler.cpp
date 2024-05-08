@@ -83,10 +83,11 @@ int Handler::run() {
     for (auto& thread : camera._threads) {
         thread.join();
     }
+
     std::cout << "Rendering done!" << std::endl;
     Core::Graphics::Image image(camera.screen.size.width, camera.screen.size.height, camera.screen.getPixels());
 
     image.saveTo("output.png");
-    
+
     return 0;
 }

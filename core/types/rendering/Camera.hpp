@@ -84,6 +84,17 @@ namespace Raytracer::Core::Rendering {
          */
         void compute(size_t threads, std::vector<Common::IObject::Ptr> &objects);
 
+        /**
+         * @brief Get the status of the computation
+         * @return Status of the computation
+         */
+        float getComputeStatus() const;
+
+        /**
+         * @brief Cancel the computation
+         */
+        void cancelCompute();
+
         /// @brief The position of the camera
         Common::Math::Point3D position;
         /// @brief The direction of the camera
@@ -98,6 +109,12 @@ namespace Raytracer::Core::Rendering {
         std::vector<std::thread> _threads;
 
     protected:
+        /// @brief Number of processed pixels
+        size_t _processedPixels = 0;
+
+        /// @brief Mutex of the status
+        std::mutex _statusMutex;
+
         /**
          * @brief Compute a segment of the screen
          * @param config Configuration of the segment
