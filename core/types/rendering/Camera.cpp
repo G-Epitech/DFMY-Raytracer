@@ -94,11 +94,12 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray &ray, unsigned int rngState,
     Common::Graphics::Color incomingLight(0, 0, 0);
     Common::Graphics::Color rayColour(255, 255, 255);
 
-    for (int i = 0; i <= 15; i++) {
+    for (unsigned int i = 0; i <= 15; i++) {
         auto hitConfig = this->_computeRayCollision(ray, objects);
         if (hitConfig.didHit) {
+            auto randomSid = rngState + i;
             ray.origin = hitConfig.hitPoint;
-            ray.direction = this->_getRandomDirection(hitConfig.normal, rngState);
+            ray.direction = this->_getRandomDirection(hitConfig.normal, randomSid);
 
             Common::Graphics::Color emittedLight =
                     hitConfig.hitColor.emissionColor * hitConfig.hitColor.emissionStrength;
