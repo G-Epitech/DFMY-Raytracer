@@ -25,7 +25,7 @@ Raytracer::Common::Object::Manifest MeshProvider::getManifest()
     Raytracer::Common::Object::Manifest manifest {
         "mesh",
         "A simple mesh object",
-        "1.0.0",
+        "1.1.2",
         {
             {
                 "Yann Masson",
