@@ -24,7 +24,6 @@ using namespace Raytracer::Core::Cli;
     #define PLUGIN_PATH "plugins/raytracer_sphere.dll"
 #endif
 
-
 Handler::Handler(Raytracer::Core::App::Arguments &args): _args(args) {}
 
 Handler::~Handler() = default;
@@ -57,7 +56,8 @@ int Handler::run() {
             1.0f
     );
 
-    auto objectProvider = dlloader.loadSymbol<Common::ObjectProviderGetter>(SHARED_STRINGIFY(OBJECT_PROVIDER_GETTER_NAME));
+    std::string name = STRINGIFY(OBJECT_PROVIDER_GETTER_NAME);
+    auto objectProvider = dlloader.loadSymbol<Common::ObjectProviderGetter>(name);
 
     Rendering::Camera::Config camConfig = {
             .name = "Main camera",
