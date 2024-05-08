@@ -5,7 +5,9 @@
 ** Color.cpp
 */
 
+#include <iostream>
 #include "Color.hpp"
+#include "types/math/Float.hpp"
 
 using namespace Raytracer::Common;
 
@@ -43,14 +45,11 @@ Graphics::Color Graphics::Color::operator*(float scalar) const {
 }
 
 Graphics::Color Graphics::Color::operator*(Graphics::Color &other) const {
-    Color result;
+    Math::Float3 thisFloat3 = toFloat3(*this);
+    Math::Float3 otherFloat3 = toFloat3(other);
+    Math::Float3 resultFloat3 = thisFloat3 * otherFloat3;
 
-    result.r = this->r * other.r > 255 ? 255 : this->r * other.r;
-    result.g = this->g * other.g > 255 ? 255 : this->g * other.g;
-    result.b = this->b * other.b > 255 ? 255 : this->b * other.b;
-    result.a = this->a;
-
-    return result;
+    return toColor(resultFloat3);
 }
 
 Graphics::Color &Graphics::Color::operator*=(Graphics::Color &other) {
@@ -59,17 +58,32 @@ Graphics::Color &Graphics::Color::operator*=(Graphics::Color &other) {
 }
 
 Graphics::Color Graphics::Color::operator+(Graphics::Color &other) const {
-    Color result;
+    Math::Float3 tf = toFloat3(*this);
+    Math::Float3 of = toFloat3(other);
+    Math::Float3 resultFloat3 = tf + of;
 
-    result.r = this->r + other.r > 255 ? 255 : this->r + other.r;
-    result.g = this->g + other.g > 255 ? 255 : this->g + other.g;
-    result.b = this->b + other.b > 255 ? 255 : this->b + other.b;
-    result.a = this->a;
-
-    return result;
+    return toColor(resultFloat3);
 }
 
 Graphics::Color &Graphics::Color::operator+=(Graphics::Color &other) {
     *this = *this + other;
     return *this;
+}
+
+Math::Float3 Graphics::Color::toFloat3(const Graphics::Color &color) const {
+    Math::Float3 result(
+            static_cast<float>(color.r) / 255,
+            static_cast<float>(color.g) / 255,
+            static_cast<float>(color.b) / 255
+    );
+
+    return result;
+}
+
+Graphics::Color Graphics::Color::toColor(const Math::Float3 &float3) const {
+    return {
+            static_cast<unsigned char>(float3.x * 255),
+            static_cast<unsigned char>(float3.y * 255),
+            static_cast<unsigned char>(float3.z * 255)
+    };
 }
