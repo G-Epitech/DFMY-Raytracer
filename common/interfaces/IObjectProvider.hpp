@@ -32,7 +32,7 @@ namespace Raytracer::Common {
         /**
          * @brief Create a new object
          * @param material Material of the object
-         * @return Shared pointer to the new object 
+         * @return Shared pointer to the new object
          */
         virtual IObject::Ptr create(Graphics::Material::Ptr material, const Math::Point3D &position, const ObjectProperty &property) = 0;
 

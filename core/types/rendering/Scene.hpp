@@ -12,6 +12,7 @@
 
 #include "Camera.hpp"
 #include "common/interfaces/IObject.hpp"
+#include "types/graphics/Color.hpp"
 
 namespace Raytracer::Core::Rendering {
     class Scene {
@@ -24,6 +25,9 @@ namespace Raytracer::Core::Rendering {
 
         /// @brief Vector of objects of vector
         typedef std::vector<Common::IObject::Ptr> ObjectsVector;
+
+        /// @brief Ambient light
+        typedef std::pair<Common::Graphics::Color, float> Ambient;
 
         /// @brief Shared pointer to a scene
         typedef std::shared_ptr<Scene> Ptr;
@@ -51,5 +55,8 @@ namespace Raytracer::Core::Rendering {
 
         /// @brief Name of the scene
         const std::string name;
+
+        /// @brief Ambient light
+        Ambient ambient;
     };
 }
