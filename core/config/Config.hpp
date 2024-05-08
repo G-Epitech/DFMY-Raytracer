@@ -167,28 +167,24 @@ class Raytracer::Core::Config {
 
         /**
          * @brief Load a scene configuration from a file
-         * @return SceneConfig
         */
         void _load();
 
         /**
          * @brief Builds the cameras of the scene
          * @param scene Scene to build the cameras for
-         * @return void
          */
         void _buildSceneCameras(Rendering::Scene::Ptr scene);
 
         /**
          * @brief Builds the materials of the scene
          * @param scene Scene to build the materials for
-         * @return void
          */
         void _buildSceneMaterials(Rendering::Scene::Ptr scene);
 
         /**
          * @brief Builds the objects of the scene
          * @param scene Scene to build the objects for
-         * @return void
          */
         void _buildSceneObjects(Rendering::Scene::Ptr scene, PluginsManager &pluginsManager);
 
