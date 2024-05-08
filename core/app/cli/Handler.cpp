@@ -16,13 +16,21 @@
 
 using namespace Raytracer::Core::Cli;
 
+#if defined(__linux__)
+    #define PLUGIN_PATH "plugins/raytracer_sphere.so"
+#elif defined(__APPLE__)
+    #define PLUGIN_PATH "plugins/raytracer_sphere.dylib"
+#elif defined(_WIN32)
+    #define PLUGIN_PATH "plugins/raytracer_sphere.dll"
+#endif
+
 
 Handler::Handler(Raytracer::Core::App::Arguments &args): _args(args) {}
 
 Handler::~Handler() = default;
 
 int Handler::run() {
-    DLLoader dlloader("plugins/raytracer_sphere.dylib");
+    DLLoader dlloader(PLUGIN_PATH);
 
     std::shared_ptr<Common::Graphics::Material> green = std::make_shared<Common::Graphics::Material>(
             Common::Graphics::Color(0, 255, 0),
