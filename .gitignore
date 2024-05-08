@@ -6,6 +6,7 @@
 *.o
 *.a
 *.so
+*.dylib
 raytracer
 raytracer_tests
 

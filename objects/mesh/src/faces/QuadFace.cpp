@@ -28,14 +28,18 @@ HitInfo QuadFace::computeCollision(const Ray &ray)
     auto& n2 = _data.normals.n2;
     auto& n3 = _data.normals.n3;
     auto& n4 = _data.normals.n4;
+    std::vector<Point3D> pointsTriangle1 = {p1, p2, p3};
+    std::vector<Point3D> pointsTriangle2 = {p1, p3, p4};
+    std::vector<Vector3D> normalsTriangle1 = {n1, n2, n3};
+    std::vector<Vector3D> normalsTriangle2 = {n1, n3, n4};
 
-    if (_computeCollisionWithTriangle(ray, hitInfo, {p1, p2, p3}, {n1, n2, n3}))
+    if (_computeCollisionWithTriangle(ray, hitInfo, pointsTriangle1, normalsTriangle1))
         return hitInfo;
-    _computeCollisionWithTriangle(ray, hitInfo, {p1, p3, p4}, {n1, n3, n4});
+    _computeCollisionWithTriangle(ray, hitInfo, pointsTriangle2, normalsTriangle2);
     return hitInfo;
 }
 
-bool _computeCollisionWithTriangle(const Ray &ray, HitInfo &hitInfo, const std::vector<Point3D> &points, const std::vector<Vector3D> &normals)
+bool QuadFace::_computeCollisionWithTriangle(const Ray &ray, HitInfo &hitInfo, const std::vector<Point3D> &points, const std::vector<Vector3D> &normals)
 {
     if (points.size() != 3 || normals.size() != 3)
         return false;
@@ -59,6 +63,8 @@ bool _computeCollisionWithTriangle(const Ray &ray, HitInfo &hitInfo, const std::
 
     if (determinant < std::numeric_limits<float>::epsilon() || u < 0 || v < 0 || w < 0)
         return false;
+    
+    std::cout << "HIT QUAD" << std::endl;
 
     hitInfo.didHit = true;
     hitInfo.distance = dst;

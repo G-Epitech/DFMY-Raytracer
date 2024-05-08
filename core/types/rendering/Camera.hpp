@@ -7,9 +7,14 @@
 
 #pragma once
 
+#include <thread>
+
 #include "Screen.hpp"
+#include "interfaces/IObject.hpp"
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
+
+#define COMPUTE_THREADS 8
 
 namespace Raytracer::Core::Rendering {
     class Camera {
@@ -30,6 +35,36 @@ namespace Raytracer::Core::Rendering {
             float fov;
         } Config;
 
+        /// @brief Segment of the screen
+        typedef struct Segment {
+            /// @brief Origin of the segment
+            Common::Math::Size origin;
+            /// @brief Size of the segment
+            Common::Math::Size size;
+            /// @brief Local screen size
+            Common::Math::Float2 localScreenSize;
+            /// @brief Local screen origin
+            Common::Math::Point3D localScreenOrigin;
+        } Segment;
+
+        class ComputeError : public exception {
+        public:
+            /**
+             * @brief Create a error of compute
+             * @param msg
+             */
+            explicit ComputeError(const std::string &msg = "unknown");
+
+            /// @brief Default destructor
+            ~ComputeError() override = default;
+
+            /// @brief Get the message of the exception
+            const char *what() const noexcept override;
+
+        private:
+            std::string _msg;
+        };
+
         /**
          * @brief Create a new camera
          * @param config Configuration of the camera
@@ -42,6 +77,13 @@ namespace Raytracer::Core::Rendering {
         /// @brief Default destructor
         ~Camera() = default;
 
+        /**
+         * @brief Compute all pixels of the screen
+         * @param threads Number of threads to use
+         * @param objects Objects to compute
+         */
+        void compute(size_t threads, std::vector<Common::IObject::Ptr> &objects);
+
         /// @brief The position of the camera
         Common::Math::Point3D position;
         /// @brief The direction of the camera
@@ -52,5 +94,42 @@ namespace Raytracer::Core::Rendering {
         Screen screen;
         /// @brief The name of the camera
         std::string name;
+        /// @brief Vector of processing threads
+        std::vector<std::thread> _threads;
+
+    protected:
+        /**
+         * @brief Compute a segment of the screen
+         * @param config Configuration of the segment
+         * @param objects Objects to compute
+         */
+        void _computeSegment(Segment config, std::vector<Common::IObject::Ptr> &objects);
+
+        /**
+         * @brief Compute the collision of a ray with the objects
+         * @param ray Ray to compute
+         * @param objects Objects to compute
+         * @return HitInfo of the collision
+         */
+        Common::Math::HitInfo
+        _computeRayCollision(const Common::Math::Ray &ray, std::vector<Common::IObject::Ptr> &objects);
+
+        /**
+         * @brief Get the incoming light of a ray
+         * @param ray Ray to compute
+         * @param rngState Random state
+         * @param objects Objects to compute
+         * @return Incoming light of the ray
+         */
+        Common::Graphics::Color _getIncomingLight(Common::Math::Ray &ray, unsigned int rngState,
+                                                  std::vector<Common::IObject::Ptr> &objects);
+
+        /**
+         * @brief Get a random direction (hemisphere) from a normal
+         * @param normal Vector normal of the direction
+         * @param rngState Random state
+         * @return Random direction
+         */
+        Common::Math::Vector3D _getRandomDirection(Common::Math::Vector3D &normal, unsigned int &rngState);
     };
 }

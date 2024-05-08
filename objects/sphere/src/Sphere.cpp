@@ -18,18 +18,8 @@ Raytracer::Objects::Sphere::Sphere(
 
 Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(const Raytracer::Common::Math::Ray &ray)
 {
-    Common::Math::HitInfo hitInfo = {
-        .didHit = false,
-        .distance = 0,
-        .hitPoint = Common::Math::Point3D(0, 0, 0),
-        .normal = Common::Math::Vector3D(0, 0, 0),
-        .hitColor = {
-            .color = Common::Graphics::Color(0, 0, 0),
-            .emissionStrength = 0
-        }
-    };
-
-    Common::Math::Point3D offsetRayOrigin = _position - ray.origin;
+    Common::Math::HitInfo hitInfo;
+    Common::Math::Point3D offsetRayOrigin = ray.origin - _position;
     Common::Math::Vector3D oc(offsetRayOrigin.x, offsetRayOrigin.y, offsetRayOrigin.z);
 
     float a = ray.direction.dot(ray.direction);
@@ -53,7 +43,8 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
     hitInfo.normal = (hitInfo.hitPoint - _position).normalize();
     hitInfo.hitColor = {
         .color = _material->color,
-        .emissionStrength = _material->emissionStrength
+        .emissionStrength = _material->emissionStrength,
+        .emissionColor = _material->emissionColor
     };
     return hitInfo;
 }

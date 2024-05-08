@@ -33,7 +33,7 @@ class Raytracer::Core::Config {
         /// @brief Screen configuration
         typedef struct {
             /// @brief Screen size
-            Raytracer::Core::Rendering::Screen::Size size;
+            Raytracer::Common::Math::Size size;
             /// @brief Screen origin
             Common::Math::Point3D origin;
         } ScreenConfig;

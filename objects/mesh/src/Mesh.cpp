@@ -22,6 +22,8 @@ Mesh::Mesh(
 {
     auto filename = std::get<std::string>(property);
 
+    Common::Math::Vector3D rotation(12, 0, 0);
+
     _loadObj(filename);
     for (auto &vertex : _vertices) {
         vertex.x += _position.x;
@@ -30,17 +32,36 @@ Mesh::Mesh(
     }
     _loadTriangles();
     _loadQuads();
+    std::cout << "Loaded mesh: " << filename << std::endl;
+    std::cout << "Vertices: " << _vertices.size() << std::endl;
+    std::cout << "Normals: " << _normals.size() << std::endl;
+    std::cout << "Texture coordinates: " << _textureCoordinates.size() << std::endl;
+    std::cout << "Triangles: " << _triFaces.size() << std::endl;
+    std::cout << "Quads: " << _quadFaces.size() << std::endl;
 }
 
 Raytracer::Common::Math::HitInfo Mesh::computeCollision(const Raytracer::Common::Math::Ray &ray)
 {
+    bool didHitOne = false;
     Common::Math::HitInfo closesHitInfo;
 
     for (auto &face : _faces) {
         auto faceHitInfo = face->computeCollision(ray);
 
-        if (faceHitInfo.didHit && closesHitInfo.distance > faceHitInfo.distance) {
-            closesHitInfo = faceHitInfo;
+        if (faceHitInfo.didHit) {
+            if (didHitOne) {
+                if (faceHitInfo.distance < closesHitInfo.distance) {
+                    closesHitInfo = faceHitInfo;
+                }
+            } else {
+                didHitOne = true;
+                closesHitInfo = faceHitInfo;
+            }
+            closesHitInfo.hitColor = {
+                .color = _material->color,
+                .emissionStrength = _material->emissionStrength,
+                .emissionColor = _material->emissionColor
+            };
         }
     }
     return closesHitInfo;

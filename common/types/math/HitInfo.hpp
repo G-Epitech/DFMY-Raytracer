@@ -17,8 +17,10 @@ namespace Raytracer::Common::Math {
     typedef struct HitColor {
         /// @brief Color of the hit
         Graphics::Color color;
-        /// @brief Emission color of the hit
+        /// @brief Emission strength of the hit
         float emissionStrength;
+        /// @brief Emission color of the hit
+        Graphics::Color emissionColor;
     } HitColor;
 
     /// @brief Represent an HitInfo between a ray and a shape
@@ -34,7 +36,8 @@ namespace Raytracer::Common::Math {
         /// @brief Color of the hit
         HitColor hitColor = {
             .color = Graphics::Color(0, 0, 0),
-            .emissionStrength = 0
+            .emissionStrength = 0,
+            .emissionColor = Graphics::Color(0, 0, 0),
         };
     } HitInfo;
 }
