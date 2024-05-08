@@ -21,7 +21,9 @@ const char *PluginsManager::Exception::what() const noexcept {
 
 PluginsManager::PluginsManager()= default;
 
-PluginsManager::~PluginsManager() = default;
+PluginsManager::~PluginsManager() {
+    providers.clear();
+}
 
 void PluginsManager::load(const std::string& pluginsDir) {
     auto dir = std::filesystem::directory_iterator(pluginsDir);

@@ -3,6 +3,8 @@ add_library(raytracer_core STATIC)
 target_link_libraries(raytracer_core dlloader)
 target_link_libraries(raytracer_core raytracer_common)
 target_link_libraries(raytracer_core config++)
+target_link_libraries(raytracer_core sfml-graphics sfml-window sfml-system tgui)
+
 target_include_directories(raytracer_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(raytracer_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
 

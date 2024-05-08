@@ -7,7 +7,11 @@
 
 #pragma once
 
+#include <TGUI/TGUI.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
 #include "app/IHandler.hpp"
+#include "app/gui/components/Form.hpp"
+#include "GuiContext.hpp"
 
 namespace Raytracer::Core::Gui {
     class Handler : public IHandler {
@@ -31,5 +35,22 @@ namespace Raytracer::Core::Gui {
     private:
         /// @brief Application arguments received from App
         App::Arguments &_args;
+
+        /// @brief SFML window
+        sf::RenderWindow _window;
+
+        /// @brief Gui context
+        GuiContext _context;
+
+        /// @brief Icon of the window
+        sf::Image _icon;
+
+        /// @brief Form
+        Form _form;
+
+        /**
+         * @brief Initialize the GUI
+         */
+        void _initGui();
     };
 }
