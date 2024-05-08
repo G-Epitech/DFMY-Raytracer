@@ -40,8 +40,8 @@ class ConfigTests : public ::testing::Test {
 
 TEST_F(ConfigTests, ValidConfiguration)
 {
-    Raytracer::Core::Config config("scenes/test2.cfg");
-    config.load();
+    Raytracer::Core::Config config;
+    config.loadFromFile("scenes/test2.cfg");
     Raytracer::Core::Config::SceneConfig sceneConfig = config.getSceneConfig();
 
     ASSERT_EQ(sceneConfig.name, "test2") << "Expected scene name to be 'test2'";
@@ -74,8 +74,9 @@ TEST_F(ConfigTests, InvalidConfigurationMembers)
     std::string configFileContents = "ambient = {}\n"
                                      "cameras = []\n"
                                      "materials = []\n";
-    Raytracer::Core::Config config(configFileContents, true);
-    ASSERT_THROW(config.load(), Raytracer::Core::ConfigException);
+    Raytracer::Core::Config config;
+
+    ASSERT_THROW(config.loadFromString(configFileContents), Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidAmbientFormat)
@@ -84,8 +85,9 @@ TEST_F(ConfigTests, InvalidAmbientFormat)
                                      "cameras = []\n"
                                      "materials = []\n"
                                      "objects = []\n";
-    Raytracer::Core::Config config(configFileContents, true);
-    ASSERT_THROW(config.load(), Raytracer::Core::ConfigException);
+    Raytracer::Core::Config config;
+
+    ASSERT_THROW(config.loadFromString(configFileContents), Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidCamerasFormat)
@@ -97,8 +99,9 @@ TEST_F(ConfigTests, InvalidCamerasFormat)
                                      "cameras = {}\n"
                                      "materials = ()\n"
                                      "objects = ()\n";
-    Raytracer::Core::Config config(configFileContents, true);
-    ASSERT_THROW(config.load(), Raytracer::Core::ConfigException);
+    Raytracer::Core::Config config;
+
+    ASSERT_THROW(config.loadFromString(configFileContents), Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidCamerasResolutionFormat)
@@ -122,6 +125,7 @@ TEST_F(ConfigTests, InvalidCamerasResolutionFormat)
                                      ")\n"
                                      "materials = ()\n"
                                      "objects = ()\n";
-    Raytracer::Core::Config config(configFileContents, true);
-    ASSERT_THROW(config.load(), Raytracer::Core::ConfigException);
+    Raytracer::Core::Config config;
+
+    ASSERT_THROW(config.loadFromString(configFileContents), Raytracer::Core::ConfigException);
 }

@@ -8,8 +8,22 @@
 #include "Config.hpp"
 #include "ConfigValidator.hpp"
 
-Config::Config(const std::string &_configContents, bool fromString)
-    : _configContents(_configContents), _fromString(fromString) {}
+Config::Config()
+: _contents(""), _path(""), _sceneConfig(), _fromString(false) {}
+
+void Config::loadFromString(const std::string &configContents)
+{
+    _contents = configContents;
+    _fromString = true;
+    _load();
+}
+
+void Config::loadFromFile(const std::string &configPath)
+{
+    _path = configPath;
+    _fromString = false;
+    _load();
+}
 
 Raytracer::Core::Config::SceneConfig Config::getSceneConfig() const
 {
@@ -70,15 +84,15 @@ void Config::_buildSceneObjects(Rendering::Scene::Ptr scene, PluginsManager &plu
     }
 }
 
-void Config::load()
+void Config::_load()
 {
     libconfig::Config cfg;
 
     try {
         if (_fromString) {
-            cfg.readString(_configContents);
+            cfg.readString(_contents);
         } else {
-            cfg.readFile(_configContents.c_str());
+            cfg.readFile(_path.c_str());
         }
     } catch (const libconfig::FileIOException &fioex) {
         throw Raytracer::Core::ConfigException("I/O error while reading file.");
@@ -104,7 +118,7 @@ std::string Config::_loadName()
     if (_fromString) {
         return "scene";
     }
-    name = _configContents;
+    name = _path;
     found = name.find_last_of('/');
     if (found != std::string::npos) {
         name = name.substr(found + 1);

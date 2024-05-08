@@ -18,14 +18,15 @@ using namespace Raytracer::Core;
 
 int App::run(int argc, char **argv)
 {
+    Config config;
+
     if (!_readArgs(argc, argv))
         return 84;
     if (_args.options.help)
         return help();
-    Config config(_args.scenes[0]);
     if (!_loadPlugins())
         return 84;
-    config.load();
+    config.loadFromFile(_args.scenes[0]);
     config.toScene(_pluginsManager);
     return _runHandler();
 }

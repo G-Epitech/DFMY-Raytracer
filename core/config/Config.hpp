@@ -127,18 +127,20 @@ class Raytracer::Core::Config {
             std::vector<ObjectConfig> objects;
         } SceneConfig;
 
-        /// @brief Construct a new Config object with a path to the configuration file
-        /// no configuration file is loaded at this point
-        /// @param fromString Flag to indicate to load config from string (mainly used for testing purposes)
-        /// @see load method
-        Config(const std::string &_configContents, bool fromString = false);
+        Config();
         ~Config() = default;
 
         /**
+         * @brief Load a scene configuration from a string (useful for testing)
+         * @param contents Contents of the configuration file
+         */
+        void loadFromString(const std::string &contents);
+
+        /**
          * @brief Load a scene configuration from a file
-         * @return SceneConfig
-        */
-        void load();
+         * @param path Path to the configuration file
+         */
+        void loadFromFile(const std::string &path);
 
         /**
          * @brief Convert a scene configuration to a Scene object
@@ -154,12 +156,20 @@ class Raytracer::Core::Config {
         SceneConfig getSceneConfig() const;
 
     private:
+        /// @brief Contents of the configuration file
+        std::string _contents;
         /// @brief Path to the configuration file
-        std::string _configContents;
+        std::string _path;
         /// @brief Scene configuration
         SceneConfig _sceneConfig;
         /// @brief Flag to indicate if the configuration was loaded from a string
         bool _fromString;
+
+        /**
+         * @brief Load a scene configuration from a file
+         * @return SceneConfig
+        */
+        void _load();
 
         /**
          * @brief Builds the cameras of the scene
