@@ -288,7 +288,7 @@ float Config::_parseSphere(const libconfig::Setting &setting)
     float radius;
 
     if (!setting.isGroup()) {
-        throw Raytracer::Core::ConfigException("sphere must be a group");
+        throw Raytracer::Core::ConfigException("sphere properties must be a group");
     }
     _settingHasValidKeys("sphere", setting, {"radius"});
     _lookupValueWrapper("radius", setting, radius);
@@ -301,11 +301,10 @@ Math::Float3 Config::_parseCube(const libconfig::Setting &settings)
     std::tuple<float, float, float> tuple;
 
     if (!settings.isGroup())
-        throw Raytracer::Core::ConfigException("cube must be a group");
+        throw Raytracer::Core::ConfigException("cube properties must be a group");
     _settingHasValidKeys("cube", settings, {"size"});
     if (!settings["size"].isGroup())
         throw Raytracer::Core::ConfigException("size must be a group");
-    _settingHasValidKeys("size", settings["size"], {"width", "height", "depth"});
     tuple = _parseTuple3f("size", settings["size"], {"width", "height", "depth"});
     cubeSize.x = std::get<0>(tuple);
     cubeSize.y = std::get<1>(tuple);
@@ -317,8 +316,6 @@ std::tuple<float, float, float> Config::_parseTuple3f(const std::string& prop,
     const libconfig::Setting &setting, const std::vector<std::string>& keys)
 {
     std::tuple<float, float, float> tuple;
-    if (!setting.isGroup())
-        throw Raytracer::Core::ConfigException(prop + " must be a group of 3 floats {x, y, z}");
     _settingHasValidKeys(prop, setting, keys);
     _lookupValueWrapper(keys[0], setting, std::get<0>(tuple));
     _lookupValueWrapper(keys[1], setting, std::get<1>(tuple));
