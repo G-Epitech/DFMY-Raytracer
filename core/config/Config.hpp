@@ -90,9 +90,6 @@ class Raytracer::Core::Config {
             std::tuple<float, float, float> size;
         } CubeConfig;
 
-        /// @brief Special properties configuration for an object
-        typedef std::variant<CubeConfig, SphereConfig> ObjectPropertiesConfig;
-
         /// @brief Object configuration
         typedef struct {
             /// @brief Object type (cube, sphere, etc.)
