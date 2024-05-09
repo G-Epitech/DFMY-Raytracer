@@ -14,7 +14,7 @@
 #include "types/math/Vector.hpp"
 #include "types/math/Point.hpp"
 
-#define COMPUTE_THREADS 8
+#define COMPUTE_THREADS 20
 
 namespace Raytracer::Core::Rendering {
     class Camera {
@@ -129,6 +129,17 @@ namespace Raytracer::Core::Rendering {
         void _computeSegment(Segment config, std::vector<Common::IObject::Ptr> &objects);
 
         /**
+         * @brief Compute a frame of the screen
+         * @param config Configuration of the frame
+         * @param objects Objects to compute
+         * @param x X position of the pixel
+         * @param y Y position of the pixel
+         * @return Color of the frame
+         */
+        Common::Graphics::Color
+        _computeFrame(Segment config, std::vector<Common::IObject::Ptr> &objects, size_t x, size_t y);
+
+        /**
          * @brief Compute the collision of a ray with the objects
          * @param ray Ray to compute
          * @param objects Objects to compute
@@ -144,7 +155,7 @@ namespace Raytracer::Core::Rendering {
          * @param objects Objects to compute
          * @return Incoming light of the ray
          */
-        Common::Graphics::Color _getIncomingLight(Common::Math::Ray &ray, unsigned int rngState,
+        Common::Graphics::Color _getIncomingLight(Common::Math::Ray ray, unsigned int rngState,
                                                   std::vector<Common::IObject::Ptr> &objects);
 
         /**

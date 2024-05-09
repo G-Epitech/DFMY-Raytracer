@@ -364,11 +364,12 @@ Raytracer::Common::Graphics::Color Config::_parseColor(const libconfig::Setting 
     _lookupValueWrapper("g", setting, std::get<1>(icolor));
     _lookupValueWrapper("b", setting, std::get<2>(icolor));
     _lookupValueWrapper("a", setting, std::get<3>(icolor));
-    color.r = std::get<0>(icolor);
-    color.g = std::get<1>(icolor);
-    color.b = std::get<2>(icolor);
-    color.a = std::get<3>(icolor);
-    return color;
+    return Raytracer::Common::Graphics::Color::fromRGB(
+        std::get<0>(icolor),
+        std::get<1>(icolor),
+        std::get<2>(icolor),
+        std::get<3>(icolor)
+    );
 }
 
 void Config::_settingHasValidKeys(const std::string& prop, const libconfig::Setting &setting,

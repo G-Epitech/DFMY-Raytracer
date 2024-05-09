@@ -29,7 +29,7 @@ namespace Raytracer::Common::Math {
         /**
          * @brief Destroy the Ray object
          */
-        ~Ray() = default;
+        ~Ray();
 
         /// @brief Origin of the ray
         Point3D origin;

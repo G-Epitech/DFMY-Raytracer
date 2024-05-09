@@ -22,7 +22,7 @@ namespace Raytracer::Core::Graphics {
         explicit Image(size_t width, size_t height, PixelArray &array);
 
         /// @brief Default destructor of the image
-        ~Image() = default;
+        ~Image();
 
         /// @brief Width of the image
         const size_t width;

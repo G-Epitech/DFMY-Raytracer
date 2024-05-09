@@ -5,20 +5,20 @@
 ** Color.cpp
 */
 
-#include <iostream>
+#include <algorithm>
 #include "Color.hpp"
 #include "types/math/Float.hpp"
 
 using namespace Raytracer::Common;
 
 Graphics::Color::Color(
-        unsigned char r,
-        unsigned char g,
-        unsigned char b,
-        unsigned char a
+        float r,
+        float g,
+        float b,
+        float a
 ) : r(r), g(g), b(b), a(a) {}
 
-Graphics::Color::Color() : r(0), g(0), b(0), a(255) {}
+Graphics::Color::Color() : r(0), g(0), b(0), a(1) {}
 
 bool Graphics::Color::operator==(const Color &color) const {
     return r == color.r &&
@@ -32,24 +32,27 @@ bool Graphics::Color::operator!=(const Color &color) const {
 }
 
 Graphics::Pixel Graphics::Color::toPixel() const {
-    return {r, g, b, a};
-}
+    Graphics::Color color = *this;
 
-Graphics::Color Graphics::Color::operator*(float scalar) const {
+    color.normalize();
     return {
-            static_cast<unsigned char>(this->r * scalar),
-            static_cast<unsigned char>(this->g * scalar),
-            static_cast<unsigned char>(this->b * scalar),
-            this->a
+            static_cast<unsigned char>(color.r * 255),
+            static_cast<unsigned char>(color.g * 255),
+            static_cast<unsigned char>(color.b * 255),
+            static_cast<unsigned char>(color.a * 255)
     };
 }
 
-Graphics::Color Graphics::Color::operator*(Graphics::Color &other) const {
-    Math::Float3 thisFloat3 = toFloat3(*this);
-    Math::Float3 otherFloat3 = toFloat3(other);
-    Math::Float3 resultFloat3 = thisFloat3 * otherFloat3;
+Graphics::Color Graphics::Color::operator*(float scalar) const {
+    return {r * scalar, g * scalar, b * scalar, a};
+}
 
-    return toColor(resultFloat3);
+Graphics::Color Graphics::Color::operator*(Graphics::Color &other) const {
+    Math::Float3 tf(r, g, b);
+    Math::Float3 of(other.r, other.g, other.b);
+    Math::Float3 resultFloat3 = tf * of;
+
+    return {resultFloat3.x, resultFloat3.y, resultFloat3.z, a};
 }
 
 Graphics::Color &Graphics::Color::operator*=(Graphics::Color &other) {
@@ -58,11 +61,11 @@ Graphics::Color &Graphics::Color::operator*=(Graphics::Color &other) {
 }
 
 Graphics::Color Graphics::Color::operator+(Graphics::Color &other) const {
-    Math::Float3 tf = toFloat3(*this);
-    Math::Float3 of = toFloat3(other);
+    Math::Float3 tf(r, g, b);
+    Math::Float3 of(other.r, other.g, other.b);
     Math::Float3 resultFloat3 = tf + of;
 
-    return toColor(resultFloat3);
+    return {resultFloat3.x, resultFloat3.y, resultFloat3.z, a};
 }
 
 Graphics::Color &Graphics::Color::operator+=(Graphics::Color &other) {
@@ -70,20 +73,22 @@ Graphics::Color &Graphics::Color::operator+=(Graphics::Color &other) {
     return *this;
 }
 
-Math::Float3 Graphics::Color::toFloat3(const Graphics::Color &color) const {
-    Math::Float3 result(
-            static_cast<float>(color.r) / 255,
-            static_cast<float>(color.g) / 255,
-            static_cast<float>(color.b) / 255
-    );
-
-    return result;
+void Graphics::Color::normalize() {
+    r = std::clamp(r, 0.0f, 1.0f);
+    g = std::clamp(g, 0.0f, 1.0f);
+    b = std::clamp(b, 0.0f, 1.0f);
+    a = std::clamp(a, 0.0f, 1.0f);
 }
 
-Graphics::Color Graphics::Color::toColor(const Math::Float3 &float3) const {
+Graphics::Color Graphics::Color::fromRGB(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
     return {
-            static_cast<unsigned char>(float3.x * 255),
-            static_cast<unsigned char>(float3.y * 255),
-            static_cast<unsigned char>(float3.z * 255)
+            static_cast<float>(r) / 255.0f,
+            static_cast<float>(g) / 255.0f,
+            static_cast<float>(b) / 255.0f,
+            static_cast<float>(a) / 255.0f
     };
+}
+
+Graphics::Color Graphics::Color::operator/(float scalar) const {
+    return {r / scalar, g / scalar, b / scalar, a};
 }

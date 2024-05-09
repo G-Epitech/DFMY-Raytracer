@@ -66,3 +66,15 @@ TEST(RayTests, ValidAssignment)
     EXPECT_EQ(ray.origin.y, 2) << "origin.y should still be 2";
     EXPECT_EQ(ray.origin.z, 3) << "origin.z should still be 3";
 }
+
+TEST(RayTests, ValidEmptyConstruction)
+{
+    Math::Ray ray;
+
+    EXPECT_EQ(ray.origin.x, 0) << "origin.x should be 0";
+    EXPECT_EQ(ray.origin.y, 0) << "origin.y should be 0";
+    EXPECT_EQ(ray.origin.z, 0) << "origin.z should be 0";
+    EXPECT_EQ(ray.direction.x, 0) << "direction.x should be 0";
+    EXPECT_EQ(ray.direction.y, 0) << "direction.y should be 0";
+    EXPECT_EQ(ray.direction.z, 0) << "direction.z should be 0";
+}

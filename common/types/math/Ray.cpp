@@ -16,3 +16,5 @@ Math::Ray::Ray(const Math::Point3D &origin, const Math::Vector3D &direction)
     this->origin = origin;
     this->direction = direction;
 }
+
+Math::Ray::~Ray() = default;
