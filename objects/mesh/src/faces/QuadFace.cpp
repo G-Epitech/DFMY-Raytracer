@@ -63,8 +63,6 @@ bool QuadFace::_computeCollisionWithTriangle(const Ray &ray, HitInfo &hitInfo, c
 
     if (determinant < std::numeric_limits<float>::epsilon() || u < 0 || v < 0 || w < 0)
         return false;
-    
-    std::cout << "HIT QUAD" << std::endl;
 
     hitInfo.didHit = true;
     hitInfo.distance = dst;

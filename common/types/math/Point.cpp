@@ -31,8 +31,6 @@ void Math::Point3D::rotateX(float angle)
     auto x = this->x;
     auto y = this->y;
 
-    std::cout << rad << std::endl;
-
     this->y = y * cos(rad) - this->z * sin(rad);
     this->z = y * sin(rad) + this->z * cos(rad);
 }
