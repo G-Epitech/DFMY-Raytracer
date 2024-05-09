@@ -68,8 +68,8 @@ int Handler::run() {
     std::vector<Common::IObject::Ptr> objects;
 
     objects.push_back(objectProvider()->create(light, Common::Math::Point3D(-35, 100, 80), 50.0f));
-    objects.push_back(objectProvider()->create(purple, Common::Math::Point3D(0, 80, -75), 100.0f));
-    objects.push_back(objectProvider()->create(green, Common::Math::Point3D(10, 65, 35), 13.0f));
+//     objects.push_back(objectProvider()->create(purple, Common::Math::Point3D(0, 80, -75), 100.0f));
+//     objects.push_back(objectProvider()->create(green, Common::Math::Point3D(10, 65, 35), 13.0f));
 //     objects.push_back(objectProvider()->create(red, Common::Math::Point3D(-10, 60, 30), 10.0f));
 //     objects.push_back(objectProvider()->create(red, Common::Math::Point3D(50, 100, 70), 10.0f));
 

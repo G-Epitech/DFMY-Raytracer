@@ -53,21 +53,19 @@ Raytracer::Common::Math::HitInfo Mesh::computeCollision(const Raytracer::Common:
         auto faceHitInfo = face->computeCollision(ray);
 
         if (faceHitInfo.didHit) {
-            if (didHitOne) {
-                if (faceHitInfo.distance < closesHitInfo.distance) {
-                    closesHitInfo = faceHitInfo;
-                }
-            } else {
+            if (!didHitOne) {
+                closesHitInfo = faceHitInfo;
                 didHitOne = true;
+            } else if (faceHitInfo.distance < closesHitInfo.distance) {
                 closesHitInfo = faceHitInfo;
             }
-            closesHitInfo.hitColor = {
-                .color = _material->color,
-                .emissionStrength = _material->emissionStrength,
-                .emissionColor = _material->emissionColor
-            };
         }
     }
+    closesHitInfo.hitColor = {
+        .color = _material->color,
+        .emissionStrength = _material->emissionStrength,
+        .emissionColor = _material->emissionColor
+    };
     return closesHitInfo;
 }
 
