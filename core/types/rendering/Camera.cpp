@@ -53,36 +53,52 @@ void Camera::compute(size_t threads, std::vector<IObject::Ptr> &objects) {
 void Camera::_computeSegment(Segment config, std::vector<IObject::Ptr> &objects) {
     for (size_t y = config.origin.height; y < config.origin.height + config.size.height; y++) {
         for (size_t x = config.origin.width; x < config.origin.width + config.size.width; x++) {
-            float tx = (float) x / ((float) screen.size.width - 1.0f);
-            float ty = (float) y / ((float) screen.size.height - 1.0f);
+            Common::Graphics::Color oldFrame = this->_computeFrame(config, objects, x, y);
 
-            auto pixelPosition = Math::Point3D(config.localScreenOrigin.x + config.localScreenSize.x * tx,
-                                               config.localScreenOrigin.y,
-                                               config.localScreenOrigin.z - config.localScreenSize.y * ty);
-            auto rayDirection = Math::Vector3D(pixelPosition.x - position.x, pixelPosition.y - position.y,
-                                               pixelPosition.z - position.z).normalize();
-            auto ray = Math::Ray(position, rayDirection);
+            for (size_t i = 0; i < 15; i++) {
+                auto newFrame = this->_computeFrame(config, objects, x, y);
+                float weight = 1.0f / (i + 1);
 
-            size_t pixelIndex = y * screen.size.width + x;
+                Common::Graphics::Color firstFrame = oldFrame * (1 - weight);
+                Common::Graphics::Color secondFrame = newFrame * weight;
 
-            Common::Graphics::Color totalIncomingLight(0, 0, 0);
-
-            size_t raysPerPixels = 300;
-            for (size_t ri = 0; ri < raysPerPixels; ri++) {
-                auto random = pixelIndex;
-                auto incomingLight = this->_getIncomingLight(ray, random, objects);
-
-                totalIncomingLight += incomingLight;
+                oldFrame = firstFrame + secondFrame;
             }
 
-            Common::Graphics::Color renderColor = totalIncomingLight / static_cast<float>(raysPerPixels / 2);
-            screen.setPixel(x, y, renderColor.toPixel());
+            screen.setPixel(x, y, oldFrame.toPixel());
 
             this->_statusMutex.lock();
             this->_processedPixels++;
             this->_statusMutex.unlock();
         }
     }
+}
+
+Graphics::Color Camera::_computeFrame(Raytracer::Core::Rendering::Camera::Segment config,
+                                      std::vector<Common::IObject::Ptr> &objects, size_t x, size_t y) {
+    float tx = (float) x / ((float) screen.size.width - 1.0f);
+    float ty = (float) y / ((float) screen.size.height - 1.0f);
+
+    auto pixelPosition = Math::Point3D(config.localScreenOrigin.x + config.localScreenSize.x * tx,
+                                       config.localScreenOrigin.y,
+                                       config.localScreenOrigin.z - config.localScreenSize.y * ty);
+    auto rayDirection = Math::Vector3D(pixelPosition.x - position.x, pixelPosition.y - position.y,
+                                       pixelPosition.z - position.z).normalize();
+    auto ray = Math::Ray(position, rayDirection);
+
+    size_t pixelIndex = y * screen.size.width + x;
+
+    Common::Graphics::Color totalIncomingLight(0, 0, 0);
+
+    size_t raysPerPixels = 30;
+    for (size_t ri = 0; ri < raysPerPixels; ri++) {
+        auto random = pixelIndex + ri;
+        auto incomingLight = this->_getIncomingLight(ray, random, objects);
+
+        totalIncomingLight += incomingLight;
+    }
+
+    return totalIncomingLight / static_cast<float>(raysPerPixels / 2);
 }
 
 Math::HitInfo Camera::_computeRayCollision(const Math::Ray &ray, std::vector<IObject::Ptr> &objects) {
@@ -116,10 +132,14 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, 
                     hitConfig.hitColor.emissionColor * hitConfig.hitColor.emissionStrength;
             Common::Graphics::Color localIncomingLight = emittedLight * rayColor;
 
-            localIncomingLight.normalize();
             incomingLight += localIncomingLight;
 
-            rayColor *= hitConfig.hitColor.color;
+            float lightStrength = hitConfig.normal.dot(ray.direction);
+            Common::Graphics::Color diffuseLight = hitConfig.hitColor.color;
+            if (lightStrength > 0)
+                diffuseLight = diffuseLight * lightStrength * 2;
+
+            rayColor *= diffuseLight;
         } else {
             Common::Graphics::Color ambientLight = rayColor * 0.1f;
             incomingLight += ambientLight;

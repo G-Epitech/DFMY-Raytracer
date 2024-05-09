@@ -24,7 +24,7 @@ using namespace Raytracer::Core::Cli;
     #define PLUGIN_PATH "plugins/raytracer_sphere.dll"
 #endif
 
-#define RESOLUTION 2
+#define RESOLUTION 1
 
 Handler::Handler(Raytracer::Core::App::Arguments &args): _args(args) {}
 
