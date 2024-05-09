@@ -45,9 +45,11 @@ TEST_F(ConfigValidatorTests, InvalidMaterialReflectivity)
     Config::SceneConfig cfg;
     cfg.materials.push_back({
         .name = "material1",
-        .color = {255, 255, 255},
+        .objectColor = {255, 255, 255},
         .emissions = {},
-        .reflectivity = -0.5
+        .reflectivity = -0.5,
+        .emissionStrength = 0.5,
+        .emissionColor = {255, 255, 255}
     });
     ASSERT_THROW(ConfigValidator::valid(cfg), ConfigException);
 }
@@ -57,15 +59,19 @@ TEST_F(ConfigValidatorTests, DuplicateMaterials)
     Config::SceneConfig cfg;
     cfg.materials.push_back({
         .name = "material1",
-        .color = {255, 255, 255},
+        .objectColor = {255, 255, 255},
         .emissions = {},
-        .reflectivity = 0.5
+        .reflectivity = 0.5,
+        .emissionStrength = 0.5,
+        .emissionColor = {255, 255, 255}
     });
-        cfg.materials.push_back({
+    cfg.materials.push_back({
         .name = "material1",
-        .color = {255, 255, 255},
+        .objectColor = {255, 255, 255},
         .emissions = {},
-        .reflectivity = 0.5
+        .reflectivity = 0.5,
+        .emissionStrength = 0.5,
+        .emissionColor = {255, 255, 255}
     });
     ASSERT_THROW(ConfigValidator::valid(cfg), ConfigException);
 }
@@ -79,9 +85,11 @@ TEST_F(ConfigValidatorTests, InvalidCameraFOV)
 
     cfg.materials.push_back({
         .name = "material1",
-        .color = {255, 255, 255},
+        .objectColor = {255, 255, 255},
         .emissions = {},
-        .reflectivity = 0.5
+        .reflectivity = 0.5,
+        .emissionStrength = 0.5,
+        .emissionColor = {255, 255, 255}
     });
     cam.name = "camera1";
     cam.fov = -200;
@@ -100,9 +108,11 @@ TEST_F(ConfigValidatorTests, DuplicateCameras)
 
     cfg.materials.push_back({
         .name = "material1",
-        .color = {255, 255, 255},
+        .objectColor = {255, 255, 255},
         .emissions = {},
-        .reflectivity = 0.5
+        .reflectivity = 0.5,
+        .emissionStrength = 0.5,
+        .emissionColor = {255, 255, 255}
     });
     cam.name = "camera1";
     cam.fov = 10;
@@ -120,9 +130,11 @@ TEST_F(ConfigValidatorTests, MissingObjectMaterial)
 
     cfg.materials.push_back({
         .name = "material1",
-        .color = {255, 255, 255},
+        .objectColor = {255, 255, 255},
         .emissions = {},
-        .reflectivity = 0.5
+        .reflectivity = 0.5,
+        .emissionStrength = 0.5,
+        .emissionColor = {255, 255, 255}
     });
     obj.material = "";
     cfg.objects.push_back(obj);
@@ -136,9 +148,11 @@ TEST_F(ConfigValidatorTests, InvalidObjectMaterial)
 
     cfg.materials.push_back({
         .name = "material1",
-        .color = {255, 255, 255},
+        .objectColor = {255, 255, 255},
         .emissions = {},
-        .reflectivity = 0.5
+        .reflectivity = 0.5,
+        .emissionStrength = 0.5,
+        .emissionColor = {255, 255, 255}
     });
     obj.material = "material2";
     cfg.objects.push_back(obj);
@@ -152,9 +166,11 @@ TEST_F(ConfigValidatorTests, InvalidSphereRadius)
 
     cfg.materials.push_back({
         .name = "material1",
-        .color = {255, 255, 255},
+        .objectColor = {255, 255, 255},
         .emissions = {},
-        .reflectivity = 0.5
+        .reflectivity = 0.5,
+        .emissionStrength = 0.5,
+        .emissionColor = {255, 255, 255}
     });
     obj.material = "material1";
     obj.type = "sphere";
