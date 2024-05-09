@@ -42,15 +42,17 @@ TEST_F(ConfigTests, ValidConfiguration)
 {
     auto config = Raytracer::Core::Config::loadFromFile("scenes/test.cfg");
     Raytracer::Core::Config::SceneConfig sceneConfig = config.getSceneConfig();
+    auto ambient = sceneConfig.ambient.color.toPixel();
+    auto materialColor = sceneConfig.materials[0].color.toPixel();
 
     ASSERT_EQ(sceneConfig.name, "test") << "Expected scene name to be 'test2'";
     ASSERT_EQ(sceneConfig.cameras.size(), 1) << "Expected 1 camera";
     ASSERT_EQ(sceneConfig.materials.size(), 1) << "Expected 1 material";
     ASSERT_EQ(sceneConfig.objects.size(), 1) << "Expected 1 object";
-    ASSERT_EQ(sceneConfig.ambient.color.r, 1) << "Expected ambient light to be 1";
-    ASSERT_EQ(sceneConfig.ambient.color.g, 2) << "Expected ambient light to be 2";
-    ASSERT_EQ(sceneConfig.ambient.color.b, 3) << "Expected ambient light to be 3";
-    ASSERT_EQ(sceneConfig.ambient.color.a, 4) << "Expected ambient light to be 4";
+    ASSERT_EQ(ambient.r, 1) << "Expected ambient color to be 1";
+    ASSERT_EQ(ambient.g, 2) << "Expected ambient color to be 2";
+    ASSERT_EQ(ambient.b, 3) << "Expected ambient color to be 3";
+    ASSERT_EQ(ambient.a, 4) << "Expected ambient color to be 4";
     ASSERT_EQ(sceneConfig.ambient.strength, 0.1f) << "Expected ambient light to be 0.1f";
     ASSERT_EQ(sceneConfig.cameras[0].name, "camera1") << "Expected camera name to be 'camera1'";
     ASSERT_EQ(sceneConfig.cameras[0].position.x, 1.0f) << "Expected camera position to be 1";
@@ -66,10 +68,10 @@ TEST_F(ConfigTests, ValidConfiguration)
     ASSERT_EQ(sceneConfig.cameras[0].screen.origin.y, 10.0f) << "Expected camera screen origin to be 10";
     ASSERT_EQ(sceneConfig.cameras[0].screen.origin.z, 40.0f) << "Expected camera screen origin to be 40";
     ASSERT_EQ(sceneConfig.materials[0].name, "red") << "Expected material name to be 'red'";
-    ASSERT_EQ(sceneConfig.materials[0].color.r, 1) << "Expected material color to be 1";
-    ASSERT_EQ(sceneConfig.materials[0].color.g, 0) << "Expected material color to be 2";
-    ASSERT_EQ(sceneConfig.materials[0].color.b, 0) << "Expected material color to be 3";
-    ASSERT_EQ(sceneConfig.materials[0].color.a, 1) << "Expected material color to be 4";
+    ASSERT_EQ(materialColor.r, 1) << "Expected material color to be 1";
+    ASSERT_EQ(materialColor.g, 0) << "Expected material color to be 0";
+    ASSERT_EQ(materialColor.b, 0) << "Expected material color to be 0";
+    ASSERT_EQ(materialColor.a, 1) << "Expected material color to be 1";
     ASSERT_EQ(sceneConfig.materials[0].reflectivity, 0.5f) << "Expected material reflectivity to be 0.5f";
     ASSERT_EQ(sceneConfig.objects[0].type, "Sphere") << "Expected object type to be SPHERE";
     ASSERT_EQ(sceneConfig.objects[0].material, "red") << "Expected object material to be 'sphere'";
