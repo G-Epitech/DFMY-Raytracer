@@ -42,6 +42,9 @@ namespace Raytracer::Common::Graphics {
         /// @brief Multiply this color by another color
         Color &operator*=(Color &other);
 
+        /// @brief Add a scalar to the color
+        Color operator+(float scalar) const;
+
         /// @brief Add two colors
         Color operator+(Color &other) const;
 
