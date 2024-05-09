@@ -18,24 +18,32 @@ using namespace Raytracer::Core;
 
 int App::run(int argc, char **argv)
 {
-    //Config config;
-
     if (!_readArgs(argc, argv))
         return 84;
     if (_args.options.help)
         return help();
     if (!_loadPlugins())
         return 84;
-    //config.loadFromFile(_args.scenes[0]);
-    //config.toScene(_pluginsManager);
+    if (_args.scenes.empty()) {
+        std::cerr << "No scene file provided." << std::endl;
+        return 84;
+    }
+    if (!tryLoadScene(_args.scenes[0]))
+        return 84;
     return _runHandler();
 }
 
 int App::_runHandler() {
+    Context context = {
+        .scene = _scene,
+        .pluginsManager = _pluginsManager,
+        .args = _args
+    };
+
     if (_args.options.gui) {
-        return Gui::Handler(_args).run();
+        return Gui::Handler(context).run();
     } else {
-        return Cli::Handler(_args).run();
+        return Cli::Handler(context).run();
     }
 }
 
@@ -46,16 +54,18 @@ int App::help() {
     std::cout << "  It takes a scene file as input and generates an image based on the scene description." << std::endl;
     std::cout << "  The generated image is saved as a PPM file." << std::endl;
     std::cout << "ARGUMENTS:" << std::endl;
-    std::cout << "  <scene file>\t\t\tPath to the scene file" << std::endl;
+    std::cout << "  <scene file>\t\t\t\tPath to the scene file" << std::endl;
     std::cout << "OPTIONS:" << std::endl;
-    std::cout << "  -g, --gui\t\t\tLaunch the graphical user interface" << std::endl;
-    std::cout << "  -h, --help\t\t\tDisplay this help message" << std::endl;
-    std::cout << "  -p, --plugin-path <path>\tSpecify the path to the plugins directory" << std::endl;
-    std::cout << "AUTHORS: "
-                << "Dragos Suceveanu, "
-                << "Flavien Chenu, "
-                << "Matheo Coquet & "
-                << "Yann Masson"
+    std::cout << "  -g, --gui\t\t\t\tLaunch the graphical user interface" << std::endl;
+    std::cout << "  -h, --help\t\t\t\tDisplay this help message" << std::endl;
+    std::cout << "  -p, --plugin-path <path = ./plugins>\tSpecify the path to the plugins directory" << std::endl;
+    std::cout << "  -f, --format <format = PPM>\t\tSpecify the output image format. Supported formats: PPM, PNG, JPEG, BMP" << std::endl;
+    std::cout << "  -t, --threads <count = 8>\t\tSpecify the number of threads to use." << std::endl;
+    std::cout << "AUTHORS: " << std::endl;
+    std::cout << "  Dragos Suceveanu, "
+              << "Flavien Chenu, "
+              << "Matheo Coquet & "
+              << "Yann Masson"
     << std::endl;
     return 0;
 }
@@ -73,13 +83,15 @@ bool App::_readOptions(int argc, char **argv) {
     static struct option long_options[] = {
         {"gui", no_argument, nullptr, 'g'},
         {"help", no_argument, nullptr, 'h'},
-        { "plugin-path", required_argument, nullptr, 'p'},
+        {"plugin-path", required_argument, nullptr, 'p'},
+        {"threads", required_argument, nullptr, 't'},
+        { "format", required_argument, nullptr, 'f' },
         {nullptr, 0, nullptr, 0}
     };
     int parsedChar;
 
     do {
-        parsedChar = getopt_long(argc, argv, "gh", long_options, nullptr);
+        parsedChar = getopt_long(argc, argv, "ghp:t:f:", long_options, nullptr);
         switch (parsedChar) {
             case -1:
                 break;
@@ -91,6 +103,24 @@ bool App::_readOptions(int argc, char **argv) {
                 return true;
             case 'p':
                 _args.options.pluginsPath = optarg;
+                break;
+            case 't':
+                if (!_readUL(optarg, _args.options.threadsCount)) {
+                    std::cerr << "Invalid threads count: '" << optarg << "'." << std::endl;
+                    return false;
+                }
+                if (_args.options.threadsCount == 0 || _args.options.threadsCount > 64) {
+                    std::cerr << "Threads count must be in range [1, 64]." << std::endl;
+                    return false;
+                }
+                if (_args.options.threadsCount % 2 != 0)
+                    _args.options.threadsCount += 1;
+                break;
+            case 'f':
+                if (!_readOutputFormat(optarg, _args.options.outputFormat)) {
+                    std::cerr << "Invalid output format: '" << optarg << "'." << std::endl;
+                    return false;
+                }
                 break;
             default:
                 return false;
@@ -111,4 +141,41 @@ bool App::_loadPlugins() {
         std::cerr << "An error occurred while loading plugins. " << e.what() << std::endl;
         return false;
     }
+}
+
+bool App::tryLoadScene(const string &scenePath) {
+    try {
+        auto config = Config::loadFromFile(scenePath);
+        auto scene = config.toScene(_pluginsManager);
+
+        _scene = std::move(scene);
+        return true;
+    } catch (const ConfigException &e) {
+        std::cerr << "An error occurred while loading the scene file. " << e.what() << "." << std::endl;
+        return false;
+    } catch (const std::exception &e) {
+        std::cerr << "An error occurred while creating the scene. " << e.what() << std::endl;
+        return false;
+    }
+}
+
+bool App::_readUL(const std::string& arg, size_t &value) {
+    try {
+        if (arg[0] == '-')
+            return false;
+        value = std::stoul(arg);
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
+
+bool App::_readOutputFormat(const std::string &arg, std::string &outputFormat) {
+    std::string copy = arg;
+    std::transform(copy.begin(), copy.end(), copy.begin(), ::tolower);
+    if (copy == "ppm" || copy == "png" || copy == "jpeg" || copy == "bmp") {
+        outputFormat = copy;
+        return true;
+    }
+    return false;
 }

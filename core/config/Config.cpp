@@ -8,21 +8,26 @@
 #include "Config.hpp"
 #include "ConfigValidator.hpp"
 
-Config::Config()
-: _contents(""), _path(""), _sceneConfig(), _fromString(false) {}
+Config::Config() : _sceneConfig(), _fromString(false) {}
 
-void Config::loadFromString(const std::string &configContents)
+Config Config::loadFromString(const std::string &configContents)
 {
-    _contents = configContents;
-    _fromString = true;
-    _load();
+    Config config;
+
+    config._contents = configContents;
+    config._fromString = true;
+    config._load();
+    return config;
 }
 
-void Config::loadFromFile(const std::string &configPath)
+Config Config::loadFromFile(const std::string &configPath)
 {
-    _path = configPath;
-    _fromString = false;
-    _load();
+    Config config;
+
+    config._path = configPath;
+    config._fromString = false;
+    config._load();
+    return config;
 }
 
 Raytracer::Core::Config::SceneConfig Config::getSceneConfig() const
@@ -42,7 +47,7 @@ Rendering::Scene::Ptr Config::toScene(PluginsManager &pluginsManager)
     return scene;
 }
 
-void Config::_buildSceneCameras(Rendering::Scene::Ptr scene)
+void Config::_buildSceneCameras(const Rendering::Scene::Ptr& scene)
 {
     Rendering::Camera::Config cameraConfig;
 
@@ -56,7 +61,7 @@ void Config::_buildSceneCameras(Rendering::Scene::Ptr scene)
     }
 }
 
-void Config::_buildSceneMaterials(Rendering::Scene::Ptr scene)
+void Config::_buildSceneMaterials(const Rendering::Scene::Ptr& scene)
 {
     for (auto &material: _sceneConfig.materials) {
         scene->materials[material.name] =
@@ -69,7 +74,7 @@ void Config::_buildSceneMaterials(Rendering::Scene::Ptr scene)
     }
 }
 
-void Config::_buildSceneObjects(Rendering::Scene::Ptr scene, PluginsManager &pluginsManager)
+void Config::_buildSceneObjects(const Rendering::Scene::Ptr& scene, PluginsManager &pluginsManager)
 {
     Raytracer::Core::ObjectFactory objectFactory(pluginsManager);
 
@@ -194,6 +199,7 @@ std::vector<Config::MaterialConfig> Config::_loadMaterials(const libconfig::Sett
     if (!materialsCfg.isList()){
         throw Raytracer::Core::ConfigException("materials must be a list");
     }
+    materials.reserve(materialsCfg.getLength());
     for (int i = 0; i < materialsCfg.getLength(); i++) {
         materials.push_back(_parseMaterial(materialsCfg[i]));
     }
@@ -248,6 +254,7 @@ std::vector<Config::ObjectConfig> Config::_loadObjects(const libconfig::Setting 
     if (!objectsCfg.isList()){
         throw Raytracer::Core::ConfigException("objects must be a list");
     }
+    objects.reserve(objectsCfg.getLength());
     for (int i = 0; i < objectsCfg.getLength(); i++) {
         objects.push_back(_parseObject(objectsCfg[i]));
     }

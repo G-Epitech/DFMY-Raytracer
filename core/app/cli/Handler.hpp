@@ -15,9 +15,9 @@ namespace Raytracer::Core::Cli {
     public:
         /**
          * @brief Create a new cli handler
-         * @param args Application arguments
+         * @param context Application context
          */
-        explicit Handler(App::Arguments &args);
+        explicit Handler(App::Context &context);
 
         /**
          * @brief Default destructor
@@ -31,6 +31,44 @@ namespace Raytracer::Core::Cli {
 
     private:
         /// @brief Application arguments received from App
-        App::Arguments &_args;
+        App::Context &_appContext;
+
+        /// @brief Cameras names max length
+        int _camerasNamesMaxLength;
+
+        /**
+         * @brief Display the progress bar of the rendering
+         * @param cameraName Name of the camera
+         * @param camerasNamesMaxLength Max length of the camera names
+         * @param progress Progress of the rendering
+         */
+        static void _displayProgress(const std::string &cameraName, int camerasNamesMaxLength, float progress);
+
+        /**
+         * @brief Display the camera label
+         * @param cameraName Camera name
+         * @param camerasNamesMaxLength Cameras names max length
+         */
+        static void _displayCameraLabel(const std::string &cameraName, int camerasNamesMaxLength);
+
+        /**
+         * @brief Get the max length of the cameras names
+         * @return Cameras names max length
+         */
+        int _getCamerasNamesMaxLength();
+
+        /**
+         * @brief Render the image of a camera
+         * @param cameraName Camera name
+         * @param camera Camera object
+         */
+        void  _renderCameraImage(const string &cameraName, Rendering::Camera::Ptr &camera);
+
+        /**
+         * @brief Save the image of a camera
+         * @param cameraName Camera name
+         * @param camera Camera object
+         */
+        void _saveImage(const string &cameraName, Rendering::Camera::Ptr &camera) const;
     };
 }

@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include "plugins/PluginsManager.hpp"
+#include "types/rendering/Scene.hpp"
 
 namespace Raytracer::Core {
     class App {
@@ -22,6 +23,10 @@ namespace Raytracer::Core {
             bool help = false;
             /// @brief Plugins path
             std::string pluginsPath = "./plugins";
+            /// @brief Threads count
+            size_t threadsCount = 8;
+            /// @brief Output format
+            std::string outputFormat = "ppm";
         } Options;
 
         /// @brief Arguments structure
@@ -31,6 +36,16 @@ namespace Raytracer::Core {
             /// @brief Options
             Options options;
         } Arguments;
+
+        /// @brief App context
+        struct Context {
+            /// @brief Scene
+            Rendering::Scene::Ptr scene;
+            /// @brief Plugins manager
+            PluginsManager &pluginsManager;
+            /// @brief Arguments
+            Arguments &args;
+        };
 
         /**
          * @brief Default constructor
@@ -56,12 +71,22 @@ namespace Raytracer::Core {
          */
         static int help();
 
+        /**
+        * @brief Load a scene
+        * @param scenePath Scene file path
+        * @return Success status of the operation
+        */
+        bool tryLoadScene(const std::string &scenePath);
+
     private:
         /// @brief Application arguments
         Arguments _args;
 
         /// @brief Plugins manager
         PluginsManager _pluginsManager;
+
+        /// @brief Current scene
+        Rendering::Scene::Ptr _scene;
 
         /**
          * @brief Read arguments
@@ -72,22 +97,40 @@ namespace Raytracer::Core {
         bool _readArgs(int argc, char **argv);
 
         /**
+         * @brief Read unsigned long argument
+         * @param arg Argument value
+         * @param value Value to set
+         * @return Success status
+         */
+        [[nodiscard]]
+        static bool _readUL(const std::string& arg, size_t &value);
+
+        /**
          * @brief Parse options
          * @param argc Number of arguments
          * @param argv Argument values
          * @return Success status
          */
-         bool _readOptions(int argc, char **argv);
+        bool _readOptions(int argc, char **argv);
 
-         /**
-          * @brief Load plugins
-          * @return Success status of the operation
-          */
-         bool _loadPlugins();
+        /**
+         * @brief Load plugins
+         * @return Success status of the operation
+         */
+        bool _loadPlugins();
 
-         /**
-          * @brief Launch the handler
-          */
-          int _runHandler();
+        /**
+         * @brief Launch the handler
+         */
+        int _runHandler();
+
+        /**
+         * @brief Read output format
+         * @param arg Argument value
+         * @param outputFormat Output format
+         * @return Success status
+         */
+        [[nodiscard]]
+        static bool _readOutputFormat(const std::string &arg, std::string &outputFormat);
     };
 }

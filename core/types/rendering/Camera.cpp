@@ -23,7 +23,7 @@ void Camera::compute(size_t threads, std::vector<IObject::Ptr> &objects) {
     if (threads % 2 != 0)
         throw ComputeError("Invalid number of threads. Must be divisible per two.");
 
-    float screenHeight = 2 * tan(fov * 0.5 * (M_PI / 180.0)) * 2;
+    float screenHeight = 2 * tanf(fov * 0.5f * (M_PIf / 180.0f)) * 2.f;
     float cameraAspect = (float) screen.size.width / (float) screen.size.height;
     float screenWidth = screenHeight * cameraAspect;
 
@@ -154,5 +154,11 @@ float Camera::getComputeStatus() const {
 void Camera::cancelCompute() {
     for (auto &thread : _threads) {
         thread.detach();
+    }
+}
+
+void Camera::waitThreadsTeardown() {
+    for (auto &thread : _threads) {
+        thread.join();
     }
 }

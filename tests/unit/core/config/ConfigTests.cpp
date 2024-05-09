@@ -40,8 +40,7 @@ class ConfigTests : public ::testing::Test {
 
 TEST_F(ConfigTests, ValidConfiguration)
 {
-    Raytracer::Core::Config config;
-    config.loadFromFile("scenes/test.cfg");
+    auto config = Raytracer::Core::Config::loadFromFile("scenes/test.cfg");
     Raytracer::Core::Config::SceneConfig sceneConfig = config.getSceneConfig();
 
     ASSERT_EQ(sceneConfig.name, "test") << "Expected scene name to be 'test2'";

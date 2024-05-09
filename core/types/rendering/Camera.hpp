@@ -88,12 +88,18 @@ namespace Raytracer::Core::Rendering {
          * @brief Get the status of the computation
          * @return Status of the computation
          */
+        [[nodiscard]]
         float getComputeStatus() const;
 
         /**
          * @brief Cancel the computation
          */
         void cancelCompute();
+
+        /**
+         * @brief Wait for the threads to teardown
+         */
+        void waitThreadsTeardown();
 
         /// @brief The position of the camera
         Common::Math::Point3D position;

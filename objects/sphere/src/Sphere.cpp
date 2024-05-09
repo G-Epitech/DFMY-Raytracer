@@ -6,12 +6,13 @@
 */
 
 #include <cmath>
+#include <utility>
 #include "Sphere.hpp"
 
 Raytracer::Objects::Sphere::Sphere(
-    const Raytracer::Common::Graphics::Material::Ptr material,
+    Raytracer::Common::Graphics::Material::Ptr  material,
     const Common::Math::Point3D &position,
-    const Raytracer::Common::ObjectProperty &property) : _material(material), _position(position)
+    const Raytracer::Common::ObjectProperty &property) : _material(std::move(material)), _position(position)
 {
     _radius = std::get<float>(property);
 }
@@ -23,14 +24,14 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
     Common::Math::Vector3D oc(offsetRayOrigin.x, offsetRayOrigin.y, offsetRayOrigin.z);
 
     float a = ray.direction.dot(ray.direction);
-    float b = 2.0 * oc.dot(ray.direction);
+    float b = 2.0f * oc.dot(ray.direction);
     float c = oc.dot(oc) - _radius * _radius;
     float discriminant = b * b - 4 * a * c;
 
     if (discriminant < 0)
         return hitInfo;
 
-    float distance = (-b - sqrt(discriminant)) / (2.0 * a);
+    float distance = (-b - fsqrt(discriminant)) / (2.0f * a);
 
     if (distance < 0)
         return hitInfo;
