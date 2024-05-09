@@ -329,7 +329,7 @@ Math::Vector3D Config::_parseVector3D(const std::string& propName, const libconf
     std::tuple<float, float, float> tuple;
 
     if (!setting.isGroup())
-        throw Raytracer::Core::ConfigException(propName + "must be a group of 3 floats {x, y, z}");
+        throw Raytracer::Core::ConfigException(propName + " must be a group of 3 floats {x, y, z}");
     tuple = _parseTuple3f(propName, setting, {"x", "y", "z"});
     vector3.x = std::get<0>(tuple);
     vector3.y = std::get<1>(tuple);
