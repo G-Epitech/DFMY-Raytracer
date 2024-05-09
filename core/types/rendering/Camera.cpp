@@ -133,13 +133,7 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, 
             Common::Graphics::Color localIncomingLight = emittedLight * rayColor;
 
             incomingLight += localIncomingLight;
-
-            float lightStrength = hitConfig.normal.dot(ray.direction);
-            Common::Graphics::Color diffuseLight = hitConfig.hitColor.color;
-            if (lightStrength > 0)
-                diffuseLight = diffuseLight * lightStrength * 2;
-
-            rayColor *= diffuseLight;
+            rayColor *= hitConfig.hitColor.color;
         } else {
             Common::Graphics::Color ambientLight = rayColor * 0.1f;
             incomingLight += ambientLight;
