@@ -72,7 +72,7 @@ bool TriFace::_computeFace(Common::Math::HitInfo &hitInfo, const Common::Math::R
         hitInfo.distance = dst;
         auto vector = ray.direction * dst;
         hitInfo.hitPoint = ray.origin + Point3D(vector.x, vector.y, vector.z);
-        // hitInfo.normal = (_data.normals.n1 * w + _data.normals.n2 * u + _data.normals.n3 * v).normalize();
+        hitInfo.normal = (_data.normals.n1 * w + _data.normals.n2 * u + _data.normals.n3 * v).normalize();
         return true;
     }
     return false;

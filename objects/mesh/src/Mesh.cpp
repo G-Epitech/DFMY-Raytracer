@@ -15,6 +15,27 @@
 
 using namespace Raytracer::Objects;
 
+void getObjectCenter(const std::vector<Raytracer::Common::Math::Point3D> &vertices, Raytracer::Common::Math::Point3D &center)
+{
+    for (auto &vertex : vertices) {
+        center.x += vertex.x;
+        center.y += vertex.y;
+        center.z += vertex.z;
+    }
+    center.x /= vertices.size();
+    center.y /= vertices.size();
+    center.z /= vertices.size();
+}
+
+void translateObject(std::vector<Raytracer::Common::Math::Point3D> &vertices, const Raytracer::Common::Math::Point3D &center)
+{
+    for (auto &vertex : vertices) {
+        vertex.x -= center.x;
+        vertex.y -= center.y;
+        vertex.z -= center.z;
+    }
+}
+
 Mesh::Mesh(
     const Raytracer::Common::Graphics::Material::Ptr material,
     const Common::Math::Point3D &position,
@@ -22,18 +43,19 @@ Mesh::Mesh(
 {
     auto filename = std::get<std::string>(property);
 
-
     _loadObj(filename);
+    Raytracer::Common::Math::Point3D center;
+    getObjectCenter(_vertices, center);
+    translateObject(_vertices, center);
     for (auto &vertex : _vertices) {
+        vertex.rotateY(45);
+        vertex.rotateX(45);
         vertex.x += _position.x;
         vertex.y += _position.y;
         vertex.z += _position.z;
     }
-
-    for (auto &vertex : _vertices) {
-        vertex.rotateY(30);
-    }
-
+    Raytracer::Common::Math::Point3D invCenter(-center.x, -center.y, -center.z);
+    translateObject(_vertices, invCenter);
     _loadTriangles();
     _loadQuads();
     std::cout << "Loaded mesh: " << filename << std::endl;

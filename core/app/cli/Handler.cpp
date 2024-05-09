@@ -60,7 +60,7 @@ int Handler::run() {
             .screen = {
                     .size = { .width = 1920, .height = 1080 }
             },
-            .position = Common::Math::Point3D(0, 0, 30),
+            .position = Common::Math::Point3D(0, -150, 30),
             .direction = Common::Math::Vector3D(0, 0, 0),
             .fov = 50
     };
@@ -77,7 +77,7 @@ int Handler::run() {
 
     auto objectProvider2 = dlloader2.loadSymbol<Common::ObjectProviderGetter>(getterName);
 
-    objects.push_back(objectProvider2()->create(red, Common::Math::Point3D(-10, 60, 30), "cube.obj"));
+    objects.push_back(objectProvider2()->create(red, Common::Math::Point3D(-10, 60, 30), "mug.obj"));
 
     camera.compute(COMPUTE_THREADS, objects);
 
