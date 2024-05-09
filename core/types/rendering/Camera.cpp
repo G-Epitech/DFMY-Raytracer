@@ -5,7 +5,7 @@
 ** Camera.cpp
 */
 
-#include <math.h>
+#include <cmath>
 #include "Camera.hpp"
 #include "types/graphics/Pixel.hpp"
 
@@ -55,7 +55,7 @@ void Camera::_computeSegment(Segment config, std::vector<IObject::Ptr> &objects)
         for (size_t x = config.origin.width; x < config.origin.width + config.size.width; x++) {
             Common::Graphics::Color oldFrame = this->_computeFrame(config, objects, x, y);
 
-            for (size_t i = 0; i < 15; i++) {
+            for (size_t i = 0; i < 0; i++) {
                 auto newFrame = this->_computeFrame(config, objects, x, y);
                 float weight = 1.0f / (i + 1);
 
@@ -135,9 +135,10 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, 
             incomingLight += localIncomingLight;
             rayColor *= hitConfig.hitColor.color;
         } else {
-            Common::Graphics::Color ambientLight = rayColor * 0.1f;
-            incomingLight += ambientLight;
+            Common::Graphics::Color environmentLight = _getEnvironmentLight(ray);
+            Common::Graphics::Color ambientLight = rayColor * environmentLight;
 
+            incomingLight += ambientLight;
             break;
         }
     }
@@ -153,17 +154,44 @@ Math::Vector3D Camera::_getRandomDirection(Math::Vector3D &normal, unsigned int 
     randomZ = randomZ / 4294967295.0;
 
     float theta = 2 * M_PI * randomX;
-    float rho = sqrt(-2 * log(randomY)) * cos(theta);
+    float rho = sqrt(-2 * logf(randomY)) * cosf(theta);
     float phi = 2 * M_PI * randomZ;
 
-    float x = rho * cos(phi);
-    float y = rho * sin(phi);
-    float z = sqrt(1 - (x * x) - (y * y));
+    float x = rho * cosf(phi);
+    float y = rho * sinf(phi);
+    float z = sqrtf(fabs(1 - (x * x) - (y * y)));
 
     Math::Vector3D randomDirection = Math::Vector3D(x, y, z).normalize();
     float dot = normal.dot(randomDirection);
 
     return randomDirection * dot;
+}
+
+Graphics::Color Camera::_getEnvironmentLight(Math::Ray &ray) {
+    float skyGradiantT = pow(_smoothStep(-0.25, 0.4f, ray.direction.z), 0.35f);
+    Common::Graphics::Color skyGradiant = _lErp(Common::Graphics::Color(1, 1, 1),
+                                                Common::Graphics::Color::fromRGB(0, 63, 93), skyGradiantT);
+    Common::Graphics::Color groundColor = Common::Graphics::Color::fromRGB(80, 80, 80);
+
+    Math::Vector3D sunDirection = Math::Vector3D(0, -1, 0);
+    float max = std::max<float>(0, ray.direction.dot(sunDirection * -1));
+    float sun = pow(max, 200) * 500;
+
+    float groundToSkyT = _smoothStep(-0.1, 0, ray.direction.z);
+    float sunMask = groundToSkyT >= 1 ? 0 : 1;
+
+    return _lErp(groundColor, skyGradiant, groundToSkyT);
+}
+
+float Camera::_smoothStep(float edge0, float edge1, float x) {
+    x = std::clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
+    return x * x * (3.0f - 2.0f * x);
+}
+
+Graphics::Color Camera::_lErp(const Common::Graphics::Color &a, const Common::Graphics::Color &b, float t) {
+    Common::Graphics::Color bt = b * t;
+
+    return a * (1 - t) + bt;
 }
 
 Camera::ComputeError::ComputeError(const std::string &msg) {
@@ -179,7 +207,7 @@ float Camera::getComputeStatus() const {
 }
 
 void Camera::cancelCompute() {
-    for (auto &thread : _threads) {
+    for (auto &thread: _threads) {
         thread.detach();
     }
 }

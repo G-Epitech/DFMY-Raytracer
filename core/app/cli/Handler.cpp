@@ -70,10 +70,10 @@ int Handler::run() {
             1.5f
     );
     std::shared_ptr<Common::Graphics::Material> yellowLight = std::make_shared<Common::Graphics::Material>(
-            Common::Graphics::Color::fromRGB(180, 180, 180),
+            Common::Graphics::Color::fromRGB(100, 100, 100),
             Common::Graphics::Color::fromRGB(235, 201, 30),
             Common::Graphics::Color::fromRGB(255, 255, 255),
-            0.8f
+            1.2f
     );
 
     std::string name = STRINGIFY(OBJECT_PROVIDER_GETTER_NAME);
@@ -84,9 +84,9 @@ int Handler::run() {
             .screen = {
                     .size = { .width = 1920 * RESOLUTION , .height = 1080 * RESOLUTION}
             },
-            .position = Common::Math::Point3D(0, 0, 30),
+            .position = Common::Math::Point3D(0, -70, 40),
             .direction = Common::Math::Vector3D(0, 0, 0),
-            .fov = 40
+            .fov = 50
     };
     Rendering::Camera camera(camConfig);
     std::vector<Common::IObject::Ptr> objects;

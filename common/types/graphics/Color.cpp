@@ -92,3 +92,7 @@ Graphics::Color Graphics::Color::fromRGB(unsigned char r, unsigned char g, unsig
 Graphics::Color Graphics::Color::operator/(float scalar) const {
     return {r / scalar, g / scalar, b / scalar, a};
 }
+
+Graphics::Color Graphics::Color::operator+(float scalar) const {
+    return {r + scalar, g + scalar, b + scalar, a};
+}
