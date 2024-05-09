@@ -10,6 +10,7 @@
 #include "config/Config.hpp"
 
 using namespace Raytracer::Core;
+using namespace Raytracer::Common;
 
 class ConfigTests : public ::testing::Test {
     protected:
@@ -339,5 +340,174 @@ TEST_F(ConfigTests, ValidSphereFormat)
     ASSERT_EQ(sceneCfg.objects[0].origin.y, 2.0f) << "Expected object origin to be 2";
     ASSERT_EQ(sceneCfg.objects[0].origin.z, 3.0f) << "Expected object origin to be 3";
     ASSERT_EQ(std::get<float>(sceneCfg.objects[0].property), 1.0f) << "Expected object radius to be 1";
+}
+
+TEST_F(ConfigTests, ValidCubeFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = ()\n"
+                                     "materials = (\n"
+                                     "    {\n"
+                                     "        name = \"red\",\n"
+                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        emissions = ()\n"
+                                     "        reflectivity = 0.5,\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "objects = (\n"
+                                     "    {\n"
+                                     "        type = \"cube\",\n"
+                                     "        material = \"red\",\n"
+                                     "        origin = {x=1.0, y=2.0, z=3.0},\n"
+                                     "        properties = {\n"
+                                     "            size = {width=1.0, height=2.0, depth=3.0}\n"
+                                     "        }\n"
+                                     "    }\n"
+                                     ")\n";
+    Config config = Raytracer::Core::Config::loadFromString(configFileContents);
+    Raytracer::Core::Config::SceneConfig sceneCfg = config.getSceneConfig();
+    Math::Float3 size = std::get<Math::Float3>(sceneCfg.objects[0].property);
+
+    ASSERT_EQ(sceneCfg.objects[0].type, "cube") << "Expected object type to be SPHERE";
+    ASSERT_EQ(sceneCfg.objects[0].material, "red") << "Expected object material to be 'red'";
+    ASSERT_EQ(sceneCfg.objects[0].origin.x, 1.0f) << "Expected object origin to be 1";
+    ASSERT_EQ(sceneCfg.objects[0].origin.y, 2.0f) << "Expected object origin to be 2";
+    ASSERT_EQ(sceneCfg.objects[0].origin.z, 3.0f) << "Expected object origin to be 3";
+    ASSERT_EQ(size.x, 1.0f) << "Expected cube size to be 1";
+    ASSERT_EQ(size.y, 2.0f) << "Expected cube size to be 2";
+    ASSERT_EQ(size.z, 3.0f) << "Expected cube size to be 3";
+}
+
+TEST_F(ConfigTests, InvalidCubeSizeFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = ()\n"
+                                     "materials = (\n"
+                                     "    {\n"
+                                     "        name = \"red\",\n"
+                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        emissions = ()\n"
+                                     "        reflectivity = 0.5,\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "objects = (\n"
+                                     "    {\n"
+                                     "        type = \"cube\",\n"
+                                     "        material = \"red\",\n"
+                                     "        origin = {x=1.0, y=2.0, z=3.0},\n"
+                                     "        properties = {\n"
+                                     "            size = 3\n"
+                                     "        }\n"
+                                     "    }\n"
+                                     ")\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, InvalidCubePropertiesFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = ()\n"
+                                     "materials = (\n"
+                                     "    {\n"
+                                     "        name = \"red\",\n"
+                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        emissions = ()\n"
+                                     "        reflectivity = 0.5,\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "objects = (\n"
+                                     "    {\n"
+                                     "        type = \"cube\",\n"
+                                     "        material = \"red\",\n"
+                                     "        origin = {x=1.0, y=2.0, z=3.0},\n"
+                                     "        properties = 3"
+                                     "    }\n"
+                                     ")\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, InvalidCubePropertiesKeys)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = ()\n"
+                                     "materials = (\n"
+                                     "    {\n"
+                                     "        name = \"red\",\n"
+                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        emissions = ()\n"
+                                     "        reflectivity = 0.5,\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "objects = (\n"
+                                     "    {\n"
+                                     "        type = \"cube\",\n"
+                                     "        material = \"red\",\n"
+                                     "        origin = {x=1.0, y=2.0, z=3.0},\n"
+                                     "        properties = {\n"
+                                     "            size = {width=1.0, height=2.0}\n"
+                                     "        }\n"
+                                     "    }\n"
+                                     ")\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, InvalidPoint3DProps)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = (\n"
+                                     "    {\n"
+                                     "        name = \"camera1\",\n"
+                                     "        screen = {\n"
+                                     "            size = {width=800, height=600},\n"
+                                     "            origin = {x=20.0, y=10.0, z=40.0},\n"
+                                     "        }\n"
+                                     "        position = {x=1.0, y=2.0},\n"
+                                     "        direction = {x=2.0, y=3.0, z=4.0},\n"
+                                     "        fieldOfView = 60.0,\n"
+                                     "        resolution = {width=800, height=600},\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "materials = ()\n"
+                                     "objects = ()\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, InvalidVector3DProps)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = (\n"
+                                     "    {\n"
+                                     "        name = \"camera1\",\n"
+                                     "        screen = {\n"
+                                     "            size = {width=800, height=600},\n"
+                                     "            origin = {x=20.0, y=10.0, z=40.0},\n"
+                                     "        }\n"
+                                     "        position = {x=1.0, y=2.0},\n"
+                                     "        direction = 3,\n"
+                                     "        fieldOfView = 60.0,\n"
+                                     "        resolution = {width=800, height=600},\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "materials = ()\n"
+                                     "objects = ()\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
 }
 
