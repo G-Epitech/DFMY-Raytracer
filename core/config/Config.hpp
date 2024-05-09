@@ -34,20 +34,12 @@ namespace Raytracer::Core {
 
 class Raytracer::Core::Config {
     public:
-        /// @brief Screen configuration
-        typedef struct {
-            /// @brief Screen size
-            Raytracer::Common::Math::Size size;
-            /// @brief Screen origin
-            Common::Math::Point3D origin;
-        } ScreenConfig;
-
         /// @brief Camera configuration
         typedef struct {
             /// @brief Name of the camera
             std::string name;
             /// @brief Screen configuration
-            ScreenConfig screen;
+            Raytracer::Common::Math::Size screenSize;
             /// @brief Camera position
             Common::Math::Point3D position;
             /// @brief Camera direction
@@ -71,11 +63,15 @@ class Raytracer::Core::Config {
             /// @brief Material name
             std::string name;
             /// @brief Material color for the object
-            Raytracer::Common::Graphics::Color color;
+            Raytracer::Common::Graphics::Color objectColor;
             /// @brief Material light emission directions
-            std::vector<EmissionConfig> emissions;
+            std::vector<Raytracer::Common::Graphics::Material::Emission> emissions;
             /// @brief Material index of reflectivity
             float reflectivity;
+            /// @brief General emission strength of the object
+            float emissionStrength;
+            /// @brief Material color for the light emission
+            Raytracer::Common::Graphics::Color emissionColor;
         } MaterialConfig;
 
         /// @brief Configuration for a sphere object special properties
@@ -212,11 +208,6 @@ class Raytracer::Core::Config {
         std::vector<ObjectConfig> _loadObjects(const libconfig::Setting &root);
 
         /**
-         * @brief Parse a camera group from the configuration
-         * @param setting Setting of the camera group
-         */
-        ScreenConfig _parseCameraScreen(const libconfig::Setting &setting);
-        /**
          * @brief Parse a material group from the configuration
          * @param setting Setting of the material group
          */
@@ -225,7 +216,7 @@ class Raytracer::Core::Config {
          * @brief Parse an emission direction group from the configuration
          * @param setting Setting of the emission direction group
          */
-        std::vector<EmissionConfig> _parseEmissions(const libconfig::Setting &setting);
+        std::vector<Raytracer::Common::Graphics::Material::Emission> _parseEmissions(const libconfig::Setting &setting);
         /**
          * @brief Parse an object group from the configuration
          * @param setting Setting of the object group

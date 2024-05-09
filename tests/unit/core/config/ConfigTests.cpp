@@ -44,7 +44,7 @@ TEST_F(ConfigTests, ValidConfiguration)
     auto config = Raytracer::Core::Config::loadFromFile("scenes/test.cfg");
     Raytracer::Core::Config::SceneConfig sceneConfig = config.getSceneConfig();
     auto ambient = sceneConfig.ambient.color.toPixel();
-    auto materialColor = sceneConfig.materials[0].color.toPixel();
+    auto materialColor = sceneConfig.materials[0].objectColor.toPixel();
 
     ASSERT_EQ(sceneConfig.name, "test") << "Expected scene name to be 'test2'";
     ASSERT_EQ(sceneConfig.cameras.size(), 1) << "Expected 1 camera";
@@ -63,11 +63,8 @@ TEST_F(ConfigTests, ValidConfiguration)
     ASSERT_EQ(sceneConfig.cameras[0].direction.y, 3.0f) << "Expected camera direction to be 5";
     ASSERT_EQ(sceneConfig.cameras[0].direction.z, 4.0f) << "Expected camera direction to be 6";
     ASSERT_EQ(sceneConfig.cameras[0].fov, 60.0f) << "Expected camera fov to be 90";
-    ASSERT_EQ(sceneConfig.cameras[0].screen.size.width, 800) << "Expected camera screen width to be 800";
-    ASSERT_EQ(sceneConfig.cameras[0].screen.size.height, 600) << "Expected camera screen height to be 600";
-    ASSERT_EQ(sceneConfig.cameras[0].screen.origin.x, 20.0f) << "Expected camera screen origin to be 20";
-    ASSERT_EQ(sceneConfig.cameras[0].screen.origin.y, 10.0f) << "Expected camera screen origin to be 10";
-    ASSERT_EQ(sceneConfig.cameras[0].screen.origin.z, 40.0f) << "Expected camera screen origin to be 40";
+    ASSERT_EQ(sceneConfig.cameras[0].screenSize.width, 800) << "Expected camera screen width to be 800";
+    ASSERT_EQ(sceneConfig.cameras[0].screenSize.height, 600) << "Expected camera screen height to be 600";
     ASSERT_EQ(sceneConfig.materials[0].name, "red") << "Expected material name to be 'red'";
     ASSERT_EQ(materialColor.r, 1) << "Expected material color to be 1";
     ASSERT_EQ(materialColor.g, 0) << "Expected material color to be 0";
@@ -322,9 +319,11 @@ TEST_F(ConfigTests, ValidSphereFormat)
                                      "materials = (\n"
                                      "    {\n"
                                      "        name = \"red\",\n"
-                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        objectColor = {r=1, g=0, b=0, a=1},\n"
                                      "        emissions = ()\n"
                                      "        reflectivity = 0.5,\n"
+                                     "        emissionStrength = 0.5,\n"
+                                     "        emissionColor = {r=1, g=0, b=0, a=1}\n"
                                      "    }\n"
                                      ")\n"
                                      "objects = (\n"
@@ -358,9 +357,11 @@ TEST_F(ConfigTests, ValidCubeFormat)
                                      "materials = (\n"
                                      "    {\n"
                                      "        name = \"red\",\n"
-                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        objectColor = {r=1, g=0, b=0, a=1},\n"
                                      "        emissions = ()\n"
                                      "        reflectivity = 0.5,\n"
+                                     "        emissionStrength = 0.5,\n"
+                                     "        emissionColor = {r=1, g=0, b=0, a=1}\n"
                                      "    }\n"
                                      ")\n"
                                      "objects = (\n"
@@ -397,9 +398,11 @@ TEST_F(ConfigTests, InvalidCubeSizeFormat)
                                      "materials = (\n"
                                      "    {\n"
                                      "        name = \"red\",\n"
-                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        objectColor = {r=1, g=0, b=0, a=1},\n"
                                      "        emissions = ()\n"
                                      "        reflectivity = 0.5,\n"
+                                     "        emissionStrength = 0.5,\n"
+                                     "        emissionColor = {r=1, g=0, b=0, a=1}\n"
                                      "    }\n"
                                      ")\n"
                                      "objects = (\n"
@@ -425,9 +428,11 @@ TEST_F(ConfigTests, InvalidCubePropertiesFormat)
                                      "materials = (\n"
                                      "    {\n"
                                      "        name = \"red\",\n"
-                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        objectColor = {r=1, g=0, b=0, a=1},\n"
                                      "        emissions = ()\n"
                                      "        reflectivity = 0.5,\n"
+                                     "        emissionStrength = 0.5,\n"
+                                     "        emissionColor = {r=1, g=0, b=0, a=1}\n"
                                      "    }\n"
                                      ")\n"
                                      "objects = (\n"
@@ -451,9 +456,11 @@ TEST_F(ConfigTests, InvalidCubePropertiesKeys)
                                      "materials = (\n"
                                      "    {\n"
                                      "        name = \"red\",\n"
-                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        objectColor = {r=1, g=0, b=0, a=1},\n"
                                      "        emissions = ()\n"
                                      "        reflectivity = 0.5,\n"
+                                     "        emissionStrength = 0.5,\n"
+                                     "        emissionColor = {r=1, g=0, b=0, a=1}\n"
                                      "    }\n"
                                      ")\n"
                                      "objects = (\n"
