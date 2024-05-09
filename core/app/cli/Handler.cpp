@@ -106,7 +106,7 @@ int Handler::run() {
 
     auto objectProvider2 = dlloader2.loadSymbol<Common::ObjectProviderGetter>(name);
 
-    objects.push_back(objectProvider2()->create(red, Common::Math::Point3D(-10, 60, 30), "cube.obj"));
+    objects.push_back(objectProvider2()->create(red, Common::Math::Point3D(-10, 60, 30), "tree.obj"));
 
     camera.compute(COMPUTE_THREADS, objects);
 
