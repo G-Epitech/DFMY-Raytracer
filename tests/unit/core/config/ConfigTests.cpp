@@ -89,6 +89,11 @@ TEST_F(ConfigTests, UnknownFile)
     ASSERT_THROW(Raytracer::Core::Config::loadFromFile("wow"), Raytracer::Core::ConfigException);
 }
 
+TEST_F(ConfigTests, InvalidFileSyntax)
+{
+    ASSERT_THROW(Raytracer::Core::Config::loadFromFile("tests/unit/core/config/invalid_file.cfg"), Raytracer::Core::ConfigException);
+}
+
 TEST_F(ConfigTests, InvalidAmbientFormat)
 {
     std::string configFileContents = "ambient = []\n"
@@ -558,4 +563,19 @@ TEST_F(ConfigTests, InvalidType)
                                      "materials = ()\n"
                                      "objects = ()\n";
     ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, ConfigToScene)
+{
+    PluginsManager pluginsManager;
+    pluginsManager.load("./plugins");
+
+
+    auto config = Config::loadFromFile("scenes/test.cfg");
+    Config::SceneConfig sceneConfig = config.getSceneConfig();
+    auto scene = config.toScene(pluginsManager);
+
+    ASSERT_EQ(scene->cameras.size(), 1) << "Expect to have 1 camera";
+    ASSERT_EQ(scene->materials.size(), 1) << "Expect to have 1 material";
+    ASSERT_EQ(scene->objects.size(), 1) << "Expect to have 1 object";
 }
