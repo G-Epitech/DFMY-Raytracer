@@ -14,8 +14,3 @@ const char *Raytracer::Core::ConfigException::what() const noexcept
 {
     return _message.c_str();
 }
-
-const std::string &Raytracer::Core::ConfigException::getMessage() const
-{
-    return _message;
-}

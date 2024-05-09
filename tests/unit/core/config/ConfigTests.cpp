@@ -74,6 +74,7 @@ TEST_F(ConfigTests, ValidConfiguration)
     ASSERT_EQ(materialColor.b, 0) << "Expected material color to be 0";
     ASSERT_EQ(materialColor.a, 1) << "Expected material color to be 1";
     ASSERT_EQ(sceneConfig.materials[0].reflectivity, 0.5f) << "Expected material reflectivity to be 0.5f";
+    ASSERT_EQ(sceneConfig.materials[0].emissions[0].strength, 1.0);
     ASSERT_EQ(sceneConfig.objects[0].type, "Sphere") << "Expected object type to be SPHERE";
     ASSERT_EQ(sceneConfig.objects[0].material, "red") << "Expected object material to be 'sphere'";
     ASSERT_EQ(sceneConfig.objects[0].origin.x, 1.0f) << "Expected object origin to be 1";
@@ -547,3 +548,14 @@ TEST_F(ConfigTests, InvalidColorFormat)
     ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
 }
 
+TEST_F(ConfigTests, InvalidType)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color =  {r=1, g=3.2 b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = ()\n"
+                                     "materials = ()\n"
+                                     "objects = ()\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
