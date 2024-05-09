@@ -85,9 +85,8 @@ TEST_F(ConfigTests, InvalidConfigurationMembers)
     std::string configFileContents = "ambient = {}\n"
                                      "cameras = []\n"
                                      "materials = []\n";
-    Raytracer::Core::Config config;
 
-    ASSERT_THROW(config.loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidAmbientFormat)
@@ -96,9 +95,8 @@ TEST_F(ConfigTests, InvalidAmbientFormat)
                                      "cameras = []\n"
                                      "materials = []\n"
                                      "objects = []\n";
-    Raytracer::Core::Config config;
 
-    ASSERT_THROW(config.loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_THROW( Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidCamerasFormat)
@@ -110,7 +108,100 @@ TEST_F(ConfigTests, InvalidCamerasFormat)
                                      "cameras = {}\n"
                                      "materials = ()\n"
                                      "objects = ()\n";
-    Raytracer::Core::Config config;
 
-    ASSERT_THROW(config.loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
 }
+
+TEST_F(ConfigTests, InvalidCameraScreenFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = (\n"
+                                     "    {\n"
+                                     "        name = \"camera1\",\n"
+                                     "        screen =32\n"
+                                     "        position = {x=1.0, y=2.0, z=3.0},\n"
+                                     "        direction = {x=2.0, y=3.0, z=4.0},\n"
+                                     "        fieldOfView = 60.0,\n"
+                                     "        resolution = {width=800, height=600},"
+                                     "    }\n"
+                                     ")\n"
+                                     "materials = ()\n"
+                                     "objects = ()\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, InvalidCameraScreenSizeFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = (\n"
+                                     "    {\n"
+                                     "        name = \"camera1\",\n"
+                                     "        screen = {\n"
+                                     "            size = 32,\n"
+                                     "            origin = {x=20.0, y=10.0, z=40.0},\n"
+                                     "        }\n"
+                                     "        position = {x=1.0, y=2.0, z=3.0},\n"
+                                     "        direction = {x=2.0, y=3.0, z=4.0},\n"
+                                     "        fieldOfView = 60.0,\n"
+                                     "        resolution = {width=800, height=600},\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "materials = ()\n"
+                                     "objects = ()\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, InvalidMaterialsFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = (\n"
+                                     "    {\n"
+                                     "        name = \"camera1\",\n"
+                                     "        screen = {\n"
+                                     "            size = {width=800, height=600},\n"
+                                     "            origin = {x=20.0, y=10.0, z=40.0},\n"
+                                     "        }\n"
+                                     "        position = {x=1.0, y=2.0, z=3.0},\n"
+                                     "        direction = {x=2.0, y=3.0, z=4.0},\n"
+                                     "        fieldOfView = 60.0,\n"
+                                     "        resolution = {width=800, height=600},\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "materials = 32\n"
+                                     "objects = ()\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, InvalidMaterialsElementFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = (\n"
+                                     "    {\n"
+                                     "        name = \"camera1\",\n"
+                                     "        screen = {\n"
+                                     "            size = {width=800, height=600},\n"
+                                     "            origin = {x=20.0, y=10.0, z=40.0},\n"
+                                     "        }\n"
+                                     "        position = {x=1.0, y=2.0, z=3.0},\n"
+                                     "        direction = {x=2.0, y=3.0, z=4.0},\n"
+                                     "        fieldOfView = 60.0,\n"
+                                     "        resolution = {width=800, height=600},\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "materials = (23)\n"
+                                     "objects = ()\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
