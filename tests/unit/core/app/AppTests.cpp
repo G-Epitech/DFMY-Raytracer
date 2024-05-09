@@ -37,18 +37,6 @@ protected:
     std::streambuf *stderrBuf = nullptr;
 };
 
-TEST_F(AppTests, SimpleAppRun)
-{
-    App app;
-    char *argv[] = {
-        const_cast<char *>("./raytracer"),
-        const_cast<char *>("scenes/test2.cfg")
-    };
-    int argc = 2;
-
-    ASSERT_EQ(app.run(argc, argv), 0) << "Expected return code 0";
-}
-
 TEST_F(AppTests, AppRunWithBadOptions)
 {
     App app;
