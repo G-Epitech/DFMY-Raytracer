@@ -56,7 +56,7 @@ void Config::_buildSceneCameras(const Rendering::Scene::Ptr& scene)
         cameraConfig.position = camera.position;
         cameraConfig.direction = camera.direction;
         cameraConfig.fov = camera.fov;
-        cameraConfig.screen.size = camera.screen.size;
+        cameraConfig.screen.size = camera.screenSize;
         scene->cameras[cameraConfig.name] = std::make_shared<Rendering::Camera>(cameraConfig);
     }
 }
@@ -66,10 +66,11 @@ void Config::_buildSceneMaterials(const Rendering::Scene::Ptr& scene)
     for (auto &material: _sceneConfig.materials) {
         scene->materials[material.name] =
             std::make_shared<Common::Graphics::Material>(
-                material.color,
-                material.emissions[0].color,
-                Common::Graphics::Color(0, 0, 0, 0),
-                material.reflectivity
+                material.objectColor,
+                material.emissionColor,
+                material.emissionStrength,
+                material.reflectivity,
+                material.emissions
             );
     }
 }
@@ -155,6 +156,7 @@ std::vector<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting 
     std::vector<Config::CameraConfig> cameras = {};
     Config::CameraConfig camera;
     const libconfig::Setting &camerasCfg = root["cameras"];
+    unsigned height, width;
 
     if (!camerasCfg.isList()){
         throw Raytracer::Core::ConfigException("cameras must be a list");
@@ -162,35 +164,18 @@ std::vector<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting 
     for (int i = 0; i < camerasCfg.getLength(); i++) {
         const libconfig::Setting &cameraCfg = camerasCfg[i];
         _settingHasValidKeys("camera", cameraCfg, {"direction",
-            "position", "fieldOfView", "name", "screen"});
+            "position", "fieldOfView", "name", "size"});
         _lookupValueWrapper("name", cameraCfg, camera.name);
         camera.position = _parsePoint3D("position", cameraCfg["position"]);
         camera.direction = _parseVector3D("direction", cameraCfg["direction"]);
         _lookupValueWrapper("fieldOfView", cameraCfg, camera.fov);
-        camera.screen = _parseCameraScreen(cameraCfg["screen"]);
+        _settingHasValidKeys("camera", cameraCfg["size"], {"width", "height"});
+        _lookupValueWrapper("width", cameraCfg["size"], width);
+        _lookupValueWrapper("height", cameraCfg["size"], height);
+        camera.screenSize = {width, height};
         cameras.push_back(camera);
     }
     return cameras;
-}
-
-Config::ScreenConfig Config::_parseCameraScreen(const libconfig::Setting &setting)
-{
-    Config::ScreenConfig screen;
-    unsigned height, width;
-
-    if (!setting.isGroup()) {
-        throw Raytracer::Core::ConfigException("screen must be a group");
-    }
-    _settingHasValidKeys("screen", setting, {"origin", "size"});
-    screen.origin = _parsePoint3D("screen origin", setting["origin"]);
-    if (!setting["size"].isGroup()) {
-        throw Raytracer::Core::ConfigException("size must be a group of 2 integers");
-    }
-    _settingHasValidKeys("size", setting["size"], {"width", "height"});
-    _lookupValueWrapper("width", setting["size"], width);
-    _lookupValueWrapper("height", setting["size"], height);
-    screen.size = {width, height};
-    return screen;
 }
 
 std::vector<Config::MaterialConfig> Config::_loadMaterials(const libconfig::Setting &root)
@@ -215,19 +200,21 @@ Config::MaterialConfig Config::_parseMaterial(const libconfig::Setting &setting)
     if (!setting.isGroup()) {
         throw Raytracer::Core::ConfigException("material must be a group");
     }
-    _settingHasValidKeys("material", setting, {"name", "color",
-        "emissions", "reflectivity"});
+    _settingHasValidKeys("material", setting, {"name", "objectColor",
+        "emissions", "reflectivity", "emissionStrength", "emissionColor"});
     _lookupValueWrapper("name", setting, material.name);
-    material.color = _parseColor(setting["color"]);
+    material.objectColor = _parseColor(setting["objectColor"]);
+    material.emissionColor = _parseColor(setting["emissionColor"]);
     _lookupValueWrapper("reflectivity", setting, material.reflectivity);
+    _lookupValueWrapper("emissionStrength", setting, material.emissionStrength);
     material.emissions = _parseEmissions(setting["emissions"]);
     return material;
 }
 
-std::vector<Config::EmissionConfig> Config::_parseEmissions(const libconfig::Setting &setting)
+std::vector<Raytracer::Common::Graphics::Material::Emission> Config::_parseEmissions(const libconfig::Setting &setting)
 {
-    std::vector<EmissionConfig> emissions = {};
-    EmissionConfig emission;
+    std::vector<Raytracer::Common::Graphics::Material::Emission> emissions = {};
+    Raytracer::Common::Graphics::Material::Emission emission;
 
     if (!setting.isList()) {
         throw Raytracer::Core::ConfigException("emissions must be a list");
