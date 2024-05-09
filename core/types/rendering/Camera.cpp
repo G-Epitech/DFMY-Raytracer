@@ -5,7 +5,7 @@
 ** Camera.cpp
 */
 
-#include <math.h>
+#include <cmath>
 #include "Camera.hpp"
 #include "types/graphics/Pixel.hpp"
 
@@ -168,8 +168,8 @@ Math::Vector3D Camera::_getRandomDirection(Math::Vector3D &normal, unsigned int 
 }
 
 Graphics::Color Camera::_getEnvironmentLight(Math::Ray &ray) {
-    float skyGradiantT = pow(_smoothstep(-0.25, 0.4f, ray.direction.z), 0.35f);
-    Common::Graphics::Color skyGradiant = _lerp(Common::Graphics::Color(1, 1, 1),
+    float skyGradiantT = pow(_smoothStep(-0.25, 0.4f, ray.direction.z), 0.35f);
+    Common::Graphics::Color skyGradiant = _lErp(Common::Graphics::Color(1, 1, 1),
                                                 Common::Graphics::Color::fromRGB(0, 63, 93), skyGradiantT);
     Common::Graphics::Color groundColor = Common::Graphics::Color::fromRGB(80, 80, 80);
 
@@ -177,18 +177,18 @@ Graphics::Color Camera::_getEnvironmentLight(Math::Ray &ray) {
     float max = std::max<float>(0, ray.direction.dot(sunDirection * -1));
     float sun = pow(max, 200) * 500;
 
-    float groundToSkyT = _smoothstep(-0.1, 0, ray.direction.z);
+    float groundToSkyT = _smoothStep(-0.1, 0, ray.direction.z);
     float sunMask = groundToSkyT >= 1 ? 0 : 1;
 
-    return _lerp(groundColor, skyGradiant, groundToSkyT);
+    return _lErp(groundColor, skyGradiant, groundToSkyT);
 }
 
-float Camera::_smoothstep(float edge0, float edge1, float x) {
+float Camera::_smoothStep(float edge0, float edge1, float x) {
     x = std::clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
     return x * x * (3.0f - 2.0f * x);
 }
 
-Graphics::Color Camera::_lerp(const Common::Graphics::Color &a, const Common::Graphics::Color &b, float t) {
+Graphics::Color Camera::_lErp(const Common::Graphics::Color &a, const Common::Graphics::Color &b, float t) {
     Common::Graphics::Color bt = b * t;
 
     return a * (1 - t) + bt;

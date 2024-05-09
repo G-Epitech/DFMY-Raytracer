@@ -160,11 +160,11 @@ namespace Raytracer::Core::Rendering {
          */
         Common::Math::Vector3D _getRandomDirection(Common::Math::Vector3D &normal, unsigned int &rngState);
 
-        Common::Graphics::Color _getEnvironmentLight(Common::Math::Ray &ray);
+        static Common::Graphics::Color _getEnvironmentLight(Common::Math::Ray &ray);
 
-        static float _smoothstep(float edge0, float edge1, float x);
+        static float _smoothStep(float edge0, float edge1, float x);
 
-        static Common::Graphics::Color _lerp(const Common::Graphics::Color &a, const Common::Graphics::Color &b,
+        static Common::Graphics::Color _lErp(const Common::Graphics::Color &a, const Common::Graphics::Color &b,
                                              float t);
     };
 }
