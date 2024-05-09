@@ -11,34 +11,35 @@
 
 using namespace Raytracer::Core;
 
-class ObjectFactoryTests : public testing::Test {
-protected:
-    void SetUp() override {
-        stdoutBuf = std::cout.rdbuf();
-        stderrBuf = std::cerr.rdbuf();
-    }
-
-    void TearDown() override {
-        std::cout.rdbuf(stdoutBuf);
-        std::cerr.rdbuf(stderrBuf);
-    }
-
-    void redirectStdout() {
-        std::cout.rdbuf(stdoutBuffer.rdbuf());
-    }
-
-    void redirectStderr() {
-        std::cerr.rdbuf(stderrBuffer.rdbuf());
-    }
-
-    std::stringstream stdoutBuffer;
-    std::stringstream stderrBuffer;
-    std::streambuf *stdoutBuf = nullptr;
-    std::streambuf *stderrBuf = nullptr;
-};
-
-TEST_F(ObjectFactoryTests, AppRunWithBadOptions)
+TEST(ObjectFactoryTests, AppRunWithBadOptions)
 {
-    //ObjectFactory objectFactory()
+    PluginsManager pluginsManager;
+    ObjectFactory objectFactory(pluginsManager);
 
+    pluginsManager.load("./plugins");
+    ASSERT_THROW(objectFactory.create(
+        "invalid", nullptr,
+        Math::Point3D(),
+        ObjectProperty()
+    ), ObjectFactory::Exception);
+}
+
+TEST(ObjectFactoryTests, GetErrorMessageOfException)
+{
+    ObjectFactory::Exception exception("Error message");
+
+    ASSERT_STREQ(exception.what(), "Error message");
+}
+
+TEST(ObjectFactoryTests, CreateObject)
+{
+    PluginsManager pluginsManager;
+    ObjectFactory objectFactory(pluginsManager);
+
+    pluginsManager.load("./plugins");
+    ASSERT_NO_THROW(objectFactory.create(
+        "Sphere", nullptr,
+        Math::Point3D(),
+        ObjectProperty()
+    ));
 }

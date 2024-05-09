@@ -1,5 +1,5 @@
 add_subdirectory(types)
 add_subdirectory(app)
 add_subdirectory(config)
-#add_subdirectory(factory)
+add_subdirectory(factory)
 add_subdirectory(plugins)
