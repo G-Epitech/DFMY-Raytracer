@@ -103,6 +103,8 @@ void Config::_load()
     } catch (const libconfig::ParseException &pex) {
         throw Raytracer::Core::ConfigException("Parse error at " + std::to_string(pex.getLine())
             + ": " + pex.getError() + " - " + pex.getFile());
+    } catch (const std::exception &e) {
+        throw Raytracer::Core::ConfigException(e.what());
     }
     const libconfig::Setting &root = cfg.getRoot();
     _settingHasValidKeys("root", root, {"cameras", "materials", "objects", "ambient"});

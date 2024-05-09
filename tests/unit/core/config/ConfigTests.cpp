@@ -80,13 +80,11 @@ TEST_F(ConfigTests, ValidConfiguration)
     ASSERT_EQ(sceneConfig.objects[0].origin.z, 3.0f) << "Expected object position to be 3";
 }
 
-TEST_F(ConfigTests, InvalidConfigurationMembers)
-{
-    std::string configFileContents = "ambient = {}\n"
-                                     "cameras = []\n"
-                                     "materials = []\n";
 
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+
+TEST_F(ConfigTests, UnknownFile)
+{
+    ASSERT_THROW(Raytracer::Core::Config::loadFromFile("wow"), Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidAmbientFormat)
@@ -203,5 +201,143 @@ TEST_F(ConfigTests, InvalidMaterialsElementFormat)
                                      "materials = (23)\n"
                                      "objects = ()\n";
     ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, InvalidMaterialsElementEmissionsFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = (\n"
+                                     "    {\n"
+                                     "        name = \"camera1\",\n"
+                                     "        screen = {\n"
+                                     "            size = {width=800, height=600},\n"
+                                     "            origin = {x=20.0, y=10.0, z=40.0},\n"
+                                     "        }\n"
+                                     "        position = {x=1.0, y=2.0, z=3.0},\n"
+                                     "        direction = {x=2.0, y=3.0, z=4.0},\n"
+                                     "        fieldOfView = 60.0,\n"
+                                     "        resolution = {width=800, height=600},\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "materials = (\n"
+                                    "    {\n"
+                                    "        name = \"red\",\n"
+                                    "        color = {r=1, g=0, b=0, a=1},\n"
+                                    "        emissions = 4\n"
+                                    "        reflectivity = 0.5,\n"
+                                    "    }\n"
+                                    ")\n"
+                                     "objects = ()\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+
+TEST_F(ConfigTests, InvalidMaterialsElementEmissionElementFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = ()\n"
+                                     "materials = (\n"
+                                     "    {\n"
+                                     "        name = \"red\",\n"
+                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        emissions = (3)\n"
+                                     "        reflectivity = 0.5,\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "objects = ()\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+
+TEST_F(ConfigTests, InvalidObjectsFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = ()\n"
+                                     "materials = ()\n"
+                                     "objects = 3\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, InvalidObjectElementFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = ()\n"
+                                     "materials = ()\n"
+                                     "objects = (4)\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, InvalidObjectSphereFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = ()\n"
+                                     "materials = (\n"
+                                     "    {\n"
+                                     "        name = \"red\",\n"
+                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        emissions = ()\n"
+                                     "        reflectivity = 0.5,\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "objects = (\n"
+                                     "    {\n"
+                                     "        type = \"sphere\",\n"
+                                     "        material = \"red\",\n"
+                                     "        origin = {x=1.0, y=2.0, z=3.0},\n"
+                                     "        properties = 4\n"
+                                     "    }\n"
+                                     ")\n";
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+}
+
+TEST_F(ConfigTests, ValidSphereFormat)
+{
+    std::string configFileContents = "ambient = {\n"
+                                     "    color = {r=1, g=2, b=3, a=4}\n"
+                                     "    strength = 0.1\n"
+                                     "}\n"
+                                     "cameras = ()\n"
+                                     "materials = (\n"
+                                     "    {\n"
+                                     "        name = \"red\",\n"
+                                     "        color = {r=1, g=0, b=0, a=1},\n"
+                                     "        emissions = ()\n"
+                                     "        reflectivity = 0.5,\n"
+                                     "    }\n"
+                                     ")\n"
+                                     "objects = (\n"
+                                     "    {\n"
+                                     "        type = \"sphere\",\n"
+                                     "        material = \"red\",\n"
+                                     "        origin = {x=1.0, y=2.0, z=3.0},\n"
+                                     "        properties = {\n"
+                                     "            radius = 1.0\n"
+                                     "        }\n"
+                                     "    }\n"
+                                     ")\n";
+    Config config = Raytracer::Core::Config::loadFromString(configFileContents);
+    Raytracer::Core::Config::SceneConfig sceneCfg = config.getSceneConfig();
+
+    ASSERT_EQ(sceneCfg.objects[0].type, "sphere") << "Expected object type to be SPHERE";
+    ASSERT_EQ(sceneCfg.objects[0].material, "red") << "Expected object material to be 'red'";
+    ASSERT_EQ(sceneCfg.objects[0].origin.x, 1.0f) << "Expected object origin to be 1";
+    ASSERT_EQ(sceneCfg.objects[0].origin.y, 2.0f) << "Expected object origin to be 2";
+    ASSERT_EQ(sceneCfg.objects[0].origin.z, 3.0f) << "Expected object origin to be 3";
+    ASSERT_EQ(std::get<float>(sceneCfg.objects[0].property), 1.0f) << "Expected object radius to be 1";
 }
 
