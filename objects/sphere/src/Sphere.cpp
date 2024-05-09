@@ -40,7 +40,7 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
     auto intersectionNormal = ray.direction * distance;
     Common::Math::Point3D hitPointData(intersectionNormal.x, intersectionNormal.y, intersectionNormal.z);
     hitInfo.hitPoint = ray.origin + hitPointData;
-    // hitInfo.normal = (hitInfo.hitPoint - _position).normalize();
+    hitInfo.normal = (hitInfo.hitPoint - _position).normalize();
     hitInfo.hitColor = {
         .color = _material->color,
         .emissionStrength = _material->emissionStrength,

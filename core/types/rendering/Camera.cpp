@@ -53,25 +53,55 @@ void Camera::compute(size_t threads, std::vector<IObject::Ptr> &objects) {
 void Camera::_computeSegment(Segment config, std::vector<IObject::Ptr> &objects) {
     for (size_t y = config.origin.height; y < config.origin.height + config.size.height; y++) {
         for (size_t x = config.origin.width; x < config.origin.width + config.size.width; x++) {
-            float tx = (float) x / ((float) screen.size.width - 1.0f);
-            float ty = (float) y / ((float) screen.size.height - 1.0f);
+            Common::Graphics::Color oldFrame = this->_computeFrame(config, objects, x, y);
 
-            auto pixelPosition = Math::Point3D(config.localScreenOrigin.x + config.localScreenSize.x * tx,
-                                               config.localScreenOrigin.y,
-                                               config.localScreenOrigin.z - config.localScreenSize.y * ty);
-            auto rayDirection = Math::Vector3D(pixelPosition.x - position.x, pixelPosition.y - position.y,
-                                               pixelPosition.z - position.z).normalize();
-            auto ray = Math::Ray(position, rayDirection);
+            for (size_t i = 0; i < 15; i++) {
+                auto newFrame = this->_computeFrame(config, objects, x, y);
+                float weight = 1.0f / (i + 1);
 
-            size_t pixelIndex = y * screen.size.width + x;
-            Common::Graphics::Color color = this->_getIncomingLight(ray, pixelIndex, objects);
-            screen.setPixel(x, y, color.toPixel());
+                Common::Graphics::Color firstFrame = oldFrame * (1 - weight);
+                Common::Graphics::Color secondFrame = newFrame * weight;
+
+                oldFrame = firstFrame + secondFrame;
+            }
+
+            screen.setPixel(x, y, oldFrame.toPixel());
+
+            this->_statusMutex.lock();
+            this->_processedPixels++;
+            this->_statusMutex.unlock();
         }
     }
 }
 
-Math::HitInfo Camera::_computeRayCollision(const Math::Ray& ray, std::vector<IObject::Ptr> &objects)
-{
+Graphics::Color Camera::_computeFrame(Raytracer::Core::Rendering::Camera::Segment config,
+                                      std::vector<Common::IObject::Ptr> &objects, size_t x, size_t y) {
+    float tx = (float) x / ((float) screen.size.width - 1.0f);
+    float ty = (float) y / ((float) screen.size.height - 1.0f);
+
+    auto pixelPosition = Math::Point3D(config.localScreenOrigin.x + config.localScreenSize.x * tx,
+                                       config.localScreenOrigin.y,
+                                       config.localScreenOrigin.z - config.localScreenSize.y * ty);
+    auto rayDirection = Math::Vector3D(pixelPosition.x - position.x, pixelPosition.y - position.y,
+                                       pixelPosition.z - position.z).normalize();
+    auto ray = Math::Ray(position, rayDirection);
+
+    size_t pixelIndex = y * screen.size.width + x;
+
+    Common::Graphics::Color totalIncomingLight(0, 0, 0);
+
+    size_t raysPerPixels = 30;
+    for (size_t ri = 0; ri < raysPerPixels; ri++) {
+        auto random = pixelIndex + ri;
+        auto incomingLight = this->_getIncomingLight(ray, random, objects);
+
+        totalIncomingLight += incomingLight;
+    }
+
+    return totalIncomingLight / static_cast<float>(raysPerPixels / 2);
+}
+
+Math::HitInfo Camera::_computeRayCollision(const Math::Ray &ray, std::vector<IObject::Ptr> &objects) {
     Math::HitInfo closestHit;
 
     closestHit.distance = std::numeric_limits<float>::max();
@@ -87,23 +117,25 @@ Math::HitInfo Camera::_computeRayCollision(const Math::Ray& ray, std::vector<IOb
     return closestHit;
 }
 
-Graphics::Color Camera::_getIncomingLight(Math::Ray &ray, unsigned int rngState, std::vector<IObject::Ptr> &objects) {
+Graphics::Color Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, std::vector<IObject::Ptr> &objects) {
     Common::Graphics::Color incomingLight(0, 0, 0);
-    Common::Graphics::Color rayColour(1, 1, 1);
+    Common::Graphics::Color rayColor(1, 1, 1);
 
-    for (int i = 0; i <= 15; i++) {
+    for (unsigned int i = 0; i <= 15; i++) {
         auto hitConfig = this->_computeRayCollision(ray, objects);
         if (hitConfig.didHit) {
+            auto randomSeed = rngState + i;
             ray.origin = hitConfig.hitPoint;
-            ray.direction = this->_getRandomDirection(hitConfig.normal, rngState);
+            ray.direction = this->_getRandomDirection(hitConfig.normal, randomSeed);
 
-            Common::Graphics::Color emittedLight = hitConfig.hitColor.emissionColor * hitConfig.hitColor.emissionStrength;
-            Common::Graphics::Color localIncomingLight = emittedLight * rayColour;
+            Common::Graphics::Color emittedLight =
+                    hitConfig.hitColor.emissionColor * hitConfig.hitColor.emissionStrength;
+            Common::Graphics::Color localIncomingLight = emittedLight * rayColor;
 
             incomingLight += localIncomingLight;
-            rayColour *= hitConfig.hitColor.color;
+            rayColor *= hitConfig.hitColor.color;
         } else {
-            Common::Graphics::Color ambientLight = rayColour * 0.3f;
+            Common::Graphics::Color ambientLight = rayColor * 0.1f;
             incomingLight += ambientLight;
 
             break;
@@ -112,11 +144,10 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray &ray, unsigned int rngState,
     return incomingLight;
 }
 
-Math::Vector3D Camera::_getRandomDirection(Math::Vector3D &normal, unsigned int &rngState)
-{
-    float randomX = rngState * (rngState + 195439) * (rngState + 124395) * (rngState + 845921);
-    float randomY = rngState * (rngState + 59283) * (rngState + 48217) * (rngState + 271829);
-    float randomZ = rngState * (rngState + 712849) * (rngState + 193847) * (rngState + 38291);
+Math::Vector3D Camera::_getRandomDirection(Math::Vector3D &normal, unsigned int &rngState) {
+    float randomX = rngState * (rngState + rand() % 1000) * (rngState + rand() % 1000) * (rngState + rand() % 1000);
+    float randomY = rngState * (rngState + rand() % 1000) * (rngState + rand() % 1000) * (rngState + rand() % 1000);
+    float randomZ = rngState * (rngState + rand() % 1000) * (rngState + rand() % 1000) * (rngState + rand() % 1000);
     randomX = randomX / 4294967295.0;
     randomY = randomY / 4294967295.0;
     randomZ = randomZ / 4294967295.0;
@@ -127,7 +158,7 @@ Math::Vector3D Camera::_getRandomDirection(Math::Vector3D &normal, unsigned int 
 
     float x = rho * cos(phi);
     float y = rho * sin(phi);
-    float z = sqrt(1 - (x*x) - (y*y));
+    float z = sqrt(1 - (x * x) - (y * y));
 
     Math::Vector3D randomDirection = Math::Vector3D(x, y, z).normalize();
     float dot = normal.dot(randomDirection);
@@ -141,4 +172,14 @@ Camera::ComputeError::ComputeError(const std::string &msg) {
 
 const char *Camera::ComputeError::what() const noexcept {
     return this->_msg.c_str();
+}
+
+float Camera::getComputeStatus() const {
+    return (float) _processedPixels / (float) (screen.size.width * screen.size.height);
+}
+
+void Camera::cancelCompute() {
+    for (auto &thread : _threads) {
+        thread.detach();
+    }
 }

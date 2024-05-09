@@ -84,6 +84,17 @@ namespace Raytracer::Core::Rendering {
          */
         void compute(size_t threads, std::vector<Common::IObject::Ptr> &objects);
 
+        /**
+         * @brief Get the status of the computation
+         * @return Status of the computation
+         */
+        float getComputeStatus() const;
+
+        /**
+         * @brief Cancel the computation
+         */
+        void cancelCompute();
+
         /// @brief The position of the camera
         Common::Math::Point3D position;
         /// @brief The direction of the camera
@@ -98,12 +109,29 @@ namespace Raytracer::Core::Rendering {
         std::vector<std::thread> _threads;
 
     protected:
+        /// @brief Number of processed pixels
+        size_t _processedPixels = 0;
+
+        /// @brief Mutex of the status
+        std::mutex _statusMutex;
+
         /**
          * @brief Compute a segment of the screen
          * @param config Configuration of the segment
          * @param objects Objects to compute
          */
         void _computeSegment(Segment config, std::vector<Common::IObject::Ptr> &objects);
+
+        /**
+         * @brief Compute a frame of the screen
+         * @param config Configuration of the frame
+         * @param objects Objects to compute
+         * @param x X position of the pixel
+         * @param y Y position of the pixel
+         * @return Color of the frame
+         */
+        Common::Graphics::Color
+        _computeFrame(Segment config, std::vector<Common::IObject::Ptr> &objects, size_t x, size_t y);
 
         /**
          * @brief Compute the collision of a ray with the objects
@@ -121,7 +149,7 @@ namespace Raytracer::Core::Rendering {
          * @param objects Objects to compute
          * @return Incoming light of the ray
          */
-        Common::Graphics::Color _getIncomingLight(Common::Math::Ray &ray, unsigned int rngState,
+        Common::Graphics::Color _getIncomingLight(Common::Math::Ray ray, unsigned int rngState,
                                                   std::vector<Common::IObject::Ptr> &objects);
 
         /**

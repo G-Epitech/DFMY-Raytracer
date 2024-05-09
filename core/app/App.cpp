@@ -9,21 +9,25 @@
 #include <getopt.h>
 #include <filesystem>
 #include "App.hpp"
-
 #include "gui/Handler.hpp"
 #include "cli/Handler.hpp"
+#include "config/Config.hpp"
 #include "plugins/PluginsManager.hpp"
 
 using namespace Raytracer::Core;
 
 int App::run(int argc, char **argv)
 {
+    //Config config;
+
     if (!_readArgs(argc, argv))
         return 84;
     if (_args.options.help)
         return help();
     if (!_loadPlugins())
         return 84;
+    //config.loadFromFile(_args.scenes[0]);
+    //config.toScene(_pluginsManager);
     return _runHandler();
 }
 

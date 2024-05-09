@@ -29,3 +29,10 @@ cmake-build-debug*
 
 # OBJ files
 *.obj
+
+# Image files
+*.png
+*.jpg
+*.jpeg
+*.bmp
+!examples/
