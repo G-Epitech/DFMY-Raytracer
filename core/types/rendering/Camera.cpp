@@ -171,7 +171,7 @@ Graphics::Color Camera::_getEnvironmentLight(Math::Ray &ray) {
     float skyGradiantT = pow(_smoothstep(-0.25, 0.4f, ray.direction.z), 0.35f);
     Common::Graphics::Color skyGradiant = _lerp(Common::Graphics::Color(1, 1, 1),
                                                 Common::Graphics::Color::fromRGB(0, 63, 93), skyGradiantT);
-    Common::Graphics::Color groundColor = Common::Graphics::Color::fromRGB(119, 121, 122);
+    Common::Graphics::Color groundColor = Common::Graphics::Color::fromRGB(80, 80, 80);
 
     Math::Vector3D sunDirection = Math::Vector3D(0, -1, 0);
     float max = std::max<float>(0, ray.direction.dot(sunDirection * -1));

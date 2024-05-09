@@ -100,7 +100,7 @@ int Handler::run() {
     objects.push_back(objectProvider()->create(orange, Common::Math::Point3D(-10, 60, 30), 10.0f));
     objects.push_back(objectProvider()->create(yellow, Common::Math::Point3D(50, 100, 70), 10.0f));
 
-    //camera.compute(COMPUTE_THREADS, objects);
+    camera.compute(COMPUTE_THREADS, objects);
 
     for (auto& thread : camera._threads) {
         thread.join();
