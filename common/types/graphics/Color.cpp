@@ -5,7 +5,7 @@
 ** Color.cpp
 */
 
-#include <iostream>
+#include <algorithm>
 #include "Color.hpp"
 #include "types/math/Float.hpp"
 
