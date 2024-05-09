@@ -24,8 +24,11 @@ PluginsManager::PluginsManager()= default;
 PluginsManager::~PluginsManager() = default;
 
 void PluginsManager::load(const std::string& pluginsDir) {
+    if (!std::filesystem::exists(pluginsDir))
+        throw InvalidPathException(pluginsDir, InvalidPathException::Reason::NOT_FOUND);
+    if (!std::filesystem::is_directory(pluginsDir))
+        throw InvalidPathException(pluginsDir, InvalidPathException::Reason::NOT_DIRECTORY);
     auto dir = std::filesystem::directory_iterator(pluginsDir);
-
     for (const auto &entry : dir) {
         if (entry.is_regular_file())
             _loadPlugin(entry.path());
@@ -55,3 +58,15 @@ void PluginsManager::_registerPlugin(IObjectProvider::Ptr provider) {
         throw Exception("Duplicated plugin with name '" + manifest.name + "'");
     providers[manifest.name] = std::move(provider);
 }
+
+PluginsManager::InvalidPathException::InvalidPathException(const std::string &path,
+    PluginsManager::InvalidPathException::Reason reason): Exception("Invalid path: " + path), _path(path), _reason(reason) {}
+
+const char *PluginsManager::InvalidPathException::path() const noexcept {
+    return _path.c_str();
+}
+
+PluginsManager::InvalidPathException::Reason PluginsManager::InvalidPathException::reason() const noexcept {
+    return _reason;
+}
+

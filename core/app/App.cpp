@@ -130,17 +130,22 @@ bool App::_readOptions(int argc, char **argv) {
 }
 
 bool App::_loadPlugins() {
-    if (!std::filesystem::exists(_args.options.pluginsPath)) {
-        std::cerr << "Invalid plugins path: '" << _args.options.pluginsPath << "'." << std::endl;
-        return false;
-    }
     try {
         _pluginsManager.load(_args.options.pluginsPath);
         return true;
+    } catch (const PluginsManager::InvalidPathException &e) {
+        switch (e.reason()) {
+            case PluginsManager::InvalidPathException::Reason::NOT_FOUND:
+                std::cerr << "Invalid plugins path: '" << e.path() << "'." << std::endl;
+                break;
+            case PluginsManager::InvalidPathException::Reason::NOT_DIRECTORY:
+                std::cerr << "Plugins path is not a directory: '" << e.path() << "'." << std::endl;
+                break;
+        }
     } catch (const PluginsManager::Exception &e) {
         std::cerr << "An error occurred while loading plugins. " << e.what() << std::endl;
-        return false;
     }
+    return false;
 }
 
 bool App::tryLoadScene(const string &scenePath) {
