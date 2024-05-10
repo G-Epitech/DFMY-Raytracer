@@ -33,7 +33,7 @@ namespace Raytracer::Core {
             /// @brief Threads count
             size_t threadsCount;
             /// @brief Frames count
-            size_t framesCount;
+            size_t additionalFramesCount;
             /// @brief Rays per pixel
             size_t raysPerPixel;
             /// @brief Ray bounce
@@ -99,7 +99,7 @@ namespace Raytracer::Core {
             .help = false,
             .pluginsPath = APP_DEFAULT_PLUGINS_PATH,
             .threadsCount = APP_DEFAULT_THREADS_COUNT,
-            .framesCount = APP_DEFAULT_FRAMES_COUNT,
+            .additionalFramesCount = APP_DEFAULT_FRAMES_COUNT,
             .raysPerPixel = APP_DEFAULT_RAYS_PER_PIXEL,
             .rayBounce = APP_DEFAULT_RAY_BOUNCE,
             .outputFormat = APP_DEFAULT_FORMAT

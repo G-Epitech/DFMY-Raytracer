@@ -60,9 +60,14 @@ namespace Raytracer::Core::Cli {
         /**
          * @brief Render the image of a camera
          * @param cameraName Camera name
+         * @param params Camera computing parameters
          * @param camera Camera object
          */
-        void  _renderCameraImage(const string &cameraName, Rendering::Camera::Ptr &camera);
+        void  _renderCameraImage(
+            const string &cameraName,
+            const Rendering::Camera::ComputeParams &params,
+            Rendering::Camera::Ptr &camera
+        );
 
         /**
          * @brief Save the image of a camera

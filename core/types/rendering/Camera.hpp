@@ -35,6 +35,18 @@ namespace Raytracer::Core::Rendering {
             float fov;
         } Config;
 
+        /// @brief Parameters of camera computing
+        struct ComputeParams {
+            /// @brief Number of threads to use
+            size_t threads;
+            /// @brief Additional frames to render
+            size_t additionalFrames;
+            /// @brief Rays per pixel
+            size_t raysPerPixel;
+            /// @brief Ray bounce limit
+            size_t rayBounceLimit;
+        };
+
         /// @brief Segment of the screen
         typedef struct Segment {
             /// @brief Origin of the segment
@@ -59,6 +71,7 @@ namespace Raytracer::Core::Rendering {
             ~ComputeError() override = default;
 
             /// @brief Get the message of the exception
+            [[nodiscard]]
             const char *what() const noexcept override;
 
         private:
@@ -79,10 +92,10 @@ namespace Raytracer::Core::Rendering {
 
         /**
          * @brief Compute all pixels of the screen
-         * @param threads Number of threads to use
+         * @param params Parameters of the computing
          * @param objects Objects to compute
          */
-        void compute(size_t threads, std::vector<Common::IObject::Ptr> &objects);
+        void compute(const ComputeParams &params, std::vector<Common::IObject::Ptr> &objects);
 
         /**
          * @brief Get the status of the computation

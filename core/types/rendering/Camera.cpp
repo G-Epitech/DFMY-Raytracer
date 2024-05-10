@@ -19,11 +19,11 @@ Camera::Camera(const Config &config) :
         fov(config.fov),
         name(config.name) {}
 
-void Camera::compute(size_t threads, std::vector<IObject::Ptr> &objects) {
-    if (threads % 2 != 0)
+void Camera::compute(const ComputeParams &params, std::vector<IObject::Ptr> &objects) {
+    if (params.threads % 2 != 0)
         throw ComputeError("Invalid number of threads. Must be divisible per two.");
 
-    float screenHeight = 2 * tanf(fov * 0.5f * (M_PIf / 180.0f)) * 2.f;
+    float screenHeight = 2 * tanf(fov * 0.5f * (float(M_PI) / 180.0f)) * 2.f;
     float cameraAspect = (float) screen.size.width / (float) screen.size.height;
     float screenWidth = screenHeight * cameraAspect;
 
@@ -31,14 +31,14 @@ void Camera::compute(size_t threads, std::vector<IObject::Ptr> &objects) {
                                       position.z + screenHeight / 2);
 
     for (size_t y = 0; y < 2; y++) {
-        for (size_t x = 0; x < threads / 2; x++) {
+        for (size_t x = 0; x < params.threads / 2; x++) {
             Segment config{
                     .origin = {
-                            .width = (screen.size.width / (threads / 2)) * x,
+                            .width = (screen.size.width / (params.threads / 2)) * x,
                             .height = (screen.size.height / 2) * y
                     },
                     .size {
-                            .width = screen.size.width / (threads / 2),
+                            .width = screen.size.width / (params.threads / 2),
                             .height = screen.size.height / 2
                     },
                     .localScreenSize = Math::Float2(screenWidth, screenHeight),

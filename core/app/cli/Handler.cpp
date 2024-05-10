@@ -31,9 +31,16 @@ Handler::Handler(Raytracer::Core::App::Context &context): _appContext(context), 
 Handler::~Handler() = default;
 
 int Handler::run() {
+    Rendering::Camera::ComputeParams params = {
+        .threads = _appContext.args.options.threadsCount,
+        .additionalFrames = _appContext.args.options.additionalFramesCount,
+        .raysPerPixel = _appContext.args.options.raysPerPixel,
+        .rayBounceLimit = _appContext.args.options.rayBounce
+    };
+
     _camerasNamesMaxLength = _getCamerasNamesMaxLength();
     for (auto &[name, camera]: _appContext.scene->cameras) {
-        _renderCameraImage(name, camera);
+        _renderCameraImage(name, params, camera);
     }
     return 0;
 }
@@ -66,12 +73,16 @@ int Handler::_getCamerasNamesMaxLength() {
     return int(maxLength);
 }
 
-void Handler::_renderCameraImage(const string &cameraName, Rendering::Camera::Ptr &camera) {
+void Handler::_renderCameraImage(
+    const string &cameraName,
+    const Rendering::Camera::ComputeParams &params,
+    Rendering::Camera::Ptr &camera
+) {
     auto &screen = camera->screen;
     auto image = Graphics::Image(screen.size.width, screen.size.height, screen.getPixels());
     float status = 0;
 
-    camera->compute(_appContext.args.options.threadsCount, _appContext.scene->objects);
+    camera->compute(params, _appContext.scene->objects);
     status = camera->getComputeStatus();
     while (status < 1.0f) {
         _displayProgress(cameraName, _camerasNamesMaxLength, status);

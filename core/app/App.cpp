@@ -137,8 +137,9 @@ bool App::_readOptions(int argc, char **argv) {
                     return false;
                 break;
             case 'F':
-                if (!_readULArg(optarg, _args.options.framesCount, "frames"))
+                if (!_readULArg(optarg, _args.options.additionalFramesCount, "additional frames"))
                     return false;
+                break;
             default:
                 return false;
         }
