@@ -50,5 +50,8 @@ Raytracer::Common::ObjectProperty SphereProvider::parseProperty(const libconfig:
     }
     ConfigUtils::settingHasValidKeys("sphere", setting, {"radius"});
     ConfigUtils::lookupValueWrapper("radius", setting, radius);
+    if (radius <= 0) {
+        throw std::runtime_error("sphere radius must be greater than 0");
+    }
     return radius;
 }

@@ -51,5 +51,8 @@ Raytracer::Common::ObjectProperty MeshProvider::parseProperty(const libconfig::S
     ConfigUtils::settingHasValidKeys("mesh", setting, {"path", "scale"});
     ConfigUtils::lookupValueWrapper("path", setting, property.filename);
     ConfigUtils::lookupValueWrapper("scale", setting, property.scale);
+    if (property.scale <= 0) {
+        throw std::runtime_error("mesh scale must be greater than 0");
+    }
     return property;
 }
