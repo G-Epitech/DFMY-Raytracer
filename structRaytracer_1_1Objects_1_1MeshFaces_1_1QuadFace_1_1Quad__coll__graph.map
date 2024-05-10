@@ -1,0 +1,11 @@
+<map id="Raytracer::Objects::MeshFaces::QuadFace::Quad" name="Raytracer::Objects::MeshFaces::QuadFace::Quad">
+<area shape="rect" id="node1" title="Representing a quad." alt="" coords="1116,125,1331,166"/>
+<area shape="rect" id="node2" href="$structRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace_1_1QuadPoints.html" title="Representing quad points." alt="" coords="839,35,1011,91"/>
+<area shape="rect" id="node3" href="$classRaytracer_1_1Common_1_1Math_1_1Point3D.html" title="Representing a 3D point." alt="" coords="440,46,600,87"/>
+<area shape="rect" id="node4" href="$classRaytracer_1_1Common_1_1Math_1_1Float3.html" title="Representing 3D coordinates." alt="" coords="215,113,375,154"/>
+<area shape="rect" id="node9" href="$classRaytracer_1_1Common_1_1Math_1_1Vector3D.html" title=" " alt="" coords="440,123,600,165"/>
+<area shape="rect" id="node5" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="5,153,165,194"/>
+<area shape="rect" id="node7" href="$classRaytracer_1_1Common_1_1Math_1_1Point2D.html" title="Representing a 2D point." alt="" coords="215,185,375,226"/>
+<area shape="rect" id="node6" href="$structRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace_1_1QuadTextureCoordinates.html" title="Representing quad texture coordinates." alt="" coords="624,184,815,240"/>
+<area shape="rect" id="node8" href="$structRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace_1_1QuadNormals.html" title="Representing quad normals points." alt="" coords="839,117,1011,173"/>
+</map>

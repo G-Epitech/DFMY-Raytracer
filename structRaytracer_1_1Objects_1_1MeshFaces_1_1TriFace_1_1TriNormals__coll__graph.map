@@ -1,0 +1,6 @@
+<map id="Raytracer::Objects::MeshFaces::TriFace::TriNormals" name="Raytracer::Objects::MeshFaces::TriFace::TriNormals">
+<area shape="rect" id="node1" title="Representing tri normals points." alt="" coords="9,320,162,376"/>
+<area shape="rect" id="node2" href="$classRaytracer_1_1Common_1_1Math_1_1Vector3D.html" title=" " alt="" coords="5,187,165,228"/>
+<area shape="rect" id="node3" href="$classRaytracer_1_1Common_1_1Math_1_1Float3.html" title="Representing 3D coordinates." alt="" coords="5,96,165,137"/>
+<area shape="rect" id="node4" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="5,5,165,47"/>
+</map>

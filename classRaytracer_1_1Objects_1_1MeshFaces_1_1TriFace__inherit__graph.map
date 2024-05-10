@@ -1,0 +1,4 @@
+<map id="Raytracer::Objects::MeshFaces::TriFace" name="Raytracer::Objects::MeshFaces::TriFace">
+<area shape="rect" id="node1" title="Representing a tri face." alt="" coords="5,95,159,136"/>
+<area shape="rect" id="node2" href="$classRaytracer_1_1Objects_1_1MeshFaces_1_1IFace.html" title="Representing a face." alt="" coords="11,5,153,47"/>
+</map>

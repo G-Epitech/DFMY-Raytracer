@@ -1,0 +1,6 @@
+<map id="Raytracer::Objects::MeshFaces::QuadFace::QuadPoints" name="Raytracer::Objects::MeshFaces::QuadFace::QuadPoints">
+<area shape="rect" id="node1" title="Representing quad points." alt="" coords="5,335,177,391"/>
+<area shape="rect" id="node2" href="$classRaytracer_1_1Common_1_1Math_1_1Point3D.html" title="Representing a 3D point." alt="" coords="11,187,171,228"/>
+<area shape="rect" id="node3" href="$classRaytracer_1_1Common_1_1Math_1_1Float3.html" title="Representing 3D coordinates." alt="" coords="11,96,171,137"/>
+<area shape="rect" id="node4" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="11,5,171,47"/>
+</map>

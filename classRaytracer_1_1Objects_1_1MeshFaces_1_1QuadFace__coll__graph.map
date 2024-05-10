@@ -1,0 +1,4 @@
+<map id="Raytracer::Objects::MeshFaces::QuadFace" name="Raytracer::Objects::MeshFaces::QuadFace">
+<area shape="rect" id="node1" title="Representing a quad face." alt="" coords="5,95,177,136"/>
+<area shape="rect" id="node2" href="$classRaytracer_1_1Objects_1_1MeshFaces_1_1IFace.html" title="Representing a face." alt="" coords="20,5,163,47"/>
+</map>

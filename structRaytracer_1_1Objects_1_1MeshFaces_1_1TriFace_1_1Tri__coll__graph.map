@@ -1,0 +1,11 @@
+<map id="Raytracer::Objects::MeshFaces::TriFace::Tri" name="Raytracer::Objects::MeshFaces::TriFace::Tri">
+<area shape="rect" id="node1" title="Representing a tri." alt="" coords="1077,97,1253,138"/>
+<area shape="rect" id="node2" href="$structRaytracer_1_1Objects_1_1MeshFaces_1_1TriFace_1_1TriTextureCoordinates.html" title="Representing tri texture coordinates." alt="" coords="624,13,795,69"/>
+<area shape="rect" id="node3" href="$classRaytracer_1_1Common_1_1Math_1_1Point2D.html" title="Representing a 2D point." alt="" coords="215,31,375,73"/>
+<area shape="rect" id="node4" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="5,67,165,109"/>
+<area shape="rect" id="node7" href="$classRaytracer_1_1Common_1_1Math_1_1Float3.html" title="Representing 3D coordinates." alt="" coords="215,99,375,141"/>
+<area shape="rect" id="node5" href="$structRaytracer_1_1Objects_1_1MeshFaces_1_1TriFace_1_1TriPoints.html" title="Representing tri points." alt="" coords="819,89,972,145"/>
+<area shape="rect" id="node6" href="$classRaytracer_1_1Common_1_1Math_1_1Point3D.html" title="Representing a 3D point." alt="" coords="440,99,600,141"/>
+<area shape="rect" id="node9" href="$classRaytracer_1_1Common_1_1Math_1_1Vector3D.html" title=" " alt="" coords="440,169,600,210"/>
+<area shape="rect" id="node8" href="$structRaytracer_1_1Objects_1_1MeshFaces_1_1TriFace_1_1TriNormals.html" title="Representing tri normals points." alt="" coords="819,169,972,225"/>
+</map>

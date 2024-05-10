@@ -91,7 +91,7 @@ $(function() {
 
 <h3><a id="index_c"></a>- c -</h3><ul>
 <li>Camera()
-: <a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a9112186d44699bb687ce31eb76a7be96">Raytracer::Core::Rendering::Camera</a>
+: <a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a0859581a0c983728791e6d371d765bce">Raytracer::Core::Rendering::Camera</a>
 </li>
 <li>cancelCompute()
 : <a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#ab4f12846857e3b6ba59dfb5c9b3c793c">Raytracer::Core::Rendering::Camera</a>
@@ -104,14 +104,22 @@ $(function() {
 </li>
 <li>computeCollision()
 : <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#a066aa632a49f65b965c34aa73067733a">Raytracer::Common::IObject</a>
+, <a class="el" href="classRaytracer_1_1Objects_1_1Mesh.html#ae6aea5f8b63f2dcdeb607ccac1dd2048">Raytracer::Objects::Mesh</a>
+, <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1IFace.html#aeacd3cc7fd81d727e9fba39606dd40d1">Raytracer::Objects::MeshFaces::IFace</a>
+, <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace.html#a70a7e872c62eb37ea5af57199a03c51c">Raytracer::Objects::MeshFaces::QuadFace</a>
+, <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1TriFace.html#a3e406357bb49edc3802c09398ad47335">Raytracer::Objects::MeshFaces::TriFace</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1Sphere.html#ab6c64702eb3b330c1712e77b8c1ad2eb">Raytracer::Objects::Sphere</a>
 </li>
 <li>ComputeError()
 : <a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1ComputeError.html#a17700113f822db0de43b0f7dd307ea74">Raytracer::Core::Rendering::Camera::ComputeError</a>
 </li>
+<li>computeFace()
+: <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1Compute.html#abe201ba7aeffc9be9a0526f1d2b1c663">Raytracer::Objects::MeshFaces::Compute</a>
+</li>
 <li>create()
 : <a class="el" href="classRaytracer_1_1Common_1_1IObjectProvider.html#a191711541dc0fd381e19fe56adb8b0ee">Raytracer::Common::IObjectProvider</a>
 , <a class="el" href="classRaytracer_1_1Core_1_1ObjectFactory.html#ab7413572554fa604ea75c4d8f29a0f15">Raytracer::Core::ObjectFactory</a>
+, <a class="el" href="classRaytracer_1_1Objects_1_1MeshProvider.html#aa8a52c62a3382fa7dab9e7ed74b093f9">Raytracer::Objects::MeshProvider</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1SphereProvider.html#a2740506ac6413938ed4ce7de882fd023">Raytracer::Objects::SphereProvider</a>
 </li>
 <li>cross()
@@ -157,10 +165,12 @@ $(function() {
 </li>
 <li>getManifest()
 : <a class="el" href="classRaytracer_1_1Common_1_1IObjectProvider.html#a54b9498d455756817857c0fe217259ac">Raytracer::Common::IObjectProvider</a>
+, <a class="el" href="classRaytracer_1_1Objects_1_1MeshProvider.html#a8a4da4a4e67c61e546927036ce92b8a5">Raytracer::Objects::MeshProvider</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1SphereProvider.html#a1f32f95abd9dd09bb843e2bb910a5efe">Raytracer::Objects::SphereProvider</a>
 </li>
 <li>getMaterial()
 : <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#aa2996316c9119cde6e35ba75fa74acee">Raytracer::Common::IObject</a>
+, <a class="el" href="classRaytracer_1_1Objects_1_1Mesh.html#a5a5553ea78a0a868e56960fc1831e0f9">Raytracer::Objects::Mesh</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1Sphere.html#abb5abf82c6af839d556a1c934ffa2591">Raytracer::Objects::Sphere</a>
 </li>
 <li>getPixels()
@@ -213,6 +223,12 @@ $(function() {
 <h3><a id="index_m"></a>- m -</h3><ul>
 <li>Material()
 : <a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#a7c109bafb29a846dd9cd8512d2e13c9e">Raytracer::Common::Graphics::Material</a>
+</li>
+<li>Mesh()
+: <a class="el" href="classRaytracer_1_1Objects_1_1Mesh.html#af8301e5420b53db81c003badb7d55d62">Raytracer::Objects::Mesh</a>
+</li>
+<li>MeshProvider()
+: <a class="el" href="classRaytracer_1_1Objects_1_1MeshProvider.html#a1b6b7fa22248cd6b2d6dc801e4f43e81">Raytracer::Objects::MeshProvider</a>
 </li>
 </ul>
 
@@ -288,8 +304,18 @@ $(function() {
 <li>PluginsManager()
 : <a class="el" href="classRaytracer_1_1Core_1_1PluginsManager.html#a79f16fd7dfeed11c9a795cc916e90c4a">Raytracer::Core::PluginsManager</a>
 </li>
+<li>Point2D()
+: <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point2D.html#abe6c7dba6013a27b1645868dbab40697">Raytracer::Common::Math::Point2D</a>
+</li>
 <li>Point3D()
 : <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html#adedb5ab9e5fe75ff2214553888df0bc3">Raytracer::Common::Math::Point3D</a>
+</li>
+</ul>
+
+
+<h3><a id="index_q"></a>- q -</h3><ul>
+<li>QuadFace()
+: <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace.html#adb563a50fbd15145fec010d460979b51">Raytracer::Objects::MeshFaces::QuadFace</a>
 </li>
 </ul>
 
@@ -297,6 +323,15 @@ $(function() {
 <h3><a id="index_r"></a>- r -</h3><ul>
 <li>Ray()
 : <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Ray.html#ac48d983066c7a2bd92cf204fe5d2f3c9">Raytracer::Common::Math::Ray</a>
+</li>
+<li>rotateX()
+: <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html#a112707217f0bf63fbdfed173f9ef47e9">Raytracer::Common::Math::Point3D</a>
+</li>
+<li>rotateY()
+: <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html#a7f3f695f47bd429d7f00fa5537a37c1f">Raytracer::Common::Math::Point3D</a>
+</li>
+<li>rotateZ()
+: <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html#a25dbbc3fbeb8f82e0c68ae0dae27bc19">Raytracer::Common::Math::Point3D</a>
 </li>
 <li>run()
 : <a class="el" href="classRaytracer_1_1Core_1_1App.html#a1ec19e479fdb20fc13e193d20a09104d">Raytracer::Core::App</a>
@@ -335,6 +370,9 @@ $(function() {
 </li>
 <li>toScene()
 : <a class="el" href="classRaytracer_1_1Core_1_1Config.html#a958952bd5e5afdd93c45216988a4547b">Raytracer::Core::Config</a>
+</li>
+<li>TriFace()
+: <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1TriFace.html#ae34d139e9373f136e961949647d03c14">Raytracer::Objects::MeshFaces::TriFace</a>
 </li>
 </ul>
 
@@ -385,6 +423,9 @@ $(function() {
 : <a class="el" href="classRaytracer_1_1Core_1_1Cli_1_1Handler.html#aa7086c6286a9c5031edc145a8fab6847">Raytracer::Core::Cli::Handler</a>
 , <a class="el" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#aa7086c6286a9c5031edc145a8fab6847">Raytracer::Core::Gui::Handler</a>
 </li>
+<li>~IFace()
+: <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1IFace.html#a1dfc0997e9776818dfc6015d7c18fc28">Raytracer::Objects::MeshFaces::IFace</a>
+</li>
 <li>~IHandler()
 : <a class="el" href="classRaytracer_1_1Core_1_1IHandler.html#a96714fe4ee3628d48daad8f9f144557a">Raytracer::Core::IHandler</a>
 </li>
@@ -400,14 +441,26 @@ $(function() {
 <li>~Material()
 : <a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#a1fce6875b0caf829f3b34d6c55729284">Raytracer::Common::Graphics::Material</a>
 </li>
+<li>~Mesh()
+: <a class="el" href="classRaytracer_1_1Objects_1_1Mesh.html#a0746141337da51ac9760a68085afda9c">Raytracer::Objects::Mesh</a>
+</li>
+<li>~MeshProvider()
+: <a class="el" href="classRaytracer_1_1Objects_1_1MeshProvider.html#a7b7a9f6eaee3ae7bd3a68249e2c904eb">Raytracer::Objects::MeshProvider</a>
+</li>
 <li>~ObjectFactory()
 : <a class="el" href="classRaytracer_1_1Core_1_1ObjectFactory.html#a04a1138c18e740b8f0fd580b3d52af1c">Raytracer::Core::ObjectFactory</a>
 </li>
 <li>~PluginsManager()
 : <a class="el" href="classRaytracer_1_1Core_1_1PluginsManager.html#aad834f8693866bbc5e989ec1d12fb425">Raytracer::Core::PluginsManager</a>
 </li>
+<li>~Point2D()
+: <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point2D.html#a4a22e8681853a89f123c7b74f243accb">Raytracer::Common::Math::Point2D</a>
+</li>
 <li>~Point3D()
 : <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html#a4834291f7b57056cfa22fffb79da8b16">Raytracer::Common::Math::Point3D</a>
+</li>
+<li>~QuadFace()
+: <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace.html#a6b83fc0b9fcdc0909badcce847723c31">Raytracer::Objects::MeshFaces::QuadFace</a>
 </li>
 <li>~Ray()
 : <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Ray.html#a921de8d937ddb7b1cd86d718896b52ea">Raytracer::Common::Math::Ray</a>
@@ -423,6 +476,9 @@ $(function() {
 </li>
 <li>~SphereProvider()
 : <a class="el" href="classRaytracer_1_1Objects_1_1SphereProvider.html#a58f8681d52230451c0ea82f1d2edcee3">Raytracer::Objects::SphereProvider</a>
+</li>
+<li>~TriFace()
+: <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1TriFace.html#a68c20fcaaf0db1a6dcf3598f642387dd">Raytracer::Objects::MeshFaces::TriFace</a>
 </li>
 <li>~Vector2D()
 : <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector2D.html#a2eb9097b0021cac222463984d7b1138d">Raytracer::Common::Math::Vector2D</a>

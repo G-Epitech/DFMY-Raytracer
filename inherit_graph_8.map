@@ -1,7 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="5,71,165,112"/>
+<area shape="rect" id="node1" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="5,103,165,144"/>
 <area shape="rect" id="node2" href="$classRaytracer_1_1Common_1_1Math_1_1Float3.html" title="Representing 3D coordinates." alt="" coords="213,37,373,79"/>
-<area shape="rect" id="node5" href="$classRaytracer_1_1Common_1_1Math_1_1Vector2D.html" title=" " alt="" coords="213,103,373,144"/>
+<area shape="rect" id="node5" href="$classRaytracer_1_1Common_1_1Math_1_1Point2D.html" title="Representing a 2D point." alt="" coords="213,103,373,144"/>
+<area shape="rect" id="node6" href="$classRaytracer_1_1Common_1_1Math_1_1Vector2D.html" title="Representing a 2D vector." alt="" coords="213,168,373,209"/>
 <area shape="rect" id="node3" href="$classRaytracer_1_1Common_1_1Math_1_1Point3D.html" title="Representing a 3D point." alt="" coords="421,5,581,47"/>
 <area shape="rect" id="node4" href="$classRaytracer_1_1Common_1_1Math_1_1Vector3D.html" title=" " alt="" coords="421,71,581,112"/>
 </map>

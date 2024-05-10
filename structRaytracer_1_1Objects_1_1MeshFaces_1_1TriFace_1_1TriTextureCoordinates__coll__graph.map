@@ -1,0 +1,5 @@
+<map id="Raytracer::Objects::MeshFaces::TriFace::TriTextureCoordinates" name="Raytracer::Objects::MeshFaces::TriFace::TriTextureCoordinates">
+<area shape="rect" id="node1" title="Representing tri texture coordinates." alt="" coords="5,229,176,285"/>
+<area shape="rect" id="node2" href="$classRaytracer_1_1Common_1_1Math_1_1Point2D.html" title="Representing a 2D point." alt="" coords="11,96,171,137"/>
+<area shape="rect" id="node3" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="11,5,171,47"/>
+</map>

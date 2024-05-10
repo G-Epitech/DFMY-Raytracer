@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['saveto_281',['saveTo',['../classRaytracer_1_1Core_1_1Graphics_1_1Image.html#a212e1777b39e0b838dbc13ce12cafe8a',1,'Raytracer::Core::Graphics::Image']]],
-  ['scene_282',['Scene',['../classRaytracer_1_1Core_1_1Rendering_1_1Scene.html#a6fb788d6ae25d5293d3a58966cf29757',1,'Raytracer::Core::Rendering::Scene']]],
-  ['screen_283',['Screen',['../classRaytracer_1_1Core_1_1Rendering_1_1Screen.html#ab77d64723effee6d7caeafc8d5485308',1,'Raytracer::Core::Rendering::Screen']]],
-  ['setpixel_284',['setPixel',['../classRaytracer_1_1Core_1_1Rendering_1_1Screen.html#a1e6cedfe9eb816df32e72ecee7bc40eb',1,'Raytracer::Core::Rendering::Screen']]],
-  ['sphere_285',['Sphere',['../classRaytracer_1_1Objects_1_1Sphere.html#a788a10d3046ae86fcbe6e9c75b8a4ce1',1,'Raytracer::Objects::Sphere']]],
-  ['sphereprovider_286',['SphereProvider',['../classRaytracer_1_1Objects_1_1SphereProvider.html#a8df53ecefa256f646735191e782294fd',1,'Raytracer::Objects::SphereProvider']]]
+  ['ray_339',['Ray',['../classRaytracer_1_1Common_1_1Math_1_1Ray.html#ac48d983066c7a2bd92cf204fe5d2f3c9',1,'Raytracer::Common::Math::Ray::Ray()'],['../classRaytracer_1_1Common_1_1Math_1_1Ray.html#a5d0d2a1b16eecb519ba399356280c2a0',1,'Raytracer::Common::Math::Ray::Ray(const Point3D &amp;origin, const Vector3D &amp;direction)']]],
+  ['rotatex_340',['rotateX',['../classRaytracer_1_1Common_1_1Math_1_1Point3D.html#a112707217f0bf63fbdfed173f9ef47e9',1,'Raytracer::Common::Math::Point3D']]],
+  ['rotatey_341',['rotateY',['../classRaytracer_1_1Common_1_1Math_1_1Point3D.html#a7f3f695f47bd429d7f00fa5537a37c1f',1,'Raytracer::Common::Math::Point3D']]],
+  ['rotatez_342',['rotateZ',['../classRaytracer_1_1Common_1_1Math_1_1Point3D.html#a25dbbc3fbeb8f82e0c68ae0dae27bc19',1,'Raytracer::Common::Math::Point3D']]],
+  ['run_343',['run',['../classRaytracer_1_1Core_1_1App.html#a1ec19e479fdb20fc13e193d20a09104d',1,'Raytracer::Core::App::run()'],['../classRaytracer_1_1Core_1_1Cli_1_1Handler.html#a0ec563ee24916b836f61bf7f0d883eca',1,'Raytracer::Core::Cli::Handler::run()'],['../classRaytracer_1_1Core_1_1Gui_1_1Handler.html#a0ec563ee24916b836f61bf7f0d883eca',1,'Raytracer::Core::Gui::Handler::run()'],['../classRaytracer_1_1Core_1_1IHandler.html#a2d00b2b3c664e89e6b478ad31478058f',1,'Raytracer::Core::IHandler::run()']]]
 ];
