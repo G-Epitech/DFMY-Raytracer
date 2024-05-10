@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['plugins_384',['plugins',['../md_docs_plugins.html',1,'']]]
+  ['object_2dplugins_384',['object-plugins',['../md_docs_object_plugins.html',1,'']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>DFMY-Raytracer: plugins</title>
+<title>DFMY-Raytracer: object-plugins</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,14 +62,14 @@ $(function() {
 </div><!-- top -->
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">plugins </div>  </div>
+<div class="title">object-plugins </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Baby.gnu-800x800.png" alt="Baby gnu" title="Baby gnu" class="inline"/></p>
 <h1><a class="anchor" id="autotoc_md0"></a>
-DFMY-Raytracer Plugins</h1>
+DFMY-Raytracer Object Plugins</h1>
 <p>A rendering engine should be extensible. One should be able to add new features without completely rewriting the code.</p>
-<p>For every step of this documentation</p>
+<p>For every step of this documentation you can check the Sphere object</p>
 <h3><a class="anchor" id="autotoc_md1"></a>
 Build</h3>
 <p>All of the object plugins are found in the <code>objects</code> folder, in the folder we have a CMake that will be automatically called by the CMake at the root that looks like this: </p><div class="fragment"><div class="line"># Set the shared library prefix to an empty string</div>
@@ -100,10 +100,32 @@ Build</h3>
 Architecture</h3>
 <p>Every object plugin has a specific architecture, they each need to follow a certain inheritance tree, to be compatible with the rest of the Raytracer.</p>
 <hr  />
+<h6>Object Fields</h6>
+<p>Each object has the following common fields:</p><ul>
+<li>name (mainly used for GUI)</li>
+<li>material</li>
+<li>rotation</li>
+<li>origin/position</li>
+<li><b>special property</b></li>
+</ul>
+<p>The special property is a field that's unique for each object. Ex: radius for the sphere</p>
+<hr  />
 <h6>IObject Interface</h6>
 <p>This is the core of our object (see: <code><a class="el" href="IObject_8hpp_source.html">common/interfaces/IObject.hpp</a></code>).</p>
 <p>In the object interface we will have multiple methods. <code>virtual Math::HitInfo computeCollision(const Math::Ray &amp;ray) = 0;</code></p>
-<p>This method is used by our raycasting system to know if a ray hit your object, so it can work out the reflections and pixels correctly. It is very important to correctly fill the <code>Math::HitInfo</code> structure correctly. </p>
+<p>This method is used by our raycasting system to know if a ray hit your object, so it can work out the reflections and pixels correctly. It is very important to correctly fill the <code>Math::HitInfo</code> structure correctly.</p>
+<p>The interface also contains a method that returns the material associated to the object, also used by our raycasting system.</p>
+<hr  />
+<h6>IObjectProvider Interface</h6>
+<p>Seeing that each object plugin is a dynamic library we will need a provider. An instance of this provider will be returned in the entrypoint to the plugin (more on the entrypoint later).</p>
+<p>A provider needs to have the following things:</p><ul>
+<li>object creator</li>
+<li>manifest getter</li>
+<li>unique property parser</li>
+</ul>
+<p>The <b>object creator</b> is just a method that takes in parameters the fields of an object and returns a shared pointer to the object it provides</p>
+<p>The <b>manifest</b> is important, it contains the author of the plugin, the description, version, etc... But it also contains the name of the object, this is later used in the config. So if the name of our object in the manifest is "Sphere" it also needs to be "Sphere" in the config. (see config docs).</p>
+<p>Unique property parser, is used to parse the unique properties of the object. Here the libconfig++ is used. A lot of utils functions are available in the <code>common/config/ConfigUtils.hpp</code> file. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
