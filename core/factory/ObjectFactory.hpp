@@ -37,7 +37,9 @@ namespace Raytracer::Core {
          */
         IObject::Ptr create(
             const std::string &name,
-            const Graphics::Material::Ptr& material,
+            const std::string &type,
+            const Common::Graphics::Material::Ptr &material,
+            const Math::Vector3D &rotation,
             const Math::Point3D &position,
             const ObjectProperty &property
         );

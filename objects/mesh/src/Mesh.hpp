@@ -26,11 +26,17 @@ public:
 
     /**
      * @brief Construct a new mesh object
+     * @param name Name of the mest
      * @param material Material of the mesh
+     * @param rotation Rotation of the mesh
      * @param position Position of the mesh
      * @param property Property of the mesh
      */
-    Mesh(const Common::Graphics::Material::Ptr material, const Common::Math::Point3D &position, const Common::ObjectProperty &property);
+    Mesh(const std::string &name,
+        Common::Graphics::Material::Ptr material,
+        const Common::Math::Vector3D &rotation,
+        const Common::Math::Point3D &position,
+        const Common::ObjectProperty &property);
 
     /**
      * @brief Destroy the mesh object
@@ -52,8 +58,14 @@ private:
     /// @brief Quadrilateral face
     typedef std::tuple<FacePoint, FacePoint, FacePoint, FacePoint> QuadFace;
 
+    /// @brief Name of the object
+    const std::string &_name;
+
     /// @brief Material of the mesh
     Common::Graphics::Material::Ptr _material;
+
+    /// @brief Rotation of the mesh
+    const Common::Math::Vector3D _rotation;
 
     /// @brief Position of the mesh
     const Common::Math::Point3D _position;

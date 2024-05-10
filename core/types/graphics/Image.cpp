@@ -44,4 +44,4 @@ bool Image::_saveAsPpm(const std::string &path) const {
     return true;
 }
 
-
+Image::~Image() = default;

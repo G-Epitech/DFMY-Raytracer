@@ -8,13 +8,24 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include "Color.hpp"
+#include "types/math/Vector.hpp"
 
 namespace Raytracer::Common::Graphics {
     class Material {
     public:
         /// @brief Shared pointer to a material
         typedef std::shared_ptr<Material> Ptr;
+
+        typedef struct {
+            /// @brief Light emission color
+            Color color;
+            /// @brief Light emission strength
+            float strength;
+            /// @brief Light emission direction
+            Math::Vector3D direction;
+        } Emission;
 
         /**
          * @brief Construct a new Material object
@@ -26,8 +37,9 @@ namespace Raytracer::Common::Graphics {
         explicit Material(
             const Color &color,
             const Color &emissionColor,
-            const Color &specularColor,
-            float emissionStrength
+            float emissionStrength,
+            float reflectivity,
+            std::vector<Emission> emissions
         );
 
         /**
@@ -52,5 +64,10 @@ namespace Raytracer::Common::Graphics {
 
         /// @brief Emission strength of the material
         float emissionStrength;
+
+        /// @brief Reflectivity of the material
+        float reflectivity;
+
+        std::vector<Emission> emissions;
     };
 }

@@ -15,7 +15,7 @@ const ConfigValidator::ValidatorFunction ConfigValidator::_validators[] = {
 
 void ConfigValidator::valid(const Config::SceneConfig &cfg)
 {
-    for (auto validator : _validators) {
+    for (const auto& validator : _validators) {
         validator(cfg);
     }
 }
@@ -25,7 +25,7 @@ void ConfigValidator::_materialsAreValid(const Config::SceneConfig &cfg)
     std::vector<Config::MaterialConfig> materials = cfg.materials;
     std::set<std::string> materialNames;
 
-    for (auto material : materials) {
+    for (const auto& material : materials) {
         if (material.reflectivity < 0 || material.reflectivity > 1) {
             throw ConfigException(material.name + " reflectivity must be between 0 and 1");
         }
@@ -41,7 +41,7 @@ void ConfigValidator::_camerasAreValid(const Config::SceneConfig &cfg)
     std::vector<Config::CameraConfig> cameras = cfg.cameras;
     std::set<std::string> cameraNames;
 
-    for (auto camera : cameras) {
+    for (const auto& camera : cameras) {
         if (camera.fov < 0 || camera.fov > 180) {
             throw ConfigException(camera.name + " fov must be between 0 and 180");
         }
@@ -57,20 +57,15 @@ void ConfigValidator::_objectsAreValid(const Config::SceneConfig &cfg)
     std::vector<Config::ObjectConfig> objects = cfg.objects;
     std::vector<Config::MaterialConfig> materials = cfg.materials;
 
-    for (auto object : objects) {
+    for (const auto& object : objects) {
         if (object.material.empty()) {
             throw ConfigException("object must have a material name");
         }
         if (std::find_if(materials.begin(), materials.end(),
-            [object](Config::MaterialConfig material) {
+            [object](const Config::MaterialConfig& material) {
                 return material.name == object.material;
             }) == materials.end()) {
             throw ConfigException("object material \"" + object.material + "\" does not exist");
-        }
-        if (object.type == "sphere") {
-            if (std::get<float>(object.property) <= 0) {
-                throw ConfigException("sphere radius must be greater than 0");
-            }
         }
     }
 }

@@ -27,32 +27,31 @@ Math::Vector3D Math::Point3D::normalize() const
 
 void Math::Point3D::rotateX(float angle)
 {
-    float rad = angle * M_PI / 180;
-    auto x = this->x;
+    float rad = angle * float(M_PI) / 180;
     auto y = this->y;
 
-    this->y = y * cos(rad) - this->z * sin(rad);
-    this->z = y * sin(rad) + this->z * cos(rad);
+    this->y = y * cosf(rad) - this->z * sinf(rad);
+    this->z = y * sinf(rad) + this->z * cosf(rad);
 }
 
 void Math::Point3D::rotateY(float angle)
 {
-    float rad = angle * M_PI / 180;
+    float rad = angle * float(M_PI) / 180;
     auto x = this->x;
     auto z = this->z;
 
-    this->x = x * cos(rad) + z * sin(rad);
-    this->z = -x * sin(rad) + z * cos(rad);
+    this->x = x * cosf(rad) + z * sinf(rad);
+    this->z = -x * sinf(rad) + z * cosf(rad);
 }
 
 void Math::Point3D::rotateZ(float angle)
 {
-    float rad = angle * M_PI / 180;
+    float rad = angle * float(M_PI) / 180;
     auto x = this->x;
     auto y = this->y;
 
-    this->x = x * cos(rad) - y * sin(rad);
-    this->y = x * sin(rad) + y * cos(rad);
+    this->x = x * cosf(rad) - y * sinf(rad);
+    this->y = x * sinf(rad) + y * cosf(rad);
 }
 
 Math::Point3D operator+(const Math::Point3D &point1, const Math::Point3D &point2)
