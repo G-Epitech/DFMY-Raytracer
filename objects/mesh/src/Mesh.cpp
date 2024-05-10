@@ -44,12 +44,12 @@ Mesh::Mesh(
     auto filename = std::get<std::string>(property);
 
     _loadObj(filename);
+    _getSphereRadius();
     Raytracer::Common::Math::Point3D center;
     getObjectCenter(_vertices, center);
     translateObject(_vertices, center);
     for (auto &vertex : _vertices) {
-        vertex.rotateY(45);
-        vertex.rotateX(45);
+        vertex.rotateX(90);
         vertex.x += _position.x;
         vertex.y += _position.y;
         vertex.z += _position.z;
@@ -64,6 +64,16 @@ Mesh::Mesh(
     std::cout << "Texture coordinates: " << _textureCoordinates.size() << std::endl;
     std::cout << "Triangles: " << _triFaces.size() << std::endl;
     std::cout << "Quads: " << _quadFaces.size() << std::endl;
+    std::cout << "Radius: " << _radius << std::endl;
+}
+
+void Mesh::_getSphereRadius()
+{
+    for (auto &vertex : _vertices) {
+        float distance = std::sqrt(std::pow(vertex.x, 2) + std::pow(vertex.y, 2) + std::pow(vertex.z, 2));
+        if (distance > _radius)
+            _radius = distance;
+    }
 }
 
 Raytracer::Common::Math::HitInfo Mesh::computeCollision(const Raytracer::Common::Math::Ray &ray)
@@ -71,6 +81,8 @@ Raytracer::Common::Math::HitInfo Mesh::computeCollision(const Raytracer::Common:
     bool didHitOne = false;
     Common::Math::HitInfo closesHitInfo;
 
+    if (!_collideSphere(ray) && !_isInsideSphere(ray.origin))
+        return closesHitInfo;
     for (auto &face : _faces) {
         auto faceHitInfo = face->computeCollision(ray);
 
@@ -89,6 +101,35 @@ Raytracer::Common::Math::HitInfo Mesh::computeCollision(const Raytracer::Common:
         .emissionColor = _material->emissionColor
     };
     return closesHitInfo;
+}
+
+bool Mesh::_collideSphere(const Common::Math::Ray &ray)
+{
+    Common::Math::Point3D offsetRayOrigin = ray.origin - _position;
+    Common::Math::Vector3D oc(offsetRayOrigin.x, offsetRayOrigin.y, offsetRayOrigin.z);
+
+    float a = ray.direction.dot(ray.direction);
+    float b = 2.0 * oc.dot(ray.direction);
+    float c = oc.dot(oc) - _radius * _radius;
+    float discriminant = b * b - 4 * a * c;
+
+    if (discriminant < 0)
+        return false;
+
+    float distance = (-b - sqrt(discriminant)) / (2.0 * a);
+
+    if (distance < 0)
+        return false;
+    return true;
+}
+
+bool Mesh::_isInsideSphere(const Common::Math::Point3D &point)
+{
+    float distanceSquared = pow(point.x - _position.x, 2) +
+                            pow(point.y - _position.y, 2) +
+                            pow(point.z - _position.z, 2);
+    float radiusSquared = pow(_radius, 2);
+    return distanceSquared <= radiusSquared;
 }
 
 Raytracer::Common::Graphics::Material::Ptr Mesh::getMaterial()

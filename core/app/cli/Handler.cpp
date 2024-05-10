@@ -85,9 +85,9 @@ int Handler::run() {
     Rendering::Camera::Config camConfig = {
             .name = "Main camera",
             .screen = {
-                    .size = { .width = 1920 * RESOLUTION , .height = 1080 * RESOLUTION}
+                    .size = { .width = 500 * RESOLUTION , .height = 500 * RESOLUTION}
             },
-            .position = Common::Math::Point3D(0, -150, 30),
+            .position = Common::Math::Point3D(0, 0, 30),
             .direction = Common::Math::Vector3D(0, 0, 0),
             .fov = 40
     };
@@ -100,7 +100,7 @@ int Handler::run() {
 
     objects.push_back(objectProvider()->create(purple, Common::Math::Point3D(0, 80, -77), 100.0f));
 //     objects.push_back(objectProvider()->create(green, Common::Math::Point3D(10, 68, 34), 13.0f));
-    objects.push_back(objectProvider()->create(orange, Common::Math::Point3D(-10, 60, 30), 10.0f));
+    // objects.push_back(objectProvider()->create(orange, Common::Math::Point3D(-10, 60, 30), 10.0f));
 //     objects.push_back(objectProvider()->create(yellow, Common::Math::Point3D(50, 100, 70), 10.0f));
     DLLoader dlloader2("plugins/raytracer_mesh.so");
 

@@ -158,4 +158,11 @@ private:
      * @return true if all the textures are set, false otherwise
      */
     bool _allTexturesAreSet(QuadFace &points);
+
+    float _radius;
+    bool _collideSphere(const Raytracer::Common::Math::Ray &ray);
+
+    bool _isInsideSphere(const Raytracer::Common::Math::Point3D &point);
+
+    void _getSphereRadius();
 };
