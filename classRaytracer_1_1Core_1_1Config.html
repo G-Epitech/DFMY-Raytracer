@@ -67,8 +67,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classRaytracer_1_1Core_1_1Config-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Raytracer::Core::Config Class Reference</div>  </div>
@@ -83,12 +83,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaytracer_1_1Core_1_1Config_1_1CameraConfig.html">CameraConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Camera configuration.  <a href="structRaytracer_1_1Core_1_1Config_1_1CameraConfig.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaytracer_1_1Core_1_1Config_1_1CubeConfig.html">CubeConfig</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for a cube object special properties.  <a href="structRaytracer_1_1Core_1_1Config_1_1CubeConfig.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaytracer_1_1Core_1_1Config_1_1EmissionConfig.html">EmissionConfig</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emission direction configuration.  <a href="structRaytracer_1_1Core_1_1Config_1_1EmissionConfig.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaytracer_1_1Core_1_1Config_1_1MaterialConfig.html">MaterialConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Material configuration.  <a href="structRaytracer_1_1Core_1_1Config_1_1MaterialConfig.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -98,34 +92,27 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaytracer_1_1Core_1_1Config_1_1SceneConfig.html">SceneConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scene configuration.  <a href="structRaytracer_1_1Core_1_1Config_1_1SceneConfig.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaytracer_1_1Core_1_1Config_1_1ScreenConfig.html">ScreenConfig</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Screen configuration.  <a href="structRaytracer_1_1Core_1_1Config_1_1ScreenConfig.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaytracer_1_1Core_1_1Config_1_1SphereConfig.html">SphereConfig</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for a sphere object special properties.  <a href="structRaytracer_1_1Core_1_1Config_1_1SphereConfig.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a8018384fd67bb1641cea24cd4b31e7c4"><td class="memItemLeft" align="right" valign="top"><a id="a8018384fd67bb1641cea24cd4b31e7c4"></a>
-typedef std::variant&lt; <a class="el" href="structRaytracer_1_1Core_1_1Config_1_1CubeConfig.html">CubeConfig</a>, <a class="el" href="structRaytracer_1_1Core_1_1Config_1_1SphereConfig.html">SphereConfig</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Config.html#a8018384fd67bb1641cea24cd4b31e7c4">ObjectPropertiesConfig</a></td></tr>
-<tr class="memdesc:a8018384fd67bb1641cea24cd4b31e7c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special properties configuration for an object. <br /></td></tr>
-<tr class="separator:a8018384fd67bb1641cea24cd4b31e7c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3d2df7a60e1c4917aadecafb34be00de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Config.html#a3d2df7a60e1c4917aadecafb34be00de">loadFromString</a> (const std::string &amp;contents)</td></tr>
-<tr class="memdesc:a3d2df7a60e1c4917aadecafb34be00de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a scene configuration from a string (useful for testing)  <a href="classRaytracer_1_1Core_1_1Config.html#a3d2df7a60e1c4917aadecafb34be00de">More...</a><br /></td></tr>
-<tr class="separator:a3d2df7a60e1c4917aadecafb34be00de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dbb2af57cd3bb6d2bcbc136afa7d8de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Config.html#a7dbb2af57cd3bb6d2bcbc136afa7d8de">loadFromFile</a> (const std::string &amp;path)</td></tr>
-<tr class="memdesc:a7dbb2af57cd3bb6d2bcbc136afa7d8de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a scene configuration from a file.  <a href="classRaytracer_1_1Core_1_1Config.html#a7dbb2af57cd3bb6d2bcbc136afa7d8de">More...</a><br /></td></tr>
-<tr class="separator:a7dbb2af57cd3bb6d2bcbc136afa7d8de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a958952bd5e5afdd93c45216988a4547b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Scene.html#a461a5bbe7428f299c8bd8121447b681b">Rendering::Scene::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Config.html#a958952bd5e5afdd93c45216988a4547b">toScene</a> (<a class="el" href="classRaytracer_1_1Core_1_1PluginsManager.html">PluginsManager</a> &amp;pluginsManager)</td></tr>
-<tr class="memdesc:a958952bd5e5afdd93c45216988a4547b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a scene configuration to a Scene object.  <a href="classRaytracer_1_1Core_1_1Config.html#a958952bd5e5afdd93c45216988a4547b">More...</a><br /></td></tr>
-<tr class="separator:a958952bd5e5afdd93c45216988a4547b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa080a80ccaa3ad7ef0fec9bf2d35446b"><td class="memItemLeft" align="right" valign="top"><a id="aa080a80ccaa3ad7ef0fec9bf2d35446b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Config</b> (<a class="el" href="classRaytracer_1_1Core_1_1PluginsManager.html">PluginsManager</a> &amp;pluginsManager)</td></tr>
+<tr class="separator:aa080a80ccaa3ad7ef0fec9bf2d35446b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc6fd027c196974f20e29c1ee145c004"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Scene.html#a461a5bbe7428f299c8bd8121447b681b">Rendering::Scene::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Config.html#adc6fd027c196974f20e29c1ee145c004">toScene</a> ()</td></tr>
+<tr class="memdesc:adc6fd027c196974f20e29c1ee145c004"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a scene configuration to a Scene object.  <a href="classRaytracer_1_1Core_1_1Config.html#adc6fd027c196974f20e29c1ee145c004">More...</a><br /></td></tr>
+<tr class="separator:adc6fd027c196974f20e29c1ee145c004"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21f75022b29118f819b1bb783e1bad90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRaytracer_1_1Core_1_1Config_1_1SceneConfig.html">SceneConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Config.html#a21f75022b29118f819b1bb783e1bad90">getSceneConfig</a> () const</td></tr>
 <tr class="memdesc:a21f75022b29118f819b1bb783e1bad90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the scene configuration.  <a href="classRaytracer_1_1Core_1_1Config.html#a21f75022b29118f819b1bb783e1bad90">More...</a><br /></td></tr>
 <tr class="separator:a21f75022b29118f819b1bb783e1bad90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:af4777c03b1ac60dfcdfd6c73188fcb0e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classRaytracer_1_1Core_1_1Config.html">Config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Config.html#af4777c03b1ac60dfcdfd6c73188fcb0e">loadFromString</a> (const std::string &amp;contents, <a class="el" href="classRaytracer_1_1Core_1_1PluginsManager.html">PluginsManager</a> &amp;pluginsManager)</td></tr>
+<tr class="memdesc:af4777c03b1ac60dfcdfd6c73188fcb0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a scene configuration from a string (useful for testing)  <a href="classRaytracer_1_1Core_1_1Config.html#af4777c03b1ac60dfcdfd6c73188fcb0e">More...</a><br /></td></tr>
+<tr class="separator:af4777c03b1ac60dfcdfd6c73188fcb0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08681611c497b43d025ac40aee471c67"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classRaytracer_1_1Core_1_1Config.html">Config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Config.html#a08681611c497b43d025ac40aee471c67">loadFromFile</a> (const std::string &amp;path, <a class="el" href="classRaytracer_1_1Core_1_1PluginsManager.html">PluginsManager</a> &amp;pluginsManager)</td></tr>
+<tr class="memdesc:a08681611c497b43d025ac40aee471c67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a scene configuration from a file.  <a href="classRaytracer_1_1Core_1_1Config.html#a08681611c497b43d025ac40aee471c67">More...</a><br /></td></tr>
+<tr class="separator:a08681611c497b43d025ac40aee471c67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a21f75022b29118f819b1bb783e1bad90"></a>
@@ -148,60 +135,98 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a7dbb2af57cd3bb6d2bcbc136afa7d8de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7dbb2af57cd3bb6d2bcbc136afa7d8de">&#9670;&nbsp;</a></span>loadFromFile()</h2>
+<a id="a08681611c497b43d025ac40aee471c67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08681611c497b43d025ac40aee471c67">&#9670;&nbsp;</a></span>loadFromFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Config::loadFromFile </td>
+          <td class="memname"><a class="el" href="classRaytracer_1_1Core_1_1Config.html">Config</a> Config::loadFromFile </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="classRaytracer_1_1Core_1_1PluginsManager.html">PluginsManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>pluginsManager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Load a scene configuration from a file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>Path to the configuration file </td></tr>
+    <tr><td class="paramname">pluginsManager</td><td>Plugins manager to use to create objects </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a3d2df7a60e1c4917aadecafb34be00de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d2df7a60e1c4917aadecafb34be00de">&#9670;&nbsp;</a></span>loadFromString()</h2>
+<a id="af4777c03b1ac60dfcdfd6c73188fcb0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4777c03b1ac60dfcdfd6c73188fcb0e">&#9670;&nbsp;</a></span>loadFromString()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Config::loadFromString </td>
+          <td class="memname"><a class="el" href="classRaytracer_1_1Core_1_1Config.html">Config</a> Config::loadFromString </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>contents</em></td><td>)</td>
+          <td class="paramname"><em>contents</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="classRaytracer_1_1Core_1_1PluginsManager.html">PluginsManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>pluginsManager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Load a scene configuration from a string (useful for testing) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">contents</td><td>Contents of the configuration file </td></tr>
+    <tr><td class="paramname">pluginsManager</td><td>Plugins manager to use to create objects </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a958952bd5e5afdd93c45216988a4547b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a958952bd5e5afdd93c45216988a4547b">&#9670;&nbsp;</a></span>toScene()</h2>
+<a id="adc6fd027c196974f20e29c1ee145c004"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc6fd027c196974f20e29c1ee145c004">&#9670;&nbsp;</a></span>toScene()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -209,20 +234,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Scene.html#a461a5bbe7428f299c8bd8121447b681b">Rendering::Scene::Ptr</a> Config::toScene </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classRaytracer_1_1Core_1_1PluginsManager.html">PluginsManager</a> &amp;&#160;</td>
-          <td class="paramname"><em>pluginsManager</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Convert a scene configuration to a Scene object. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">sceneConfig</td><td>Scene configuration </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="section return"><dt>Returns</dt><dd>Scene::Ptr </dd></dl>
 
 </div>

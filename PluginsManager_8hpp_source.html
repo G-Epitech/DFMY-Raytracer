@@ -91,37 +91,61 @@ $(function() {
 <div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1PluginsManager.html">   20</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classRaytracer_1_1Core_1_1PluginsManager.html">PluginsManager</a> {</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">class </span><a class="code" href="classRaytracer_1_1Core_1_1PluginsManager_1_1Exception.html">Exception</a>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1PluginsManager.html#a79f16fd7dfeed11c9a795cc916e90c4a">   29</a></span>&#160;        <a class="code" href="classRaytracer_1_1Core_1_1PluginsManager.html#a79f16fd7dfeed11c9a795cc916e90c4a">PluginsManager</a>();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        ~<a class="code" href="classRaytracer_1_1Core_1_1PluginsManager.html">PluginsManager</a>();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">void</span> load(<span class="keyword">const</span> std::string&amp; pluginsDir = <span class="stringliteral">&quot;./plugins&quot;</span>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">class </span><a class="code" href="classRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException.html">InvalidPathException</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1PluginsManager.html#a79f16fd7dfeed11c9a795cc916e90c4a">   35</a></span>&#160;        <a class="code" href="classRaytracer_1_1Core_1_1PluginsManager.html#a79f16fd7dfeed11c9a795cc916e90c4a">PluginsManager</a>();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        ~<a class="code" href="classRaytracer_1_1Core_1_1PluginsManager.html">PluginsManager</a>();</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1PluginsManager.html#a197758dadfab7de77017162239bd2e5c">   43</a></span>&#160;        std::map&lt;std::string, IObjectProvider::Ptr&gt; <a class="code" href="classRaytracer_1_1Core_1_1PluginsManager.html#a197758dadfab7de77017162239bd2e5c">providers</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        std::list&lt;DLLoader::Ptr&gt; _loaders;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">void</span> load(<span class="keyword">const</span> std::string&amp; pluginsDir = <span class="stringliteral">&quot;./plugins&quot;</span>);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">void</span> _loadPlugin(<span class="keyword">const</span> std::string&amp; filepath);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">void</span> _registerPlugin(<a class="code" href="classRaytracer_1_1Common_1_1IObjectProvider.html#a67834bb2d517678a3d8ec6831dec0af3">IObjectProvider::Ptr</a> provider);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    };</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1PluginsManager.html#a197758dadfab7de77017162239bd2e5c">   50</a></span>&#160;        std::map&lt;std::string, IObjectProvider::Ptr&gt; <a class="code" href="classRaytracer_1_1Core_1_1PluginsManager.html#a197758dadfab7de77017162239bd2e5c">providers</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        std::list&lt;DLLoader::Ptr&gt; _loaders;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">void</span> _loadPlugin(<span class="keyword">const</span> std::string&amp; filepath);</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1PluginsManager_1_1Exception.html">   62</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classRaytracer_1_1Core_1_1PluginsManager_1_1Exception.html">PluginsManager::Exception</a> : <span class="keyword">public</span> std::exception {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classRaytracer_1_1Core_1_1PluginsManager_1_1Exception.html">Exception</a>(std::string message);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        [[nodiscard]]</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *what() <span class="keyword">const</span> noexcept <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordtype">void</span> _registerPlugin(<a class="code" href="classRaytracer_1_1Common_1_1IObjectProvider.html#a67834bb2d517678a3d8ec6831dec0af3">IObjectProvider::Ptr</a> provider);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    };</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1PluginsManager_1_1Exception.html">   69</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classRaytracer_1_1Core_1_1PluginsManager_1_1Exception.html">PluginsManager::Exception</a> : <span class="keyword">public</span> std::exception {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classRaytracer_1_1Core_1_1PluginsManager_1_1Exception.html">Exception</a>(std::string message);</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        std::string _message;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    };</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
-<div class="ttc" id="aclassRaytracer_1_1Common_1_1IObjectProvider_html_a67834bb2d517678a3d8ec6831dec0af3"><div class="ttname"><a href="classRaytracer_1_1Common_1_1IObjectProvider.html#a67834bb2d517678a3d8ec6831dec0af3">Raytracer::Common::IObjectProvider::Ptr</a></div><div class="ttdeci">std::unique_ptr&lt; IObjectProvider &gt; Ptr</div><div class="ttdoc">Shared pointer to the object provider.</div><div class="ttdef"><b>Definition:</b> IObjectProvider.hpp:27</div></div>
-<div class="ttc" id="aclassRaytracer_1_1Core_1_1PluginsManager_1_1Exception_html"><div class="ttname"><a href="classRaytracer_1_1Core_1_1PluginsManager_1_1Exception.html">Raytracer::Core::PluginsManager::Exception</a></div><div class="ttdef"><b>Definition:</b> PluginsManager.hpp:62</div></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        [[nodiscard]]</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *what() <span class="keyword">const</span> noexcept <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        std::string _message;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    };</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException.html">   89</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException.html">PluginsManager::InvalidPathException</a> : <span class="keyword">public</span> <a class="code" href="classRaytracer_1_1Core_1_1PluginsManager_1_1Exception.html">Exception</a> {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keyword">enum class</span> Reason {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            NOT_FOUND,</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            NOT_DIRECTORY</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        };</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException.html">InvalidPathException</a>(<span class="keyword">const</span> std::string &amp;path, Reason reason);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        [[nodiscard]]</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *path() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        [[nodiscard]]</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        Reason reason() <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        std::string _path;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        Reason _reason;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    };</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
+<div class="ttc" id="aclassRaytracer_1_1Common_1_1IObjectProvider_html_a67834bb2d517678a3d8ec6831dec0af3"><div class="ttname"><a href="classRaytracer_1_1Common_1_1IObjectProvider.html#a67834bb2d517678a3d8ec6831dec0af3">Raytracer::Common::IObjectProvider::Ptr</a></div><div class="ttdeci">std::unique_ptr&lt; IObjectProvider &gt; Ptr</div><div class="ttdoc">Shared pointer to the object provider.</div><div class="ttdef"><b>Definition:</b> IObjectProvider.hpp:36</div></div>
+<div class="ttc" id="aclassRaytracer_1_1Core_1_1PluginsManager_1_1Exception_html"><div class="ttname"><a href="classRaytracer_1_1Core_1_1PluginsManager_1_1Exception.html">Raytracer::Core::PluginsManager::Exception</a></div><div class="ttdef"><b>Definition:</b> PluginsManager.hpp:69</div></div>
+<div class="ttc" id="aclassRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException_html"><div class="ttname"><a href="classRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException.html">Raytracer::Core::PluginsManager::InvalidPathException</a></div><div class="ttdef"><b>Definition:</b> PluginsManager.hpp:89</div></div>
 <div class="ttc" id="aclassRaytracer_1_1Core_1_1PluginsManager_html"><div class="ttname"><a href="classRaytracer_1_1Core_1_1PluginsManager.html">Raytracer::Core::PluginsManager</a></div><div class="ttdef"><b>Definition:</b> PluginsManager.hpp:20</div></div>
-<div class="ttc" id="aclassRaytracer_1_1Core_1_1PluginsManager_html_a197758dadfab7de77017162239bd2e5c"><div class="ttname"><a href="classRaytracer_1_1Core_1_1PluginsManager.html#a197758dadfab7de77017162239bd2e5c">Raytracer::Core::PluginsManager::providers</a></div><div class="ttdeci">std::map&lt; std::string, IObjectProvider::Ptr &gt; providers</div><div class="ttdoc">Map of object providers.</div><div class="ttdef"><b>Definition:</b> PluginsManager.hpp:43</div></div>
+<div class="ttc" id="aclassRaytracer_1_1Core_1_1PluginsManager_html_a197758dadfab7de77017162239bd2e5c"><div class="ttname"><a href="classRaytracer_1_1Core_1_1PluginsManager.html#a197758dadfab7de77017162239bd2e5c">Raytracer::Core::PluginsManager::providers</a></div><div class="ttdeci">std::map&lt; std::string, IObjectProvider::Ptr &gt; providers</div><div class="ttdoc">Map of object providers.</div><div class="ttdef"><b>Definition:</b> PluginsManager.hpp:50</div></div>
 <div class="ttc" id="aclassRaytracer_1_1Core_1_1PluginsManager_html_a79f16fd7dfeed11c9a795cc916e90c4a"><div class="ttname"><a href="classRaytracer_1_1Core_1_1PluginsManager.html#a79f16fd7dfeed11c9a795cc916e90c4a">Raytracer::Core::PluginsManager::PluginsManager</a></div><div class="ttdeci">PluginsManager()</div><div class="ttdoc">Construct a new ObjectFactory object.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

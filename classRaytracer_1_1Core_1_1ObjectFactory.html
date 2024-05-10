@@ -88,9 +88,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1ObjectFactory.html#a04a1138c18e740b8f0fd580b3d52af1c">~ObjectFactory</a> ()</td></tr>
 <tr class="memdesc:a04a1138c18e740b8f0fd580b3d52af1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="classRaytracer_1_1Core_1_1ObjectFactory.html">ObjectFactory</a> object. <br /></td></tr>
 <tr class="separator:a04a1138c18e740b8f0fd580b3d52af1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7413572554fa604ea75c4d8f29a0f15"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">IObject::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1ObjectFactory.html#ab7413572554fa604ea75c4d8f29a0f15">create</a> (const std::string &amp;name, const <a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Graphics::Material::Ptr</a> &amp;material, const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html">Math::Point3D</a> &amp;position, const ObjectProperty &amp;property)</td></tr>
-<tr class="memdesc:ab7413572554fa604ea75c4d8f29a0f15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new object.  <a href="classRaytracer_1_1Core_1_1ObjectFactory.html#ab7413572554fa604ea75c4d8f29a0f15">More...</a><br /></td></tr>
-<tr class="separator:ab7413572554fa604ea75c4d8f29a0f15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ae5153b7e8c8d77c5a83a493619c6a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">IObject::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1ObjectFactory.html#a0ae5153b7e8c8d77c5a83a493619c6a9">create</a> (const std::string &amp;name, const std::string &amp;type, const <a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Common::Graphics::Material::Ptr</a> &amp;material, const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Math::Vector3D</a> &amp;rotation, const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html">Math::Point3D</a> &amp;position, const ObjectProperty &amp;property)</td></tr>
+<tr class="memdesc:a0ae5153b7e8c8d77c5a83a493619c6a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new object.  <a href="classRaytracer_1_1Core_1_1ObjectFactory.html#a0ae5153b7e8c8d77c5a83a493619c6a9">More...</a><br /></td></tr>
+<tr class="separator:a0ae5153b7e8c8d77c5a83a493619c6a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4e84fb82c5507334786858a1fc48556e"></a>
@@ -128,8 +128,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab7413572554fa604ea75c4d8f29a0f15"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7413572554fa604ea75c4d8f29a0f15">&#9670;&nbsp;</a></span>create()</h2>
+<a id="a0ae5153b7e8c8d77c5a83a493619c6a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ae5153b7e8c8d77c5a83a493619c6a9">&#9670;&nbsp;</a></span>create()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -143,8 +143,20 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Graphics::Material::Ptr</a> &amp;&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Common::Graphics::Material::Ptr</a> &amp;&#160;</td>
           <td class="paramname"><em>material</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Math::Vector3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>rotation</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -170,7 +182,9 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>Name of the object </td></tr>
+    <tr><td class="paramname">type</td><td>Type of the object </td></tr>
     <tr><td class="paramname">material</td><td>Material of the object </td></tr>
+    <tr><td class="paramname">rotation</td><td>Rotation of the object </td></tr>
     <tr><td class="paramname">position</td><td>Position of the object </td></tr>
     <tr><td class="paramname">property</td><td>Property of the object </td></tr>
   </table>

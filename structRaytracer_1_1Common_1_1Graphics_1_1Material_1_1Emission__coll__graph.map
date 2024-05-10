@@ -1,5 +1,5 @@
-<map id="Raytracer::Core::Config::EmissionConfig" name="Raytracer::Core::Config::EmissionConfig">
-<area shape="rect" id="node1" title="Emission direction configuration." alt="" coords="137,291,309,332"/>
+<map id="Raytracer::Common::Graphics::Material::Emission" name="Raytracer::Common::Graphics::Material::Emission">
+<area shape="rect" id="node1" title="Emission struct for the material." alt="" coords="143,291,303,347"/>
 <area shape="rect" id="node2" href="$classRaytracer_1_1Common_1_1Math_1_1Vector3D.html" title=" " alt="" coords="5,187,165,228"/>
 <area shape="rect" id="node3" href="$classRaytracer_1_1Common_1_1Math_1_1Float3.html" title="Representing 3D coordinates." alt="" coords="5,96,165,137"/>
 <area shape="rect" id="node4" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="5,5,165,47"/>

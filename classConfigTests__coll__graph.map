@@ -1,4 +1,5 @@
 <map id="ConfigTests" name="ConfigTests">
-<area shape="rect" id="node1" title=" " alt="" coords="8,80,104,107"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,107,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="89,109,185,136"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,13,107,39"/>
+<area shape="rect" id="node3" href="$classRaytracer_1_1Core_1_1PluginsManager.html" title=" " alt="" coords="131,5,309,47"/>
 </map>

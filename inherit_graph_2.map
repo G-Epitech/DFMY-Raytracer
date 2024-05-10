@@ -4,5 +4,6 @@
 <area shape="rect" id="node3" href="$classRaytracer_1_1Core_1_1ConfigException.html" title=" " alt="" coords="168,56,404,83"/>
 <area shape="rect" id="node4" href="$classRaytracer_1_1Core_1_1ObjectFactory_1_1Exception.html" title=" " alt="" coords="176,107,396,149"/>
 <area shape="rect" id="node5" href="$classRaytracer_1_1Core_1_1PluginsManager_1_1Exception.html" title=" " alt="" coords="197,173,375,214"/>
-<area shape="rect" id="node6" href="$classRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1ComputeError.html" title=" " alt="" coords="187,238,385,279"/>
+<area shape="rect" id="node7" href="$classRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1ComputeError.html" title=" " alt="" coords="187,238,385,279"/>
+<area shape="rect" id="node6" href="$classRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException.html" title=" " alt="" coords="452,173,675,214"/>
 </map>

@@ -87,14 +87,20 @@ $(function() {
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1ConfigException.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classRaytracer_1_1Core_1_1ConfigException.html">Raytracer::Core::ConfigException</a> : <span class="keyword">public</span> std::exception {</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classRaytracer_1_1Core_1_1ConfigException.html">ConfigException</a>(std::string <span class="keyword">const</span> &amp;message);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *what() <span class="keyword">const</span> noexcept <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">const</span> std::string &amp;getMessage() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        std::string _message;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;};</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classRaytracer_1_1Core_1_1ConfigException.html#a0b833663efab60a4c54d2e6c6644e64c">ConfigException</a>(std::string <span class="keyword">const</span> &amp;message);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        [[nodiscard]]</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="classRaytracer_1_1Core_1_1ConfigException.html#ab21bd4b5f000a1e76e35228ec49322a4">what</a>() <span class="keyword">const</span> noexcept <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        [[nodiscard]]</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1ConfigException.html#a4cb77329a88634136d9dee69e460b0c0">   37</a></span>&#160;        <span class="keyword">const</span> std::string &amp;<a class="code" href="classRaytracer_1_1Core_1_1ConfigException.html#a4cb77329a88634136d9dee69e460b0c0">getMessage</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        std::string _message;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;};</div>
 <div class="ttc" id="aclassRaytracer_1_1Core_1_1ConfigException_html"><div class="ttname"><a href="classRaytracer_1_1Core_1_1ConfigException.html">Raytracer::Core::ConfigException</a></div><div class="ttdef"><b>Definition:</b> ConfigException.hpp:17</div></div>
+<div class="ttc" id="aclassRaytracer_1_1Core_1_1ConfigException_html_a0b833663efab60a4c54d2e6c6644e64c"><div class="ttname"><a href="classRaytracer_1_1Core_1_1ConfigException.html#a0b833663efab60a4c54d2e6c6644e64c">Raytracer::Core::ConfigException::ConfigException</a></div><div class="ttdeci">ConfigException(std::string const &amp;message)</div><div class="ttdoc">Construct a new ConfigException object.</div><div class="ttdef"><b>Definition:</b> ConfigException.cpp:10</div></div>
+<div class="ttc" id="aclassRaytracer_1_1Core_1_1ConfigException_html_a4cb77329a88634136d9dee69e460b0c0"><div class="ttname"><a href="classRaytracer_1_1Core_1_1ConfigException.html#a4cb77329a88634136d9dee69e460b0c0">Raytracer::Core::ConfigException::getMessage</a></div><div class="ttdeci">const std::string &amp; getMessage() const</div><div class="ttdoc">Get the error message as a string.</div></div>
+<div class="ttc" id="aclassRaytracer_1_1Core_1_1ConfigException_html_ab21bd4b5f000a1e76e35228ec49322a4"><div class="ttname"><a href="classRaytracer_1_1Core_1_1ConfigException.html#ab21bd4b5f000a1e76e35228ec49322a4">Raytracer::Core::ConfigException::what</a></div><div class="ttdeci">const char * what() const noexcept override</div><div class="ttdoc">Get the error message.</div><div class="ttdef"><b>Definition:</b> ConfigException.cpp:13</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

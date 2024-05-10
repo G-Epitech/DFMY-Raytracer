@@ -81,6 +81,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaytracer_1_1Core_1_1App_1_1Arguments.html">Arguments</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structRaytracer_1_1Core_1_1App_1_1Arguments.html" title="Arguments structure.">Arguments</a> structure.  <a href="structRaytracer_1_1Core_1_1App_1_1Arguments.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaytracer_1_1Core_1_1App_1_1Context.html">Context</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classRaytracer_1_1Core_1_1App.html">App</a> context.  <a href="structRaytracer_1_1Core_1_1App_1_1Context.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRaytracer_1_1Core_1_1App_1_1Options.html">Options</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structRaytracer_1_1Core_1_1App_1_1Options.html" title="Options structure.">Options</a> structure.  <a href="structRaytracer_1_1Core_1_1App_1_1Options.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,6 +112,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1ec19e479fdb20fc13e193d20a09104d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1App.html#a1ec19e479fdb20fc13e193d20a09104d">run</a> (int argc, char **argv)</td></tr>
 <tr class="memdesc:a1ec19e479fdb20fc13e193d20a09104d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the application.  <a href="classRaytracer_1_1Core_1_1App.html#a1ec19e479fdb20fc13e193d20a09104d">More...</a><br /></td></tr>
 <tr class="separator:a1ec19e479fdb20fc13e193d20a09104d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fe2c94896be1dd2254c7d09505a9b09"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1App.html#a8fe2c94896be1dd2254c7d09505a9b09">tryLoadScene</a> (const std::string &amp;scenePath)</td></tr>
+<tr class="memdesc:a8fe2c94896be1dd2254c7d09505a9b09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a scene.  <a href="classRaytracer_1_1Core_1_1App.html#a8fe2c94896be1dd2254c7d09505a9b09">More...</a><br /></td></tr>
+<tr class="separator:a8fe2c94896be1dd2254c7d09505a9b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -180,6 +186,33 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Program exit code </dd></dl>
+
+</div>
+</div>
+<a id="a8fe2c94896be1dd2254c7d09505a9b09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fe2c94896be1dd2254c7d09505a9b09">&#9670;&nbsp;</a></span>tryLoadScene()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool App::tryLoadScene </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>scenePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load a scene. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scenePath</td><td>Scene file path </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Success status of the operation </dd></dl>
 
 </div>
 </div>

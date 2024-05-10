@@ -97,16 +97,19 @@ Public Member Functions</h2></td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Common_1_1IObjectProvider.html#a904d7048e97aaec04d8cc7695d405540">~IObjectProvider</a> ()=default</td></tr>
 <tr class="memdesc:a904d7048e97aaec04d8cc7695d405540"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor. <br /></td></tr>
 <tr class="separator:a904d7048e97aaec04d8cc7695d405540"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a191711541dc0fd381e19fe56adb8b0ee"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">IObject::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Common_1_1IObjectProvider.html#a191711541dc0fd381e19fe56adb8b0ee">create</a> (<a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Graphics::Material::Ptr</a> material, const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html">Math::Point3D</a> &amp;position, const ObjectProperty &amp;property)=0</td></tr>
-<tr class="memdesc:a191711541dc0fd381e19fe56adb8b0ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new object.  <a href="classRaytracer_1_1Common_1_1IObjectProvider.html#a191711541dc0fd381e19fe56adb8b0ee">More...</a><br /></td></tr>
-<tr class="separator:a191711541dc0fd381e19fe56adb8b0ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae51d54d4a2ff8edbc2a478267a7c77ee"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">IObject::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Common_1_1IObjectProvider.html#ae51d54d4a2ff8edbc2a478267a7c77ee">create</a> (const std::string &amp;name, <a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Common::Graphics::Material::Ptr</a> material, const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Common::Math::Vector3D</a> &amp;rotation, const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html">Common::Math::Point3D</a> &amp;position, const Common::ObjectProperty &amp;property)=0</td></tr>
+<tr class="memdesc:ae51d54d4a2ff8edbc2a478267a7c77ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new object.  <a href="classRaytracer_1_1Common_1_1IObjectProvider.html#ae51d54d4a2ff8edbc2a478267a7c77ee">More...</a><br /></td></tr>
+<tr class="separator:ae51d54d4a2ff8edbc2a478267a7c77ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54b9498d455756817857c0fe217259ac"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structRaytracer_1_1Common_1_1Object_1_1Manifest.html">Object::Manifest</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Common_1_1IObjectProvider.html#a54b9498d455756817857c0fe217259ac">getManifest</a> ()=0</td></tr>
 <tr class="memdesc:a54b9498d455756817857c0fe217259ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the manifest of the object.  <a href="classRaytracer_1_1Common_1_1IObjectProvider.html#a54b9498d455756817857c0fe217259ac">More...</a><br /></td></tr>
 <tr class="separator:a54b9498d455756817857c0fe217259ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f7ccebdac71efd22e57245aea58090c"><td class="memItemLeft" align="right" valign="top"><a id="a5f7ccebdac71efd22e57245aea58090c"></a>
+virtual Raytracer::Common::ObjectProperty&#160;</td><td class="memItemRight" valign="bottom"><b>parseProperty</b> (const libconfig::Setting &amp;setting)=0</td></tr>
+<tr class="separator:a5f7ccebdac71efd22e57245aea58090c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a191711541dc0fd381e19fe56adb8b0ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a191711541dc0fd381e19fe56adb8b0ee">&#9670;&nbsp;</a></span>create()</h2>
+<a id="ae51d54d4a2ff8edbc2a478267a7c77ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae51d54d4a2ff8edbc2a478267a7c77ee">&#9670;&nbsp;</a></span>create()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -117,19 +120,31 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
         <tr>
           <td class="memname">virtual <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">IObject::Ptr</a> Raytracer::Common::IObjectProvider::create </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Graphics::Material::Ptr</a>&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Common::Graphics::Material::Ptr</a>&#160;</td>
           <td class="paramname"><em>material</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html">Math::Point3D</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Common::Math::Vector3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>rotation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html">Common::Math::Point3D</a> &amp;&#160;</td>
           <td class="paramname"><em>position</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const ObjectProperty &amp;&#160;</td>
+          <td class="paramtype">const Common::ObjectProperty &amp;&#160;</td>
           <td class="paramname"><em>property</em>&#160;</td>
         </tr>
         <tr>
@@ -149,12 +164,15 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">material</td><td>Material of the object </td></tr>
+    <tr><td class="paramname">rotation</td><td>Rotation of the object </td></tr>
+    <tr><td class="paramname">position</td><td>Position of the object </td></tr>
+    <tr><td class="paramname">property</td><td>Property of the object </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Shared pointer to the new object </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Created object </dd></dl>
 
-<p>Implemented in <a class="el" href="classRaytracer_1_1Objects_1_1MeshProvider.html#aa8a52c62a3382fa7dab9e7ed74b093f9">Raytracer::Objects::MeshProvider</a>, and <a class="el" href="classRaytracer_1_1Objects_1_1SphereProvider.html#a2740506ac6413938ed4ce7de882fd023">Raytracer::Objects::SphereProvider</a>.</p>
+<p>Implemented in <a class="el" href="classRaytracer_1_1Objects_1_1SphereProvider.html#a4de9431292b62bc13bc3911f0d974328">Raytracer::Objects::SphereProvider</a>, and <a class="el" href="classRaytracer_1_1Objects_1_1MeshProvider.html#ad634dde33fe08aa9cca2b9db0867687f">Raytracer::Objects::MeshProvider</a>.</p>
 
 </div>
 </div>

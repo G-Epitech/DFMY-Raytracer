@@ -1,0 +1,6 @@
+<map id="Raytracer::Core::App::Context" name="Raytracer::Core::App::Context">
+<area shape="rect" id="node1" title="App context." alt="" coords="86,213,242,255"/>
+<area shape="rect" id="node2" href="$classRaytracer_1_1Core_1_1PluginsManager.html" title=" " alt="" coords="5,109,184,151"/>
+<area shape="rect" id="node3" href="$structRaytracer_1_1Core_1_1App_1_1Arguments.html" title="Arguments structure." alt="" coords="209,109,365,151"/>
+<area shape="rect" id="node4" href="$structRaytracer_1_1Core_1_1App_1_1Options.html" title="Options structure." alt="" coords="209,5,365,47"/>
+</map>

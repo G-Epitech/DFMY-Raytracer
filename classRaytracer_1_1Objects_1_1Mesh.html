@@ -93,9 +93,9 @@ Collaboration diagram for Raytracer::Objects::Mesh:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af8301e5420b53db81c003badb7d55d62"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Objects_1_1Mesh.html#af8301e5420b53db81c003badb7d55d62">Mesh</a> (const <a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Common::Graphics::Material::Ptr</a> material, const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html">Common::Math::Point3D</a> &amp;position, const Common::ObjectProperty &amp;property)</td></tr>
-<tr class="memdesc:af8301e5420b53db81c003badb7d55d62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new mesh object.  <a href="classRaytracer_1_1Objects_1_1Mesh.html#af8301e5420b53db81c003badb7d55d62">More...</a><br /></td></tr>
-<tr class="separator:af8301e5420b53db81c003badb7d55d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9014d5c5532eeb6afdc2fc7d854cba34"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Objects_1_1Mesh.html#a9014d5c5532eeb6afdc2fc7d854cba34">Mesh</a> (const std::string &amp;name, <a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Common::Graphics::Material::Ptr</a> material, const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Common::Math::Vector3D</a> &amp;rotation, const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Point3D.html">Common::Math::Point3D</a> &amp;position, const Common::ObjectProperty &amp;property)</td></tr>
+<tr class="memdesc:a9014d5c5532eeb6afdc2fc7d854cba34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new mesh object.  <a href="classRaytracer_1_1Objects_1_1Mesh.html#a9014d5c5532eeb6afdc2fc7d854cba34">More...</a><br /></td></tr>
+<tr class="separator:a9014d5c5532eeb6afdc2fc7d854cba34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0746141337da51ac9760a68085afda9c"><td class="memItemLeft" align="right" valign="top"><a id="a0746141337da51ac9760a68085afda9c"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Objects_1_1Mesh.html#a0746141337da51ac9760a68085afda9c">~Mesh</a> ()=default</td></tr>
 <tr class="memdesc:a0746141337da51ac9760a68085afda9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the mesh object. <br /></td></tr>
@@ -121,8 +121,8 @@ typedef std::shared_ptr&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObj
 <tr class="separator:adcabb9d984b193995b287366047dc85c inherit pub_types_classRaytracer_1_1Common_1_1IObject"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="af8301e5420b53db81c003badb7d55d62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af8301e5420b53db81c003badb7d55d62">&#9670;&nbsp;</a></span>Mesh()</h2>
+<a id="a9014d5c5532eeb6afdc2fc7d854cba34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9014d5c5532eeb6afdc2fc7d854cba34">&#9670;&nbsp;</a></span>Mesh()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -130,8 +130,20 @@ typedef std::shared_ptr&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObj
         <tr>
           <td class="memname">Mesh::Mesh </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Common::Graphics::Material::Ptr</a>&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classRaytracer_1_1Common_1_1Graphics_1_1Material.html#acdad8c2ffd778b3afd39d28deb106690">Common::Graphics::Material::Ptr</a>&#160;</td>
           <td class="paramname"><em>material</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Common::Math::Vector3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>rotation</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -156,7 +168,9 @@ typedef std::shared_ptr&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObj
 <p>Construct a new mesh object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">name</td><td>Name of the mest </td></tr>
     <tr><td class="paramname">material</td><td>Material of the mesh </td></tr>
+    <tr><td class="paramname">rotation</td><td>Rotation of the mesh </td></tr>
     <tr><td class="paramname">position</td><td>Position of the mesh </td></tr>
     <tr><td class="paramname">property</td><td>Property of the mesh </td></tr>
   </table>
