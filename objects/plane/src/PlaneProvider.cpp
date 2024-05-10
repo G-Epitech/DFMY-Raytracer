@@ -49,7 +49,7 @@ Raytracer::Common::ObjectProperty PlaneProvider::parseProperty(const libconfig::
         throw std::runtime_error("plane properties must be a group");
     }
     ConfigUtils::settingHasValidKeys("plane", setting, {"normal"});
-    normal = ConfigUtils::parseVector3D("normal", setting);
+    normal = ConfigUtils::parseVector3D("normal", setting["normal"]);
     if (normal == Common::Math::Vector3D(0, 0, 0)) {
         throw std::runtime_error("plane normal must be different from 0, 0, 0");
     }
