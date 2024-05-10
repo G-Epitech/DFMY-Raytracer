@@ -8,6 +8,7 @@
 #pragma once
 
 #include <vector>
+#include "Compute.hpp"
 #include "interfaces/IFace.hpp"
 
 namespace Raytracer::Objects::MeshFaces {
@@ -76,7 +77,5 @@ namespace Raytracer::Objects::MeshFaces {
     private:
         /// @brief Points of the quadrilateral
         Quad _data;
-
-        bool _computeCollisionWithTriangle(const Common::Math::Ray &ray, Common::Math::HitInfo &hitInfo, const std::vector<Common::Math::Point3D> &points, const std::vector<Common::Math::Vector3D> &normals);
     };
 }

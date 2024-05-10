@@ -125,10 +125,10 @@ bool Mesh::_collideSphere(const Common::Math::Ray &ray)
 
 bool Mesh::_isInsideSphere(const Common::Math::Point3D &point)
 {
-    float distanceSquared = pow(point.x - _position.x, 2) +
-                            pow(point.y - _position.y, 2) +
-                            pow(point.z - _position.z, 2);
-    float radiusSquared = pow(_radius, 2);
+    float distanceSquared = std::pow(point.x - _position.x, 2) +
+                            std::pow(point.y - _position.y, 2) +
+                            std::pow(point.z - _position.z, 2);
+    float radiusSquared = std::pow(_radius, 2);
     return distanceSquared <= radiusSquared;
 }
 

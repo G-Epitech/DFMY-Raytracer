@@ -8,6 +8,7 @@
 #pragma once
 
 #include <vector>
+#include "Compute.hpp"
 #include "interfaces/IFace.hpp"
 
 namespace Raytracer::Objects::MeshFaces {
@@ -70,7 +71,5 @@ namespace Raytracer::Objects::MeshFaces {
     private:
         /// @brief Points of the triangle
         Tri _data;
-
-        bool _computeFace(Common::Math::HitInfo &hitInfo, const Common::Math::Ray &ray, const std::vector<Common::Math::Point3D> &points);
     };
 }

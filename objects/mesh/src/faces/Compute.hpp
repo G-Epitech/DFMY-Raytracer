@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <vector>
 #include "common/types/math/Ray.hpp"
 #include "common/types/math/HitInfo.hpp"
 
@@ -21,11 +20,11 @@ namespace Raytracer::Objects::MeshFaces {
          * @brief Computea triangle face
          * @param hitInfo Hit info to fill
          * @param ray Ray to compute
-         * @param points Points of the face
-         * @param normals Normals of the face
          * @return true if the face is computed
          * @return false if the face is not computed
          */
-        static bool _computeFace(HitInfo &hitInfo, const Ray &ray, const std::vector<Point3D> &points, const std::vector<Vector3D> &normals);
+        static bool computeFace(HitInfo &hitInfo, const Ray &ray,
+            const Point3D &point1, const Point3D &point2, const Point3D &point3,
+            const Vector3D &normal1, const Vector3D &normal2, const Vector3D &normal3);
     };
 }
