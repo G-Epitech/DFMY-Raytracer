@@ -2,29 +2,29 @@
 ** EPITECH PROJECT, 2024
 ** raytracer
 ** File description:
-** PlainProvider
+** PlaneProvider
 */
 
 #include <vector>
 #include <memory>
-#include "Plain.hpp"
-#include "PlainProvider.hpp"
+#include "Plane.hpp"
+#include "PlaneProvider.hpp"
 
-using Raytracer::Objects::PlainProvider;
+using Raytracer::Objects::PlaneProvider;
 
-std::shared_ptr<Raytracer::Common::IObject> PlainProvider::create(
+std::shared_ptr<Raytracer::Common::IObject> PlaneProvider::create(
     const Raytracer::Common::Graphics::Material::Ptr material,
     const Raytracer::Common::Math::Point3D &position,
     const Raytracer::Common::ObjectProperty &property)
 {
-    return std::make_shared<Raytracer::Objects::Plain>(material, position, property);
+    return std::make_shared<Raytracer::Objects::Plane>(material, position, property);
 }
 
-Raytracer::Common::Object::Manifest PlainProvider::getManifest()
+Raytracer::Common::Object::Manifest PlaneProvider::getManifest()
 {
     Raytracer::Common::Object::Manifest manifest {
-        "Plain",
-        "A simple plain object",
+        "Plane",
+        "A simple plane object",
         "1.0.0",
         {
             {

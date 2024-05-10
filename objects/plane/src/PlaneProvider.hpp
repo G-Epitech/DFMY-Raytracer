@@ -2,21 +2,21 @@
 ** EPITECH PROJECT, 2024
 ** raytracer
 ** File description:
-** PlainProvider
+** PlaneProvider
 */
 
 #include "common/interfaces/IObjectProvider.hpp"
 
 namespace Raytracer::Objects {
-    class PlainProvider;
+    class PlaneProvider;
 }
 
-class Raytracer::Objects::PlainProvider : public Raytracer::Common::IObjectProvider {
+class Raytracer::Objects::PlaneProvider : public Raytracer::Common::IObjectProvider {
 public:
     /// @brief Default constructor
-    PlainProvider() = default;
+    PlaneProvider() = default;
     /// @brief Default destructor
-    ~PlainProvider() override = default;
+    ~PlaneProvider() override = default;
 
     std::shared_ptr<Common::IObject> create(
         Common::Graphics::Material::Ptr material,

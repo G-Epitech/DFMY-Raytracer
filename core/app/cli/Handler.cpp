@@ -114,10 +114,10 @@ int Handler::run() {
 
 //     objects.push_back(objectProvider2()->create(green, Common::Math::Point3D(-10, 60, 30), "files/tree.obj"));
 
-    DLLoader dlloaderPlain("plugins/raytracer_plain.so");
-    auto objectProviderPlain = dlloaderPlain.loadSymbol<Common::ObjectProviderGetter>(name);
+    DLLoader dlloaderPlane("plugins/raytracer_plane.so");
+    auto objectProviderPlane = dlloaderPlane.loadSymbol<Common::ObjectProviderGetter>(name);
 
-    objects.push_back(objectProviderPlain()->create(red, Common::Math::Point3D(0, 0, 0), Common::Math::Vector3D(0, 0, 1)));
+    objects.push_back(objectProviderPlane()->create(red, Common::Math::Point3D(0, 0, 0), Common::Math::Vector3D(0, 0, 1)));
 
 //     camera.compute(COMPUTE_THREADS, objects);
 

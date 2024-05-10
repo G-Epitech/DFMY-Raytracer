@@ -2,19 +2,19 @@
 ** EPITECH PROJECT, 2024
 ** raytracer
 ** File description:
-** Plain
+** Plane
 */
 
 #include <cmath>
 #include <limits>
-#include "Plain.hpp"
+#include "Plane.hpp"
 
 using namespace Raytracer::Objects;
 using namespace Raytracer::Common;
 
 const auto EPSILON = std::numeric_limits<float>::epsilon();
 
-Plain::Plain(
+Plane::Plane(
     const Graphics::Material::Ptr material,
     const Common::Math::Point3D &position,
     const ObjectProperty &property) : _material(material), _position(position)
@@ -23,7 +23,7 @@ Plain::Plain(
     _normal = _normal.normalize();
 }
 
-Math::HitInfo Plain::computeCollision(const Math::Ray &ray)
+Math::HitInfo Plane::computeCollision(const Math::Ray &ray)
 {
     Common::Math::HitInfo hitInfo;
     auto rayOrigin = ray.origin;
@@ -61,7 +61,7 @@ Math::HitInfo Plain::computeCollision(const Math::Ray &ray)
     return hitInfo;
 }
 
-Graphics::Material::Ptr Plain::getMaterial()
+Graphics::Material::Ptr Plane::getMaterial()
 {
     return _material;
 }

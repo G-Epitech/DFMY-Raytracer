@@ -5,7 +5,7 @@
 ** export
 */
 
-#include "PlainProvider.hpp"
+#include "PlaneProvider.hpp"
 #include "common/types/Libraries.hpp"
 
 using namespace Raytracer::Common;
@@ -13,6 +13,6 @@ using namespace Raytracer::Common;
 extern "C" {
     IObjectProvider *OBJECT_PROVIDER_GETTER_NAME(void)
     {
-        return new Raytracer::Objects::PlainProvider();
+        return new Raytracer::Objects::PlaneProvider();
     }
 }
