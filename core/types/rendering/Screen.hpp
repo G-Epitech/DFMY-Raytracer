@@ -35,7 +35,7 @@ namespace Raytracer::Core::Rendering {
         /**
          * @brief Default constructor of the screen
          */
-        ~Screen() = default;
+        ~Screen();
 
         /// @brief Width of the screen
         const Common::Math::Size size;

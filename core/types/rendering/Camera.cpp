@@ -5,7 +5,7 @@
 ** Camera.cpp
 */
 
-#include <math.h>
+#include <cmath>
 #include "Camera.hpp"
 #include "types/graphics/Pixel.hpp"
 
@@ -19,11 +19,11 @@ Camera::Camera(const Config &config) :
         fov(config.fov),
         name(config.name) {}
 
-void Camera::compute(size_t threads, std::vector<IObject::Ptr> &objects) {
-    if (threads % 2 != 0)
+void Camera::compute(const ComputeParams &params, std::vector<IObject::Ptr> &objects) {
+    if (params.threads % 2 != 0)
         throw ComputeError("Invalid number of threads. Must be divisible per two.");
 
-    float screenHeight = 2 * tan(fov * 0.5 * (M_PI / 180.0)) * 2;
+    float screenHeight = 2 * tanf(fov * 0.5f * (float(M_PI) / 180.0f)) * 2.f;
     float cameraAspect = (float) screen.size.width / (float) screen.size.height;
     float screenWidth = screenHeight * cameraAspect;
 
@@ -31,14 +31,14 @@ void Camera::compute(size_t threads, std::vector<IObject::Ptr> &objects) {
                                       position.z + screenHeight / 2);
 
     for (size_t y = 0; y < 2; y++) {
-        for (size_t x = 0; x < threads / 2; x++) {
+        for (size_t x = 0; x < params.threads / 2; x++) {
             Segment config{
                     .origin = {
-                            .width = (screen.size.width / (threads / 2)) * x,
+                            .width = (screen.size.width / (params.threads / 2)) * x,
                             .height = (screen.size.height / 2) * y
                     },
                     .size {
-                            .width = screen.size.width / (threads / 2),
+                            .width = screen.size.width / (params.threads / 2),
                             .height = screen.size.height / 2
                     },
                     .localScreenSize = Math::Float2(screenWidth, screenHeight),
@@ -55,7 +55,7 @@ void Camera::_computeSegment(Segment config, std::vector<IObject::Ptr> &objects)
         for (size_t x = config.origin.width; x < config.origin.width + config.size.width; x++) {
             Common::Graphics::Color oldFrame = this->_computeFrame(config, objects, x, y);
 
-            for (size_t i = 0; i < 15; i++) {
+            for (size_t i = 0; i < 0; i++) {
                 auto newFrame = this->_computeFrame(config, objects, x, y);
                 float weight = 1.0f / (i + 1);
 
@@ -90,7 +90,7 @@ Graphics::Color Camera::_computeFrame(Raytracer::Core::Rendering::Camera::Segmen
 
     Common::Graphics::Color totalIncomingLight(0, 0, 0);
 
-    size_t raysPerPixels = 30;
+    size_t raysPerPixels = 10;
     for (size_t ri = 0; ri < raysPerPixels; ri++) {
         auto random = pixelIndex + ri;
         auto incomingLight = this->_getIncomingLight(ray, random, objects);
@@ -135,9 +135,10 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, 
             incomingLight += localIncomingLight;
             rayColor *= hitConfig.hitColor.color;
         } else {
-            Common::Graphics::Color ambientLight = rayColor * 0.1f;
-            incomingLight += ambientLight;
+            Common::Graphics::Color environmentLight = _getEnvironmentLight(ray);
+            Common::Graphics::Color ambientLight = rayColor * environmentLight;
 
+            incomingLight += ambientLight;
             break;
         }
     }
@@ -153,17 +154,44 @@ Math::Vector3D Camera::_getRandomDirection(Math::Vector3D &normal, unsigned int 
     randomZ = randomZ / 4294967295.0;
 
     float theta = 2 * M_PI * randomX;
-    float rho = sqrt(-2 * log(randomY)) * cos(theta);
+    float rho = sqrt(-2 * logf(randomY)) * cosf(theta);
     float phi = 2 * M_PI * randomZ;
 
-    float x = rho * cos(phi);
-    float y = rho * sin(phi);
-    float z = sqrt(1 - (x * x) - (y * y));
+    float x = rho * cosf(phi);
+    float y = rho * sinf(phi);
+    float z = sqrtf(fabs(1 - (x * x) - (y * y)));
 
     Math::Vector3D randomDirection = Math::Vector3D(x, y, z).normalize();
     float dot = normal.dot(randomDirection);
 
     return randomDirection * dot;
+}
+
+Graphics::Color Camera::_getEnvironmentLight(Math::Ray &ray) {
+    float skyGradiantT = pow(_smoothStep(-0.25, 0.4f, ray.direction.z), 0.35f);
+    Common::Graphics::Color skyGradiant = _lErp(Common::Graphics::Color(1, 1, 1),
+                                                Common::Graphics::Color::fromRGB(0, 63, 93), skyGradiantT);
+    Common::Graphics::Color groundColor = Common::Graphics::Color::fromRGB(80, 80, 80);
+
+    Math::Vector3D sunDirection = Math::Vector3D(0, -1, 0);
+    float max = std::max<float>(0, ray.direction.dot(sunDirection * -1));
+    float sun = pow(max, 200) * 500;
+
+    float groundToSkyT = _smoothStep(-0.1, 0, ray.direction.z);
+    float sunMask = groundToSkyT >= 1 ? 0 : 1;
+
+    return _lErp(groundColor, skyGradiant, groundToSkyT);
+}
+
+float Camera::_smoothStep(float edge0, float edge1, float x) {
+    x = std::clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
+    return x * x * (3.0f - 2.0f * x);
+}
+
+Graphics::Color Camera::_lErp(const Common::Graphics::Color &a, const Common::Graphics::Color &b, float t) {
+    Common::Graphics::Color bt = b * t;
+
+    return a * (1 - t) + bt;
 }
 
 Camera::ComputeError::ComputeError(const std::string &msg) {
@@ -175,11 +203,19 @@ const char *Camera::ComputeError::what() const noexcept {
 }
 
 float Camera::getComputeStatus() const {
+    if (this->_processedPixels == screen.size.width * screen.size.height)
+        return 1.0f;
     return (float) _processedPixels / (float) (screen.size.width * screen.size.height);
 }
 
 void Camera::cancelCompute() {
-    for (auto &thread : _threads) {
+    for (auto &thread: _threads) {
         thread.detach();
+    }
+}
+
+void Camera::waitThreadsTeardown() {
+    for (auto &thread : _threads) {
+        thread.join();
     }
 }

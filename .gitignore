@@ -26,4 +26,23 @@ __pycache__/
 # Build files
 build/
 cmake-build-debug*
+html
+latex
 
+# OBJ files
+*.obj
+*.mtl
+!files/*.obj
+!files/*.mtl
+
+# Image files
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.ppm
+!screenshots/*.png
+!screenshots/*.jpg
+!screenshots/*.jpeg
+!screenshots/*.bmp
+!screenshots/*.ppm

@@ -18,9 +18,9 @@ namespace Raytracer::Core::Gui {
     public:
         /**
          * @brief Create a new GUI handler
-         * @param args Application arguments
+         * @param context Application context
          */
-        explicit Handler(App::Arguments &args);
+        explicit Handler(App::Context &context);
 
         /**
          * @brief Default destructor
@@ -34,7 +34,7 @@ namespace Raytracer::Core::Gui {
 
     private:
         /// @brief Application arguments received from App
-        App::Arguments &_args;
+        App::Context &_appContext;
 
         /// @brief SFML window
         sf::RenderWindow _window;

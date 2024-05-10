@@ -8,22 +8,25 @@
 #include <vector>
 #include <memory>
 #include "Sphere.hpp"
+#include "config/ConfigUtils.hpp"
 #include "SphereProvider.hpp"
 
 using Raytracer::Objects::SphereProvider;
 
 std::shared_ptr<Raytracer::Common::IObject> SphereProvider::create(
-    const Raytracer::Common::Graphics::Material::Ptr material,
-    const Raytracer::Common::Math::Point3D &position,
-    const Raytracer::Common::ObjectProperty &property)
+        const std::string &name,
+        Common::Graphics::Material::Ptr material,
+        const Common::Math::Vector3D &rotation,
+        const Common::Math::Point3D &position,
+        const Common::ObjectProperty &property)
 {
-    return std::make_shared<Raytracer::Objects::Sphere>(material, position, property);
+    return std::make_shared<Raytracer::Objects::Sphere>(name, material, rotation, position, property);
 }
 
 Raytracer::Common::Object::Manifest SphereProvider::getManifest()
 {
     Raytracer::Common::Object::Manifest manifest {
-        "Sphere",
+        "sphere",
         "A simple sphere object",
         "1.0.0",
         {
@@ -36,4 +39,19 @@ Raytracer::Common::Object::Manifest SphereProvider::getManifest()
     };
 
     return manifest;
+}
+
+Raytracer::Common::ObjectProperty SphereProvider::parseProperty(const libconfig::Setting &setting)
+{
+    float radius;
+
+    if (!setting.isGroup()) {
+        throw std::runtime_error("sphere properties must be a group");
+    }
+    ConfigUtils::settingHasValidKeys("sphere", setting, {"radius"});
+    ConfigUtils::lookupValueWrapper("radius", setting, radius);
+    if (radius <= 0) {
+        throw std::runtime_error("sphere radius must be greater than 0");
+    }
+    return radius;
 }
