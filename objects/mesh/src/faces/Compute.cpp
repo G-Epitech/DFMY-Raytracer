@@ -16,10 +16,16 @@ bool Compute::computeFace(HitInfo &hitInfo, const Ray &ray,
             const Point3D &point1, const Point3D &point2, const Point3D &point3,
             const Vector3D &normal1, const Vector3D &normal2, const Vector3D &normal3)
 {
-    auto pointEdge1 = point2 - point1;
-    Vector3D edge1(pointEdge1.x, pointEdge1.y, pointEdge1.z);
-    auto pointEdge2 = point3 - point1;
-    Vector3D edge2(pointEdge2.x, pointEdge2.y, pointEdge2.z);
+    Vector3D edge1(
+        point2.x - point1.x,
+        point2.y - point1.y,
+        point2.z - point1.z
+    );
+    Vector3D edge2(
+        point3.x - point1.x,
+        point3.y - point1.y,
+        point3.z - point1.z
+    );
 
     auto normalVector = edge1.cross(edge2);
     auto determinant = -(ray.direction.dot(normalVector));
@@ -27,8 +33,11 @@ bool Compute::computeFace(HitInfo &hitInfo, const Ray &ray,
     if (std::abs(determinant) < EPSILON)
         return false;
 
-    auto pointAO = ray.origin - point1;
-    Vector3D ao(pointAO.x, pointAO.y, pointAO.z);
+    Vector3D ao(
+        ray.origin.x - point1.x,
+        ray.origin.y - point1.y,
+        ray.origin.z - point1.z
+    );
 
     auto dao = ao.cross(ray.direction);
 
@@ -42,19 +51,22 @@ bool Compute::computeFace(HitInfo &hitInfo, const Ray &ray,
     if (u < 0) {
         return false;
     }
+
     auto v = (-(edge1.dot(dao))) * invDet;
-    if (v < 0)
+    if (v < 0) {
         return false;
+    }
+
     auto w = 1 - u - v;
-    if (w < 0)
+    if (w < 0) {
         return false;
+    }
 
     hitInfo.didHit = true;
     hitInfo.distance = dst;
-    auto vector = ray.direction * dst;
-    hitInfo.hitPoint.x = ray.origin.x + vector.x;
-    hitInfo.hitPoint.y = ray.origin.y + vector.y;
-    hitInfo.hitPoint.z = ray.origin.z + vector.z;
+    hitInfo.hitPoint.x = ray.origin.x + (ray.direction.x * dst);
+    hitInfo.hitPoint.y = ray.origin.y + (ray.direction.y * dst);
+    hitInfo.hitPoint.z = ray.origin.z + (ray.direction.z * dst);
     hitInfo.normal = (normal1 * w + normal2 * u + normal3 * v).normalize();
     return true;
 }
