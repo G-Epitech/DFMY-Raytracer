@@ -97,3 +97,88 @@ TEST(Point3DTests, SubtractPoints)
     EXPECT_EQ(p3.y, -3) << "y should be -3";
     EXPECT_EQ(p3.z, -3) << "z should be -3";
 }
+
+TEST(Point3DTests, rotateX)
+{
+    Math::Point3D p(1, 2, 3);
+
+    p.rotateX(90);
+    EXPECT_FLOAT_EQ(p.x, 1) << "x should be 1";
+    EXPECT_FLOAT_EQ(p.y, -3) << "y should be -3";
+    EXPECT_FLOAT_EQ(p.z, 2) << "z should be 2";
+}
+
+TEST(Point3DTests, rotateY)
+{
+    Math::Point3D p(1, 2, 3);
+
+    p.rotateY(90);
+    EXPECT_FLOAT_EQ(p.x, 3) << "x should be 3";
+    EXPECT_FLOAT_EQ(p.y, 2) << "y should be 2";
+    EXPECT_FLOAT_EQ(p.z, -1) << "z should be -1";
+}
+
+TEST(Point3DTests, rotateZ)
+{
+    Math::Point3D p(1, 2, 3);
+
+    p.rotateZ(90);
+    EXPECT_FLOAT_EQ(p.x, -2) << "x should be -2";
+    EXPECT_FLOAT_EQ(p.y, 1) << "y should be 1";
+    EXPECT_FLOAT_EQ(p.z, 3) << "z should be 3";
+}
+
+TEST(Point2DTests, ValidConstruction)
+{
+    Math::Point2D p(1, 2);
+
+    EXPECT_EQ(p.x, 1) << "x should be 1";
+    EXPECT_EQ(p.y, 2) << "y should be 2";
+}
+
+TEST(Point2DTests, ValidCopyConstruction)
+{
+    Math::Point2D p(1, 2);
+    Math::Point2D p2(p);
+
+    EXPECT_EQ(p2.x, 1) << "x should be 1";
+    EXPECT_EQ(p2.y, 2) << "y should be 2";
+}
+
+TEST(Point2DTests, ValidAssignment)
+{
+    Math::Point2D a(1, 2);
+    Math::Point2D b(4, 5);
+
+    a = b;
+    EXPECT_EQ(a.x, 4) << "x should be 4";
+    EXPECT_EQ(a.y, 5) << "y should be 5";
+    EXPECT_EQ(b.x, 4) << "x should still be 4";
+    EXPECT_EQ(b.y, 5) << "y should still be 5";
+}
+
+TEST(Point2DTests, OutputStreamPoint)
+{
+    Math::Point2D p(1, 2);
+    std::stringstream ss;
+    ss << p;
+    EXPECT_EQ(ss.str(), "Point2D(1, 2)") << "Point should be printed as Point2D(1, 2)";
+}
+
+TEST(Point2DTests, AddPoints)
+{
+    Math::Point2D p1(1, 2);
+    Math::Point2D p2(4, 5);
+    Math::Point2D p3 = p1 + p2;
+    EXPECT_EQ(p3.x, 5) << "x should be 5";
+    EXPECT_EQ(p3.y, 7) << "y should be 7";
+}
+
+TEST(Point2DTests, SubtractPoints)
+{
+    Math::Point2D p1(1, 2);
+    Math::Point2D p2(4, 5);
+    Math::Point2D p3 = p1 - p2;
+    EXPECT_EQ(p3.x, -3) << "x should be -3";
+    EXPECT_EQ(p3.y, -3) << "y should be -3";
+}
