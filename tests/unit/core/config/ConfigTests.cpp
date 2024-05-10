@@ -24,7 +24,7 @@ class ConfigTests : public ::testing::Test {
 
 TEST_F(ConfigTests, ValidConfiguration)
 {
-    auto config = Raytracer::Core::Config::loadFromFile("scenes/test.cfg", pluginsManager);
+    auto config = Raytracer::Core::Config::loadFromFile("tests/resources/scenes/test.cfg", pluginsManager);
     Raytracer::Core::Config::SceneConfig sceneConfig = config.getSceneConfig();
     auto ambient = sceneConfig.ambient.color.toPixel();
     auto materialColor = sceneConfig.materials[0].objectColor.toPixel();
@@ -356,7 +356,7 @@ TEST_F(ConfigTests, InvalidType)
 
 TEST_F(ConfigTests, ConfigToScene)
 {
-    auto config = Config::loadFromFile("scenes/test.cfg", pluginsManager);
+    auto config = Config::loadFromFile("tests/resources/scenes/test.cfg", pluginsManager);
     Config::SceneConfig sceneConfig = config.getSceneConfig();
     auto scene = config.toScene();
 
