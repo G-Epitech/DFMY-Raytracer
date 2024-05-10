@@ -19,11 +19,18 @@ public:
 
     /**
      * @brief Construct a new Plane object
+     * @param name Name of the plane
      * @param material Material of the plane
+     * @param rotation Rotation of the plane
      * @param position Position of the plane
      * @param property Property of the plane
      */
-    Plane(Common::Graphics::Material::Ptr material, const Common::Math::Point3D &position, const Common::ObjectProperty &property);
+    Plane(
+        const std::string &name,
+        Common::Graphics::Material::Ptr material,
+        const Common::Math::Vector3D &rotation,
+        const Common::Math::Point3D &position,
+        const Common::ObjectProperty &property);
     
     /**
      * @brief Destroy the Plane object
@@ -35,12 +42,18 @@ public:
     Common::Graphics::Material::Ptr getMaterial() override;
 
 private:
+    /// @brief Name of the plane
+    const std::string &_name;
+
     /// @brief Material of the plane
     Common::Graphics::Material::Ptr _material;
 
     /// @brief Position of the plane
     const Common::Math::Point3D _position;
 
+    /// @brief Rotation of the plane
+    Common::Math::Vector3D _rotation;
+
     /// @brief Radius of the plane
-    Common::Math::Vector3D _normal; 
+    Common::Math::Vector3D _normal;
 };

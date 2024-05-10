@@ -15,9 +15,15 @@ using namespace Raytracer::Common;
 const auto EPSILON = std::numeric_limits<float>::epsilon();
 
 Plane::Plane(
-    const Graphics::Material::Ptr material,
+    const std::string &name,
+    Common::Graphics::Material::Ptr material,
+    const Common::Math::Vector3D &rotation,
     const Common::Math::Point3D &position,
-    const ObjectProperty &property) : _material(material), _position(position)
+    const Common::ObjectProperty &property) :
+    _name(name),
+    _material(material),
+    _rotation(rotation),
+    _position(position)
 {
     _normal = std::get<Math::Vector3D>(property);
     _normal = _normal.normalize();

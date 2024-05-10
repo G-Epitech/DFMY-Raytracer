@@ -10,6 +10,14 @@
 #include <vector>
 #include <string>
 #include "plugins/PluginsManager.hpp"
+#include "types/rendering/Scene.hpp"
+
+#define APP_DEFAULT_THREADS_COUNT 20
+#define APP_DEFAULT_FORMAT "ppm"
+#define APP_DEFAULT_PLUGINS_PATH "./plugins"
+#define APP_DEFAULT_FRAMES_COUNT 15
+#define APP_DEFAULT_RAYS_PER_PIXEL 15
+#define APP_DEFAULT_RAY_BOUNCE 30
 
 namespace Raytracer::Core {
     class App {
@@ -17,11 +25,21 @@ namespace Raytracer::Core {
         /// @brief Options structure
         typedef struct Options {
             /// @brief GUI flag
-            bool gui = false;
+            bool gui;
             /// @brief Help flag
-            bool help = false;
+            bool help;
             /// @brief Plugins path
-            std::string pluginsPath = "./plugins";
+            std::string pluginsPath;
+            /// @brief Threads count
+            size_t threadsCount;
+            /// @brief Frames count
+            size_t additionalFramesCount;
+            /// @brief Rays per pixel
+            size_t raysPerPixel;
+            /// @brief Ray bounce
+            size_t rayBounce;
+            /// @brief Output format
+            std::string outputFormat;
         } Options;
 
         /// @brief Arguments structure
@@ -31,6 +49,16 @@ namespace Raytracer::Core {
             /// @brief Options
             Options options;
         } Arguments;
+
+        /// @brief App context
+        struct Context {
+            /// @brief Scene
+            Rendering::Scene::Ptr scene;
+            /// @brief Plugins manager
+            PluginsManager &pluginsManager;
+            /// @brief Arguments
+            Arguments &args;
+        };
 
         /**
          * @brief Default constructor
@@ -56,12 +84,33 @@ namespace Raytracer::Core {
          */
         static int help();
 
+        /**
+        * @brief Load a scene
+        * @param scenePath Scene file path
+        * @return Success status of the operation
+        */
+        bool tryLoadScene(const std::string &scenePath);
+
     private:
         /// @brief Application arguments
-        Arguments _args;
+        Arguments _args = {
+          .options = {
+            .gui = false,
+            .help = false,
+            .pluginsPath = APP_DEFAULT_PLUGINS_PATH,
+            .threadsCount = APP_DEFAULT_THREADS_COUNT,
+            .additionalFramesCount = APP_DEFAULT_FRAMES_COUNT,
+            .raysPerPixel = APP_DEFAULT_RAYS_PER_PIXEL,
+            .rayBounce = APP_DEFAULT_RAY_BOUNCE,
+            .outputFormat = APP_DEFAULT_FORMAT
+          }
+        };
 
         /// @brief Plugins manager
         PluginsManager _pluginsManager;
+
+        /// @brief Current scene
+        Rendering::Scene::Ptr _scene;
 
         /**
          * @brief Read arguments
@@ -72,22 +121,50 @@ namespace Raytracer::Core {
         bool _readArgs(int argc, char **argv);
 
         /**
+         * @brief Read unsigned long argument
+         * @param arg Argument value
+         * @param value Value to set
+         * @return Success status
+         */
+        [[nodiscard]]
+        static bool _readUL(const std::string& arg, size_t &value);
+
+        /**
          * @brief Parse options
          * @param argc Number of arguments
          * @param argv Argument values
          * @return Success status
          */
-         bool _readOptions(int argc, char **argv);
+        bool _readOptions(int argc, char **argv);
 
-         /**
-          * @brief Load plugins
-          * @return Success status of the operation
-          */
-         bool _loadPlugins();
+        /**
+         * @brief Load plugins
+         * @return Success status of the operation
+         */
+        bool _loadPlugins();
 
-         /**
-          * @brief Launch the handler
-          */
-          int _runHandler();
+        /**
+         * @brief Launch the handler
+         */
+        int _runHandler();
+
+        /**
+         * @brief Read output format
+         * @param arg Argument value
+         * @param outputFormat Output format
+         * @return Success status
+         */
+        [[nodiscard]]
+        static bool _readOutputFormat(const std::string &arg, std::string &outputFormat);
+
+        /**
+         * @brief Read unsigned long argument
+         * @param arg Argument value read from command line
+         * @param value Value to set
+         * @param name Name of the argument to set
+         * @return Success status
+         */
+        [[nodiscard]]
+        static bool _readULArg(const string &arg, size_t &value, const string &name);
     };
 }

@@ -10,7 +10,7 @@
 
 using namespace Raytracer::Core::Gui;
 
-Handler::Handler(Raytracer::Core::App::Arguments &args): _args(args) {}
+Handler::Handler(Raytracer::Core::App::Context &context): _appContext(context) {}
 
 Handler::~Handler() = default;
 
