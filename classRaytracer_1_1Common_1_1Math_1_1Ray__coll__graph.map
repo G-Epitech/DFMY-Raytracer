@@ -1,0 +1,7 @@
+<map id="Raytracer::Common::Math::Ray" name="Raytracer::Common::Math::Ray">
+<area shape="rect" id="node1" title=" " alt="" coords="96,291,256,332"/>
+<area shape="rect" id="node2" href="$classRaytracer_1_1Common_1_1Math_1_1Vector3D.html" title=" " alt="" coords="5,187,165,228"/>
+<area shape="rect" id="node3" href="$classRaytracer_1_1Common_1_1Math_1_1Float3.html" title="Representing 3D coordinates." alt="" coords="96,96,256,137"/>
+<area shape="rect" id="node5" href="$classRaytracer_1_1Common_1_1Math_1_1Point3D.html" title="Representing a 3D point." alt="" coords="189,187,349,228"/>
+<area shape="rect" id="node4" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="96,5,256,47"/>
+</map>

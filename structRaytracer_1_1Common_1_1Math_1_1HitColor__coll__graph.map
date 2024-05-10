@@ -1,0 +1,4 @@
+<map id="Raytracer::Common::Math::HitColor" name="Raytracer::Common::Math::HitColor">
+<area shape="rect" id="node1" title="Represent a color of a hit." alt="" coords="5,124,165,165"/>
+<area shape="rect" id="node2" href="$structRaytracer_1_1Common_1_1Graphics_1_1Color.html" title="Represent an RGBA color." alt="" coords="5,5,165,47"/>
+</map>

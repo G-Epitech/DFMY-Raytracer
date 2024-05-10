@@ -1,0 +1,9 @@
+<map id="Raytracer::Common::Math::HitInfo" name="Raytracer::Common::Math::HitInfo">
+<area shape="rect" id="node1" title="Represent an HitInfo between a ray and a shape." alt="" coords="780,71,940,112"/>
+<area shape="rect" id="node2" href="$classRaytracer_1_1Common_1_1Math_1_1Vector3D.html" title=" " alt="" coords="516,5,676,47"/>
+<area shape="rect" id="node3" href="$classRaytracer_1_1Common_1_1Math_1_1Float3.html" title="Representing 3D coordinates." alt="" coords="215,39,375,80"/>
+<area shape="rect" id="node7" href="$classRaytracer_1_1Common_1_1Math_1_1Point3D.html" title="Representing a 3D point." alt="" coords="516,71,676,112"/>
+<area shape="rect" id="node4" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="5,39,165,80"/>
+<area shape="rect" id="node5" href="$structRaytracer_1_1Common_1_1Math_1_1HitColor.html" title="Represent a color of a hit." alt="" coords="516,136,676,177"/>
+<area shape="rect" id="node6" href="$structRaytracer_1_1Common_1_1Graphics_1_1Color.html" title="Represent an RGBA color." alt="" coords="215,136,375,177"/>
+</map>

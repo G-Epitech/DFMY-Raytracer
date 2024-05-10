@@ -1,0 +1,9 @@
+<map id="Raytracer::Core::Rendering::Camera" name="Raytracer::Core::Rendering::Camera">
+<area shape="rect" id="node1" title=" " alt="" coords="760,71,957,112"/>
+<area shape="rect" id="node2" href="$classRaytracer_1_1Core_1_1Rendering_1_1Screen.html" title=" " alt="" coords="453,5,651,47"/>
+<area shape="rect" id="node3" href="$structRaytracer_1_1Common_1_1Math_1_1Size.html" title="Size of the screen." alt="" coords="215,5,375,47"/>
+<area shape="rect" id="node4" href="$classRaytracer_1_1Common_1_1Math_1_1Vector3D.html" title=" " alt="" coords="472,71,632,112"/>
+<area shape="rect" id="node5" href="$classRaytracer_1_1Common_1_1Math_1_1Float3.html" title="Representing 3D coordinates." alt="" coords="215,95,375,136"/>
+<area shape="rect" id="node7" href="$classRaytracer_1_1Common_1_1Math_1_1Point3D.html" title="Representing a 3D point." alt="" coords="472,136,632,177"/>
+<area shape="rect" id="node6" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="5,95,165,136"/>
+</map>

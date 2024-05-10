@@ -1,0 +1,5 @@
+<map id="Raytracer::Core::Config::SceneConfig" name="Raytracer::Core::Config::SceneConfig">
+<area shape="rect" id="node1" title="Scene configuration." alt="" coords="5,213,177,255"/>
+<area shape="rect" id="node2" href="$structRaytracer_1_1Core_1_1Config_1_1AmbientConfig.html" title="Ambient light configuration." alt="" coords="5,109,177,151"/>
+<area shape="rect" id="node3" href="$structRaytracer_1_1Common_1_1Graphics_1_1Color.html" title="Represent an RGBA color." alt="" coords="11,5,171,47"/>
+</map>

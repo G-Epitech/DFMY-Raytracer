@@ -1,0 +1,4 @@
+<map id="Raytracer::Core::Config::MaterialConfig" name="Raytracer::Core::Config::MaterialConfig">
+<area shape="rect" id="node1" title="Material configuration." alt="" coords="5,109,177,151"/>
+<area shape="rect" id="node2" href="$structRaytracer_1_1Common_1_1Graphics_1_1Color.html" title="Represent an RGBA color." alt="" coords="11,5,171,47"/>
+</map>

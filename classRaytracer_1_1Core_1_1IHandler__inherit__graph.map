@@ -1,0 +1,5 @@
+<map id="Raytracer::Core::IHandler" name="Raytracer::Core::IHandler">
+<area shape="rect" id="node1" title=" " alt="" coords="73,5,259,32"/>
+<area shape="rect" id="node2" href="$classRaytracer_1_1Core_1_1Cli_1_1Handler.html" title=" " alt="" coords="5,80,153,121"/>
+<area shape="rect" id="node3" href="$classRaytracer_1_1Core_1_1Gui_1_1Handler.html" title=" " alt="" coords="177,80,331,121"/>
+</map>

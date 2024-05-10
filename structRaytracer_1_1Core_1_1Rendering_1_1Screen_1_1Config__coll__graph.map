@@ -1,0 +1,4 @@
+<map id="Raytracer::Core::Rendering::Screen::Config" name="Raytracer::Core::Rendering::Screen::Config">
+<area shape="rect" id="node1" title="Configuration of the screen." alt="" coords="5,109,203,151"/>
+<area shape="rect" id="node2" href="$structRaytracer_1_1Common_1_1Math_1_1Size.html" title="Size of the screen." alt="" coords="24,5,184,47"/>
+</map>

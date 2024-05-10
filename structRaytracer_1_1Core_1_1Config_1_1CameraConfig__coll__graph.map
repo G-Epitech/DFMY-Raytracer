@@ -1,0 +1,9 @@
+<map id="Raytracer::Core::Config::CameraConfig" name="Raytracer::Core::Config::CameraConfig">
+<area shape="rect" id="node1" title="Camera configuration." alt="" coords="1060,81,1232,123"/>
+<area shape="rect" id="node2" href="$classRaytracer_1_1Common_1_1Math_1_1Vector3D.html" title=" " alt="" coords="608,5,768,47"/>
+<area shape="rect" id="node3" href="$classRaytracer_1_1Common_1_1Math_1_1Float3.html" title="Representing 3D coordinates." alt="" coords="215,65,375,107"/>
+<area shape="rect" id="node7" href="$classRaytracer_1_1Common_1_1Math_1_1Point3D.html" title="Representing a 3D point." alt="" coords="424,127,584,168"/>
+<area shape="rect" id="node4" href="$classRaytracer_1_1Common_1_1Math_1_1Float2.html" title="Representing 2D coordinates." alt="" coords="5,65,165,107"/>
+<area shape="rect" id="node5" href="$structRaytracer_1_1Core_1_1Config_1_1ScreenConfig.html" title="Screen configuration." alt="" coords="792,81,964,123"/>
+<area shape="rect" id="node6" href="$structRaytracer_1_1Common_1_1Math_1_1Size.html" title="Size of the screen." alt="" coords="424,61,584,103"/>
+</map>
