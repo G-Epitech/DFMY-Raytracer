@@ -11,6 +11,7 @@
 #include "Float.hpp"
 
 namespace Raytracer::Common::Math {
+    /// @brief Representing a 2D vector
     class Vector2D: public Float2 {
     public:
         /// @brief Default constructor

@@ -12,6 +12,9 @@
 #include "libs/DLLoader/DLLoader.hpp"
 #include "objects/sphere/src/SphereProvider.hpp"
 #include "types/graphics/Image.hpp"
+#include "libs/DLLoader/DLLoader.hpp"
+#include "common/types/Libraries.hpp"
+#include "common/interfaces/IObjectProvider.hpp"
 
 using namespace Raytracer::Core::Cli;
 
