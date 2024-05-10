@@ -46,16 +46,6 @@ namespace Raytracer::Core {
             float fov;
         } CameraConfig;
 
-        /// @brief Emission direction configuration
-        typedef struct {
-            /// @brief Light emission color
-            Raytracer::Common::Graphics::Color color;
-            /// @brief Light emission strength
-            float strength;
-            /// @brief Light emission direction
-            Math::Vector3D direction;
-        } EmissionConfig;
-
         /// @brief Material configuration
         typedef struct {
             /// @brief Material name
@@ -71,18 +61,6 @@ namespace Raytracer::Core {
             /// @brief Material color for the light emission
             Raytracer::Common::Graphics::Color emissionColor;
         } MaterialConfig;
-
-        /// @brief Configuration for a sphere object special properties
-        typedef struct {
-            /// @brief Sphere radius
-            float radius;
-        } SphereConfig;
-
-        /// @brief Configuration for a cube object special properties
-        typedef struct {
-            /// @brief Cube size
-            std::tuple<float, float, float> size;
-        } CubeConfig;
 
         /// @brief Object configuration
         typedef struct {
