@@ -57,7 +57,7 @@ void ConfigValidator::_objectsAreValid(const Config::SceneConfig &cfg)
     std::vector<Config::ObjectConfig> objects = cfg.objects;
     std::vector<Config::MaterialConfig> materials = cfg.materials;
 
-    for (auto object : objects) {
+    for (const auto& object : objects) {
         if (object.material.empty()) {
             throw ConfigException("object must have a material name");
         }

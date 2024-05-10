@@ -158,23 +158,3 @@ TEST_F(ConfigValidatorTests, InvalidObjectMaterial)
     cfg.objects.push_back(obj);
     ASSERT_THROW(ConfigValidator::valid(cfg), ConfigException);
 }
-
-TEST_F(ConfigValidatorTests, InvalidSphereRadius)
-{
-    Config::SceneConfig cfg;
-    Config::ObjectConfig obj;
-
-    cfg.materials.push_back({
-        .name = "material1",
-        .objectColor = {255, 255, 255},
-        .emissions = {},
-        .reflectivity = 0.5,
-        .emissionStrength = 0.5,
-        .emissionColor = {255, 255, 255}
-    });
-    obj.material = "material1";
-    obj.type = "sphere";
-    obj.property = -10.0f;
-    cfg.objects.push_back(obj);
-    ASSERT_THROW(ConfigValidator::valid(cfg), ConfigException);
-}

@@ -63,7 +63,7 @@ int App::help() {
     std::cout << "  -t, --threads <count = " << APP_DEFAULT_THREADS_COUNT << ">\t\tSpecify the number of threads to use." << std::endl;
     std::cout << "  -r, --rays-per-pixel <count = " << APP_DEFAULT_RAYS_PER_PIXEL << ">\tSpecify the number of rays per pixel." << std::endl;
     std::cout << "  -b, --bounce <count = " << APP_DEFAULT_RAY_BOUNCE << ">\t\tSpecify the number of ray bounces." << std::endl;
-    std::cout << "  -F, --frames <count = " << APP_DEFAULT_FRAMES_COUNT << ">\t\tSpecify the number of frames to render." << std::endl;
+    std::cout << "  -F, --additional-frames <count = " << APP_DEFAULT_FRAMES_COUNT << ">\tSpecify the number of additional frames to render." << std::endl;
     std::cout << "AUTHORS: " << std::endl;
     std::cout << "  Dragos Suceveanu, "
               << "Flavien Chenu, "
@@ -91,7 +91,7 @@ bool App::_readOptions(int argc, char **argv) {
         {"threads", required_argument, nullptr, 't'},
         {"rays-per-pixel", required_argument, nullptr, 'r'},
         {"bounce", required_argument, nullptr, 'b'},
-        {"frames", required_argument, nullptr, 'F'},
+        {"additional-frames", required_argument, nullptr, 'F'},
         {nullptr, 0, nullptr, 0}
     };
     int parsedChar;
