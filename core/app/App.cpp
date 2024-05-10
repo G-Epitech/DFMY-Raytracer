@@ -58,9 +58,12 @@ int App::help() {
     std::cout << "OPTIONS:" << std::endl;
     std::cout << "  -g, --gui\t\t\t\tLaunch the graphical user interface" << std::endl;
     std::cout << "  -h, --help\t\t\t\tDisplay this help message" << std::endl;
-    std::cout << "  -p, --plugin-path <path = ./plugins>\tSpecify the path to the plugins directory" << std::endl;
-    std::cout << "  -f, --format <format = PPM>\t\tSpecify the output image format. Supported formats: PPM, PNG, JPEG, BMP" << std::endl;
-    std::cout << "  -t, --threads <count = 8>\t\tSpecify the number of threads to use." << std::endl;
+    std::cout << "  -p, --plugin-path <path = "<< APP_DEFAULT_PLUGINS_PATH << ">\tSpecify the path to the plugins directory" << std::endl;
+    std::cout << "  -f, --format <format = " << APP_DEFAULT_FORMAT << ">\t\tSpecify the output image format. Supported formats: PPM, PNG, JPEG, BMP" << std::endl;
+    std::cout << "  -t, --threads <count = " << APP_DEFAULT_THREADS_COUNT << ">\t\tSpecify the number of threads to use." << std::endl;
+    std::cout << "  -r, --rays-per-pixel <count = " << APP_DEFAULT_RAYS_PER_PIXEL << ">\tSpecify the number of rays per pixel." << std::endl;
+    std::cout << "  -b, --bounce <count = " << APP_DEFAULT_RAY_BOUNCE << ">\t\tSpecify the number of ray bounces." << std::endl;
+    std::cout << "  -F, --frames <count = " << APP_DEFAULT_FRAMES_COUNT << ">\t\tSpecify the number of frames to render." << std::endl;
     std::cout << "AUTHORS: " << std::endl;
     std::cout << "  Dragos Suceveanu, "
               << "Flavien Chenu, "
@@ -84,14 +87,17 @@ bool App::_readOptions(int argc, char **argv) {
         {"gui", no_argument, nullptr, 'g'},
         {"help", no_argument, nullptr, 'h'},
         {"plugin-path", required_argument, nullptr, 'p'},
+        {"format", required_argument, nullptr, 'f' },
         {"threads", required_argument, nullptr, 't'},
-        { "format", required_argument, nullptr, 'f' },
+        {"rays-per-pixel", required_argument, nullptr, 'r'},
+        {"bounce", required_argument, nullptr, 'b'},
+        {"frames", required_argument, nullptr, 'F'},
         {nullptr, 0, nullptr, 0}
     };
     int parsedChar;
 
     do {
-        parsedChar = getopt_long(argc, argv, "ghp:t:f:", long_options, nullptr);
+        parsedChar = getopt_long(argc, argv, "ghp:t:f:r:b:F:", long_options, nullptr);
         switch (parsedChar) {
             case -1:
                 break;
@@ -122,6 +128,17 @@ bool App::_readOptions(int argc, char **argv) {
                     return false;
                 }
                 break;
+            case 'r':
+                if (!_readULArg(optarg, _args.options.raysPerPixel, "rays per pixel"))
+                    return false;
+                break;
+            case 'b':
+                if (!_readULArg(optarg, _args.options.rayBounce, "ray bounce"))
+                    return false;
+                break;
+            case 'F':
+                if (!_readULArg(optarg, _args.options.framesCount, "frames"))
+                    return false;
             default:
                 return false;
         }
@@ -156,12 +173,24 @@ bool App::tryLoadScene(const string &scenePath) {
         _scene = std::move(scene);
         return true;
     } catch (const ConfigException &e) {
-        std::cerr << "An error occurred while loading the scene file. " << e.what() << "." << std::endl;
+        std::cerr << "An error occurred while loading the scene file: " << e.what() << "." << std::endl;
         return false;
     } catch (const std::exception &e) {
-        std::cerr << "An error occurred while creating the scene. " << e.what() << std::endl;
+        std::cerr << "An error occurred while creating the scene: " << e.what() << std::endl;
         return false;
     }
+}
+
+bool App::_readULArg(const std::string &arg, size_t &value, const std::string &name) {
+    if (!_readUL(arg, value)) {
+        std::cerr << "Invalid " << name << " count: '" << arg << "'. Must be a positive number." << std::endl;
+        return false;
+    }
+    if (value == 0) {
+        std::cerr << "The " <<  name << " value must be greater than 0." << std::endl;
+        return false;
+    }
+    return true;
 }
 
 bool App::_readUL(const std::string& arg, size_t &value) {

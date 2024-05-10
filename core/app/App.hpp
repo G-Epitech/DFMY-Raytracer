@@ -12,21 +12,34 @@
 #include "plugins/PluginsManager.hpp"
 #include "types/rendering/Scene.hpp"
 
+#define APP_DEFAULT_THREADS_COUNT 20
+#define APP_DEFAULT_FORMAT "ppm"
+#define APP_DEFAULT_PLUGINS_PATH "./plugins"
+#define APP_DEFAULT_FRAMES_COUNT 15
+#define APP_DEFAULT_RAYS_PER_PIXEL 15
+#define APP_DEFAULT_RAY_BOUNCE 30
+
 namespace Raytracer::Core {
     class App {
     public:
         /// @brief Options structure
         typedef struct Options {
             /// @brief GUI flag
-            bool gui = false;
+            bool gui;
             /// @brief Help flag
-            bool help = false;
+            bool help;
             /// @brief Plugins path
-            std::string pluginsPath = "./plugins";
+            std::string pluginsPath;
             /// @brief Threads count
-            size_t threadsCount = 8;
+            size_t threadsCount;
+            /// @brief Frames count
+            size_t framesCount;
+            /// @brief Rays per pixel
+            size_t raysPerPixel;
+            /// @brief Ray bounce
+            size_t rayBounce;
             /// @brief Output format
-            std::string outputFormat = "ppm";
+            std::string outputFormat;
         } Options;
 
         /// @brief Arguments structure
@@ -80,7 +93,18 @@ namespace Raytracer::Core {
 
     private:
         /// @brief Application arguments
-        Arguments _args;
+        Arguments _args = {
+          .options = {
+            .gui = false,
+            .help = false,
+            .pluginsPath = APP_DEFAULT_PLUGINS_PATH,
+            .threadsCount = APP_DEFAULT_THREADS_COUNT,
+            .framesCount = APP_DEFAULT_FRAMES_COUNT,
+            .raysPerPixel = APP_DEFAULT_RAYS_PER_PIXEL,
+            .rayBounce = APP_DEFAULT_RAY_BOUNCE,
+            .outputFormat = APP_DEFAULT_FORMAT
+          }
+        };
 
         /// @brief Plugins manager
         PluginsManager _pluginsManager;
@@ -132,5 +156,15 @@ namespace Raytracer::Core {
          */
         [[nodiscard]]
         static bool _readOutputFormat(const std::string &arg, std::string &outputFormat);
+
+        /**
+         * @brief Read unsigned long argument
+         * @param arg Argument value read from command line
+         * @param value Value to set
+         * @param name Name of the argument to set
+         * @return Success status
+         */
+        [[nodiscard]]
+        static bool _readULArg(const string &arg, size_t &value, const string &name);
     };
 }

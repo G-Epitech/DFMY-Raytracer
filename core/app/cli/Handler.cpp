@@ -32,25 +32,6 @@ Handler::~Handler() = default;
 
 int Handler::run() {
     _camerasNamesMaxLength = _getCamerasNamesMaxLength();
-    auto scene = _appContext.scene;
-    std::cout << "Scene loaded successfully." << std::endl;
-    std::cout << scene->name << std::endl;
-    for (auto &[name, camera] : scene->cameras) {
-        std::cout << "Camera: " << name << std::endl;
-        std::cout << "Position: " << camera->position << std::endl;
-        std::cout << "Direction: " << camera->direction << std::endl;
-        std::cout << "FOV: " << camera->fov << std::endl;
-        std::cout << "Screen size: " << camera->screen.size.height << std::endl;
-    }
-    for (auto &[name, material] : scene->materials) {
-        std::cout << "Material: " << name << std::endl;
-        std::cout << "Color: " << material->color.a << std::endl;
-        std::cout << "Reflectivity: " << material->reflectivity << std::endl;
-        std::cout << "Emissions: " << material->emissions.size() << std::endl;
-        std::cout << "Strength: " << material->emissionStrength << std::endl;
-        std::cout << "Emission color " << material->emissionColor.a << std::endl;
-    }
-    std::cout << scene->objects.size() << " objects loaded." << std::endl;
     for (auto &[name, camera]: _appContext.scene->cameras) {
         _renderCameraImage(name, camera);
     }
