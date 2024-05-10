@@ -210,14 +210,6 @@ namespace Raytracer::Common::Math {
          */
         [[nodiscard]]
         Vector3D normalize() const;
-
-        /**
-         * @brief Compute rotation of the vector
-         * @param vector Vector to rotate
-         * @return Rotated vector
-         */
-        [[nodiscard]]
-        Vector3D rotate(const Vector3D &vector);
     };
 }
 
