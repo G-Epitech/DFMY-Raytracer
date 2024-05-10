@@ -18,7 +18,9 @@ TEST(ObjectFactoryTests, AppRunWithBadOptions)
 
     pluginsManager.load("./plugins");
     ASSERT_THROW(objectFactory.create(
+        "invalidName",
         "invalid", nullptr,
+        Math::Vector3D(),
         Math::Point3D(),
         ObjectProperty()
     ), ObjectFactory::Exception);
@@ -38,7 +40,9 @@ TEST(ObjectFactoryTests, CreateObject)
 
     pluginsManager.load("./plugins");
     ASSERT_NO_THROW(objectFactory.create(
+        "sphereName",
         "sphere", nullptr,
+        Math::Vector3D(),
         Math::Point3D(),
         ObjectProperty()
     ));

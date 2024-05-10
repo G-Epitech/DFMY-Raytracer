@@ -20,11 +20,7 @@ Raytracer::Objects::Sphere::Sphere(
         _rotation(rotation),
         _position(position)
 {
-    std::cout << _name << std::endl;
-    std::cout << _rotation << std::endl;
-    std::cout << _position << std::endl;
     _radius = std::get<float>(property);
-    std::cout << _radius << std::endl;
 }
 
 Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(const Raytracer::Common::Math::Ray &ray)
