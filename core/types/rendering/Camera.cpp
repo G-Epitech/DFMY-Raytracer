@@ -90,7 +90,7 @@ Graphics::Color Camera::_computeFrame(Raytracer::Core::Rendering::Camera::Segmen
 
     Common::Graphics::Color totalIncomingLight(0, 0, 0);
 
-    size_t raysPerPixels = 30;
+    size_t raysPerPixels = 10;
     for (size_t ri = 0; ri < raysPerPixels; ri++) {
         auto random = pixelIndex + ri;
         auto incomingLight = this->_getIncomingLight(ray, random, objects);

@@ -7,7 +7,7 @@
 
 NAME 		= raytracer
 TESTS_NAME 	= raytracer_tests
-PLUGINS 	= plain sphere
+PLUGINS 	= sphere mesh plain
 PLUGINS_DIR	= plugins
 BUILD_PATH 	= build
 LIB_PATH 	= lib
