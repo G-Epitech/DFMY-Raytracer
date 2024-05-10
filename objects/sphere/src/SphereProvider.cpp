@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include "Sphere.hpp"
+#include "config/ConfigUtils.hpp"
 #include "SphereProvider.hpp"
 
 using Raytracer::Objects::SphereProvider;
@@ -43,9 +44,9 @@ Raytracer::Common::ObjectProperty SphereProvider::parseProperty(const libconfig:
     float radius;
 
     if (!setting.isGroup()) {
-        throw Raytracer::Core::ConfigException("sphere properties must be a group");
+        throw std::runtime_error("sphere properties must be a group");
     }
-    Config::settingHasValidKeys("sphere", setting, {"radius"});
-    Config::lookupValueWrapper("radius", setting, radius);
+    ConfigUtils::settingHasValidKeys("sphere", setting, {"radius"});
+    ConfigUtils::lookupValueWrapper("radius", setting, radius);
     return radius;
 }
