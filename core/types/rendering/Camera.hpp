@@ -165,5 +165,12 @@ namespace Raytracer::Core::Rendering {
          * @return Random direction
          */
         Common::Math::Vector3D _getRandomDirection(Common::Math::Vector3D &normal, unsigned int &rngState);
+
+        static Common::Graphics::Color _getEnvironmentLight(Common::Math::Ray &ray);
+
+        static float _smoothStep(float edge0, float edge1, float x);
+
+        static Common::Graphics::Color _lErp(const Common::Graphics::Color &a, const Common::Graphics::Color &b,
+                                             float t);
     };
 }

@@ -23,7 +23,7 @@ std::shared_ptr<Raytracer::Common::IObject> SphereProvider::create(
 Raytracer::Common::Object::Manifest SphereProvider::getManifest()
 {
     Raytracer::Common::Object::Manifest manifest {
-        "Sphere",
+        "sphere",
         "A simple sphere object",
         "1.0.0",
         {
