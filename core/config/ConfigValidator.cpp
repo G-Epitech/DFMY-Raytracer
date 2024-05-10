@@ -67,10 +67,5 @@ void ConfigValidator::_objectsAreValid(const Config::SceneConfig &cfg)
             }) == materials.end()) {
             throw ConfigException("object material \"" + object.material + "\" does not exist");
         }
-        if (object.type == "sphere") {
-            if (std::get<float>(object.property) <= 0) {
-                throw ConfigException("sphere radius must be greater than 0");
-            }
-        }
     }
 }
