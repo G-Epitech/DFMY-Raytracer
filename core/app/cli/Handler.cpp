@@ -66,6 +66,12 @@ int Handler::run() {
             Common::Graphics::Color::fromRGB(255, 255, 255),
             0
     );
+    std::shared_ptr<Common::Graphics::Material> brown = std::make_shared<Common::Graphics::Material>(
+            Common::Graphics::Color::fromRGB(139, 69, 19),
+            Common::Graphics::Color::fromRGB(255, 255, 255),
+            Common::Graphics::Color::fromRGB(255, 255, 255),
+            0
+    );
     std::shared_ptr<Common::Graphics::Material> light = std::make_shared<Common::Graphics::Material>(
             Common::Graphics::Color::fromRGB(0, 0, 0),
             Common::Graphics::Color::fromRGB(255, 255, 255),
@@ -87,7 +93,7 @@ int Handler::run() {
             .screen = {
                     .size = { .width = 500 * RESOLUTION , .height = 500 * RESOLUTION}
             },
-            .position = Common::Math::Point3D(0, 0, 30),
+            .position = Common::Math::Point3D(-10, 0, 30),
             .direction = Common::Math::Vector3D(0, 0, 0),
             .fov = 40
     };
@@ -98,7 +104,7 @@ int Handler::run() {
 //     objects.push_back(objectProvider()->create(yellowLight, Common::Math::Point3D(30, 50, 30), 6.0f));
 //     objects.push_back(objectProvider()->create(yellowLight, Common::Math::Point3D(-18, 50, 25), 3.0f));
 
-    objects.push_back(objectProvider()->create(purple, Common::Math::Point3D(0, 80, -77), 100.0f));
+    objects.push_back(objectProvider()->create(brown, Common::Math::Point3D(0, 80, -77), 100.0f));
 //     objects.push_back(objectProvider()->create(green, Common::Math::Point3D(10, 68, 34), 13.0f));
     // objects.push_back(objectProvider()->create(orange, Common::Math::Point3D(-10, 60, 30), 10.0f));
 //     objects.push_back(objectProvider()->create(yellow, Common::Math::Point3D(50, 100, 70), 10.0f));
@@ -106,14 +112,14 @@ int Handler::run() {
 
     auto objectProvider2 = dlloader2.loadSymbol<Common::ObjectProviderGetter>(name);
 
-    objects.push_back(objectProvider2()->create(green, Common::Math::Point3D(-10, 60, 30), "tree.obj"));
+    objects.push_back(objectProvider2()->create(green, Common::Math::Point3D(-10, 60, 30), "files/tree.obj"));
 
-    camera.compute(COMPUTE_THREADS, objects);
+    // camera.compute(COMPUTE_THREADS, objects);
 
-    while (camera.getComputeStatus() < 1.0f) {
-        std::cout << "Rendering: " << camera.getComputeStatus() * 100 << "%" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    }
+    // while (camera.getComputeStatus() < 1.0f) {
+    //     std::cout << "Rendering: " << camera.getComputeStatus() * 100 << "%" << std::endl;
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    // }
 
     for (auto& thread : camera._threads) {
         thread.join();

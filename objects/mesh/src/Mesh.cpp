@@ -19,7 +19,7 @@ using namespace Math;
 
 Point3D Mesh::_getObjectCenter()
 {
-    Point3D center;
+    Point3D center(0, 0, 0);
 
     for (auto &vertex : _vertices) {
         center.x += vertex.x;
@@ -29,14 +29,15 @@ Point3D Mesh::_getObjectCenter()
     center.x /= _vertices.size();
     center.y /= _vertices.size();
     center.z /= _vertices.size();
+    return center;
 }
 
 void Mesh::_translateObject(const Point3D &translation)
 {
     for (auto &vertex : _vertices) {
-        vertex.x += translation.x;
-        vertex.y += translation.y;
-        vertex.z += translation.z;
+        vertex.x -= translation.x;
+        vertex.y -= translation.y;
+        vertex.z -= translation.z;
     }
 }
 
