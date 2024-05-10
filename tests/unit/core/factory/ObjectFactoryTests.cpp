@@ -38,7 +38,7 @@ TEST(ObjectFactoryTests, CreateObject)
 
     pluginsManager.load("./plugins");
     ASSERT_NO_THROW(objectFactory.create(
-        "Sphere", nullptr,
+        "sphere", nullptr,
         Math::Point3D(),
         ObjectProperty()
     ));
