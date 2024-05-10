@@ -127,13 +127,13 @@ class Raytracer::Core::Config {
          * @brief Load a scene configuration from a string (useful for testing)
          * @param contents Contents of the configuration file
          */
-        static Config loadFromString(const std::string &contents);
+        static Config loadFromString(const std::string &contents, PluginsManager &pluginsManager);
 
         /**
          * @brief Load a scene configuration from a file
          * @param path Path to the configuration file
          */
-        static Config loadFromFile(const std::string &path);
+        static Config loadFromFile(const std::string &path, PluginsManager &pluginsManager);
 
         /**
          * @brief Convert a scene configuration to a Scene object
@@ -148,6 +148,46 @@ class Raytracer::Core::Config {
         */
         SceneConfig getSceneConfig() const;
 
+                /**
+         * @brief Parse a vector3D group from the configuration
+         * @param propName Name of the property
+         * @param setting Setting of the vector3D group
+         */
+        static Math::Vector3D parseVector3D(const std::string& propName, const libconfig::Setting &setting);
+        /**
+         * @brief Parse a point3D group from the configuration
+         * @param propName Name of the property
+         * @param setting Setting of the point3D group
+         */
+        static Math::Point3D parsePoint3D(const std::string& propName, const libconfig::Setting &setting);
+        /**
+         * @brief Parse a color group from the configuration
+         * @param setting Setting of the color group
+         */
+        static Raytracer::Common::Graphics::Color parseColor(const libconfig::Setting &setting);
+        /**
+         * @brief Parse a tuple of 3 floats from the configuration
+         * @param prop Name of the property
+         * @param setting Setting of the tuple group
+         * @param keys List of keys to look for in the tuple
+         */
+        static std::tuple<float, float, float> parseTuple3f(const std::string& prop,
+            const libconfig::Setting &setting, const std::vector<std::string>& keys);
+
+        /// @brief Check if a setting has valid keys
+        static void settingHasValidKeys(const std::string& prop, const libconfig::Setting &setting,
+            const std::vector<std::string> &keys);
+
+        /// @brief Wrapper to lookup a value from a setting, and assign it to a variable,
+        /// throws an exception if the value is not found or is of the wrong type
+        template <typename T>
+        static void lookupValueWrapper(const std::string prop, const libconfig::Setting &setting, T &value)
+        {
+            if (setting.lookupValue(prop, value) == false) {
+                throw Raytracer::Core::ConfigException(prop + " must be a " + _typeName(value));
+            }
+        }
+
     private:
         /// @brief Contents of the configuration file
         std::string _contents;
@@ -161,7 +201,7 @@ class Raytracer::Core::Config {
         /**
          * @brief Load a scene configuration from a file
         */
-        void _load();
+        void _load(PluginsManager &pluginsManager);
 
         /**
          * @brief Builds the cameras of the scene
@@ -205,7 +245,7 @@ class Raytracer::Core::Config {
          * @brief Load the scene objects configuration
          * @param root Root setting of the configuration file
          */
-        std::vector<ObjectConfig> _loadObjects(const libconfig::Setting &root);
+        std::vector<ObjectConfig> _loadObjects(const libconfig::Setting &root, PluginsManager &pluginsManager);
 
         /**
          * @brief Parse a material group from the configuration
@@ -221,7 +261,7 @@ class Raytracer::Core::Config {
          * @brief Parse an object group from the configuration
          * @param setting Setting of the object group
          */
-        ObjectConfig _parseObject(const libconfig::Setting &setting);
+        ObjectConfig _parseObject(const libconfig::Setting &setting, PluginsManager &pluginsManager);
         /**
          * @brief Parse special properties of a sphere from the configuration
          * @param setting Setting of the sphere group
@@ -233,50 +273,10 @@ class Raytracer::Core::Config {
          */
         Math::Float3 _parseCube(const libconfig::Setting &setting);
 
-        /**
-         * @brief Parse a vector3D group from the configuration
-         * @param propName Name of the property
-         * @param setting Setting of the vector3D group
-         */
-        Math::Vector3D _parseVector3D(const std::string& propName, const libconfig::Setting &setting);
-        /**
-         * @brief Parse a point3D group from the configuration
-         * @param propName Name of the property
-         * @param setting Setting of the point3D group
-         */
-        Math::Point3D _parsePoint3D(const std::string& propName, const libconfig::Setting &setting);
-        /**
-         * @brief Parse a color group from the configuration
-         * @param setting Setting of the color group
-         */
-        Raytracer::Common::Graphics::Color _parseColor(const libconfig::Setting &setting);
-        /**
-         * @brief Parse a tuple of 3 floats from the configuration
-         * @param prop Name of the property
-         * @param setting Setting of the tuple group
-         * @param keys List of keys to look for in the tuple
-         */
-        std::tuple<float, float, float> _parseTuple3f(const std::string& prop,
-            const libconfig::Setting &setting, const std::vector<std::string>& keys);
-
-        /// @brief Check if a setting has valid keys
-        static void _settingHasValidKeys(const std::string& prop, const libconfig::Setting &setting,
-            const std::vector<std::string> &keys);
-
-        /// @brief Wrapper to lookup a value from a setting, and assign it to a variable,
-        /// throws an exception if the value is not found or is of the wrong type
-        template <typename T>
-        void _lookupValueWrapper(const std::string prop, const libconfig::Setting &setting, T &value)
-        {
-            if (setting.lookupValue(prop, value) == false) {
-                throw Raytracer::Core::ConfigException(prop + " must be a " + _typeName(value));
-            }
-        }
-
         /// @brief Get the type name of a template variable
         /// Mainly used for debugging purposes and error messages
         template <typename T>
-        std::string _typeName(T &value)
+        static std::string _typeName(T &value)
         {
             int status = 0;
             std::string tname = typeid(T).name();

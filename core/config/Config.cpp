@@ -10,23 +10,23 @@
 
 Config::Config() : _sceneConfig(), _fromString(false) {}
 
-Config Config::loadFromString(const std::string &configContents)
+Config Config::loadFromString(const std::string &configContents, PluginsManager &pluginsManager)
 {
     Config config;
 
     config._contents = configContents;
     config._fromString = true;
-    config._load();
+    config._load(pluginsManager);
     return config;
 }
 
-Config Config::loadFromFile(const std::string &configPath)
+Config Config::loadFromFile(const std::string &configPath, PluginsManager &pluginsManager)
 {
     Config config;
 
     config._path = configPath;
     config._fromString = false;
-    config._load();
+    config._load(pluginsManager);
     return config;
 }
 
@@ -89,7 +89,7 @@ void Config::_buildSceneObjects(const Rendering::Scene::Ptr& scene, PluginsManag
     }
 }
 
-void Config::_load()
+void Config::_load(PluginsManager &pluginsManager)
 {
     libconfig::Config cfg;
 
@@ -108,12 +108,12 @@ void Config::_load()
         throw Raytracer::Core::ConfigException(e.what());
     }
     const libconfig::Setting &root = cfg.getRoot();
-    _settingHasValidKeys("root", root, {"cameras", "materials", "objects", "ambient"});
+    settingHasValidKeys("root", root, {"cameras", "materials", "objects", "ambient"});
     _sceneConfig.name = _loadName();
     _sceneConfig.ambient = _loadAmbient(root);
     _sceneConfig.cameras = _loadCameras(root);
     _sceneConfig.materials = _loadMaterials(root);
-    _sceneConfig.objects = _loadObjects(root);
+    _sceneConfig.objects = _loadObjects(root, pluginsManager);
     ConfigValidator::valid(_sceneConfig);
 }
 
@@ -145,9 +145,9 @@ Config::AmbientConfig Config::_loadAmbient(const libconfig::Setting &root)
     if (!ambientCfg.isGroup()) {
         throw Raytracer::Core::ConfigException("ambient must be a group");
     }
-    _settingHasValidKeys("ambient", ambientCfg, {"color", "strength"});
-    ambient.color = _parseColor(ambientCfg["color"]);
-    _lookupValueWrapper("strength", ambientCfg, ambient.strength);
+    settingHasValidKeys("ambient", ambientCfg, {"color", "strength"});
+    ambient.color = parseColor(ambientCfg["color"]);
+    lookupValueWrapper("strength", ambientCfg, ambient.strength);
     return ambient;
 }
 
@@ -163,15 +163,15 @@ std::vector<Config::CameraConfig> Config::_loadCameras(const libconfig::Setting 
     }
     for (int i = 0; i < camerasCfg.getLength(); i++) {
         const libconfig::Setting &cameraCfg = camerasCfg[i];
-        _settingHasValidKeys("camera", cameraCfg, {"direction",
+        settingHasValidKeys("camera", cameraCfg, {"direction",
             "position", "fieldOfView", "name", "size"});
-        _lookupValueWrapper("name", cameraCfg, camera.name);
-        camera.position = _parsePoint3D("position", cameraCfg["position"]);
-        camera.direction = _parseVector3D("direction", cameraCfg["direction"]);
-        _lookupValueWrapper("fieldOfView", cameraCfg, camera.fov);
-        _settingHasValidKeys("camera", cameraCfg["size"], {"width", "height"});
-        _lookupValueWrapper("width", cameraCfg["size"], width);
-        _lookupValueWrapper("height", cameraCfg["size"], height);
+        lookupValueWrapper("name", cameraCfg, camera.name);
+        camera.position = parsePoint3D("position", cameraCfg["position"]);
+        camera.direction = parseVector3D("direction", cameraCfg["direction"]);
+        lookupValueWrapper("fieldOfView", cameraCfg, camera.fov);
+        settingHasValidKeys("camera", cameraCfg["size"], {"width", "height"});
+        lookupValueWrapper("width", cameraCfg["size"], width);
+        lookupValueWrapper("height", cameraCfg["size"], height);
         camera.screenSize = {width, height};
         cameras.push_back(camera);
     }
@@ -200,13 +200,13 @@ Config::MaterialConfig Config::_parseMaterial(const libconfig::Setting &setting)
     if (!setting.isGroup()) {
         throw Raytracer::Core::ConfigException("material must be a group");
     }
-    _settingHasValidKeys("material", setting, {"name", "objectColor",
+    settingHasValidKeys("material", setting, {"name", "objectColor",
         "emissions", "reflectivity", "emissionStrength", "emissionColor"});
-    _lookupValueWrapper("name", setting, material.name);
-    material.objectColor = _parseColor(setting["objectColor"]);
-    material.emissionColor = _parseColor(setting["emissionColor"]);
-    _lookupValueWrapper("reflectivity", setting, material.reflectivity);
-    _lookupValueWrapper("emissionStrength", setting, material.emissionStrength);
+    lookupValueWrapper("name", setting, material.name);
+    material.objectColor = parseColor(setting["objectColor"]);
+    material.emissionColor = parseColor(setting["emissionColor"]);
+    lookupValueWrapper("reflectivity", setting, material.reflectivity);
+    lookupValueWrapper("emissionStrength", setting, material.emissionStrength);
     material.emissions = _parseEmissions(setting["emissions"]);
     return material;
 }
@@ -225,17 +225,18 @@ std::vector<Raytracer::Common::Graphics::Material::Emission> Config::_parseEmiss
         if (!emissionCfg.isGroup()) {
             throw Raytracer::Core::ConfigException("emission must be a list of groups");
         }
-        _settingHasValidKeys("emission", emissionCfg,
+        settingHasValidKeys("emission", emissionCfg,
             {"direction", "color", "strength"});
-        emission.direction = _parseVector3D("direction", emissionCfg["direction"]);
-        emission.color = _parseColor(emissionCfg["color"]);
-        _lookupValueWrapper("strength", emissionCfg, emission.strength);
+        emission.direction = parseVector3D("direction", emissionCfg["direction"]);
+        emission.color = parseColor(emissionCfg["color"]);
+        lookupValueWrapper("strength", emissionCfg, emission.strength);
         emissions.push_back(emission);
     }
     return emissions;
 }
 
-std::vector<Config::ObjectConfig> Config::_loadObjects(const libconfig::Setting &root)
+std::vector<Config::ObjectConfig> Config::_loadObjects(const libconfig::Setting &root,
+    PluginsManager &pluginsManager)
 {
     std::vector<ObjectConfig> objects = {};
     const libconfig::Setting &objectsCfg = root["objects"];
@@ -245,28 +246,27 @@ std::vector<Config::ObjectConfig> Config::_loadObjects(const libconfig::Setting 
     }
     objects.reserve(objectsCfg.getLength());
     for (int i = 0; i < objectsCfg.getLength(); i++) {
-        objects.push_back(_parseObject(objectsCfg[i]));
+        objects.push_back(_parseObject(objectsCfg[i], pluginsManager));
     }
     return objects;
 }
 
-Config::ObjectConfig Config::_parseObject(const libconfig::Setting &setting)
+Config::ObjectConfig Config::_parseObject(const libconfig::Setting &setting,
+    PluginsManager &pluginsManager)
 {
     ObjectConfig object;
 
     if (!setting.isGroup())
         throw Raytracer::Core::ConfigException("object must be a group");
-    _settingHasValidKeys("object", setting, {"type", "material", "properties",
+    settingHasValidKeys("object", setting, {"type", "material", "properties",
         "origin"});
-    _lookupValueWrapper("type", setting, object.type);
-    _lookupValueWrapper("material", setting, object.material);
-    object.origin = _parsePoint3D("object origin", setting["origin"]);
-    if (object.type == "sphere") {
-        object.property = _parseSphere(setting["properties"]);
+    lookupValueWrapper("type", setting, object.type);
+    lookupValueWrapper("material", setting, object.material);
+    object.origin = parsePoint3D("object origin", setting["origin"]);
+    if (pluginsManager.providers.find(object.type) == pluginsManager.providers.end()) {
+        throw Raytracer::Core::ConfigException("Unknown object type: " + object.type);
     }
-    if (object.type == "cube") {
-        object.property = _parseCube(setting["properties"]);
-    }
+    object.property = pluginsManager.providers[object.type]->parseProperty(setting["properties"]);
     return object;
 }
 
@@ -277,8 +277,8 @@ float Config::_parseSphere(const libconfig::Setting &setting)
     if (!setting.isGroup()) {
         throw Raytracer::Core::ConfigException("sphere properties must be a group");
     }
-    _settingHasValidKeys("sphere", setting, {"radius"});
-    _lookupValueWrapper("radius", setting, radius);
+    settingHasValidKeys("sphere", setting, {"radius"});
+    lookupValueWrapper("radius", setting, radius);
     return radius;
 }
 
@@ -289,67 +289,67 @@ Math::Float3 Config::_parseCube(const libconfig::Setting &settings)
 
     if (!settings.isGroup())
         throw Raytracer::Core::ConfigException("cube properties must be a group");
-    _settingHasValidKeys("cube", settings, {"size"});
+    settingHasValidKeys("cube", settings, {"size"});
     if (!settings["size"].isGroup())
         throw Raytracer::Core::ConfigException("size must be a group");
-    tuple = _parseTuple3f("size", settings["size"], {"width", "height", "depth"});
+    tuple = parseTuple3f("size", settings["size"], {"width", "height", "depth"});
     cubeSize.x = std::get<0>(tuple);
     cubeSize.y = std::get<1>(tuple);
     cubeSize.z = std::get<2>(tuple);
     return cubeSize;
 }
 
-std::tuple<float, float, float> Config::_parseTuple3f(const std::string& prop,
+std::tuple<float, float, float> Config::parseTuple3f(const std::string& prop,
     const libconfig::Setting &setting, const std::vector<std::string>& keys)
 {
     std::tuple<float, float, float> tuple;
-    _settingHasValidKeys(prop, setting, keys);
-    _lookupValueWrapper(keys[0], setting, std::get<0>(tuple));
-    _lookupValueWrapper(keys[1], setting, std::get<1>(tuple));
-    _lookupValueWrapper(keys[2], setting, std::get<2>(tuple));
+    settingHasValidKeys(prop, setting, keys);
+    lookupValueWrapper(keys[0], setting, std::get<0>(tuple));
+    lookupValueWrapper(keys[1], setting, std::get<1>(tuple));
+    lookupValueWrapper(keys[2], setting, std::get<2>(tuple));
     return tuple;
 }
 
-Math::Vector3D Config::_parseVector3D(const std::string& propName, const libconfig::Setting &setting)
+Math::Vector3D Config::parseVector3D(const std::string& propName, const libconfig::Setting &setting)
 {
     Math::Vector3D vector3;
     std::tuple<float, float, float> tuple;
 
     if (!setting.isGroup())
         throw Raytracer::Core::ConfigException(propName + " must be a group of 3 floats {x, y, z}");
-    tuple = _parseTuple3f(propName, setting, {"x", "y", "z"});
+    tuple = parseTuple3f(propName, setting, {"x", "y", "z"});
     vector3.x = std::get<0>(tuple);
     vector3.y = std::get<1>(tuple);
     vector3.z = std::get<2>(tuple);
     return vector3;
 }
 
-Math::Point3D Config::_parsePoint3D(const std::string& propName, const libconfig::Setting &setting)
+Math::Point3D Config::parsePoint3D(const std::string& propName, const libconfig::Setting &setting)
 {
     Math::Point3D point3;
     std::tuple<float, float, float> tuple;
 
     if (!setting.isGroup())
         throw Raytracer::Core::ConfigException(propName + " must be a list of 3 floats");
-    tuple = _parseTuple3f(propName, setting, {"x", "y", "z"});
+    tuple = parseTuple3f(propName, setting, {"x", "y", "z"});
     point3.x = std::get<0>(tuple);
     point3.y = std::get<1>(tuple);
     point3.z = std::get<2>(tuple);
     return point3;
 }
 
-Raytracer::Common::Graphics::Color Config::_parseColor(const libconfig::Setting &setting)
+Raytracer::Common::Graphics::Color Config::parseColor(const libconfig::Setting &setting)
 {
     Raytracer::Common::Graphics::Color color;
     std::tuple<int, int, int, int> icolor;
 
     if (!setting.isGroup())
         throw Raytracer::Core::ConfigException("color must be a group of 4 integers");
-    _settingHasValidKeys("color", setting, {"r", "g", "b", "a"});
-    _lookupValueWrapper("r", setting, std::get<0>(icolor));
-    _lookupValueWrapper("g", setting, std::get<1>(icolor));
-    _lookupValueWrapper("b", setting, std::get<2>(icolor));
-    _lookupValueWrapper("a", setting, std::get<3>(icolor));
+    settingHasValidKeys("color", setting, {"r", "g", "b", "a"});
+    lookupValueWrapper("r", setting, std::get<0>(icolor));
+    lookupValueWrapper("g", setting, std::get<1>(icolor));
+    lookupValueWrapper("b", setting, std::get<2>(icolor));
+    lookupValueWrapper("a", setting, std::get<3>(icolor));
     return Raytracer::Common::Graphics::Color::fromRGB(
         std::get<0>(icolor),
         std::get<1>(icolor),
@@ -358,7 +358,7 @@ Raytracer::Common::Graphics::Color Config::_parseColor(const libconfig::Setting 
     );
 }
 
-void Config::_settingHasValidKeys(const std::string& prop, const libconfig::Setting &setting,
+void Config::settingHasValidKeys(const std::string& prop, const libconfig::Setting &setting,
     const std::vector<std::string> &keys)
 {
     bool has_all_keys = true;

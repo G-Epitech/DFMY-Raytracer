@@ -37,3 +37,15 @@ Raytracer::Common::Object::Manifest SphereProvider::getManifest()
 
     return manifest;
 }
+
+Raytracer::Common::ObjectProperty SphereProvider::parseProperty(const libconfig::Setting &setting)
+{
+    float radius;
+
+    if (!setting.isGroup()) {
+        throw Raytracer::Core::ConfigException("sphere properties must be a group");
+    }
+    Config::settingHasValidKeys("sphere", setting, {"radius"});
+    Config::lookupValueWrapper("radius", setting, radius);
+    return radius;
+}

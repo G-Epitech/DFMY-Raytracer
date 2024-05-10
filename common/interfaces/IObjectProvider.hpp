@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <libconfig.h++>
 #include <variant>
 #include <memory>
 #include "IObject.hpp"
@@ -14,7 +15,6 @@
 #include "types/graphics/Material.hpp"
 
 namespace Raytracer::Common {
-
     /// @brief Variant of the possible object properties
     /// @details This variant is used to store the different properties of an object
     ///          It can be a float or a 3D float. For example, the radius of a sphere
@@ -41,5 +41,7 @@ namespace Raytracer::Common {
          * @return Manifest of the object
          */
         virtual Object::Manifest getManifest() = 0;
+
+        virtual Raytracer::Common::ObjectProperty parseProperty(const libconfig::Setting &setting) = 0;
     };
 }

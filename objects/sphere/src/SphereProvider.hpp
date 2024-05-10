@@ -24,4 +24,6 @@ public:
         const Common::ObjectProperty &property) override;
 
     Common::Object::Manifest getManifest() override;
+
+    Common::ObjectProperty parseProperty(const libconfig::Setting &setting) override;
 };
