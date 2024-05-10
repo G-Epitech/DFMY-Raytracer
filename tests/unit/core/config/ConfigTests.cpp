@@ -72,7 +72,7 @@ TEST_F(ConfigTests, UnknownFile)
 
 TEST_F(ConfigTests, InvalidFileSyntax)
 {
-    ASSERT_THROW(Raytracer::Core::Config::loadFromFile("tests/unit/core/config/invalid_file.cfg", pluginsManager),
+    ASSERT_THROW(Raytracer::Core::Config::loadFromFile("tests/resources/scenes/invalid-file.cfg", pluginsManager),
         Raytracer::Core::ConfigException);
 }
 
