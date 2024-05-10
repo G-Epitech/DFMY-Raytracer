@@ -11,6 +11,8 @@
 #include "Compute.hpp"
 #include "interfaces/IFace.hpp"
 
+using namespace Raytracer::Common::Math;
+
 namespace Raytracer::Objects::MeshFaces {
     /// @brief Representing a quad face
     class QuadFace : public IFace {
@@ -72,7 +74,7 @@ namespace Raytracer::Objects::MeshFaces {
          */
         ~QuadFace() = default;
 
-        Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
+        void computeCollision(const Ray &ray, HitInfo &hitInfo) override;
 
     private:
         /// @brief Points of the quadrilateral

@@ -11,6 +11,8 @@
 #include "Compute.hpp"
 #include "interfaces/IFace.hpp"
 
+using namespace Raytracer::Common::Math;
+
 namespace Raytracer::Objects::MeshFaces {
     /// @brief Representing a tri face
     class TriFace : public IFace {
@@ -66,7 +68,7 @@ namespace Raytracer::Objects::MeshFaces {
          */
         ~TriFace() = default;
 
-        Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
+        void computeCollision(const Ray &ray, HitInfo &hitInfo) override;
 
     private:
         /// @brief Points of the triangle

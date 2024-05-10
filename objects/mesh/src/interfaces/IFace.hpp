@@ -10,6 +10,8 @@
 #include "common/types/math/Ray.hpp"
 #include "common/types/math/HitInfo.hpp"
 
+using namespace Raytracer::Common::Math;
+
 namespace Raytracer::Objects::MeshFaces {
     /// @brief Representing a face
     class IFace {
@@ -23,8 +25,9 @@ namespace Raytracer::Objects::MeshFaces {
         /**
          * @brief Compute the collision of the face
          * @param ray Ray to compute the collision
+         * @param hitInfo Hit info to fill
          * @return HitInfo
          */
-        virtual Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) = 0;
+        virtual void computeCollision(const Ray &ray, HitInfo &hitInfo) = 0;
     };
 }

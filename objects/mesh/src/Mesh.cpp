@@ -13,9 +13,11 @@
 #include <tuple>
 #include "Mesh.hpp"
 
+using namespace Raytracer::Common;
 using namespace Raytracer::Objects;
+using namespace Math;
 
-void getObjectCenter(const std::vector<Raytracer::Common::Math::Point3D> &vertices, Raytracer::Common::Math::Point3D &center)
+void getObjectCenter(const std::vector<Point3D> &vertices, Point3D &center)
 {
     for (auto &vertex : vertices) {
         center.x += vertex.x;
@@ -27,7 +29,7 @@ void getObjectCenter(const std::vector<Raytracer::Common::Math::Point3D> &vertic
     center.z /= vertices.size();
 }
 
-void translateObject(std::vector<Raytracer::Common::Math::Point3D> &vertices, const Raytracer::Common::Math::Point3D &center)
+void translateObject(std::vector<Point3D> &vertices, const Point3D &center)
 {
     for (auto &vertex : vertices) {
         vertex.x -= center.x;
@@ -37,15 +39,15 @@ void translateObject(std::vector<Raytracer::Common::Math::Point3D> &vertices, co
 }
 
 Mesh::Mesh(
-    const Raytracer::Common::Graphics::Material::Ptr material,
-    const Common::Math::Point3D &position,
-    const Raytracer::Common::ObjectProperty &property) : _material(material), _position(position)
+    const Graphics::Material::Ptr material,
+    const Point3D &position,
+    const ObjectProperty &property) : _material(material), _position(position)
 {
     auto filename = std::get<std::string>(property);
 
     _loadObj(filename);
     _getSphereRadius();
-    Raytracer::Common::Math::Point3D center;
+    Point3D center;
     getObjectCenter(_vertices, center);
     translateObject(_vertices, center);
     for (auto &vertex : _vertices) {
@@ -54,7 +56,7 @@ Mesh::Mesh(
         vertex.y += _position.y;
         vertex.z += _position.z;
     }
-    Raytracer::Common::Math::Point3D invCenter(-center.x, -center.y, -center.z);
+    Point3D invCenter(-center.x, -center.y, -center.z);
     translateObject(_vertices, invCenter);
     _loadTriangles();
     _loadQuads();
@@ -76,22 +78,23 @@ void Mesh::_getSphereRadius()
     }
 }
 
-Raytracer::Common::Math::HitInfo Mesh::computeCollision(const Raytracer::Common::Math::Ray &ray)
+HitInfo Mesh::computeCollision(const Ray &ray)
 {
     bool didHitOne = false;
-    Common::Math::HitInfo closesHitInfo;
+    HitInfo hitInfo;
+    HitInfo closesHitInfo;
 
-    if (!_collideSphere(ray) && !_isInsideSphere(ray.origin))
+    if (!_isInsideSphere(ray.origin) && !_collideSphere(ray))
         return closesHitInfo;
     for (auto &face : _faces) {
-        auto faceHitInfo = face->computeCollision(ray);
+        face->computeCollision(ray, hitInfo);
 
-        if (faceHitInfo.didHit) {
+        if (hitInfo.didHit) {
             if (!didHitOne) {
-                closesHitInfo = faceHitInfo;
+                closesHitInfo = hitInfo;
                 didHitOne = true;
-            } else if (faceHitInfo.distance < closesHitInfo.distance) {
-                closesHitInfo = faceHitInfo;
+            } else if (hitInfo.distance < closesHitInfo.distance) {
+                closesHitInfo = hitInfo;
             }
         }
     }
@@ -103,10 +106,13 @@ Raytracer::Common::Math::HitInfo Mesh::computeCollision(const Raytracer::Common:
     return closesHitInfo;
 }
 
-bool Mesh::_collideSphere(const Common::Math::Ray &ray)
+bool Mesh::_collideSphere(const Ray &ray)
 {
-    Common::Math::Point3D offsetRayOrigin = ray.origin - _position;
-    Common::Math::Vector3D oc(offsetRayOrigin.x, offsetRayOrigin.y, offsetRayOrigin.z);
+    Vector3D oc(
+        ray.origin.x - _position.x,
+        ray.origin.y - _position.y,
+        ray.origin.z - _position.z
+    );
 
     float a = ray.direction.dot(ray.direction);
     float b = 2.0 * oc.dot(ray.direction);
@@ -123,7 +129,7 @@ bool Mesh::_collideSphere(const Common::Math::Ray &ray)
     return true;
 }
 
-bool Mesh::_isInsideSphere(const Common::Math::Point3D &point)
+bool Mesh::_isInsideSphere(const Point3D &point)
 {
     float distanceSquared = std::pow(point.x - _position.x, 2) +
                             std::pow(point.y - _position.y, 2) +
@@ -132,7 +138,7 @@ bool Mesh::_isInsideSphere(const Common::Math::Point3D &point)
     return distanceSquared <= radiusSquared;
 }
 
-Raytracer::Common::Graphics::Material::Ptr Mesh::getMaterial()
+Graphics::Material::Ptr Mesh::getMaterial()
 {
     return _material;
 }
@@ -164,7 +170,7 @@ void Mesh::_loadObj(const std::string &filename)
 
 void Mesh::_loadVertex(std::istringstream &iss)
 {
-    Common::Math::Point3D vertex;
+    Point3D vertex;
 
     iss >> vertex.x >> vertex.y >> vertex.z;
     _vertices.push_back(vertex);
@@ -217,7 +223,7 @@ void Mesh::_loadFacePoint(std::istringstream &iss, Mesh::FacePoint &point)
 
 void Mesh::_loadNormal(std::istringstream &iss)
 {
-    Common::Math::Vector3D normal;
+    Vector3D normal;
 
     iss >> normal.x >> normal.y >> normal.z;
     _normals.push_back(normal);
@@ -225,7 +231,7 @@ void Mesh::_loadNormal(std::istringstream &iss)
 
 void Mesh::_loadTextureCoordinate(std::istringstream &iss)
 {
-    Common::Math::Point2D textureCoord;
+    Point2D textureCoord;
 
     iss >> textureCoord.x >> textureCoord.y;
     _textureCoordinates.push_back(textureCoord);
