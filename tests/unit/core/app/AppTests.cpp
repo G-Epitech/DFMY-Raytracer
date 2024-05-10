@@ -254,3 +254,71 @@ TEST_F(AppTests, InvalidPlugin)
     file.close();
     std::filesystem::remove("./plugins/raytracer_sphere_tests.so");
 }
+
+TEST_F(AppTests, SpecifyInvalidRaysPerPixel)
+{
+    App app;
+    char *argv[] = {
+        const_cast<char *>("./raytracer"),
+        const_cast<char *>("-r"),
+        const_cast<char *>("-1"),
+        const_cast<char *>("./tests/resources/scenes/empty.cfg")
+    };
+    int argc = 4;
+
+    optind = 1;
+    redirectStderr();
+    ASSERT_EQ(app.run(argc, argv), 84) << "Expected return code 84";
+    ASSERT_GT(stderrBuffer.str().length(), 0) << "Expected error message";
+}
+
+TEST_F(AppTests, SpecifyInvalidBounce)
+{
+    App app;
+    char *argv[] = {
+        const_cast<char *>("./raytracer"),
+        const_cast<char *>("-b"),
+        const_cast<char *>("-1"),
+        const_cast<char *>("./tests/resources/scenes/empty.cfg")
+    };
+    int argc = 4;
+
+    optind = 1;
+    redirectStderr();
+    ASSERT_EQ(app.run(argc, argv), 84) << "Expected return code 84";
+    ASSERT_GT(stderrBuffer.str().length(), 0) << "Expected error message";
+}
+
+TEST_F(AppTests, SpecifyInvalidFrames)
+{
+    App app;
+    char *argv[] = {
+        const_cast<char *>("./raytracer"),
+        const_cast<char *>("-F"),
+        const_cast<char *>("-1"),
+        const_cast<char *>("./tests/resources/scenes/empty.cfg")
+    };
+    int argc = 4;
+
+    optind = 1;
+    redirectStderr();
+    ASSERT_EQ(app.run(argc, argv), 84) << "Expected return code 84";
+    ASSERT_GT(stderrBuffer.str().length(), 0) << "Expected error message";
+}
+
+TEST_F(AppTests, SpecifyZeroBounce)
+{
+    App app;
+    char *argv[] = {
+        const_cast<char *>("./raytracer"),
+        const_cast<char *>("-b"),
+        const_cast<char *>("0"),
+        const_cast<char *>("./tests/resources/scenes/empty.cfg")
+    };
+    int argc = 4;
+
+    optind = 1;
+    redirectStderr();
+    ASSERT_EQ(app.run(argc, argv), 84) << "Expected return code 0";
+    ASSERT_GT(stderrBuffer.str().length(), 0) << "Expected error message";
+}
