@@ -10,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <variant>
 #include <tuple>
 #include "Mesh.hpp"
 
@@ -41,12 +42,18 @@ void Mesh::_translateObject(const Point3D &translation)
     }
 }
 
-Mesh::Mesh(
-    const Graphics::Material::Ptr material,
-    const Point3D &position,
-    const ObjectProperty &property) : _material(material), _position(position)
+Mesh::Mesh(const std::string &name,
+        Common::Graphics::Material::Ptr material,
+        const Common::Math::Vector3D &rotation,
+        const Common::Math::Point3D &position,
+        const Common::ObjectProperty &property) :
+        _name(name),
+        _material(material),
+        _rotation(rotation),
+        _position(position)
 {
-    auto filename = std::get<std::string>(property);
+    Raytracer::Common::MeshProperty prop = std::get<Raytracer::Common::MeshProperty>(property);
+    auto filename = prop.filename;
 
     _loadObj(filename);
 
@@ -64,13 +71,6 @@ Mesh::Mesh(
 
     _loadTriangles();
     _loadQuads();
-    std::cout << "Loaded mesh: " << filename << std::endl;
-    std::cout << "Vertices: " << _vertices.size() << std::endl;
-    std::cout << "Normals: " << _normals.size() << std::endl;
-    std::cout << "Texture coordinates: " << _textureCoordinates.size() << std::endl;
-    std::cout << "Triangles: " << _triFaces.size() << std::endl;
-    std::cout << "Quads: " << _quadFaces.size() << std::endl;
-    std::cout << "Radius: " << _radius << std::endl;
 }
 
 void Mesh::_setSphereRadius()

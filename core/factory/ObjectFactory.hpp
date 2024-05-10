@@ -30,14 +30,18 @@ namespace Raytracer::Core {
         /**
          * @brief Create a new object
          * @param name Name of the object
+         * @param type Type of the object
          * @param material Material of the object
+         * @param rotation Rotation of the object
          * @param position Position of the object
          * @param property Property of the object
          * @return Shared pointer to the new object
          */
         IObject::Ptr create(
             const std::string &name,
-            const Graphics::Material::Ptr& material,
+            const std::string &type,
+            const Common::Graphics::Material::Ptr &material,
+            const Math::Vector3D &rotation,
             const Math::Point3D &position,
             const ObjectProperty &property
         );

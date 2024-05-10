@@ -6,11 +6,10 @@
 */
 
 #include <iostream>
+#include <iomanip>
 #include "Handler.hpp"
 #include "types/rendering/Camera.hpp"
 #include "libs/DLLoader/DLLoader.hpp"
-#include "common/interfaces/IObjectProvider.hpp"
-#include "common/types/Libraries.hpp"
 #include "objects/sphere/src/SphereProvider.hpp"
 #include "types/graphics/Image.hpp"
 #include "libs/DLLoader/DLLoader.hpp"
@@ -27,108 +26,92 @@ using namespace Raytracer::Core::Cli;
     #define PLUGIN_PATH "plugins/raytracer_sphere.dll"
 #endif
 
-#define RESOLUTION 1
-
-Handler::Handler(Raytracer::Core::App::Arguments &args): _args(args) {}
+Handler::Handler(Raytracer::Core::App::Context &context): _appContext(context), _camerasNamesMaxLength(0) {}
 
 Handler::~Handler() = default;
 
 int Handler::run() {
-    DLLoader dlloader(PLUGIN_PATH);
-
-    std::shared_ptr<Common::Graphics::Material> green = std::make_shared<Common::Graphics::Material>(
-            Common::Graphics::Color::fromRGB(155, 179, 138),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            0
-    );
-    std::shared_ptr<Common::Graphics::Material> orange = std::make_shared<Common::Graphics::Material>(
-            Common::Graphics::Color::fromRGB(230, 119, 33),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            0
-    );
-    std::shared_ptr<Common::Graphics::Material> red = std::make_shared<Common::Graphics::Material>(
-            Common::Graphics::Color::fromRGB(207, 0, 0),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            0
-    );
-    std::shared_ptr<Common::Graphics::Material> purple = std::make_shared<Common::Graphics::Material>(
-            Common::Graphics::Color::fromRGB(168, 106, 212),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            0
-    );
-    std::shared_ptr<Common::Graphics::Material> yellow = std::make_shared<Common::Graphics::Material>(
-            Common::Graphics::Color::fromRGB(224, 255, 0),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            0
-    );
-    std::shared_ptr<Common::Graphics::Material> brown = std::make_shared<Common::Graphics::Material>(
-            Common::Graphics::Color::fromRGB(139, 69, 19),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            0
-    );
-    std::shared_ptr<Common::Graphics::Material> light = std::make_shared<Common::Graphics::Material>(
-            Common::Graphics::Color::fromRGB(0, 0, 0),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            1.5f
-    );
-    std::shared_ptr<Common::Graphics::Material> yellowLight = std::make_shared<Common::Graphics::Material>(
-            Common::Graphics::Color::fromRGB(100, 100, 100),
-            Common::Graphics::Color::fromRGB(235, 201, 30),
-            Common::Graphics::Color::fromRGB(255, 255, 255),
-            1.2f
-    );
-
-    std::string name = STRINGIFY(OBJECT_PROVIDER_GETTER_NAME);
-    auto objectProvider = dlloader.loadSymbol<Common::ObjectProviderGetter>(name);
-
-    Rendering::Camera::Config camConfig = {
-            .name = "Main camera",
-            .screen = {
-                    .size = { .width = 500 * RESOLUTION , .height = 500 * RESOLUTION}
-            },
-            .position = Common::Math::Point3D(-10, 0, 30),
-            .direction = Common::Math::Vector3D(0, 0, 0),
-            .fov = 50
+    Rendering::Camera::ComputeParams params = {
+        .threads = _appContext.args.options.threadsCount,
+        .additionalFrames = _appContext.args.options.additionalFramesCount,
+        .raysPerPixel = _appContext.args.options.raysPerPixel,
+        .rayBounceLimit = _appContext.args.options.rayBounce
     };
-    Rendering::Camera camera(camConfig);
-    std::vector<Common::IObject::Ptr> objects;
 
-    objects.push_back(objectProvider()->create(light, Common::Math::Point3D(-35, 100, 80), 50.0f));
-//     objects.push_back(objectProvider()->create(yellowLight, Common::Math::Point3D(30, 50, 30), 6.0f));
-//     objects.push_back(objectProvider()->create(yellowLight, Common::Math::Point3D(-18, 50, 25), 3.0f));
-
-    objects.push_back(objectProvider()->create(brown, Common::Math::Point3D(0, 80, -77), 100.0f));
-//     objects.push_back(objectProvider()->create(green, Common::Math::Point3D(10, 68, 34), 13.0f));
-    // objects.push_back(objectProvider()->create(orange, Common::Math::Point3D(-10, 60, 30), 10.0f));
-//     objects.push_back(objectProvider()->create(yellow, Common::Math::Point3D(50, 100, 70), 10.0f));
-    DLLoader dlloader2("plugins/raytracer_mesh.so");
-
-    auto objectProvider2 = dlloader2.loadSymbol<Common::ObjectProviderGetter>(name);
-
-    objects.push_back(objectProvider2()->create(green, Common::Math::Point3D(-10, 60, 30), "files/tree.obj"));
-
-    // camera.compute(COMPUTE_THREADS, objects);
-
-    // while (camera.getComputeStatus() < 1.0f) {
-    //     std::cout << "Rendering: " << camera.getComputeStatus() * 100 << "%" << std::endl;
-    //     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    // }
-
-    for (auto& thread : camera._threads) {
-        thread.join();
+    _camerasNamesMaxLength = _getCamerasNamesMaxLength();
+    for (auto &[name, camera]: _appContext.scene->cameras) {
+        _renderCameraImage(name, params, camera);
     }
-
-    std::cout << "Rendering done!" << std::endl;
-    Core::Graphics::Image image(camera.screen.size.width, camera.screen.size.height, camera.screen.getPixels());
-
-    image.saveTo("output.png");
-
     return 0;
+}
+
+void Handler::_displayProgress(const std::string &cameraName, int camerasNamesMaxLength, float progress) {
+    int barWidth = 50;
+    int pos = int(float(barWidth) * progress);
+
+    _displayCameraLabel(cameraName, camerasNamesMaxLength);
+    std::cout << "[";
+    for (int i = 0; i < barWidth; ++i) {
+        if (i < pos)
+            std::cout << "=";
+        else if (i == pos)
+            std::cout << ">";
+        else
+            std::cout << " ";
+    }
+    std::cout << "] " << int(progress * 100.0) << " %\r";
+    std::cout.flush();
+}
+
+int Handler::_getCamerasNamesMaxLength() {
+    size_t maxLength = 0;
+
+    for (auto &[name,_] : _appContext.scene->cameras) {
+        if (name.size() > maxLength)
+            maxLength = name.size();
+    }
+    return int(maxLength);
+}
+
+void Handler::_renderCameraImage(
+    const string &cameraName,
+    const Rendering::Camera::ComputeParams &params,
+    Rendering::Camera::Ptr &camera
+) {
+    auto &screen = camera->screen;
+    auto image = Graphics::Image(screen.size.width, screen.size.height, screen.getPixels());
+    float status = 0;
+
+    camera->compute(params, _appContext.scene->objects);
+    status = camera->getComputeStatus();
+    while (status < 1.0f) {
+        _displayProgress(cameraName, _camerasNamesMaxLength, status);
+        status = camera->getComputeStatus();
+    }
+    _displayProgress(cameraName, _camerasNamesMaxLength, 1.0f);
+    camera->waitThreadsTeardown();
+    _saveImage(cameraName, camera);
+}
+
+void Handler::_displayCameraLabel(const string &cameraName, int camerasNamesMaxLength) {
+    auto paddingSize = camerasNamesMaxLength - cameraName.size();
+    auto paddingL = std::string(paddingSize / 2, ' ');
+    auto paddingR = std::string(paddingSize - paddingL.size(), ' ');
+
+    std::cout << "[" << paddingL << cameraName << paddingR << "]";
+}
+
+void Handler::_saveImage(const string &cameraName, Raytracer::Core::Rendering::Camera::Ptr &camera) const {
+    auto &screen = camera->screen;
+    auto image = Graphics::Image(screen.size.width, screen.size.height, screen.getPixels());
+    auto fileName = cameraName + '.' + _appContext.args.options.outputFormat;
+
+    std::cout << std::endl;
+    if (image.saveTo(fileName)) {
+        _displayCameraLabel(cameraName, _camerasNamesMaxLength);
+        std::cout << " Image " << fileName << " saved. Done." << std::endl;
+    } else {
+        _displayCameraLabel(cameraName, _camerasNamesMaxLength);
+        std::cerr << " Fail to save image." << std::endl;
+    }
 }
