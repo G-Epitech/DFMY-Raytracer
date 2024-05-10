@@ -3,4 +3,5 @@ set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
 # Add the subdirectories
 add_subdirectory(sphere)
+add_subdirectory(plane)
 add_subdirectory(mesh)

@@ -28,7 +28,7 @@ namespace Raytracer::Common {
     /// @details This variant is used to store the different properties of an object
     ///          It can be a float or a 3D float. For example, the radius of a sphere
     ///          is a float, and the size of a cube is a 3D float.
-    typedef std::variant<float, Math::Float3, MeshProperty> ObjectProperty;
+    typedef std::variant<float, Math::Float3, MeshProperty, Math::Vector3D> ObjectProperty;
 
     class IObjectProvider {
     public:
