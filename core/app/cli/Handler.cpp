@@ -100,35 +100,40 @@ int Handler::run() {
     Rendering::Camera camera(camConfig);
     std::vector<Common::IObject::Ptr> objects;
 
-    objects.push_back(objectProvider()->create(light, Common::Math::Point3D(-35, 100, 80), 50.0f));
+//     objects.push_back(objectProvider()->create(light, Common::Math::Point3D(-35, 100, 80), 50.0f));
 //     objects.push_back(objectProvider()->create(yellowLight, Common::Math::Point3D(30, 50, 30), 6.0f));
 //     objects.push_back(objectProvider()->create(yellowLight, Common::Math::Point3D(-18, 50, 25), 3.0f));
 
-    objects.push_back(objectProvider()->create(brown, Common::Math::Point3D(0, 80, -77), 100.0f));
+//     objects.push_back(objectProvider()->create(brown, Common::Math::Point3D(0, 80, -77), 100.0f));
 //     objects.push_back(objectProvider()->create(green, Common::Math::Point3D(10, 68, 34), 13.0f));
     // objects.push_back(objectProvider()->create(orange, Common::Math::Point3D(-10, 60, 30), 10.0f));
 //     objects.push_back(objectProvider()->create(yellow, Common::Math::Point3D(50, 100, 70), 10.0f));
-    DLLoader dlloader2("plugins/raytracer_mesh.so");
+//     DLLoader dlloader2("plugins/raytracer_mesh.so");
 
-    auto objectProvider2 = dlloader2.loadSymbol<Common::ObjectProviderGetter>(name);
+//     auto objectProvider2 = dlloader2.loadSymbol<Common::ObjectProviderGetter>(name);
 
-    objects.push_back(objectProvider2()->create(green, Common::Math::Point3D(-10, 60, 30), "files/tree.obj"));
+//     objects.push_back(objectProvider2()->create(green, Common::Math::Point3D(-10, 60, 30), "files/tree.obj"));
 
-    // camera.compute(COMPUTE_THREADS, objects);
+    DLLoader dlloaderPlain("plugins/raytracer_plain.so");
+    auto objectProviderPlain = dlloaderPlain.loadSymbol<Common::ObjectProviderGetter>(name);
 
-    // while (camera.getComputeStatus() < 1.0f) {
-    //     std::cout << "Rendering: " << camera.getComputeStatus() * 100 << "%" << std::endl;
-    //     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    // }
+    objects.push_back(objectProviderPlain()->create(red, Common::Math::Point3D(0, 0, 0), Common::Math::Vector3D(0, 0, 1)));
 
-    for (auto& thread : camera._threads) {
-        thread.join();
-    }
+//     camera.compute(COMPUTE_THREADS, objects);
 
-    std::cout << "Rendering done!" << std::endl;
-    Core::Graphics::Image image(camera.screen.size.width, camera.screen.size.height, camera.screen.getPixels());
+//     while (camera.getComputeStatus() < 1.0f) {
+//         std::cout << "Rendering: " << camera.getComputeStatus() * 100 << "%" << std::endl;
+//         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+//     }
 
-    image.saveTo("output.png");
+//     for (auto& thread : camera._threads) {
+//         thread.join();
+//     }
+
+//     std::cout << "Rendering done!" << std::endl;
+//     Core::Graphics::Image image(camera.screen.size.width, camera.screen.size.height, camera.screen.getPixels());
+
+//     image.saveTo("output.png");
 
     return 0;
 }

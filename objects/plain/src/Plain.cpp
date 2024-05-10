@@ -30,7 +30,7 @@ Math::HitInfo Plain::computeCollision(const Math::Ray &ray)
 
     if (std::abs(denom) < EPSILON)
         return hitInfo;
-    
+
     Math::Vector3D tv(
         _position.x - ray.origin.x,
         _position.y - ray.origin.y,
@@ -41,13 +41,11 @@ Math::HitInfo Plain::computeCollision(const Math::Ray &ray)
 
     if (t < 0)
         return hitInfo;
-    
+
     hitInfo.didHit = true;
-    hitInfo.hitPoint = Math::Point3D(
-        ray.origin.x + ray.direction.x * t,
-        ray.origin.y + ray.direction.y * t,
-        ray.origin.z + ray.direction.z * t
-    );
+    hitInfo.hitPoint.x = ray.origin.x + t * ray.direction.x;
+    hitInfo.hitPoint.y = ray.origin.y + t * ray.direction.y;
+    hitInfo.hitPoint.z = ray.origin.z + t * ray.direction.z;
     hitInfo.normal = _normal;
     hitInfo.distance = t;
     hitInfo.hitColor = {
