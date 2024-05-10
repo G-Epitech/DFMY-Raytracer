@@ -55,7 +55,6 @@ Mesh::Mesh(const std::string &name,
     Raytracer::Common::MeshProperty prop = std::get<Raytracer::Common::MeshProperty>(property);
     auto filename = prop.filename;
 
-    _radius = prop.radius;
     _loadObj(filename);
 
     _setSphereRadius();
@@ -72,13 +71,6 @@ Mesh::Mesh(const std::string &name,
 
     _loadTriangles();
     _loadQuads();
-    std::cout << "Loaded mesh: " << filename << std::endl;
-    std::cout << "Vertices: " << _vertices.size() << std::endl;
-    std::cout << "Normals: " << _normals.size() << std::endl;
-    std::cout << "Texture coordinates: " << _textureCoordinates.size() << std::endl;
-    std::cout << "Triangles: " << _triFaces.size() << std::endl;
-    std::cout << "Quads: " << _quadFaces.size() << std::endl;
-    std::cout << "Radius: " << _radius << std::endl;
 }
 
 void Mesh::_setSphereRadius()

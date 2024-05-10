@@ -48,8 +48,8 @@ Raytracer::Common::ObjectProperty MeshProvider::parseProperty(const libconfig::S
     if (!setting.isGroup()) {
         throw std::runtime_error("mesh properties must be a group");
     }
-    ConfigUtils::settingHasValidKeys("mesh", setting, {"path", "radius"});
+    ConfigUtils::settingHasValidKeys("mesh", setting, {"path", "scale"});
     ConfigUtils::lookupValueWrapper("path", setting, property.filename);
-    ConfigUtils::lookupValueWrapper("radius", setting, property.radius);
+    ConfigUtils::lookupValueWrapper("scale", setting, property.scale);
     return property;
 }

@@ -19,7 +19,7 @@ namespace Raytracer::Common {
     /// @brief Object property
     typedef struct {
         /// @brief Radius of the mesh
-        float radius;
+        float scale;
         /// @brief Path to the obj file to load
         std::string filename;
     } MeshProperty;
