@@ -18,18 +18,22 @@ using namespace Raytracer::Core;
 
 int App::run(int argc, char **argv)
 {
-    if (!_readArgs(argc, argv))
+    if (!_readArgs(argc, argv)) {
         return 84;
-    if (_args.options.help)
+    }
+    if (_args.options.help) {
         return help();
-    if (!_loadPlugins())
+    }
+    if (!_loadPlugins()) {
         return 84;
+    }
     if (_args.scenes.empty()) {
         std::cerr << "No scene file provided." << std::endl;
         return 84;
     }
-    if (!tryLoadScene(_args.scenes[0]))
+    if (!tryLoadScene(_args.scenes[0])) {
         return 84;
+    }
     return _runHandler();
 }
 
@@ -74,8 +78,9 @@ int App::help() {
 }
 
 bool App::_readArgs(int argc, char **argv) {
-    if (!_readOptions(argc, argv))
+    if (!_readOptions(argc, argv)) {
         return false;
+    }
     for (int i = optind; i < argc; i++) {
         _args.scenes.emplace_back(argv[i]);
     }

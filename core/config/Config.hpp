@@ -107,12 +107,14 @@ namespace Raytracer::Core {
         /**
          * @brief Load a scene configuration from a string (useful for testing)
          * @param contents Contents of the configuration file
+         * @param pluginsManager Plugins manager to use to create objects
          */
         static Config loadFromString(const std::string &contents, PluginsManager &pluginsManager);
 
         /**
          * @brief Load a scene configuration from a file
          * @param path Path to the configuration file
+         * @param pluginsManager Plugins manager to use to create objects
          */
         static Config loadFromFile(const std::string &path, PluginsManager &pluginsManager);
 
@@ -161,6 +163,7 @@ namespace Raytracer::Core {
         /**
          * @brief Builds the objects of the scene
          * @param scene Scene to build the objects for
+         * @param pluginsManager Plugins manager to use to create objects
          */
         void _buildSceneObjects(const Rendering::Scene::Ptr &scene, PluginsManager &pluginsManager);
 
@@ -191,6 +194,7 @@ namespace Raytracer::Core {
         /**
          * @brief Load the scene objects configuration
          * @param root Root setting of the configuration file
+         * @param pluginsManager Plugins manager to use to create objects
          */
         static std::vector<ObjectConfig> _loadObjects(const libconfig::Setting &root, PluginsManager &pluginsManager);
 
@@ -210,6 +214,7 @@ namespace Raytracer::Core {
         /**
          * @brief Parse an object group from the configuration
          * @param setting Setting of the object group
+         * @param pluginsManager Plugins manager to use to create objects
          */
         static ObjectConfig _parseObject(const libconfig::Setting &setting, PluginsManager &pluginsManager);
     };

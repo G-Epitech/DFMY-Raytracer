@@ -30,7 +30,9 @@ namespace Raytracer::Core {
         /**
          * @brief Create a new object
          * @param name Name of the object
+         * @param type Type of the object
          * @param material Material of the object
+         * @param rotation Rotation of the object
          * @param position Position of the object
          * @param property Property of the object
          * @return Shared pointer to the new object

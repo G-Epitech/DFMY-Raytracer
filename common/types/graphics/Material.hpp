@@ -18,6 +18,7 @@ namespace Raytracer::Common::Graphics {
         /// @brief Shared pointer to a material
         typedef std::shared_ptr<Material> Ptr;
 
+        /// @brief Emission struct for the material
         typedef struct {
             /// @brief Light emission color
             Color color;
@@ -30,9 +31,10 @@ namespace Raytracer::Common::Graphics {
         /**
          * @brief Construct a new Material object
          * @param color Color of the material
-         * @param emissionColor Emission color of the material
-         * @param specularColor Specular color of the material
-         * @param emissionStrength Emission strength of the material
+         * @param emissionColor General emission color of the material
+         * @param emissionStrength General emissions strength
+         * @param reflectivity Reflectivity of the material
+         * @param emissions Emissions vector of the material
          */
         explicit Material(
             const Color &color,
@@ -68,6 +70,8 @@ namespace Raytracer::Common::Graphics {
         /// @brief Reflectivity of the material
         float reflectivity;
 
+        /// @brief Emissions vector of the material
         std::vector<Emission> emissions;
-    };
+
+    };  
 }
