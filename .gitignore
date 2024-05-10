@@ -26,4 +26,5 @@ __pycache__/
 # Build files
 build/
 cmake-build-debug*
-
+html
+latex
