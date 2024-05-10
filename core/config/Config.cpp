@@ -269,32 +269,3 @@ Config::ObjectConfig Config::_parseObject(const libconfig::Setting &setting,
     object.property = pluginsManager.providers[object.type]->parseProperty(setting["properties"]);
     return object;
 }
-
-float Config::_parseSphere(const libconfig::Setting &setting)
-{
-    float radius;
-
-    if (!setting.isGroup()) {
-        throw Raytracer::Core::ConfigException("sphere properties must be a group");
-    }
-    ConfigUtils::settingHasValidKeys("sphere", setting, {"radius"});
-    ConfigUtils::lookupValueWrapper("radius", setting, radius);
-    return radius;
-}
-
-Math::Float3 Config::_parseCube(const libconfig::Setting &settings)
-{
-    Math::Float3 cubeSize;
-    std::tuple<float, float, float> tuple;
-
-    if (!settings.isGroup())
-        throw Raytracer::Core::ConfigException("cube properties must be a group");
-    ConfigUtils::settingHasValidKeys("cube", settings, {"size"});
-    if (!settings["size"].isGroup())
-        throw Raytracer::Core::ConfigException("size must be a group");
-    tuple = ConfigUtils::parseTuple3f("size", settings["size"], {"width", "height", "depth"});
-    cubeSize.x = std::get<0>(tuple);
-    cubeSize.y = std::get<1>(tuple);
-    cubeSize.z = std::get<2>(tuple);
-    return cubeSize;
-}

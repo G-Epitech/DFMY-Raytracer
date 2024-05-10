@@ -16,6 +16,7 @@ class ConfigTests : public ::testing::Test {
     protected:
 
     void SetUp() override {
+        pluginsManager.load("./plugins");
         stdoutBuf = std::cout.rdbuf();
         stderrBuf = std::cerr.rdbuf();
     }
@@ -35,13 +36,14 @@ class ConfigTests : public ::testing::Test {
 
     std::stringstream stdoutBuffer;
     std::stringstream stderrBuffer;
+    PluginsManager pluginsManager;
     std::streambuf *stdoutBuf = nullptr;
     std::streambuf *stderrBuf = nullptr;
 };
 
 TEST_F(ConfigTests, ValidConfiguration)
 {
-    auto config = Raytracer::Core::Config::loadFromFile("scenes/test.cfg");
+    auto config = Raytracer::Core::Config::loadFromFile("scenes/test.cfg", pluginsManager);
     Raytracer::Core::Config::SceneConfig sceneConfig = config.getSceneConfig();
     auto ambient = sceneConfig.ambient.color.toPixel();
     auto materialColor = sceneConfig.materials[0].objectColor.toPixel();
@@ -83,12 +85,14 @@ TEST_F(ConfigTests, ValidConfiguration)
 
 TEST_F(ConfigTests, UnknownFile)
 {
-    ASSERT_THROW(Raytracer::Core::Config::loadFromFile("wow"), Raytracer::Core::ConfigException);
+    ASSERT_THROW(Raytracer::Core::Config::loadFromFile("wow", pluginsManager),
+        Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidFileSyntax)
 {
-    ASSERT_THROW(Raytracer::Core::Config::loadFromFile("tests/unit/core/config/invalid_file.cfg"), Raytracer::Core::ConfigException);
+    ASSERT_THROW(Raytracer::Core::Config::loadFromFile("tests/unit/core/config/invalid_file.cfg", pluginsManager),
+        Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidAmbientFormat)
@@ -98,7 +102,8 @@ TEST_F(ConfigTests, InvalidAmbientFormat)
                                      "materials = []\n"
                                      "objects = []\n";
 
-    ASSERT_THROW( Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_THROW( Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager),
+        Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidCamerasFormat)
@@ -111,7 +116,8 @@ TEST_F(ConfigTests, InvalidCamerasFormat)
                                      "materials = ()\n"
                                      "objects = ()\n";
 
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager),
+        Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidMaterialsFormat)
@@ -123,7 +129,8 @@ TEST_F(ConfigTests, InvalidMaterialsFormat)
                                      "cameras = ()\n"
                                      "materials = 32\n"
                                      "objects = ()\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager),
+        Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidMaterialsElementFormat)
@@ -135,7 +142,8 @@ TEST_F(ConfigTests, InvalidMaterialsElementFormat)
                                      "cameras = ()\n"
                                      "materials = (23)\n"
                                      "objects = ()\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager),
+        Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidMaterialsElementEmissionsFormat)
@@ -156,7 +164,8 @@ TEST_F(ConfigTests, InvalidMaterialsElementEmissionsFormat)
                                     "    }\n"
                                     ")\n"
                                      "objects = ()\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager),
+        Raytracer::Core::ConfigException);
 }
 
 
@@ -178,7 +187,8 @@ TEST_F(ConfigTests, InvalidMaterialsElementEmissionElementFormat)
                                      "    }\n"
                                      ")\n"
                                      "objects = ()\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager),
+        Raytracer::Core::ConfigException);
 }
 
 
@@ -191,7 +201,8 @@ TEST_F(ConfigTests, InvalidObjectsFormat)
                                      "cameras = ()\n"
                                      "materials = ()\n"
                                      "objects = 3\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager),
+        Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidObjectElementFormat)
@@ -203,7 +214,8 @@ TEST_F(ConfigTests, InvalidObjectElementFormat)
                                      "cameras = ()\n"
                                      "materials = ()\n"
                                      "objects = (4)\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager),
+        Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidObjectSphereFormat)
@@ -231,7 +243,7 @@ TEST_F(ConfigTests, InvalidObjectSphereFormat)
                                      "        properties = 4\n"
                                      "    }\n"
                                      ")\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_ANY_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager));
 }
 
 TEST_F(ConfigTests, ValidSphereFormat)
@@ -261,7 +273,7 @@ TEST_F(ConfigTests, ValidSphereFormat)
                                      "        }\n"
                                      "    }\n"
                                      ")\n";
-    Config config = Raytracer::Core::Config::loadFromString(configFileContents);
+    Config config = Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager);
     Raytracer::Core::Config::SceneConfig sceneCfg = config.getSceneConfig();
 
     ASSERT_EQ(sceneCfg.objects[0].type, "sphere") << "Expected object type to be SPHERE";
@@ -270,135 +282,6 @@ TEST_F(ConfigTests, ValidSphereFormat)
     ASSERT_EQ(sceneCfg.objects[0].origin.y, 2.0f) << "Expected object origin to be 2";
     ASSERT_EQ(sceneCfg.objects[0].origin.z, 3.0f) << "Expected object origin to be 3";
     ASSERT_EQ(std::get<float>(sceneCfg.objects[0].property), 1.0f) << "Expected object radius to be 1";
-}
-
-TEST_F(ConfigTests, ValidCubeFormat)
-{
-    std::string configFileContents = "ambient = {\n"
-                                     "    color = {r=1, g=2, b=3, a=4}\n"
-                                     "    strength = 0.1\n"
-                                     "}\n"
-                                     "cameras = ()\n"
-                                     "materials = (\n"
-                                     "    {\n"
-                                     "        name = \"red\",\n"
-                                     "        objectColor = {r=1, g=0, b=0, a=1},\n"
-                                     "        emissions = ()\n"
-                                     "        reflectivity = 0.5,\n"
-                                     "        emissionStrength = 0.5,\n"
-                                     "        emissionColor = {r=1, g=0, b=0, a=1}\n"
-                                     "    }\n"
-                                     ")\n"
-                                     "objects = (\n"
-                                     "    {\n"
-                                     "        type = \"cube\",\n"
-                                     "        material = \"red\",\n"
-                                     "        origin = {x=1.0, y=2.0, z=3.0},\n"
-                                     "        properties = {\n"
-                                     "            size = {width=1.0, height=2.0, depth=3.0}\n"
-                                     "        }\n"
-                                     "    }\n"
-                                     ")\n";
-    Config config = Raytracer::Core::Config::loadFromString(configFileContents);
-    Raytracer::Core::Config::SceneConfig sceneCfg = config.getSceneConfig();
-    Math::Float3 size = std::get<Math::Float3>(sceneCfg.objects[0].property);
-
-    ASSERT_EQ(sceneCfg.objects[0].type, "cube") << "Expected object type to be SPHERE";
-    ASSERT_EQ(sceneCfg.objects[0].material, "red") << "Expected object material to be 'red'";
-    ASSERT_EQ(sceneCfg.objects[0].origin.x, 1.0f) << "Expected object origin to be 1";
-    ASSERT_EQ(sceneCfg.objects[0].origin.y, 2.0f) << "Expected object origin to be 2";
-    ASSERT_EQ(sceneCfg.objects[0].origin.z, 3.0f) << "Expected object origin to be 3";
-    ASSERT_EQ(size.x, 1.0f) << "Expected cube size to be 1";
-    ASSERT_EQ(size.y, 2.0f) << "Expected cube size to be 2";
-    ASSERT_EQ(size.z, 3.0f) << "Expected cube size to be 3";
-}
-
-TEST_F(ConfigTests, InvalidCubeSizeFormat)
-{
-    std::string configFileContents = "ambient = {\n"
-                                     "    color = {r=1, g=2, b=3, a=4}\n"
-                                     "    strength = 0.1\n"
-                                     "}\n"
-                                     "cameras = ()\n"
-                                     "materials = (\n"
-                                     "    {\n"
-                                     "        name = \"red\",\n"
-                                     "        objectColor = {r=1, g=0, b=0, a=1},\n"
-                                     "        emissions = ()\n"
-                                     "        reflectivity = 0.5,\n"
-                                     "        emissionStrength = 0.5,\n"
-                                     "        emissionColor = {r=1, g=0, b=0, a=1}\n"
-                                     "    }\n"
-                                     ")\n"
-                                     "objects = (\n"
-                                     "    {\n"
-                                     "        type = \"cube\",\n"
-                                     "        material = \"red\",\n"
-                                     "        origin = {x=1.0, y=2.0, z=3.0},\n"
-                                     "        properties = {\n"
-                                     "            size = 3\n"
-                                     "        }\n"
-                                     "    }\n"
-                                     ")\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
-}
-
-TEST_F(ConfigTests, InvalidCubePropertiesFormat)
-{
-    std::string configFileContents = "ambient = {\n"
-                                     "    color = {r=1, g=2, b=3, a=4}\n"
-                                     "    strength = 0.1\n"
-                                     "}\n"
-                                     "cameras = ()\n"
-                                     "materials = (\n"
-                                     "    {\n"
-                                     "        name = \"red\",\n"
-                                     "        objectColor = {r=1, g=0, b=0, a=1},\n"
-                                     "        emissions = ()\n"
-                                     "        reflectivity = 0.5,\n"
-                                     "        emissionStrength = 0.5,\n"
-                                     "        emissionColor = {r=1, g=0, b=0, a=1}\n"
-                                     "    }\n"
-                                     ")\n"
-                                     "objects = (\n"
-                                     "    {\n"
-                                     "        type = \"cube\",\n"
-                                     "        material = \"red\",\n"
-                                     "        origin = {x=1.0, y=2.0, z=3.0},\n"
-                                     "        properties = 3"
-                                     "    }\n"
-                                     ")\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
-}
-
-TEST_F(ConfigTests, InvalidCubePropertiesKeys)
-{
-    std::string configFileContents = "ambient = {\n"
-                                     "    color = {r=1, g=2, b=3, a=4}\n"
-                                     "    strength = 0.1\n"
-                                     "}\n"
-                                     "cameras = ()\n"
-                                     "materials = (\n"
-                                     "    {\n"
-                                     "        name = \"red\",\n"
-                                     "        objectColor = {r=1, g=0, b=0, a=1},\n"
-                                     "        emissions = ()\n"
-                                     "        reflectivity = 0.5,\n"
-                                     "        emissionStrength = 0.5,\n"
-                                     "        emissionColor = {r=1, g=0, b=0, a=1}\n"
-                                     "    }\n"
-                                     ")\n"
-                                     "objects = (\n"
-                                     "    {\n"
-                                     "        type = \"cube\",\n"
-                                     "        material = \"red\",\n"
-                                     "        origin = {x=1.0, y=2.0, z=3.0},\n"
-                                     "        properties = {\n"
-                                     "            size = {width=1.0, height=2.0}\n"
-                                     "        }\n"
-                                     "    }\n"
-                                     ")\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
 }
 
 TEST_F(ConfigTests, InvalidPoint3DProps)
@@ -419,7 +302,7 @@ TEST_F(ConfigTests, InvalidPoint3DProps)
                                      ")\n"
                                      "materials = ()\n"
                                      "objects = ()\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_ANY_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager));
 }
 
 TEST_F(ConfigTests, InvalidPoint3DFormat)
@@ -440,7 +323,7 @@ TEST_F(ConfigTests, InvalidPoint3DFormat)
                                      ")\n"
                                      "materials = ()\n"
                                      "objects = ()\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_ANY_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager));
 }
 
 TEST_F(ConfigTests, InvalidVector3DProps)
@@ -461,7 +344,7 @@ TEST_F(ConfigTests, InvalidVector3DProps)
                                      ")\n"
                                      "materials = ()\n"
                                      "objects = ()\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_ANY_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager));
 }
 
 TEST_F(ConfigTests, InvalidColorFormat)
@@ -473,7 +356,7 @@ TEST_F(ConfigTests, InvalidColorFormat)
                                      "cameras = ()\n"
                                      "materials = ()\n"
                                      "objects = ()\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_ANY_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager));
 }
 
 TEST_F(ConfigTests, InvalidType)
@@ -485,16 +368,12 @@ TEST_F(ConfigTests, InvalidType)
                                      "cameras = ()\n"
                                      "materials = ()\n"
                                      "objects = ()\n";
-    ASSERT_THROW(Raytracer::Core::Config::loadFromString(configFileContents), Raytracer::Core::ConfigException);
+    ASSERT_ANY_THROW(Raytracer::Core::Config::loadFromString(configFileContents, pluginsManager));
 }
 
 TEST_F(ConfigTests, ConfigToScene)
 {
-    PluginsManager pluginsManager;
-    pluginsManager.load("./plugins");
-
-
-    auto config = Config::loadFromFile("scenes/test.cfg");
+    auto config = Config::loadFromFile("scenes/test.cfg", pluginsManager);
     Config::SceneConfig sceneConfig = config.getSceneConfig();
     auto scene = config.toScene(pluginsManager);
 

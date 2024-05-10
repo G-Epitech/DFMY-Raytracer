@@ -223,14 +223,4 @@ class Raytracer::Core::Config {
          * @param setting Setting of the object group
          */
         ObjectConfig _parseObject(const libconfig::Setting &setting, PluginsManager &pluginsManager);
-        /**
-         * @brief Parse special properties of a sphere from the configuration
-         * @param setting Setting of the sphere group
-         */
-        float _parseSphere(const libconfig::Setting &setting);
-        /**
-         * @brief Parse special properties of a cube from the configuration
-         * @param setting Setting of the cube group
-         */
-        Math::Float3 _parseCube(const libconfig::Setting &setting);
 };

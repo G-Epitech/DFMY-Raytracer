@@ -24,7 +24,7 @@ public:
      * @param property Property of the sphere
      */
     Sphere(Common::Graphics::Material::Ptr  material, const Common::Math::Point3D &position, const Common::ObjectProperty &property);
-    
+
     /**
      * @brief Destroy the Sphere object
      */
