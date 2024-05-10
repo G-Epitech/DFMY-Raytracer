@@ -10,6 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <variant>
 #include <tuple>
 #include "Mesh.hpp"
 
@@ -41,13 +42,20 @@ void Mesh::_translateObject(const Point3D &translation)
     }
 }
 
-Mesh::Mesh(
-    const Graphics::Material::Ptr material,
-    const Point3D &position,
-    const ObjectProperty &property) : _material(material), _position(position)
+Mesh::Mesh(const std::string &name,
+        Common::Graphics::Material::Ptr material,
+        const Common::Math::Vector3D &rotation,
+        const Common::Math::Point3D &position,
+        const Common::ObjectProperty &property) :
+        _name(name),
+        _material(material),
+        _rotation(rotation),
+        _position(position)
 {
-    auto filename = std::get<std::string>(property);
+    Raytracer::Common::MeshProperty prop = std::get<Raytracer::Common::MeshProperty>(property);
+    auto filename = prop.filename;
 
+    _radius = prop.radius;
     _loadObj(filename);
 
     _setSphereRadius();
