@@ -108,6 +108,7 @@ $(function() {
 , <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1IFace.html#aeacd3cc7fd81d727e9fba39606dd40d1">Raytracer::Objects::MeshFaces::IFace</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace.html#a70a7e872c62eb37ea5af57199a03c51c">Raytracer::Objects::MeshFaces::QuadFace</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1MeshFaces_1_1TriFace.html#a3e406357bb49edc3802c09398ad47335">Raytracer::Objects::MeshFaces::TriFace</a>
+, <a class="el" href="classRaytracer_1_1Objects_1_1Plane.html#a1677987d2f708a1afd1ee12d5d3d9d96">Raytracer::Objects::Plane</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1Sphere.html#ab6c64702eb3b330c1712e77b8c1ad2eb">Raytracer::Objects::Sphere</a>
 </li>
 <li>ComputeError()
@@ -123,6 +124,7 @@ $(function() {
 : <a class="el" href="classRaytracer_1_1Common_1_1IObjectProvider.html#ae51d54d4a2ff8edbc2a478267a7c77ee">Raytracer::Common::IObjectProvider</a>
 , <a class="el" href="classRaytracer_1_1Core_1_1ObjectFactory.html#a0ae5153b7e8c8d77c5a83a493619c6a9">Raytracer::Core::ObjectFactory</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1MeshProvider.html#ad634dde33fe08aa9cca2b9db0867687f">Raytracer::Objects::MeshProvider</a>
+, <a class="el" href="classRaytracer_1_1Objects_1_1PlaneProvider.html#a1179060819cf14aff747f7a545a02218">Raytracer::Objects::PlaneProvider</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1SphereProvider.html#a4de9431292b62bc13bc3911f0d974328">Raytracer::Objects::SphereProvider</a>
 </li>
 <li>cross()
@@ -169,11 +171,13 @@ $(function() {
 <li>getManifest()
 : <a class="el" href="classRaytracer_1_1Common_1_1IObjectProvider.html#a54b9498d455756817857c0fe217259ac">Raytracer::Common::IObjectProvider</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1MeshProvider.html#a8a4da4a4e67c61e546927036ce92b8a5">Raytracer::Objects::MeshProvider</a>
+, <a class="el" href="classRaytracer_1_1Objects_1_1PlaneProvider.html#a6ff067fb4aa1faac887e3020e4d2cbca">Raytracer::Objects::PlaneProvider</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1SphereProvider.html#a1f32f95abd9dd09bb843e2bb910a5efe">Raytracer::Objects::SphereProvider</a>
 </li>
 <li>getMaterial()
 : <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#aa2996316c9119cde6e35ba75fa74acee">Raytracer::Common::IObject</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1Mesh.html#a5a5553ea78a0a868e56960fc1831e0f9">Raytracer::Objects::Mesh</a>
+, <a class="el" href="classRaytracer_1_1Objects_1_1Plane.html#ab53bca699d469907a7947bbf8548bd78">Raytracer::Objects::Plane</a>
 , <a class="el" href="classRaytracer_1_1Objects_1_1Sphere.html#abb5abf82c6af839d556a1c934ffa2591">Raytracer::Objects::Sphere</a>
 </li>
 <li>getMessage()
@@ -308,6 +312,7 @@ $(function() {
 </li>
 <li>operator==()
 : <a class="el" href="structRaytracer_1_1Common_1_1Graphics_1_1Color.html#aece4d3ce2bcc2092258afe16c1bf333b">Raytracer::Common::Graphics::Color</a>
+, <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html#a311455da0b320e4bde4fc93fd5007197">Raytracer::Common::Math::Vector3D</a>
 </li>
 </ul>
 
@@ -327,6 +332,12 @@ $(function() {
 </li>
 <li>path()
 : <a class="el" href="classRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException.html#a29e5d595bfc20151e0945cb7bd595868">Raytracer::Core::PluginsManager::InvalidPathException</a>
+</li>
+<li>Plane()
+: <a class="el" href="classRaytracer_1_1Objects_1_1Plane.html#a1b60a82a4716ebfb58fe254f2b92423f">Raytracer::Objects::Plane</a>
+</li>
+<li>PlaneProvider()
+: <a class="el" href="classRaytracer_1_1Objects_1_1PlaneProvider.html#ab7178e4f9fa3931fec99ab08138afef9">Raytracer::Objects::PlaneProvider</a>
 </li>
 <li>PluginsManager()
 : <a class="el" href="classRaytracer_1_1Core_1_1PluginsManager.html#a79f16fd7dfeed11c9a795cc916e90c4a">Raytracer::Core::PluginsManager</a>
@@ -489,6 +500,12 @@ $(function() {
 </li>
 <li>~ObjectFactory()
 : <a class="el" href="classRaytracer_1_1Core_1_1ObjectFactory.html#a04a1138c18e740b8f0fd580b3d52af1c">Raytracer::Core::ObjectFactory</a>
+</li>
+<li>~Plane()
+: <a class="el" href="classRaytracer_1_1Objects_1_1Plane.html#a511d4a2affe0cec98143678a50b305f6">Raytracer::Objects::Plane</a>
+</li>
+<li>~PlaneProvider()
+: <a class="el" href="classRaytracer_1_1Objects_1_1PlaneProvider.html#a2307e20ca4f67eb80213728bf35436a8">Raytracer::Objects::PlaneProvider</a>
 </li>
 <li>~PluginsManager()
 : <a class="el" href="classRaytracer_1_1Core_1_1PluginsManager.html#aad834f8693866bbc5e989ec1d12fb425">Raytracer::Core::PluginsManager</a>
