@@ -34,7 +34,11 @@ namespace Raytracer::Common {
          * @param material Material of the object
          * @return Shared pointer to the new object
          */
-        virtual IObject::Ptr create(Graphics::Material::Ptr material, const Math::Point3D &position, const ObjectProperty &property) = 0;
+        virtual IObject::Ptr create(const std::string &name,
+            Common::Graphics::Material::Ptr material,
+            const Common::Math::Vector3D &rotation,
+            const Common::Math::Point3D &position,
+            const Common::ObjectProperty &property) = 0;
 
         /**
          * @brief Get the manifest of the object

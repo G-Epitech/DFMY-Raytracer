@@ -81,8 +81,10 @@ void Config::_buildSceneObjects(const Rendering::Scene::Ptr& scene, PluginsManag
 
     for (auto &object: _sceneConfig.objects) {
         scene->objects.push_back(objectFactory.create(
+            object.name,
             object.type,
             scene->materials[object.material],
+            object.rotation,
             object.origin,
             object.property
         ));
@@ -259,9 +261,11 @@ Config::ObjectConfig Config::_parseObject(const libconfig::Setting &setting,
     if (!setting.isGroup())
         throw Raytracer::Core::ConfigException("object must be a group");
     ConfigUtils::settingHasValidKeys("object", setting, {"type", "material", "properties",
-        "origin"});
+        "origin", "name", "rotation"});
+    ConfigUtils::lookupValueWrapper("name", setting, object.name);
     ConfigUtils::lookupValueWrapper("type", setting, object.type);
     ConfigUtils::lookupValueWrapper("material", setting, object.material);
+    object.rotation = ConfigUtils::parseVector3D("object rotation", setting["rotation"]);
     object.origin = ConfigUtils::parsePoint3D("object origin", setting["origin"]);
     if (pluginsManager.providers.find(object.type) == pluginsManager.providers.end()) {
         throw Raytracer::Core::ConfigException("Unknown object type: " + object.type);

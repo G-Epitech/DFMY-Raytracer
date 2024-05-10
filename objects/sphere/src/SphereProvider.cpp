@@ -14,11 +14,13 @@
 using Raytracer::Objects::SphereProvider;
 
 std::shared_ptr<Raytracer::Common::IObject> SphereProvider::create(
-    const Raytracer::Common::Graphics::Material::Ptr material,
-    const Raytracer::Common::Math::Point3D &position,
-    const Raytracer::Common::ObjectProperty &property)
+        const std::string &name,
+        Common::Graphics::Material::Ptr material,
+        const Common::Math::Vector3D &rotation,
+        const Common::Math::Point3D &position,
+        const Common::ObjectProperty &property)
 {
-    return std::make_shared<Raytracer::Objects::Sphere>(material, position, property);
+    return std::make_shared<Raytracer::Objects::Sphere>(name, material, rotation, position, property);
 }
 
 Raytracer::Common::Object::Manifest SphereProvider::getManifest()

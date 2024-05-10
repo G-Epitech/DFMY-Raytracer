@@ -89,12 +89,16 @@ class Raytracer::Core::Config {
 
         /// @brief Object configuration
         typedef struct {
+            /// @brief Object name
+            std::string name;
             /// @brief Object type (cube, sphere, etc.)
             std::string type;
             /// @brief The material name for the object
             std::string material;
             /// @brief Object origin
             Math::Point3D origin;
+            /// @brief Object rotation
+            Math::Vector3D rotation;
             /// @brief Object special properties (cube, sphere, etc.)
             Raytracer::Common::ObjectProperty property;
         } ObjectConfig;
