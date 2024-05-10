@@ -150,7 +150,7 @@ bool App::_loadPlugins() {
 
 bool App::tryLoadScene(const string &scenePath) {
     try {
-        auto config = Config::loadFromFile(scenePath);
+        auto config = Config::loadFromFile(scenePath, _pluginsManager);
         auto scene = config.toScene(_pluginsManager);
 
         _scene = std::move(scene);

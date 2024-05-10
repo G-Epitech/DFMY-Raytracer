@@ -10,11 +10,21 @@
 #include "Sphere.hpp"
 
 Raytracer::Objects::Sphere::Sphere(
-    Raytracer::Common::Graphics::Material::Ptr  material,
-    const Common::Math::Point3D &position,
-    const Raytracer::Common::ObjectProperty &property) : _material(std::move(material)), _position(position)
+        const std::string &name,
+        Common::Graphics::Material::Ptr material,
+        const Common::Math::Vector3D &rotation,
+        const Common::Math::Point3D &position,
+        const Common::ObjectProperty &property)
+        : _name(name),
+        _material(std::move(material)),
+        _rotation(rotation),
+        _position(position)
 {
+    std::cout << _name << std::endl;
+    std::cout << _rotation << std::endl;
+    std::cout << _position << std::endl;
     _radius = std::get<float>(property);
+    std::cout << _radius << std::endl;
 }
 
 Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(const Raytracer::Common::Math::Ray &ray)
