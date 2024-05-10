@@ -17,28 +17,9 @@ class ConfigTests : public ::testing::Test {
 
     void SetUp() override {
         pluginsManager.load("./plugins");
-        stdoutBuf = std::cout.rdbuf();
-        stderrBuf = std::cerr.rdbuf();
     }
 
-    void TearDown() override {
-        std::cout.rdbuf(stdoutBuf);
-        std::cerr.rdbuf(stderrBuf);
-    }
-
-    void redirectStdout() {
-        std::cout.rdbuf(stdoutBuffer.rdbuf());
-    }
-
-    void redirectStderr() {
-        std::cerr.rdbuf(stderrBuffer.rdbuf());
-    }
-
-    std::stringstream stdoutBuffer;
-    std::stringstream stderrBuffer;
     PluginsManager pluginsManager;
-    std::streambuf *stdoutBuf = nullptr;
-    std::streambuf *stderrBuf = nullptr;
 };
 
 TEST_F(ConfigTests, ValidConfiguration)
@@ -377,7 +358,7 @@ TEST_F(ConfigTests, ConfigToScene)
 {
     auto config = Config::loadFromFile("scenes/test.cfg", pluginsManager);
     Config::SceneConfig sceneConfig = config.getSceneConfig();
-    auto scene = config.toScene(pluginsManager);
+    auto scene = config.toScene();
 
     ASSERT_EQ(scene->cameras.size(), 1) << "Expect to have 1 camera";
     ASSERT_EQ(scene->materials.size(), 1) << "Expect to have 1 material";

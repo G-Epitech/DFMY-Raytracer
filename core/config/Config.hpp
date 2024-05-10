@@ -30,10 +30,7 @@ using namespace Raytracer::Common;
 using namespace Raytracer::Core;
 
 namespace Raytracer::Core {
-    class Config;
-};
-
-class Raytracer::Core::Config {
+    class Config {
     public:
         /// @brief Camera configuration
         typedef struct {
@@ -125,7 +122,8 @@ class Raytracer::Core::Config {
             std::vector<ObjectConfig> objects;
         } SceneConfig;
 
-        Config();
+        explicit Config(PluginsManager &pluginsManager);
+
         ~Config() = default;
 
         /**
@@ -142,15 +140,15 @@ class Raytracer::Core::Config {
 
         /**
          * @brief Convert a scene configuration to a Scene object
-         * @param sceneConfig Scene configuration
          * @return Scene::Ptr
         */
-        Rendering::Scene::Ptr toScene(PluginsManager &pluginsManager);
+        Rendering::Scene::Ptr toScene();
 
         /**
          * @brief Get the scene configuration
          * @return SceneConfig
         */
+        [[nodiscard]]
         SceneConfig getSceneConfig() const;
 
     private:
@@ -162,69 +160,79 @@ class Raytracer::Core::Config {
         SceneConfig _sceneConfig;
         /// @brief Flag to indicate if the configuration was loaded from a string
         bool _fromString;
+        /// @brief Linked plugin manager
+        PluginsManager &_pluginsManager;
 
         /**
          * @brief Load a scene configuration from a file
         */
-        void _load(PluginsManager &pluginsManager);
+        void _load();
 
         /**
          * @brief Builds the cameras of the scene
          * @param scene Scene to build the cameras for
          */
-        void _buildSceneCameras(const Rendering::Scene::Ptr& scene);
+        void _buildSceneCameras(const Rendering::Scene::Ptr &scene);
 
         /**
          * @brief Builds the materials of the scene
          * @param scene Scene to build the materials for
          */
-        void _buildSceneMaterials(const Rendering::Scene::Ptr& scene);
+        void _buildSceneMaterials(const Rendering::Scene::Ptr &scene);
 
         /**
          * @brief Builds the objects of the scene
          * @param scene Scene to build the objects for
          */
-        void _buildSceneObjects(const Rendering::Scene::Ptr& scene, PluginsManager &pluginsManager);
+        void _buildSceneObjects(const Rendering::Scene::Ptr &scene, PluginsManager &pluginsManager);
 
         /**
          * @brief Load the name of the scene
          * @param path Path to the configuration file
          */
         std::string _loadName();
+
         /**
          * @brief Load the scene ambient light configuration
          * @param root Root setting of the configuration file
          */
-        AmbientConfig _loadAmbient(const libconfig::Setting &root);
+        static AmbientConfig _loadAmbient(const libconfig::Setting &root);
+
         /**
          * @brief Load the scene cameras configuration
          * @param root Root setting of the configuration file
          */
-        std::vector<CameraConfig> _loadCameras(const libconfig::Setting &root);
+        static std::vector<CameraConfig> _loadCameras(const libconfig::Setting &root);
+
         /**
          * @brief Load the scene materials configuration
          * @param root Root setting of the configuration file
          */
-        std::vector<MaterialConfig> _loadMaterials(const libconfig::Setting &root);
+        static std::vector<MaterialConfig> _loadMaterials(const libconfig::Setting &root);
+
         /**
          * @brief Load the scene objects configuration
          * @param root Root setting of the configuration file
          */
-        std::vector<ObjectConfig> _loadObjects(const libconfig::Setting &root, PluginsManager &pluginsManager);
+        static std::vector<ObjectConfig> _loadObjects(const libconfig::Setting &root, PluginsManager &pluginsManager);
 
         /**
          * @brief Parse a material group from the configuration
          * @param setting Setting of the material group
          */
-        MaterialConfig _parseMaterial(const libconfig::Setting &setting);
+        static MaterialConfig _parseMaterial(const libconfig::Setting &setting);
+
         /**
          * @brief Parse an emission direction group from the configuration
          * @param setting Setting of the emission direction group
          */
-        std::vector<Raytracer::Common::Graphics::Material::Emission> _parseEmissions(const libconfig::Setting &setting);
+        static std::vector<Raytracer::Common::Graphics::Material::Emission> _parseEmissions(
+            const libconfig::Setting &setting);
+
         /**
          * @brief Parse an object group from the configuration
          * @param setting Setting of the object group
          */
-        ObjectConfig _parseObject(const libconfig::Setting &setting, PluginsManager &pluginsManager);
-};
+        static ObjectConfig _parseObject(const libconfig::Setting &setting, PluginsManager &pluginsManager);
+    };
+}

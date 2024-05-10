@@ -8,25 +8,28 @@
 #include "Config.hpp"
 #include "ConfigValidator.hpp"
 
-Config::Config() : _sceneConfig(), _fromString(false) {}
+Config::Config(PluginsManager &pluginsManager) :
+    _sceneConfig(),
+    _fromString(false),
+    _pluginsManager(pluginsManager) {}
 
 Config Config::loadFromString(const std::string &configContents, PluginsManager &pluginsManager)
 {
-    Config config;
+    Config config(pluginsManager);
 
     config._contents = configContents;
     config._fromString = true;
-    config._load(pluginsManager);
+    config._load();
     return config;
 }
 
 Config Config::loadFromFile(const std::string &configPath, PluginsManager &pluginsManager)
 {
-    Config config;
+    Config config(pluginsManager);
 
     config._path = configPath;
     config._fromString = false;
-    config._load(pluginsManager);
+    config._load();
     return config;
 }
 
@@ -35,7 +38,7 @@ Raytracer::Core::Config::SceneConfig Config::getSceneConfig() const
     return _sceneConfig;
 }
 
-Rendering::Scene::Ptr Config::toScene(PluginsManager &pluginsManager)
+Rendering::Scene::Ptr Config::toScene()
 {
     Rendering::Scene::Ptr scene = std::make_shared<Rendering::Scene>(_sceneConfig.name);
 
@@ -43,7 +46,7 @@ Rendering::Scene::Ptr Config::toScene(PluginsManager &pluginsManager)
     scene->ambient.second = _sceneConfig.ambient.strength;
     _buildSceneCameras(scene);
     _buildSceneMaterials(scene);
-    _buildSceneObjects(scene, pluginsManager);
+    _buildSceneObjects(scene, _pluginsManager);
     return scene;
 }
 
@@ -91,7 +94,7 @@ void Config::_buildSceneObjects(const Rendering::Scene::Ptr& scene, PluginsManag
     }
 }
 
-void Config::_load(PluginsManager &pluginsManager)
+void Config::_load()
 {
     libconfig::Config cfg;
 
@@ -115,7 +118,7 @@ void Config::_load(PluginsManager &pluginsManager)
     _sceneConfig.ambient = _loadAmbient(root);
     _sceneConfig.cameras = _loadCameras(root);
     _sceneConfig.materials = _loadMaterials(root);
-    _sceneConfig.objects = _loadObjects(root, pluginsManager);
+    _sceneConfig.objects = _loadObjects(root, _pluginsManager);
     ConfigValidator::valid(_sceneConfig);
 }
 
