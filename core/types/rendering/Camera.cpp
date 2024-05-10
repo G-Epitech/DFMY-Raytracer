@@ -55,7 +55,7 @@ void Camera::_computeSegment(Segment config, std::vector<IObject::Ptr> &objects)
         for (size_t x = config.origin.width; x < config.origin.width + config.size.width; x++) {
             Common::Graphics::Color oldFrame = this->_computeFrame(config, objects, x, y);
 
-            for (size_t i = 0; i < 0; i++) {
+            for (size_t i = 0; i < 15; i++) {
                 auto newFrame = this->_computeFrame(config, objects, x, y);
                 float weight = 1.0f / (i + 1);
 
@@ -90,7 +90,7 @@ Graphics::Color Camera::_computeFrame(Raytracer::Core::Rendering::Camera::Segmen
 
     Common::Graphics::Color totalIncomingLight(0, 0, 0);
 
-    size_t raysPerPixels = 10;
+    size_t raysPerPixels = 30;
     for (size_t ri = 0; ri < raysPerPixels; ri++) {
         auto random = pixelIndex + ri;
         auto incomingLight = this->_getIncomingLight(ray, random, objects);

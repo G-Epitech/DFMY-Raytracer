@@ -106,7 +106,7 @@ int Handler::run() {
 
     auto objectProvider2 = dlloader2.loadSymbol<Common::ObjectProviderGetter>(name);
 
-    objects.push_back(objectProvider2()->create(red, Common::Math::Point3D(-10, 60, 30), "tree.obj"));
+    objects.push_back(objectProvider2()->create(green, Common::Math::Point3D(-10, 60, 30), "tree.obj"));
 
     camera.compute(COMPUTE_THREADS, objects);
 
@@ -122,7 +122,7 @@ int Handler::run() {
     std::cout << "Rendering done!" << std::endl;
     Core::Graphics::Image image(camera.screen.size.width, camera.screen.size.height, camera.screen.getPixels());
 
-    image.saveTo("output_two.png");
+    image.saveTo("output.png");
 
     return 0;
 }

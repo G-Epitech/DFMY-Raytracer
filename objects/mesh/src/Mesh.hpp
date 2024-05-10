@@ -76,6 +76,9 @@ private:
     /// @brief Array of quadfaces
     std::vector<QuadFace> _quadFaces;
 
+    /// @brief Radius of the mesh
+    float _radius;
+
     /**
      * @brief Load the obj file
      * @param filename Filename of the obj file
@@ -159,10 +162,35 @@ private:
      */
     bool _allTexturesAreSet(QuadFace &points);
 
-    float _radius;
+    /**
+     * @brief Check if a ray collide with the mesh
+     * @param ray Ray to check
+     * @return true if the ray collide with the mesh, false otherwise
+     */
     bool _collideSphere(const Raytracer::Common::Math::Ray &ray);
 
+    /**
+     * @brief Check if a point is inside the sphere
+     * @param point Point to check
+     * @return true if the point is inside the sphere, false otherwise
+     */
     bool _isInsideSphere(const Raytracer::Common::Math::Point3D &point);
 
-    void _getSphereRadius();
+    /**
+     * @brief Set the radius of the sphere
+     */
+    void _setSphereRadius();
+
+    /**
+     * @brief Get the center of the object
+     * @return Center of the object
+     */
+    Point3D _getObjectCenter();
+
+    /**
+     * @brief Translate the object
+     * @param translation Translation to apply
+     */
+    void _translateObject(const Point3D &translation);
+
 };

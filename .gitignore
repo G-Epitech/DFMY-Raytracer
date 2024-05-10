@@ -29,6 +29,9 @@ cmake-build-debug*
 
 # OBJ files
 *.obj
+*.mtl
+!files/*.obj
+!files/*.mtl
 
 # Image files
 *.png
@@ -36,4 +39,8 @@ cmake-build-debug*
 *.jpeg
 *.bmp
 *.ppm
-!examples/
+!screenshots/*.png
+!screenshots/*.jpg
+!screenshots/*.jpeg
+!screenshots/*.bmp
+!screenshots/*.ppm

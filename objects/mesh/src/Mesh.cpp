@@ -17,24 +17,26 @@ using namespace Raytracer::Common;
 using namespace Raytracer::Objects;
 using namespace Math;
 
-void getObjectCenter(const std::vector<Point3D> &vertices, Point3D &center)
+Point3D Mesh::_getObjectCenter()
 {
-    for (auto &vertex : vertices) {
+    Point3D center;
+
+    for (auto &vertex : _vertices) {
         center.x += vertex.x;
         center.y += vertex.y;
         center.z += vertex.z;
     }
-    center.x /= vertices.size();
-    center.y /= vertices.size();
-    center.z /= vertices.size();
+    center.x /= _vertices.size();
+    center.y /= _vertices.size();
+    center.z /= _vertices.size();
 }
 
-void translateObject(std::vector<Point3D> &vertices, const Point3D &center)
+void Mesh::_translateObject(const Point3D &translation)
 {
-    for (auto &vertex : vertices) {
-        vertex.x -= center.x;
-        vertex.y -= center.y;
-        vertex.z -= center.z;
+    for (auto &vertex : _vertices) {
+        vertex.x += translation.x;
+        vertex.y += translation.y;
+        vertex.z += translation.z;
     }
 }
 
@@ -46,10 +48,10 @@ Mesh::Mesh(
     auto filename = std::get<std::string>(property);
 
     _loadObj(filename);
-    _getSphereRadius();
-    Point3D center;
-    getObjectCenter(_vertices, center);
-    translateObject(_vertices, center);
+
+    _setSphereRadius();
+    Point3D center = _getObjectCenter();
+    _translateObject(center);
     for (auto &vertex : _vertices) {
         vertex.rotateX(90);
         vertex.x += _position.x;
@@ -57,7 +59,8 @@ Mesh::Mesh(
         vertex.z += _position.z;
     }
     Point3D invCenter(-center.x, -center.y, -center.z);
-    translateObject(_vertices, invCenter);
+    _translateObject(invCenter);
+
     _loadTriangles();
     _loadQuads();
     std::cout << "Loaded mesh: " << filename << std::endl;
@@ -69,7 +72,7 @@ Mesh::Mesh(
     std::cout << "Radius: " << _radius << std::endl;
 }
 
-void Mesh::_getSphereRadius()
+void Mesh::_setSphereRadius()
 {
     for (auto &vertex : _vertices) {
         float distance = std::sqrt(std::pow(vertex.x, 2) + std::pow(vertex.y, 2) + std::pow(vertex.z, 2));
