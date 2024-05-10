@@ -20,39 +20,43 @@ Plain::Plain(
     const ObjectProperty &property) : _material(material), _position(position)
 {
     _normal = std::get<Math::Vector3D>(property);
+    _normal = _normal.normalize();
 }
 
 Math::HitInfo Plain::computeCollision(const Math::Ray &ray)
 {
     Common::Math::HitInfo hitInfo;
+    auto rayOrigin = ray.origin;
 
-    float denom = ray.direction.dot(_normal);
+    rayOrigin.z += 0.0001f;
 
-    if (std::abs(denom) < EPSILON)
-        return hitInfo;
+    auto rayDirection = ray.direction.normalize();
 
-    Math::Vector3D tv(
-        _position.x - ray.origin.x,
-        _position.y - ray.origin.y,
-        _position.z - ray.origin.z
-    );
+    float denom = _normal.dot(rayDirection);
 
-    float t = (tv).dot(_normal) / denom;
+    if (std::abs(denom) > EPSILON) {
 
-    if (t < 0)
-        return hitInfo;
+        Common::Math::Vector3D p0l0(
+            _position.x - rayOrigin.x,
+            _position.y - rayOrigin.y,
+            _position.z - rayOrigin.z
+        );
+        float t = p0l0.dot(_normal) / denom;
 
-    hitInfo.didHit = true;
-    hitInfo.hitPoint.x = ray.origin.x + t * ray.direction.x;
-    hitInfo.hitPoint.y = ray.origin.y + t * ray.direction.y;
-    hitInfo.hitPoint.z = ray.origin.z + t * ray.direction.z;
-    hitInfo.normal = _normal;
-    hitInfo.distance = t;
-    hitInfo.hitColor = {
-        .color = _material->color,
-        .emissionStrength = _material->emissionStrength,
-        .emissionColor = _material->emissionColor
-    };
+        if (t > 0) {
+            hitInfo.didHit = true;
+            hitInfo.distance = t;
+            hitInfo.hitPoint.x = rayOrigin.x + t * rayDirection.x;
+            hitInfo.hitPoint.y = rayOrigin.y + t * rayDirection.y;
+            hitInfo.hitPoint.z = rayOrigin.z + t * rayDirection.z;
+            hitInfo.normal = _normal;
+            hitInfo.hitColor = {
+                .color = _material->color,
+                .emissionStrength = _material->emissionStrength,
+                .emissionColor = _material->emissionColor
+            };
+        }
+    }
 
     return hitInfo;
 }
