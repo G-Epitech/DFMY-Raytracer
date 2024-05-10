@@ -203,6 +203,8 @@ const char *Camera::ComputeError::what() const noexcept {
 }
 
 float Camera::getComputeStatus() const {
+    if (this->_processedPixels == screen.size.width * screen.size.height)
+        return 1.0f;
     return (float) _processedPixels / (float) (screen.size.width * screen.size.height);
 }
 
