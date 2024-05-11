@@ -64,8 +64,8 @@ private:
     float _radius;
 
     /// @brief Faces of the cube
-    // std::vector<std::tuple<Common::Math::Point3D, Common::Math::Point3D, Common::Math::Point3D>> _faces;
+    std::vector<std::tuple<Common::Math::Point3D, Common::Math::Point3D, Common::Math::Point3D>> _faces;
 
-    // /// @brief Faces normals of the cube
-    // std::vector<std::tuple<Common::Math::Vector3D, Common::Math::Vector3D, Common::Math::Vector3D>> _facesNormals;
+    /// @brief Faces normals of the cube
+    std::vector<std::tuple<Common::Math::Vector3D, Common::Math::Vector3D, Common::Math::Vector3D>> _facesNormals;
 };

@@ -61,8 +61,9 @@ Mesh::Mesh(const std::string &name,
     Point3D center = _getObjectCenter();
     _translateObject(center);
     for (auto &vertex : _vertices) {
-        vertex.rotateX(45);
-        vertex.rotateY(50);
+        vertex.rotateX(_rotation.x);
+        vertex.rotateY(_rotation.y);
+        vertex.rotateZ(_rotation.z);
         vertex.x += _position.x;
         vertex.y += _position.y;
         vertex.z += _position.z;

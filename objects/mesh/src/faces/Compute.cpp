@@ -27,6 +27,12 @@ bool Compute::computeFace(HitInfo &hitInfo, const Ray &ray,
         point3.z - point1.z
     );
 
+    auto rayOrigin = ray.origin;
+
+    rayOrigin.x *= 1.0001;
+    rayOrigin.y *= 1.0001;
+    rayOrigin.z *= 1.0001;
+
     auto normalVector = edge1.cross(edge2);
     auto determinant = -(ray.direction.dot(normalVector));
 
@@ -34,9 +40,9 @@ bool Compute::computeFace(HitInfo &hitInfo, const Ray &ray,
         return false;
 
     Vector3D ao(
-        ray.origin.x - point1.x,
-        ray.origin.y - point1.y,
-        ray.origin.z - point1.z
+        rayOrigin.x - point1.x,
+        rayOrigin.y - point1.y,
+        rayOrigin.z - point1.z
     );
 
     auto dao = ao.cross(ray.direction);
@@ -64,9 +70,9 @@ bool Compute::computeFace(HitInfo &hitInfo, const Ray &ray,
 
     hitInfo.didHit = true;
     hitInfo.distance = dst;
-    hitInfo.hitPoint.x = ray.origin.x + (ray.direction.x * dst);
-    hitInfo.hitPoint.y = ray.origin.y + (ray.direction.y * dst);
-    hitInfo.hitPoint.z = ray.origin.z + (ray.direction.z * dst);
+    hitInfo.hitPoint.x = rayOrigin.x + (ray.direction.x * dst);
+    hitInfo.hitPoint.y = rayOrigin.y + (ray.direction.y * dst);
+    hitInfo.hitPoint.z = rayOrigin.z + (ray.direction.z * dst);
     hitInfo.normal = (normal1 * w + normal2 * u + normal3 * v).normalize();
     return true;
 }
