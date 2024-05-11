@@ -34,8 +34,6 @@ Math::HitInfo Plane::computeCollision(const Math::Ray &ray)
     Common::Math::HitInfo hitInfo;
     auto rayOrigin = ray.origin;
 
-    rayOrigin.z += 0.0001f;
-
     auto rayDirection = ray.direction.normalize();
 
     float denom = _normal.dot(rayDirection);
@@ -50,11 +48,16 @@ Math::HitInfo Plane::computeCollision(const Math::Ray &ray)
         float t = p0l0.dot(_normal) / denom;
 
         if (t > 0) {
-            hitInfo.didHit = true;
             hitInfo.distance = t;
             hitInfo.hitPoint.x = rayOrigin.x + t * rayDirection.x;
             hitInfo.hitPoint.y = rayOrigin.y + t * rayDirection.y;
             hitInfo.hitPoint.z = rayOrigin.z + t * rayDirection.z;
+            if (std::abs(ray.origin.x - hitInfo.hitPoint.x) < 0.0001 &&
+                std::abs(ray.origin.y - hitInfo.hitPoint.y) < 0.0001 &&
+                std::abs(ray.origin.z - hitInfo.hitPoint.z) < 0.0001) {
+                return hitInfo;
+            }
+            hitInfo.didHit = true;
             hitInfo.normal = _normal;
             hitInfo.hitColor = {
                 .color = _material->color,
