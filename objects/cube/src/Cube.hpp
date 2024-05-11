@@ -7,8 +7,11 @@
 
 #pragma once
 
+#include <vector>
 #include "common/interfaces/IObject.hpp"
 #include "common/interfaces/IObjectProvider.hpp"
+
+using namespace Raytracer::Common::Math;
 
 namespace Raytracer::Objects {
     class Cube;
@@ -59,4 +62,10 @@ private:
 
     /// @brief Radius of the cube
     float _radius;
+
+    /// @brief Faces of the cube
+    // std::vector<std::tuple<Common::Math::Point3D, Common::Math::Point3D, Common::Math::Point3D>> _faces;
+
+    // /// @brief Faces normals of the cube
+    // std::vector<std::tuple<Common::Math::Vector3D, Common::Math::Vector3D, Common::Math::Vector3D>> _facesNormals;
 };
