@@ -44,18 +44,16 @@ Raytracer::Common::Object::Manifest CubeProvider::getManifest()
 Raytracer::Common::ObjectProperty CubeProvider::parseProperty(const libconfig::Setting &setting)
 {
     Common::Math::Float3 size;
-    Common::Math::Vector3D vsize;
 
     if (!setting.isGroup()) {
         throw std::runtime_error("cube properties must be a group");
     }
-    ConfigUtils::settingHasValidKeys("cube", setting, {"size"});
-    vsize = ConfigUtils::parseVector3D("size", setting["size"]);
-    if (vsize == Common::Math::Vector3D(0, 0, 0)) {
-        throw std::runtime_error("cube size must be different from 0, 0, 0");
+    ConfigUtils::settingHasValidKeys("cube", setting, {"width", "height", "depth"});
+    ConfigUtils::lookupValueWrapper("width", setting, size.x);
+    ConfigUtils::lookupValueWrapper("height", setting, size.y);
+    ConfigUtils::lookupValueWrapper("depth", setting, size.z);
+    if (size.x <= 0 || size.y <= 0 || size.z <= 0) {
+        throw std::runtime_error("cube size must be greater than 0");
     }
-    size.x = vsize.x;
-    size.y = vsize.y;
-    size.z = vsize.z;
     return size;
 }

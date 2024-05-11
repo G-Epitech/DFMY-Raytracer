@@ -56,4 +56,7 @@ private:
 
     /// @brief Property of the cube
     Common::Math::Float3 _size;
+
+    /// @brief Radius of the cube
+    float _radius;
 };

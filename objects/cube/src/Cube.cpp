@@ -26,11 +26,12 @@ Cube::Cube(
     _position(position)
 {
     _size = std::get<Common::Math::Float3>(property);
+    _radius = std::max(_size.x, std::max(_size.y, _size.z));
 }
 
 Math::HitInfo Cube::computeCollision(const Math::Ray &ray)
 {
-    Common::Math::HitInfo hitInfo;
+    Math::HitInfo hitInfo;
 
     return hitInfo;
 }
