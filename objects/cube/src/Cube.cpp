@@ -116,35 +116,35 @@ Cube::Cube(
         )
     );
 
-    for (auto &face : _faces) {
-        auto &point1 = std::get<0>(face);
-        auto &point2 = std::get<1>(face);
-        auto &point3 = std::get<2>(face);
+    // for (auto &face : _faces) {
+    //     auto &point1 = std::get<0>(face);
+    //     auto &point2 = std::get<1>(face);
+    //     auto &point3 = std::get<2>(face);
 
-        point1.x += position.x;
-        point1.y += position.y;
-        point1.z += position.z;
+    //     point1.x += position.x;
+    //     point1.y += position.y;
+    //     point1.z += position.z;
 
-        point2.x += position.x;
-        point2.y += position.y;
-        point2.z += position.z;
+    //     point2.x += position.x;
+    //     point2.y += position.y;
+    //     point2.z += position.z;
 
-        point3.x += position.x;
-        point3.y += position.y;
-        point3.z += position.z;
+    //     point3.x += position.x;
+    //     point3.y += position.y;
+    //     point3.z += position.z;
 
-        // point1.x = point1.x * widht;
-        // point1.y = point1.y * height;
-        // point1.z = point1.z * depth;
+    //     // point1.x = point1.x * widht;
+    //     // point1.y = point1.y * height;
+    //     // point1.z = point1.z * depth;
 
-        // point2.x = point2.x * widht;
-        // point2.y = point2.y * height;
-        // point2.z = point2.z * depth;
+    //     // point2.x = point2.x * widht;
+    //     // point2.y = point2.y * height;
+    //     // point2.z = point2.z * depth;
 
-        // point3.x = point3.x * widht;
-        // point3.y = point3.y * height;
-        // point3.z = point3.z * depth;
-    }
+    //     // point3.x = point3.x * widht;
+    //     // point3.y = point3.y * height;
+    //     // point3.z = point3.z * depth;
+    // }
 
     _facesNormals.push_back(
         std::make_tuple(
@@ -247,6 +247,12 @@ bool intersect(HitInfo &hitInfo, const Ray &ray,
         point3.z - point1.z
     );
 
+    auto rayOrigin = ray.origin;
+
+    rayOrigin.x *= 1.0001;
+    rayOrigin.y *= 1.0001;
+    rayOrigin.z *= 1.0001;
+
     auto normalVector = edge1.cross(edge2);
     auto determinant = -(ray.direction.dot(normalVector));
 
@@ -254,9 +260,9 @@ bool intersect(HitInfo &hitInfo, const Ray &ray,
         return false;
 
     Vector3D ao(
-        ray.origin.x - point1.x,
-        ray.origin.y - point1.y,
-        ray.origin.z - point1.z
+        rayOrigin.x - point1.x,
+        rayOrigin.y - point1.y,
+        rayOrigin.z - point1.z
     );
 
     auto dao = ao.cross(ray.direction);
@@ -284,9 +290,9 @@ bool intersect(HitInfo &hitInfo, const Ray &ray,
 
     hitInfo.didHit = true;
     hitInfo.distance = dst;
-    hitInfo.hitPoint.x = ray.origin.x + (ray.direction.x * dst);
-    hitInfo.hitPoint.y = ray.origin.y + (ray.direction.y * dst);
-    hitInfo.hitPoint.z = ray.origin.z + (ray.direction.z * dst);
+    hitInfo.hitPoint.x = rayOrigin.x + (ray.direction.x * dst);
+    hitInfo.hitPoint.y = rayOrigin.y + (ray.direction.y * dst);
+    hitInfo.hitPoint.z = rayOrigin.z + (ray.direction.z * dst);
     hitInfo.normal = (normal1 * w + normal2 * u + normal3 * v).normalize();
     return true;
 }
@@ -316,72 +322,31 @@ Math::Vector3D findNormal(const Math::Point3D &vmin, const Math::Point3D &vmax, 
 Math::HitInfo Cube::computeCollision(const Math::Ray &ray)
 {
     Math::HitInfo hitInfo;
+    Math::HitInfo closestHitInfo;
 
-    auto invdir = Math::Vector3D(1.0f / ray.direction.x, 1.0f / ray.direction.y, 1.0f / ray.direction.z);
-    auto rayOrigin = ray.origin - _position;
+    for (int i = 0; i < _faces.size(); i++) {
+        auto &face = _faces[i];
+        auto &normal = _facesNormals[i];
+        auto &point1 = std::get<0>(face);
+        auto &point2 = std::get<1>(face);
+        auto &point3 = std::get<2>(face);
+        auto &normal1 = std::get<0>(normal);
+        auto &normal2 = std::get<1>(normal);
+        auto &normal3 = std::get<2>(normal);
 
-    auto tmin = (-_size.x - rayOrigin.x) * invdir.x;
-    auto tmax = (_size.x - rayOrigin.x) * invdir.x;
-
-    if (tmin > tmax)
-        std::swap(tmin, tmax);
-
-    auto tymin = (-_size.y - rayOrigin.y) * invdir.y;
-    auto tymax = (_size.y - rayOrigin.y) * invdir.y;
-
-    if (tymin > tymax)
-        std::swap(tymin, tymax);
-
-    if ((tmin > tymax) || (tymin > tmax)) {
-        hitInfo.didHit = false;
-        return hitInfo;
+        if (intersect(hitInfo, ray, point1, point2, point3, normal1, normal2, normal3)) {
+            if (!closestHitInfo.didHit || hitInfo.distance < closestHitInfo.distance) {
+                closestHitInfo = hitInfo;
+            }
+        }
     }
-
-    if (tymin > tmin)
-        tmin = tymin;
-    
-    if (tymax < tmax)
-        tmax = tymax;
-    
-    auto tzmin = (-_size.z - rayOrigin.z) * invdir.z;
-    auto tzmax = (_size.z - rayOrigin.z) * invdir.z;
-
-    if (tzmin > tzmax)
-        std::swap(tzmin, tzmax);
-
-    if ((tmin > tzmax) || (tzmin > tmax))
-        return hitInfo;
-
-    if (tzmin > tmin)
-        tmin = tzmin;
-
-    if (tzmax < tmax)
-        tmax = tzmax;
-    
-    if (tmax < 0)
-        return hitInfo;
-    
-    if (tmin < 0)
-        return hitInfo;
-
-    hitInfo.didHit = true;
-    hitInfo.distance = tmin;
-    hitInfo.hitPoint.x = (rayOrigin.x + (ray.direction.x * tmin));
-    hitInfo.hitPoint.y = (rayOrigin.y + (ray.direction.y * tmin));
-    hitInfo.hitPoint.z = (rayOrigin.z + (ray.direction.z * tmin));
-
-    hitInfo.normal = findNormal(
-        Math::Point3D(-_size.x, -_size.y, -_size.z),
-        Math::Point3D(_size.x, _size.y, _size.z),
-        hitInfo.hitPoint
-    );
-    hitInfo.hitColor = {
+    closestHitInfo.hitColor = {
         .color = _material->color,
         .emissionStrength = _material->emissionStrength,
         .emissionColor = _material->emissionColor
     };
 
-    return hitInfo;
+    return closestHitInfo;
 }
 
 Graphics::Material::Ptr Cube::getMaterial()
