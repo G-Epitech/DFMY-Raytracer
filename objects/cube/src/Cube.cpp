@@ -28,123 +28,124 @@ Cube::Cube(
     _size = std::get<Common::Math::Float3>(property);
     _radius = std::max(_size.x, std::max(_size.y, _size.z));
     auto widht = _size.x;
-    auto height = _size.y;
-    auto depth = _size.z;
+    auto depth = _size.y;
+    auto height = _size.z;
 
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(10, 10, 10),
-            Math::Point3D(-10, 10, 10),
-            Math::Point3D(10, -10, 10)
+            Math::Point3D(widht / 2.0, depth / 2.0, height / 2.0),
+            Math::Point3D(-widht / 2.0, depth / 2.0, height / 2.0),
+            Math::Point3D(widht / 2.0, -depth / 2.0, height / 2.0)
         )
     );
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(-10, -10, 10),
-            Math::Point3D(10, -10, 10),
-            Math::Point3D(-10, 10, 10)
+            Math::Point3D(-widht / 2.0, -depth / 2.0, height / 2.0),
+            Math::Point3D(widht / 2.0, -depth / 2.0, height / 2.0),
+            Math::Point3D(-widht / 2.0, depth / 2.0, height / 2.0)
         )
     );
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(10, 10, -10),
-            Math::Point3D(-10, 10, -10),
-            Math::Point3D(10, -10, -10)
+            Math::Point3D(widht / 2.0, depth / 2.0, -height / 2.0),
+            Math::Point3D(-widht / 2.0, depth / 2.0, -height / 2.0),
+            Math::Point3D(widht / 2.0, -depth / 2.0, -height / 2.0)
         )
     );
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(-10, -10, -10),
-            Math::Point3D(10, -10, -10),
-            Math::Point3D(-10, 10, -10)
+            Math::Point3D(-widht / 2.0, -depth / 2.0, -height / 2.0),
+            Math::Point3D(widht / 2.0, -depth / 2.0, -height / 2.0),
+            Math::Point3D(-widht / 2.0, depth / 2.0, -height / 2.0)
         )
     );
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(10, 10, 10),
-            Math::Point3D(10, -10, 10),
-            Math::Point3D(10, 10, -10)
+            Math::Point3D(widht / 2.0, depth / 2.0, height / 2.0),
+            Math::Point3D(widht / 2.0, -depth / 2.0, height / 2.0),
+            Math::Point3D(widht / 2.0, depth / 2.0, -height / 2.0)
         )
     );
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(10, -10, -10),
-            Math::Point3D(10, 10, -10),
-            Math::Point3D(10, -10, 10)
+            Math::Point3D(widht / 2.0, -depth / 2.0, -height / 2.0),
+            Math::Point3D(widht / 2.0, depth / 2.0, -height / 2.0),
+            Math::Point3D(widht / 2.0, -depth / 2.0, height / 2.0)
         )
     );
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(-10, 10, 10),
-            Math::Point3D(-10, -10, 10),
-            Math::Point3D(-10, 10, -10)
+            Math::Point3D(-widht / 2.0, depth / 2.0, height / 2.0),
+            Math::Point3D(-widht / 2.0, -depth / 2.0, height / 2.0),
+            Math::Point3D(-widht / 2.0, depth / 2.0, -height / 2.0)
         )
     );
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(-10, -10, -10),
-            Math::Point3D(-10, 10, -10),
-            Math::Point3D(-10, -10, 10)
+            Math::Point3D(-widht / 2.0, -depth / 2.0, -height / 2.0),
+            Math::Point3D(-widht / 2.0, depth / 2.0, -height / 2.0),
+            Math::Point3D(-widht / 2.0, -depth / 2.0, height / 2.0)
         )
     );
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(10, 10, 10),
-            Math::Point3D(-10, 10, 10),
-            Math::Point3D(10, 10, -10)
+            Math::Point3D(widht / 2.0, depth / 2.0, height / 2.0),
+            Math::Point3D(-widht / 2.0, depth / 2.0, height / 2.0),
+            Math::Point3D(widht / 2.0, depth / 2.0, -height / 2.0)
         )
     );
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(-10, 10, -10),
-            Math::Point3D(10, 10, -10),
-            Math::Point3D(-10, 10, 10)
+            Math::Point3D(-widht / 2.0, depth / 2.0, -height / 2.0),
+            Math::Point3D(widht / 2.0, depth / 2.0, -height / 2.0),
+            Math::Point3D(-widht / 2.0, depth / 2.0, height / 2.0)
         )
     );
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(10, -10, 10),
-            Math::Point3D(-10, -10, 10),
-            Math::Point3D(10, -10, -10)
+            Math::Point3D(widht / 2.0, -depth / 2.0, height / 2.0),
+            Math::Point3D(-widht / 2.0, -depth / 2.0, height / 2.0),
+            Math::Point3D(widht / 2.0, -depth / 2.0, -height / 2.0)
         )
     );
     _faces.push_back(
         std::make_tuple(
-            Math::Point3D(-10, -10, -10),
-            Math::Point3D(10, -10, -10),
-            Math::Point3D(-10, -10, 10)
+            Math::Point3D(-widht / 2.0, -depth / 2.0, -height / 2.0),
+            Math::Point3D(widht / 2.0, -depth / 2.0, -height / 2.0),
+            Math::Point3D(-widht / 2.0, -depth / 2.0, height / 2.0)
         )
     );
 
-    // for (auto &face : _faces) {
-    //     auto &point1 = std::get<0>(face);
-    //     auto &point2 = std::get<1>(face);
-    //     auto &point3 = std::get<2>(face);
+    for (auto &face : _faces) {
+        auto &point1 = std::get<0>(face);
+        auto &point2 = std::get<1>(face);
+        auto &point3 = std::get<2>(face);
 
-    //     point1.x += position.x;
-    //     point1.y += position.y;
-    //     point1.z += position.z;
+        point1.rotateX(rotation.x);
+        point1.rotateY(rotation.y);
+        point1.rotateZ(rotation.z);
 
-    //     point2.x += position.x;
-    //     point2.y += position.y;
-    //     point2.z += position.z;
+        point1.x += position.x;
+        point1.y += position.y;
+        point1.z += position.z;
 
-    //     point3.x += position.x;
-    //     point3.y += position.y;
-    //     point3.z += position.z;
+        point2.rotateX(rotation.x);
+        point2.rotateY(rotation.y);
+        point2.rotateZ(rotation.z);
 
-    //     // point1.x = point1.x * widht;
-    //     // point1.y = point1.y * height;
-    //     // point1.z = point1.z * depth;
+        point2.x += position.x;
+        point2.y += position.y;
+        point2.z += position.z;
 
-    //     // point2.x = point2.x * widht;
-    //     // point2.y = point2.y * height;
-    //     // point2.z = point2.z * depth;
+        point3.rotateX(rotation.x);
+        point3.rotateY(rotation.y);
+        point3.rotateZ(rotation.z);
 
-    //     // point3.x = point3.x * widht;
-    //     // point3.y = point3.y * height;
-    //     // point3.z = point3.z * depth;
-    // }
+        point3.x += position.x;
+        point3.y += position.y;
+        point3.z += position.z;
+
+    }
 
     _facesNormals.push_back(
         std::make_tuple(
@@ -249,10 +250,6 @@ bool intersect(HitInfo &hitInfo, const Ray &ray,
 
     auto rayOrigin = ray.origin;
 
-    rayOrigin.x *= 1.0001;
-    rayOrigin.y *= 1.0001;
-    rayOrigin.z *= 1.0001;
-
     auto normalVector = edge1.cross(edge2);
     auto determinant = -(ray.direction.dot(normalVector));
 
@@ -288,12 +285,20 @@ bool intersect(HitInfo &hitInfo, const Ray &ray,
         return false;
     }
 
-    hitInfo.didHit = true;
     hitInfo.distance = dst;
-    hitInfo.hitPoint.x = rayOrigin.x + (ray.direction.x * dst);
-    hitInfo.hitPoint.y = rayOrigin.y + (ray.direction.y * dst);
-    hitInfo.hitPoint.z = rayOrigin.z + (ray.direction.z * dst);
+    hitInfo.hitPoint.x = (rayOrigin.x + (ray.direction.x * dst));
+    hitInfo.hitPoint.y = (rayOrigin.y + (ray.direction.y * dst));
+    hitInfo.hitPoint.z = (rayOrigin.z + (ray.direction.z * dst));
+
+    if (std::abs(ray.origin.x - hitInfo.hitPoint.x) < 0.0001 &&
+        std::abs(ray.origin.y - hitInfo.hitPoint.y) < 0.0001 &&
+        std::abs(ray.origin.z - hitInfo.hitPoint.z) < 0.0001) {
+            return false;
+        }
+
+    hitInfo.didHit = true;
     hitInfo.normal = (normal1 * w + normal2 * u + normal3 * v).normalize();
+
     return true;
 }
 
