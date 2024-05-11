@@ -127,9 +127,6 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, 
             auto randomSeed = rngState + i;
             ray.origin = hitConfig.hitPoint;
             ray.direction = this->_getRandomDirection(hitConfig.normal, randomSeed);
-            // ray.direction.x = 0;
-            // ray.direction.y = 0;
-            // ray.direction.z = 1;
 
             Common::Graphics::Color emittedLight =
                     hitConfig.hitColor.emissionColor * hitConfig.hitColor.emissionStrength;
