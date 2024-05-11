@@ -68,11 +68,16 @@ bool Compute::computeFace(HitInfo &hitInfo, const Ray &ray,
         return false;
     }
 
-    hitInfo.didHit = true;
-    hitInfo.distance = dst;
     hitInfo.hitPoint.x = rayOrigin.x + (ray.direction.x * dst);
     hitInfo.hitPoint.y = rayOrigin.y + (ray.direction.y * dst);
     hitInfo.hitPoint.z = rayOrigin.z + (ray.direction.z * dst);
+    if (std::abs(ray.origin.x - hitInfo.hitPoint.x) < 0.0001 &&
+        std::abs(ray.origin.y - hitInfo.hitPoint.y) < 0.0001 &&
+        std::abs(ray.origin.z - hitInfo.hitPoint.z) < 0.0001) {
+        return false;
+    }
+    hitInfo.didHit = true;
+    hitInfo.distance = dst;
     hitInfo.normal = (normal1 * w + normal2 * u + normal3 * v).normalize();
     return true;
 }
