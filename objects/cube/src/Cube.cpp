@@ -27,6 +27,9 @@ Cube::Cube(
 {
     _size = std::get<Common::Math::Float3>(property);
     _radius = std::max(_size.x, std::max(_size.y, _size.z));
+
+    _setRadius();
+
     auto widht = _size.x;
     auto depth = _size.y;
     auto height = _size.z;
@@ -233,7 +236,12 @@ Cube::Cube(
     );
 }
 
-bool intersect(HitInfo &hitInfo, const Ray &ray,
+void Cube::_setRadius()
+{
+    _radius = std::max(_size.x, std::max(_size.y, _size.z));
+}
+
+bool Cube::_intersect(HitInfo &hitInfo, const Ray &ray,
             const Point3D &point1, const Point3D &point2, const Point3D &point3,
             const Vector3D &normal1, const Vector3D &normal2, const Vector3D &normal3)
 {
@@ -248,8 +256,6 @@ bool intersect(HitInfo &hitInfo, const Ray &ray,
         point3.z - point1.z
     );
 
-    auto rayOrigin = ray.origin;
-
     auto normalVector = edge1.cross(edge2);
     auto determinant = -(ray.direction.dot(normalVector));
 
@@ -257,9 +263,9 @@ bool intersect(HitInfo &hitInfo, const Ray &ray,
         return false;
 
     Vector3D ao(
-        rayOrigin.x - point1.x,
-        rayOrigin.y - point1.y,
-        rayOrigin.z - point1.z
+        ray.origin.x - point1.x,
+        ray.origin.y - point1.y,
+        ray.origin.z - point1.z
     );
 
     auto dao = ao.cross(ray.direction);
@@ -285,10 +291,9 @@ bool intersect(HitInfo &hitInfo, const Ray &ray,
         return false;
     }
 
-    hitInfo.distance = dst;
-    hitInfo.hitPoint.x = (rayOrigin.x + (ray.direction.x * dst));
-    hitInfo.hitPoint.y = (rayOrigin.y + (ray.direction.y * dst));
-    hitInfo.hitPoint.z = (rayOrigin.z + (ray.direction.z * dst));
+    hitInfo.hitPoint.x = (ray.origin.x + (ray.direction.x * dst));
+    hitInfo.hitPoint.y = (ray.origin.y + (ray.direction.y * dst));
+    hitInfo.hitPoint.z = (ray.origin.z + (ray.direction.z * dst));
 
     if (std::abs(ray.origin.x - hitInfo.hitPoint.x) < 0.0001 &&
         std::abs(ray.origin.y - hitInfo.hitPoint.y) < 0.0001 &&
@@ -297,31 +302,10 @@ bool intersect(HitInfo &hitInfo, const Ray &ray,
         }
 
     hitInfo.didHit = true;
+    hitInfo.distance = dst;
     hitInfo.normal = (normal1 * w + normal2 * u + normal3 * v).normalize();
 
     return true;
-}
-
-Math::Vector3D findNormal(const Math::Point3D &vmin, const Math::Point3D &vmax, const Math::Point3D &hitPoint)
-{
-    Math::Point3D c(
-        (vmax.x + vmin.x) / 2,
-        (vmax.y + vmin.y) / 2,
-        (vmax.z + vmin.z) / 2
-    );
-    auto p = hitPoint - c;
-    Math::Point3D d(
-        (vmin.x - vmax.x) / 2,
-        (vmin.y - vmax.y) / 2,
-        (vmin.z - vmax.z) / 2
-    );
-    auto bias = 1.01;
-
-    return Math::Vector3D(
-        static_cast<float>(static_cast<int>(p.x / std::abs(d.x) * bias)),
-        static_cast<float>(static_cast<int>(p.y / std::abs(d.y) * bias)),
-        static_cast<float>(static_cast<int>(p.z / std::abs(d.z) * bias))
-    ).normalize();
 }
 
 Math::HitInfo Cube::computeCollision(const Math::Ray &ray)
@@ -329,6 +313,8 @@ Math::HitInfo Cube::computeCollision(const Math::Ray &ray)
     Math::HitInfo hitInfo;
     Math::HitInfo closestHitInfo;
 
+    if (!_isInsideBoundingBox(ray.origin) && !_hitBoundingBox(ray))
+        return closestHitInfo;
     for (int i = 0; i < _faces.size(); i++) {
         auto &face = _faces[i];
         auto &normal = _facesNormals[i];
@@ -339,7 +325,7 @@ Math::HitInfo Cube::computeCollision(const Math::Ray &ray)
         auto &normal2 = std::get<1>(normal);
         auto &normal3 = std::get<2>(normal);
 
-        if (intersect(hitInfo, ray, point1, point2, point3, normal1, normal2, normal3)) {
+        if (_intersect(hitInfo, ray, point1, point2, point3, normal1, normal2, normal3)) {
             if (!closestHitInfo.didHit || hitInfo.distance < closestHitInfo.distance) {
                 closestHitInfo = hitInfo;
             }
@@ -352,6 +338,38 @@ Math::HitInfo Cube::computeCollision(const Math::Ray &ray)
     };
 
     return closestHitInfo;
+}
+
+bool Cube::_hitBoundingBox(const Ray &ray)
+{
+    Vector3D oc(
+        ray.origin.x - _position.x,
+        ray.origin.y - _position.y,
+        ray.origin.z - _position.z
+    );
+
+    float a = ray.direction.dot(ray.direction);
+    float b = 2.0 * oc.dot(ray.direction);
+    float c = oc.dot(oc) - _radius * _radius;
+    float discriminant = b * b - 4 * a * c;
+
+    if (discriminant < 0)
+        return false;
+
+    float distance = (-b - sqrt(discriminant)) / (2.0 * a);
+
+    if (distance < 0)
+        return false;
+    return true;
+}
+
+bool Cube::_isInsideBoundingBox(const Point3D &point)
+{
+    float distanceSquared = std::pow(point.x - _position.x, 2) +
+                            std::pow(point.y - _position.y, 2) +
+                            std::pow(point.z - _position.z, 2);
+    float radiusSquared = std::pow(_radius, 2);
+    return distanceSquared <= radiusSquared;
 }
 
 Graphics::Material::Ptr Cube::getMaterial()

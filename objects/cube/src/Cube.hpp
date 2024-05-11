@@ -68,4 +68,42 @@ private:
 
     /// @brief Faces normals of the cube
     std::vector<std::tuple<Common::Math::Vector3D, Common::Math::Vector3D, Common::Math::Vector3D>> _facesNormals;
+
+    /**
+     * @brief Set the radius of the cube bounding box
+     */
+    void _setRadius();
+
+    /**
+     * @brief Check if the ray hit the cube
+     * @param ray Ray to check
+     * @return true if the ray hit the cube
+     * @return false if the ray didn't hit the cube
+     */
+    bool _hitBoundingBox(const Ray &ray);
+
+    /**
+     * @brief Check if the origin is inside the cube bounding box
+     * @param point Point to check
+     * @return true if the point is inside the bounding box
+     * @return false if the point is outside the bounding box
+     */
+    bool _isInsideBoundingBox(const Point3D &point);
+
+    /**
+     * @brief Check if the ray hit the cube
+     * @param hitInfo Hit info to fill
+     * @param ray Ray to check
+     * @param point1 First point of the face
+     * @param point2 Second point of the face
+     * @param point3 Third point of the face
+     * @param normal1 First normal of the face
+     * @param normal2 Second normal of the face
+     * @param normal3 Third normal of the face
+     * @return true if the ray hit the cube
+     * @return false if the ray didn't hit the cube
+     */
+    bool _intersect(HitInfo &hitInfo, const Ray &ray,
+            const Point3D &point1, const Point3D &point2, const Point3D &point3,
+            const Vector3D &normal1, const Vector3D &normal2, const Vector3D &normal3);
 };
