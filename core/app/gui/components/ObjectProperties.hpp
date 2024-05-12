@@ -13,20 +13,22 @@
 namespace Raytracer::Core::Gui {
     class ObjectProperties {
         public:
-            explicit ObjectProperties(Raytracer::Common::IObject::Ptr &obj);
+            explicit ObjectProperties(Raytracer::Common::IObject::Ptr obj);
             ~ObjectProperties() = default;
 
             void init(tgui::Group::Ptr &settingsGroup);
 
-            void changeObj(Raytracer::Common::IObject::Ptr &obj);
+            void changeObj(Raytracer::Common::IObject::Ptr obj);
 
         private:
-            Raytracer::Common::IObject::Ptr &_obj;
+            /// @brief Object
+            Raytracer::Common::IObject::Ptr _obj;
 
+            /// @brief Properties panel
             tgui::ScrollablePanel::Ptr _propertiesPanel;
 
-            tgui::EditBox::Ptr _objName;
-
+            /// @brief Object name
+            tgui::Label::Ptr _objName;
             /// @brief Object position X
             tgui::SpinControl::Ptr _objPositionX;
             /// @brief Object position Y

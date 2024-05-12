@@ -60,7 +60,7 @@ void RightPanel::_initObjectTree()
     }
     _objectTree->onDoubleClick([this](const tgui::String &item) {
         _settingsGroup->setVisible(true);
-        _selectedObj = std::find(_items.begin(), _items.end(), item) - _items.begin();
+        _selectedObj = std::find(_items.begin(), _items.end(), item.toStdString()) - _items.begin();
         _objProps.changeObj(_context.app.scene->objects[_selectedObj]);
     });
     _objectTree->collapseAll();

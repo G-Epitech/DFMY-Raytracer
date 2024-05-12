@@ -9,8 +9,8 @@
 
 using namespace Raytracer::Core::Gui;
 
-ObjectProperties::ObjectProperties(Raytracer::Common::IObject::Ptr &obj)
-    :   _obj(obj)
+ObjectProperties::ObjectProperties(Raytracer::Common::IObject::Ptr obj)
+    :   _obj(std::move(obj))
 {
 }
 
@@ -27,9 +27,9 @@ void ObjectProperties::init(tgui::Group::Ptr &settingsGroup)
     settingsGroup->add(_propertiesPanel);
 }
 
-void ObjectProperties::changeObj(Raytracer::Common::IObject::Ptr &obj)
+void ObjectProperties::changeObj(Raytracer::Common::IObject::Ptr obj)
 {
-    _obj = obj;
+    _obj = std::move(obj);
     _objName->setText(_obj->getName());
     _objPositionX->setValue(_obj->getPosition().x);
     _objPositionY->setValue(_obj->getPosition().y);
@@ -45,7 +45,7 @@ void ObjectProperties::_initPropertiesName()
 
     label->setWidth(90);
     label->setPosition(0, "10 + (20 - height) / 2");
-    _objName = tgui::EditBox::create();
+    _objName = tgui::Label::create();
     _objName->setSize("70%", 25);
     _objName->setPosition("parent.right - width - 23", 10);
     _objName->setText(_obj->getName());
