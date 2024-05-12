@@ -179,18 +179,18 @@ std::vector&lt; std::thread &gt;&#160;</td><td class="memItemRight" valign="bott
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a316aeb1dc70893720e17291c84fee7ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a316aeb1dc70893720e17291c84fee7ad">_computeSegment</a> (<a class="el" href="structRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1Segment.html">Segment</a> config, std::vector&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">Common::IObject::Ptr</a> &gt; &amp;objects)</td></tr>
-<tr class="memdesc:a316aeb1dc70893720e17291c84fee7ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a segment of the screen.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a316aeb1dc70893720e17291c84fee7ad">More...</a><br /></td></tr>
-<tr class="separator:a316aeb1dc70893720e17291c84fee7ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1fa67079d2af56609f4f4dfd43d293b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRaytracer_1_1Common_1_1Graphics_1_1Color.html">Common::Graphics::Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#af1fa67079d2af56609f4f4dfd43d293b">_computeFrame</a> (<a class="el" href="structRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1Segment.html">Segment</a> config, std::vector&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">Common::IObject::Ptr</a> &gt; &amp;objects, size_t x, size_t y)</td></tr>
-<tr class="memdesc:af1fa67079d2af56609f4f4dfd43d293b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a frame of the screen.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#af1fa67079d2af56609f4f4dfd43d293b">More...</a><br /></td></tr>
-<tr class="separator:af1fa67079d2af56609f4f4dfd43d293b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03167d7a69faca43dc26d504d42499d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a03167d7a69faca43dc26d504d42499d5">_computeSegment</a> (const <a class="el" href="structRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1ComputeParams.html">ComputeParams</a> &amp;params, <a class="el" href="structRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1Segment.html">Segment</a> config, std::vector&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">Common::IObject::Ptr</a> &gt; &amp;objects)</td></tr>
+<tr class="memdesc:a03167d7a69faca43dc26d504d42499d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a segment of the screen.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a03167d7a69faca43dc26d504d42499d5">More...</a><br /></td></tr>
+<tr class="separator:a03167d7a69faca43dc26d504d42499d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa90e44d36976830333f8aa73f9d16d3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRaytracer_1_1Common_1_1Graphics_1_1Color.html">Common::Graphics::Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#aa90e44d36976830333f8aa73f9d16d3c">_computeFrame</a> (<a class="el" href="structRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1Segment.html">Segment</a> config, std::vector&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">Common::IObject::Ptr</a> &gt; &amp;objects, size_t x, size_t y, size_t raysPerPixels, size_t bounce)</td></tr>
+<tr class="memdesc:aa90e44d36976830333f8aa73f9d16d3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a frame of the screen.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#aa90e44d36976830333f8aa73f9d16d3c">More...</a><br /></td></tr>
+<tr class="separator:aa90e44d36976830333f8aa73f9d16d3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33b6086f42c8d272a2145de5f835e055"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRaytracer_1_1Common_1_1Math_1_1HitInfo.html">Common::Math::HitInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a33b6086f42c8d272a2145de5f835e055">_computeRayCollision</a> (const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Ray.html">Common::Math::Ray</a> &amp;ray, std::vector&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">Common::IObject::Ptr</a> &gt; &amp;objects)</td></tr>
 <tr class="memdesc:a33b6086f42c8d272a2145de5f835e055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the collision of a ray with the objects.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a33b6086f42c8d272a2145de5f835e055">More...</a><br /></td></tr>
 <tr class="separator:a33b6086f42c8d272a2145de5f835e055"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5049a0e927834a605e940b8a5cefc3d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRaytracer_1_1Common_1_1Graphics_1_1Color.html">Common::Graphics::Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a5049a0e927834a605e940b8a5cefc3d5">_getIncomingLight</a> (<a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Ray.html">Common::Math::Ray</a> ray, unsigned int rngState, std::vector&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">Common::IObject::Ptr</a> &gt; &amp;objects)</td></tr>
-<tr class="memdesc:a5049a0e927834a605e940b8a5cefc3d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the incoming light of a ray.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a5049a0e927834a605e940b8a5cefc3d5">More...</a><br /></td></tr>
-<tr class="separator:a5049a0e927834a605e940b8a5cefc3d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f4ccfe8e8372f79f9709da7a4b7dfbb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRaytracer_1_1Common_1_1Graphics_1_1Color.html">Common::Graphics::Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a6f4ccfe8e8372f79f9709da7a4b7dfbb">_getIncomingLight</a> (<a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Ray.html">Common::Math::Ray</a> ray, unsigned int rngState, std::vector&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">Common::IObject::Ptr</a> &gt; &amp;objects, size_t bounce)</td></tr>
+<tr class="memdesc:a6f4ccfe8e8372f79f9709da7a4b7dfbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the incoming light of a ray.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a6f4ccfe8e8372f79f9709da7a4b7dfbb">More...</a><br /></td></tr>
+<tr class="separator:a6f4ccfe8e8372f79f9709da7a4b7dfbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8463346e46430a0fa7a4a460eb2f42c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Common::Math::Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a8463346e46430a0fa7a4a460eb2f42c8">_getRandomDirection</a> (<a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Common::Math::Vector3D</a> &amp;normal, unsigned int &amp;rngState)</td></tr>
 <tr class="memdesc:a8463346e46430a0fa7a4a460eb2f42c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a random direction (hemisphere) from a normal.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a8463346e46430a0fa7a4a460eb2f42c8">More...</a><br /></td></tr>
 <tr class="separator:a8463346e46430a0fa7a4a460eb2f42c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -206,6 +206,9 @@ static float&#160;</td><td class="memItemRight" valign="bottom"><b>_smoothStep</
 <tr class="memitem:a78629df1824c589b7686b3dd0fc43a5f"><td class="memItemLeft" align="right" valign="top"><a id="a78629df1824c589b7686b3dd0fc43a5f"></a>
 static <a class="el" href="structRaytracer_1_1Common_1_1Graphics_1_1Color.html">Common::Graphics::Color</a>&#160;</td><td class="memItemRight" valign="bottom"><b>_lErp</b> (const <a class="el" href="structRaytracer_1_1Common_1_1Graphics_1_1Color.html">Common::Graphics::Color</a> &amp;a, const <a class="el" href="structRaytracer_1_1Common_1_1Graphics_1_1Color.html">Common::Graphics::Color</a> &amp;b, float t)</td></tr>
 <tr class="separator:a78629df1824c589b7686b3dd0fc43a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a752a7177342b3e22fb692d6ae8102938"><td class="memItemLeft" align="right" valign="top"><a id="a752a7177342b3e22fb692d6ae8102938"></a>
+static <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Common::Math::Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><b>_lErp</b> (const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Common::Math::Vector3D</a> &amp;a, const <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Common::Math::Vector3D</a> &amp;b, float t)</td></tr>
+<tr class="separator:a752a7177342b3e22fb692d6ae8102938"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -254,8 +257,8 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af1fa67079d2af56609f4f4dfd43d293b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1fa67079d2af56609f4f4dfd43d293b">&#9670;&nbsp;</a></span>_computeFrame()</h2>
+<a id="aa90e44d36976830333f8aa73f9d16d3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa90e44d36976830333f8aa73f9d16d3c">&#9670;&nbsp;</a></span>_computeFrame()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -285,7 +288,19 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>y</em>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>raysPerPixels</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>bounce</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -307,6 +322,8 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
     <tr><td class="paramname">objects</td><td>Objects to compute </td></tr>
     <tr><td class="paramname">x</td><td>X position of the pixel </td></tr>
     <tr><td class="paramname">y</td><td>Y position of the pixel </td></tr>
+    <tr><td class="paramname">raysPerPixels</td><td>Number of rays per pixel </td></tr>
+    <tr><td class="paramname">bounce</td><td>Number of bounces </td></tr>
   </table>
   </dd>
 </dl>
@@ -360,8 +377,8 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 
 </div>
 </div>
-<a id="a316aeb1dc70893720e17291c84fee7ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a316aeb1dc70893720e17291c84fee7ad">&#9670;&nbsp;</a></span>_computeSegment()</h2>
+<a id="a03167d7a69faca43dc26d504d42499d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03167d7a69faca43dc26d504d42499d5">&#9670;&nbsp;</a></span>_computeSegment()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -372,6 +389,12 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
         <tr>
           <td class="memname">void Camera::_computeSegment </td>
           <td>(</td>
+          <td class="paramtype">const <a class="el" href="structRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1ComputeParams.html">ComputeParams</a> &amp;&#160;</td>
+          <td class="paramname"><em>params</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"><a class="el" href="structRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1Segment.html">Segment</a>&#160;</td>
           <td class="paramname"><em>config</em>, </td>
         </tr>
@@ -397,6 +420,7 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <p>Compute a segment of the screen. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">params</td><td>Parameters of the computing </td></tr>
     <tr><td class="paramname">config</td><td>Configuration of the segment </td></tr>
     <tr><td class="paramname">objects</td><td>Objects to compute </td></tr>
   </table>
@@ -405,8 +429,8 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 
 </div>
 </div>
-<a id="a5049a0e927834a605e940b8a5cefc3d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5049a0e927834a605e940b8a5cefc3d5">&#9670;&nbsp;</a></span>_getIncomingLight()</h2>
+<a id="a6f4ccfe8e8372f79f9709da7a4b7dfbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f4ccfe8e8372f79f9709da7a4b7dfbb">&#9670;&nbsp;</a></span>_getIncomingLight()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -430,7 +454,13 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">Common::IObject::Ptr</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>objects</em>&#160;</td>
+          <td class="paramname"><em>objects</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>bounce</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -451,6 +481,7 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
     <tr><td class="paramname">ray</td><td>Ray to compute </td></tr>
     <tr><td class="paramname">rngState</td><td>Random state </td></tr>
     <tr><td class="paramname">objects</td><td>Objects to compute </td></tr>
+    <tr><td class="paramname">bounce</td><td>Number of bounces </td></tr>
   </table>
   </dd>
 </dl>
