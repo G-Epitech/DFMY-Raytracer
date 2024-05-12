@@ -56,10 +56,6 @@ namespace Raytracer::Core::Rendering {
 
         /// @brief Segment of the screen
         typedef struct Segment {
-            /// @brief Origin of the segment
-            Common::Math::Size origin;
-            /// @brief Size of the segment
-            Common::Math::Size size;
             /// @brief Local screen size
             Common::Math::Float2 localScreenSize;
             /// @brief Local screen origin
