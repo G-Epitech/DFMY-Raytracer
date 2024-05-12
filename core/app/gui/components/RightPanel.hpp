@@ -59,5 +59,6 @@ namespace Raytracer::Core::Gui {
 
         void _initObjectTree();
         void _initObjectProperties();
+        void _updateObjectTree();
     };
 }

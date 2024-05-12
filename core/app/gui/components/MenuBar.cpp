@@ -6,6 +6,7 @@
 */
 
 #include "MenuBar.hpp"
+#include "config/Config.hpp"
 
 using namespace Raytracer::Core::Gui;
 
@@ -19,18 +20,8 @@ void MenuBar::init() {
     _menuBar->setTextSize(13);
 
     _menuBar->addMenu("File");
-/*    _menuBar->addMenuItem({ "File", "Open" });
-    _menuBar->addMenuItem({ "File", "Save image as", "PPM" });
-    _menuBar->addMenuItem({ "File", "Save image as", "PNG" });
-    _menuBar->addMenuItem({ "File", "Save image as", "JPG" });
-    _menuBar->addMenuItem({ "File", "Save image as", "BMP" });*/
+    _menuBar->addMenuItem({ "File", "Open" });
     _menuBar->addMenuItem({ "File", "Quit" });
-
-/*    _menuBar->addMenu("Scene");
-    _menuBar->addMenuItem({ "Scene", "Cameras", "Add" });
-    _menuBar->addMenuItem({ "Scene", "Objects", "Add" });
-    _menuBar->addMenuItem({ "Scene", "Materials", "Add" });
-    _menuBar->addMenuItem({ "Scene", "Lights", "Add" });*/
 
     _menuBar->addMenu("Help");
     _menuBar->addMenuItem({ "Help", "About" });
@@ -41,6 +32,7 @@ void MenuBar::init() {
 
 void MenuBar::_initEvents() {
     _menuBar->connectMenuItem({ "File", "Quit" }, [this]() { _context.gui.getWindow()->close(); });
+    _menuBar->connectMenuItem({ "File", "Open" }, [this]() { _openFileExplorer(); });
     _menuBar->connectMenuItem({ "Help", "About" }, [this]() { _openAboutBox(); });
 }
 
@@ -62,6 +54,34 @@ void MenuBar::_openAboutBox() {
     });
     _aboutBox->setPosition("(&.width - width) / 2", "(&.height - height) / 2");
     _context.gui.add(_aboutBox);
+}
+
+void MenuBar::_openFileExplorer()
+{
+    auto fileDialog = tgui::FileDialog::create();
+    fileDialog->setTitle("Open file");
+    fileDialog->setFileMustExist(true);
+    fileDialog->setFileTypeFilters({{"Raytracer Config", {"*.cfg"}}});
+    fileDialog->setPosition("(&.width - width) / 2", "(&.height - height) / 2");
+    fileDialog->onFileSelect([this](const tgui::String &selectedFile) {
+        try {
+            auto config = Config::loadFromFile(selectedFile.toStdString(), _context.app.pluginsManager);
+            auto scene = config.toScene();
+
+            _context.app.scene = std::move(scene);
+        } catch (const std::exception &e) {
+            auto messageBox = tgui::MessageBox::create("Error", e.what(), {"OK"});
+
+            messageBox->setSize(300, 100);
+            messageBox->setPosition("(&.width - width) / 2", "(&.height - height) / 2");
+            messageBox->setWidth(300);
+            messageBox->onButtonPress([this, messageBox]() {
+                _context.gui.remove(messageBox);
+            });
+            _context.gui.add(messageBox);
+        }
+    });
+    _context.gui.add(fileDialog);
 }
 
 MenuBar::~MenuBar() = default;

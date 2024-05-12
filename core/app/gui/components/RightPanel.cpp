@@ -54,6 +54,10 @@ void RightPanel::_initObjectTree()
 {
     _objectTree = tgui::TreeView::create();
     _objectTree->setSize("100%", "100%");
+    _objectTree->onMouseLeave([this]() {
+        if (_context.app.scene->objects.size() != _items.size())
+            _updateObjectTree();
+    });
     for (auto &obj : _context.app.scene->objects) {
         _objectTree->addItem({obj->getType(), obj->getName()}, true);
         _items.push_back(obj->getName());
@@ -75,4 +79,15 @@ void RightPanel::_initObjectProperties()
     _settingsGroup->setVisible(false);
     _objProps.init(_settingsGroup);
     _objectsPropertiesWindow->add(_settingsGroup);
+}
+
+void RightPanel::_updateObjectTree()
+{
+    _objectTree->removeAllItems();
+    _items.clear();
+    for (auto &obj : _context.app.scene->objects) {
+        _objectTree->addItem({obj->getType(), obj->getName()}, true);
+        _items.push_back(obj->getName());
+    }
+    _objectTree->collapseAll();
 }

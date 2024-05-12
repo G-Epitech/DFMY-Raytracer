@@ -47,5 +47,10 @@ namespace Raytracer::Core::Gui {
          * @brief Initialize the about box
          */
         void _openAboutBox();
+
+        /**
+         * @brief Open the file explorer
+         */
+        void _openFileExplorer();
     };
 }
