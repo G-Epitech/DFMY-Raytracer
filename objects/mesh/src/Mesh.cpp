@@ -136,10 +136,6 @@ bool Mesh::_isInsideSphere(const Point3D &point) {
     return distanceSquared <= radiusSquared;
 }
 
-Graphics::Material::Ptr Mesh::getMaterial() {
-    return _material;
-}
-
 void Mesh::_loadObj(const std::string &filename) {
     std::string line;
     std::ifstream file(filename);
