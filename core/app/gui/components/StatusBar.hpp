@@ -7,12 +7,16 @@
 
 #pragma once
 
-#include <TGUI/Widgets/HorizontalLayout.hpp>
-#include "app/gui/GuiContext.hpp"
+#include <TGUI/TGUI.hpp>
 
 namespace Raytracer::Core::Gui {
+    class GuiContext;
+
     class StatusBar {
     public:
+        /// @brief Shared pointer of StatusBar
+        typedef std::shared_ptr<StatusBar> Ptr;
+
         /**
          * @brief Construct a new StatusBar object
          * @param context GUI context
@@ -25,9 +29,22 @@ namespace Raytracer::Core::Gui {
         ~StatusBar();
 
         /**
+         * @brief Create a new status bar
+         * @param context GUI context
+         * @return Created status bar
+         */
+        static StatusBar::Ptr create(GuiContext &context);
+
+        /**
          * @brief Initialize the status bar
          */
         void init();
+
+        /// @brief Current operation status label
+        tgui::Label::Ptr statusLabel;
+
+        /// @brief Progress bar
+        tgui::ProgressBar::Ptr progressBar;
 
     private:
         /// @brief GUI context
@@ -37,12 +54,10 @@ namespace Raytracer::Core::Gui {
         tgui::HorizontalLayout::Ptr _layout;
 
         /// @brief Left part of bar
-        tgui::HorizontalLayout::Ptr _left;
+        tgui::Panel::Ptr _left;
 
         /// @brief Right part of bar
-        tgui::HorizontalLayout::Ptr _right;
+        tgui::Panel::Ptr _right;
 
-        /// @brief Current operation status label
-        tgui::Label::Ptr _label;
     };
 }

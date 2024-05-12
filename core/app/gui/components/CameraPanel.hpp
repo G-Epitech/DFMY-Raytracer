@@ -91,5 +91,10 @@ namespace Raytracer::Core::Gui {
          * @brief On cancel button clicked
          */
         void _onCancelButtonClicked();
+
+        /**
+         * @brief Update the status bar
+         */
+        void _updateStatusBar();
     };
 }

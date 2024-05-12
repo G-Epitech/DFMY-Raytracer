@@ -41,7 +41,7 @@ namespace Raytracer::Core::Gui {
         MenuBar _menuBar;
 
         /// @brief Status bar
-        StatusBar _statusBar;
+        StatusBar::Ptr _statusBar;
 
         /// @brief Main panel
         MainPanel _mainPanel;

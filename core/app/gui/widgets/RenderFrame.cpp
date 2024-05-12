@@ -60,6 +60,7 @@ void RenderFrame::updateFromScreen(Raytracer::Core::Rendering::Screen &screen) {
         screen.getPixels().get()
     );
     _sprite.setTexture(_texture);
+    _sprite.setSize({float(_texture.getImageSize().x), float(_texture.getImageSize().y)});
 }
 
 RenderFrame::~RenderFrame() = default;

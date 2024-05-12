@@ -65,10 +65,13 @@ void Raytracer::Core::Gui::CameraPanel::_render() {
         _context.gui.requestRender();
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         progress = _camera->getComputeProgress();
-        if (_camera->getComputeStatus() == Rendering::Camera::ABORTED)
+        if (_camera->getComputeStatus() == Rendering::Camera::RUNNING)
+            _updateStatusBar();
+        else if (_camera->getComputeStatus() == Rendering::Camera::ABORTED)
             break;
     }
     _camera->waitThreadsTeardown();
+    _updateStatusBar();
     _frame->updateFromScreen(_camera->screen);
     _context.gui.requestRender();
     _renderingSettingsPanel.renderButton->setText("Render");
@@ -83,7 +86,6 @@ void Raytracer::Core::Gui::CameraPanel::_onRenderButtonClicked() {
     } else if (_camera->getComputeStatus() == Rendering::Camera::PAUSED) {
         _camera->resumeCompute();
         _renderingSettingsPanel.renderButton->setText("Pause rendering");
-        return;
     } else {
         _propertiesPanel.setEnabled(false);
         _renderingSettingsPanel.setRenderingSensitiveEnabled(false);
@@ -95,6 +97,7 @@ void Raytracer::Core::Gui::CameraPanel::_onRenderButtonClicked() {
         _renderingThread = std::thread(&CameraPanel::_render, this);
         _renderingThread.detach();
     }
+    _updateStatusBar();
 }
 
 void Raytracer::Core::Gui::CameraPanel::_onCancelButtonClicked() {
@@ -105,19 +108,47 @@ void Raytracer::Core::Gui::CameraPanel::_onCancelButtonClicked() {
     _propertiesPanel.setEnabled(true);
     _renderingSettingsPanel.setRenderingSensitiveEnabled(true);
     _renderingSettingsPanel.renderButton->setText("Render");
+    _updateStatusBar();
 }
 
 void Raytracer::Core::Gui::CameraPanel::onTabSelected() {
+    auto &progressBar = _context.statusBar->progressBar;
+    auto &statusLabel = _context.statusBar->statusLabel;
+    auto progressValue = (unsigned int)(_camera->getComputeProgress() * 100);
+
     if (_autoPaused) {
         _autoPaused = false;
         _camera->resumeCompute();
-        return;
     }
+    _updateStatusBar();
 }
 
 void Raytracer::Core::Gui::CameraPanel::onTabUnselected() {
     if (_camera->getComputeStatus() == Rendering::Camera::RUNNING) {
         _camera->pauseCompute();
         _autoPaused = true;
+    }
+}
+
+void Raytracer::Core::Gui::CameraPanel::_updateStatusBar() {
+    auto &progressBar = _context.statusBar->progressBar;
+    auto &statusLabel = _context.statusBar->statusLabel;
+    auto progressValue = (unsigned int)(_camera->getComputeProgress() * 100);
+
+    switch (_camera->getComputeStatus()) {
+        case Rendering::Camera::RUNNING:
+            progressBar->setVisible(true);
+            progressBar->setValue(progressValue);
+            statusLabel->setText("Rendering: " + std::to_string(progressValue) + "% done");
+            break;
+        case Rendering::Camera::PAUSED:
+            progressBar->setVisible(true);
+            progressBar->setValue(progressValue);
+            statusLabel->setText("Rendering paused");
+            break;
+        default:
+            progressBar->setVisible(false);
+            statusLabel->setText("Ready");
+            break;
     }
 }

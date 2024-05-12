@@ -11,9 +11,7 @@ using namespace Raytracer::Core;
 using namespace Raytracer::Common;
 
 Rendering::Screen::Screen(const Config &config) : size(config.size) {
-    auto pixelsSize = config.size.width * config.size.height * 4;
-
-    _pixels = std::unique_ptr<sf::Uint8[]>(new sf::Uint8[pixelsSize]);
+    resize(size);
 }
 
 void Rendering::Screen::setPixel(size_t x, size_t y, const Common::Graphics::Pixel &pixel) {
@@ -32,6 +30,7 @@ Raytracer::Core::Graphics::PixelArray &Rendering::Screen::getPixels() {
 void Rendering::Screen::resize(const Math::Size &newSize) {
     auto pixelsSize = newSize.width * newSize.height * 4;
 
+    _pixels.reset();
     _pixels = std::unique_ptr<sf::Uint8[]>(new sf::Uint8[pixelsSize]);
     size = newSize;
 }
