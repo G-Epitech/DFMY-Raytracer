@@ -95,7 +95,7 @@ namespace Raytracer::Core::Rendering {
         Camera() = delete;
 
         /// @brief Default destructor
-        ~Camera() = default;
+        ~Camera();
 
         /**
          * @brief Compute all pixels of the screen

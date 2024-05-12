@@ -241,18 +241,25 @@ void Camera::resumeCompute() {
 
 void Camera::waitThreadsTeardown() {
     for (auto &thread : _threads) {
-        thread.join();
+        if (thread.joinable())
+            thread.join();
     }
     _threads.clear();
     _computeStatus = FINISHED;
 }
 
 void Camera::waitFinished() const {
-    while (_computeStatus != FINISHED);
+    while (_computeStatus != FINISHED) {
+        std::cout << "Waiting finished" << std::endl;
+    }
 }
 
 float Camera::getComputeProgress() const {
     if (this->_processedPixels == screen.size.width * screen.size.height)
         return 1.0f;
     return (float) _processedPixels / (float) (screen.size.width * screen.size.height);
+}
+
+Camera::~Camera() {
+    cancelCompute();
 }
