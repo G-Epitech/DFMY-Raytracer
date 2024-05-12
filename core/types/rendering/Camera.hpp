@@ -35,6 +35,13 @@ namespace Raytracer::Core::Rendering {
             float fov;
         } Config;
 
+        enum ComputeStatus {
+            RUNNING,
+            ABORTED,
+            PAUSED,
+            FINISHED
+        };
+
         /// @brief Parameters of camera computing
         struct ComputeParams {
             /// @brief Number of threads to use
@@ -84,7 +91,7 @@ namespace Raytracer::Core::Rendering {
         Camera() = delete;
 
         /// @brief Default destructor
-        ~Camera() = default;
+        ~Camera();
 
         /**
          * @brief Compute all pixels of the screen
@@ -98,12 +105,29 @@ namespace Raytracer::Core::Rendering {
          * @return Status of the computation
          */
         [[nodiscard]]
-        float getComputeStatus() const;
+        ComputeStatus getComputeStatus() const;
+
+        /**
+         * @brief Get the progress of the computation
+         * @return Progress of the computation
+         */
+        [[nodiscard]]
+        float getComputeProgress() const;
 
         /**
          * @brief Cancel the computation
          */
         void cancelCompute();
+
+        /**
+         * @brief Pause the computation
+         */
+        void pauseCompute();
+
+        /**
+         * @brief Resume the computation
+         */
+        void resumeCompute();
 
         /**
          * @brief Wait for the threads to teardown
@@ -120,10 +144,14 @@ namespace Raytracer::Core::Rendering {
         Screen screen;
         /// @brief The name of the camera
         std::string name;
+
+    protected:
         /// @brief Vector of processing threads
         std::vector<std::thread> _threads;
 
-    protected:
+        /// @brief Compute status
+        ComputeStatus _computeStatus = ComputeStatus::FINISHED;
+
         /// @brief Number of processed pixels
         size_t _processedPixels = 0;
 
@@ -188,5 +216,10 @@ namespace Raytracer::Core::Rendering {
                                              float t);
 
         static  Common::Math::Vector3D _lErp(const Common::Math::Vector3D &a, const  Common::Math::Vector3D &b, float t);
+
+        /**
+         * @brief Prevent the abortion of the computation
+         */
+        inline void _preventAbort();
     };
 }

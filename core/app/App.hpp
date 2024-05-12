@@ -162,9 +162,10 @@ namespace Raytracer::Core {
          * @param arg Argument value read from command line
          * @param value Value to set
          * @param name Name of the argument to set
+         * @param allowZero Allow zero value
          * @return Success status
          */
         [[nodiscard]]
-        static bool _readULArg(const string &arg, size_t &value, const string &name);
+        static bool _readULArg(const string &arg, size_t &value, const string &name, bool allowZero = false);
     };
 }
