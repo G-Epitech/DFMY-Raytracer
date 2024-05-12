@@ -42,5 +42,10 @@ namespace Raytracer::Core::Gui {
 
         /// @brief Objects properties window
         tgui::ChildWindow::Ptr _objectsPropertiesWindow;
+
+        /// @brief Tree of objects
+        tgui::TreeView::Ptr _objectTree;
+
+        void _initObjectTree();
     };
 }

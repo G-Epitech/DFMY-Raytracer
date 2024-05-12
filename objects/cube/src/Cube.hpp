@@ -34,7 +34,7 @@ public:
         const Common::Math::Vector3D &rotation,
         const Common::Math::Point3D &position,
         const Common::ObjectProperty &property);
-    
+
     /**
      * @brief Destroy the Cube object
      */

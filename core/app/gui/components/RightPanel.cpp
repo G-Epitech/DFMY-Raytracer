@@ -27,8 +27,9 @@ void RightPanel::init(tgui::Panel::Ptr &mainPanel) {
     _objectsListWindow->setPosition(0, 0);
     _objectsListWindow->setTextSize(13);
     _objectsListWindow->setPositionLocked();
-    _objectsListWindow->setTitleAlignment(tgui::ChildWindow::TitleAlignment::Center);
+    _objectsListWindow->setTitleAlignment(tgui::HorizontalAlignment::Center);
     _objectsListWindow->setTitleButtons(tgui::ChildWindow::TitleButton::None);
+    _initObjectTree();
     _panel->add(_objectsListWindow);
 
     _objectsListWindow = tgui::ChildWindow::create();
@@ -37,9 +38,17 @@ void RightPanel::init(tgui::Panel::Ptr &mainPanel) {
     _objectsListWindow->setPosition(0, "ObjectsList.height + 10");
     _objectsListWindow->setTextSize(13);
     _objectsListWindow->setPositionLocked();
-    _objectsListWindow->setTitleAlignment(tgui::ChildWindow::TitleAlignment::Center);
+    _objectsListWindow->setTitleAlignment(tgui::HorizontalAlignment::Center);
     _objectsListWindow->setTitleButtons(tgui::ChildWindow::TitleButton::None);
     _panel->add(_objectsListWindow);
 
     mainPanel->add(_panel);
+}
+
+void RightPanel::_initObjectTree()
+{
+    _objectTree = tgui::TreeView::create();
+    _objectTree->setSize("100%", "100%");
+    _objectTree->addItem({"caca", "caca"}, true);
+    _objectsListWindow->add(_objectTree);
 }
