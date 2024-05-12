@@ -17,7 +17,9 @@ Camera::Camera(const Config &config) :
         position(config.position),
         direction(config.direction),
         fov(config.fov),
-        name(config.name) {}
+        name(config.name),
+        _computeStatus(FINISHED)
+        {}
 
 void Camera::compute(const ComputeParams &params, std::vector<IObject::Ptr> &objects) {
     if (params.threads % 2 != 0)
@@ -30,6 +32,12 @@ void Camera::compute(const ComputeParams &params, std::vector<IObject::Ptr> &obj
     auto screenOrigin = Math::Point3D(position.x - screenWidth / 2, position.y + 2,
                                       position.z + screenHeight / 2);
 
+    screen.clear();
+    cancelCompute();
+    waitThreadsTeardown();
+
+    _processedPixels = 0;
+    _computeStatus = RUNNING;
     for (size_t y = 0; y < 2; y++) {
         for (size_t x = 0; x < params.threads / 2; x++) {
             Segment config{
@@ -44,11 +52,14 @@ void Camera::compute(const ComputeParams &params, std::vector<IObject::Ptr> &obj
 
 void Camera::_computeSegment(const ComputeParams &params, Segment config, std::vector<IObject::Ptr> &objects) {
     while (true) {
+        _preventAbort();
+
         this->_statusMutex.lock();
-        if (this->_processedPixels >= screen.size.width * screen.size.height) {
+        if (getComputeProgress() == 1) {
             this->_statusMutex.unlock();
             break;
         }
+
         size_t x = this->_processedPixels % screen.size.width;
         size_t y = this->_processedPixels / screen.size.width;
         this->_processedPixels++;
@@ -57,7 +68,8 @@ void Camera::_computeSegment(const ComputeParams &params, Segment config, std::v
         Common::Graphics::Color oldFrame = this->_computeFrame(config, objects, x, y, params.raysPerPixel,
                                                                params.rayBounceLimit);
 
-        for (size_t i = 0; i < params.additionalFrames - 1; i++) {
+        for (size_t i = 0; i < params.additionalFrames; i++) {
+            _preventAbort();
             auto newFrame = this->_computeFrame(config, objects, x, y, params.raysPerPixel, params.rayBounceLimit);
             float weight = 1.0f / (i + 1);
 
@@ -89,6 +101,7 @@ Graphics::Color Camera::_computeFrame(Raytracer::Core::Rendering::Camera::Segmen
     Common::Graphics::Color totalIncomingLight(0, 0, 0);
 
     for (size_t ri = 0; ri < raysPerPixels; ri++) {
+        _preventAbort();
         auto random = pixelIndex + ri;
         auto incomingLight = this->_getIncomingLight(ray, random, objects, bounce);
 
@@ -104,8 +117,8 @@ Math::HitInfo Camera::_computeRayCollision(const Math::Ray &ray, std::vector<IOb
     closestHit.distance = std::numeric_limits<float>::max();
 
     for (auto &object: objects) {
+        _preventAbort();
         auto hitConfig = object->computeCollision(ray);
-
         if (hitConfig.didHit && hitConfig.distance < closestHit.distance) {
             closestHit = hitConfig;
         }
@@ -120,6 +133,7 @@ Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, std::vector<IObj
     Common::Graphics::Color rayColor(1, 1, 1);
 
     for (unsigned int i = 0; i <= bounce; i++) {
+        _preventAbort();
         auto hitConfig = this->_computeRayCollision(ray, objects);
         if (hitConfig.didHit) {
             auto randomSeed = rngState + i;
@@ -214,20 +228,47 @@ const char *Camera::ComputeError::what() const noexcept {
     return this->_msg.c_str();
 }
 
-float Camera::getComputeStatus() const {
-    if (this->_processedPixels == screen.size.width * screen.size.height)
+Camera::ComputeStatus Camera::getComputeStatus() const {
+    return _computeStatus;
+}
+
+void Camera::cancelCompute() {
+    _computeStatus = ABORTED;
+}
+
+void Camera::pauseCompute() {
+    if (_computeStatus == RUNNING)
+        _computeStatus = PAUSED;
+}
+
+void Camera::resumeCompute() {
+    if (_computeStatus == PAUSED)
+        _computeStatus = RUNNING;
+}
+
+void Camera::waitThreadsTeardown() {
+    for (auto &thread : _threads) {
+        if (thread.joinable())
+            thread.join();
+    }
+    _threads.clear();
+    _computeStatus = FINISHED;
+}
+
+float Camera::getComputeProgress() const {
+    if (this->_processedPixels >= screen.size.width * screen.size.height)
         return 1.0f;
     return (float) _processedPixels / (float) (screen.size.width * screen.size.height);
 }
 
-void Camera::cancelCompute() {
-    for (auto &thread: _threads) {
-        thread.detach();
-    }
+Camera::~Camera() {
+    cancelCompute();
 }
 
-void Camera::waitThreadsTeardown() {
-    for (auto &thread: _threads) {
-        thread.join();
+void Camera::_preventAbort() {
+    if (_computeStatus == ABORTED)
+        pthread_exit(nullptr);
+    while (_computeStatus == PAUSED) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }

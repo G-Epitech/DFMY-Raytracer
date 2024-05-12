@@ -16,7 +16,4 @@ target_link_libraries(raytracer_tests
         raytracer_common
         gtest
         gtest_main
-        sfml-graphics
-        sfml-window
-        sfml-system
 )

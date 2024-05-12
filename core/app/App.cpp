@@ -142,7 +142,7 @@ bool App::_readOptions(int argc, char **argv) {
                     return false;
                 break;
             case 'F':
-                if (!_readULArg(optarg, _args.options.additionalFramesCount, "additional frames"))
+                if (!_readULArg(optarg, _args.options.additionalFramesCount, "additional frames", true))
                     return false;
                 break;
             default:
@@ -187,12 +187,12 @@ bool App::tryLoadScene(const string &scenePath) {
     }
 }
 
-bool App::_readULArg(const std::string &arg, size_t &value, const std::string &name) {
+bool App::_readULArg(const std::string &arg, size_t &value, const std::string &name, bool allowZero) {
     if (!_readUL(arg, value)) {
         std::cerr << "Invalid " << name << " count: '" << arg << "'. Must be a positive number." << std::endl;
         return false;
     }
-    if (value == 0) {
+    if (value == 0 && !allowZero) {
         std::cerr << "The " <<  name << " value must be greater than 0." << std::endl;
         return false;
     }

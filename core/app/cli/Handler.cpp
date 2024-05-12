@@ -18,14 +18,6 @@
 
 using namespace Raytracer::Core::Cli;
 
-#if defined(__linux__)
-    #define PLUGIN_PATH "plugins/raytracer_sphere.so"
-#elif defined(__APPLE__)
-    #define PLUGIN_PATH "plugins/raytracer_sphere.dylib"
-#elif defined(_WIN32)
-    #define PLUGIN_PATH "plugins/raytracer_sphere.dll"
-#endif
-
 Handler::Handler(Raytracer::Core::App::Context &context): _appContext(context), _camerasNamesMaxLength(0) {}
 
 Handler::~Handler() = default;
@@ -80,13 +72,13 @@ void Handler::_renderCameraImage(
 ) {
     auto &screen = camera->screen;
     auto image = Graphics::Image(screen.size.width, screen.size.height, screen.getPixels());
-    float status = 0;
+    float progress = 0;
 
     camera->compute(params, _appContext.scene->objects);
-    status = camera->getComputeStatus();
-    while (status < 1.0f) {
-        _displayProgress(cameraName, _camerasNamesMaxLength, status);
-        status = camera->getComputeStatus();
+    progress = camera->getComputeProgress();
+    while (progress < 1.0f) {
+        _displayProgress(cameraName, _camerasNamesMaxLength, progress);
+        progress = camera->getComputeProgress();
     }
     _displayProgress(cameraName, _camerasNamesMaxLength, 1.0f);
     camera->waitThreadsTeardown();

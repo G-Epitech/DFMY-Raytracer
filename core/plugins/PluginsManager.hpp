@@ -10,8 +10,8 @@
 #include <string>
 #include <map>
 #include <list>
-#include "interfaces/IObject.hpp"
-#include "interfaces/IObjectProvider.hpp"
+#include "common/interfaces/IObject.hpp"
+#include "common/interfaces/IObjectProvider.hpp"
 #include "libs/DLLoader/DLLoader.hpp"
 
 namespace Raytracer::Core {

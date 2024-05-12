@@ -13,6 +13,7 @@ BUILD_PATH 	= build
 LIB_PATH 	= lib
 COVERAGE_IGNORE_TARGETS = 	tests \
 							cmake-build-debug-coverage \
+							core/app/gui \
 							core/types/rendering/Camera.cpp
 COVERAGE_IGNORE = $(addprefix -e , $(COVERAGE_IGNORE_TARGETS))
 

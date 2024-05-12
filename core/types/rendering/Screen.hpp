@@ -38,7 +38,7 @@ namespace Raytracer::Core::Rendering {
         ~Screen();
 
         /// @brief Width of the screen
-        const Common::Math::Size size;
+        Common::Math::Size size;
 
         /// @brief Get the pixel at the given coordinates
         void setPixel(size_t x, size_t y, const Common::Graphics::Pixel &pixel);
@@ -48,6 +48,17 @@ namespace Raytracer::Core::Rendering {
          * @return PixelArray of the screen
          */
         Graphics::PixelArray &getPixels();
+
+        /**
+         * @brief Resize the screen
+         * @param size New size of the screen
+         */
+        void resize(const Common::Math::Size &size);
+
+        /**
+         * @brief Clear the screen
+         */
+        void clear();
 
     private:
         /// @brief Pixels of the screen

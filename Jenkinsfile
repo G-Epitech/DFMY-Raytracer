@@ -9,7 +9,7 @@ pipeline {
 
         stage('Project compilation') {
             agent {
-                docker { image 'epitechcontent/epitest-docker' }
+                dockerfile true
             }
             steps {
                 sh 'make clean'
@@ -20,7 +20,7 @@ pipeline {
 
         stage('Project tests') {
             agent {
-                docker { image 'epitechcontent/epitest-docker' }
+                dockerfile true
             }
             steps {
                 sh 'make tests_run'
