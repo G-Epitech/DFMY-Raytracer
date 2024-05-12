@@ -18,6 +18,8 @@ namespace Raytracer::Core::Gui {
 
             void init(tgui::Group::Ptr &settingsGroup);
 
+            void changeObj(Raytracer::Common::IObject::Ptr &obj);
+
         private:
             Raytracer::Common::IObject::Ptr &_obj;
 

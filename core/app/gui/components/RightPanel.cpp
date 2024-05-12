@@ -56,7 +56,14 @@ void RightPanel::_initObjectTree()
     _objectTree->setSize("100%", "100%");
     for (auto &obj : _context.app.scene->objects) {
         _objectTree->addItem({obj->getType(), obj->getName()}, true);
+        _items.push_back(obj->getName());
     }
+    _objectTree->onDoubleClick([this](const tgui::String &item) {
+        _settingsGroup->setVisible(true);
+        _selectedObj = std::find(_items.begin(), _items.end(), item) - _items.begin();
+        _objProps.changeObj(_context.app.scene->objects[_selectedObj]);
+    });
+    _objectTree->collapseAll();
     _objectsListWindow->add(_objectTree);
 }
 
@@ -65,6 +72,7 @@ void RightPanel::_initObjectProperties()
     _settingsGroup = tgui::Group::create({"100%", "100%"});
     _settingsGroup->setPosition(0, 0);
     _settingsGroup->getRenderer()->setPadding(0);
+    _settingsGroup->setVisible(false);
     _objProps.init(_settingsGroup);
     _objectsPropertiesWindow->add(_settingsGroup);
 }

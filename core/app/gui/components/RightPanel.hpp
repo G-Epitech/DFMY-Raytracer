@@ -55,6 +55,8 @@ namespace Raytracer::Core::Gui {
 
         ObjectProperties _objProps;
 
+        std::vector<std::string> _items;
+
         void _initObjectTree();
         void _initObjectProperties();
     };

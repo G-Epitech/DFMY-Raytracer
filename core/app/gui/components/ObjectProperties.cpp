@@ -27,6 +27,18 @@ void ObjectProperties::init(tgui::Group::Ptr &settingsGroup)
     settingsGroup->add(_propertiesPanel);
 }
 
+void ObjectProperties::changeObj(Raytracer::Common::IObject::Ptr &obj)
+{
+    _obj = obj;
+    _objName->setText(_obj->getName());
+    // _objPositionX->setValue(_obj->getPosition().x);
+    // _objPositionY->setValue(_obj->getPosition().y);
+    // _objPositionZ->setValue(_obj->getPosition().z);
+    // _objDirectionX->setValue(_obj->getDirection().x);
+    // _objDirectionY->setValue(_obj->getDirection().y);
+    // _objDirectionZ->setValue(_obj->getDirection().z);
+}
+
 void ObjectProperties::_initPropertiesName()
 {
     auto label = tgui::Label::create("Name:");
