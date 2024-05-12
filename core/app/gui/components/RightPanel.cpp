@@ -31,7 +31,7 @@ void RightPanel::init(tgui::Panel::Ptr &mainPanel) {
     _objectsListWindow->setPosition(0, 0);
     _objectsListWindow->setTextSize(13);
     _objectsListWindow->setPositionLocked();
-    _objectsListWindow->setTitleAlignment(tgui::HorizontalAlignment::Center);
+    _objectsListWindow->setTitleAlignment(tgui::ChildWindow::TitleAlignment::Center);
     _objectsListWindow->setTitleButtons(tgui::ChildWindow::TitleButton::None);
     _initObjectTree();
     _panel->add(_objectsListWindow);
@@ -42,7 +42,7 @@ void RightPanel::init(tgui::Panel::Ptr &mainPanel) {
     _objectsPropertiesWindow->setPosition(0, "ObjectsList.height + 10");
     _objectsPropertiesWindow->setTextSize(13);
     _objectsPropertiesWindow->setPositionLocked();
-    _objectsPropertiesWindow->setTitleAlignment(tgui::HorizontalAlignment::Center);
+    _objectsListWindow->setTitleAlignment(tgui::ChildWindow::TitleAlignment::Center);
     _objectsPropertiesWindow->setTitleButtons(tgui::ChildWindow::TitleButton::None);
     _initObjectProperties();
     _panel->add(_objectsPropertiesWindow);
