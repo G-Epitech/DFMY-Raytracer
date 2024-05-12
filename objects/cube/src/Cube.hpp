@@ -43,6 +43,8 @@ public:
 
     Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
 
+    const std::string getType() noexcept override;
+
 private:
     /// @brief Property of the cube
     Common::Math::Float3 _size;

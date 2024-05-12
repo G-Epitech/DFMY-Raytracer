@@ -66,3 +66,8 @@ Math::HitInfo Plane::computeCollision(const Math::Ray &ray)
 
     return hitInfo;
 }
+
+const std::string Plane::getType() noexcept
+{
+    return "Plane";
+}

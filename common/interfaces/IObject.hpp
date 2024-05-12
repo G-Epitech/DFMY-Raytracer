@@ -32,5 +32,9 @@ namespace Raytracer::Common {
          * @return Material of the object
          */
         virtual Graphics::Material::Ptr getMaterial() = 0;
+
+        virtual std::string &getName() noexcept = 0;
+
+        virtual const std::string getType() noexcept = 0;
     };
 }

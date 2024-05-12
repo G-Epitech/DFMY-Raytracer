@@ -25,3 +25,8 @@ Graphics::Material::Ptr AObject::getMaterial()
 {
     return _material;
 }
+
+std::string &AObject::getName() noexcept
+{
+    return _name;
+}

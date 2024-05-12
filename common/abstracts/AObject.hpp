@@ -37,9 +37,11 @@ namespace Raytracer::Common {
             /// @brief Get the material associated to an object
             Graphics::Material::Ptr getMaterial() override;
 
+            std::string &getName() noexcept override;
+
         protected:
             /// @brief Name of the cube
-            const std::string &_name;
+            std::string _name;
 
             /// @brief Material of the cube
             Common::Graphics::Material::Ptr _material;

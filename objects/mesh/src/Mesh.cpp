@@ -346,3 +346,8 @@ bool Mesh::_allTexturesAreSet(Mesh::QuadFace &points)
 {
     return std::get<1>(std::get<0>(points)) > 0 && std::get<1>(std::get<1>(points)) > 0 && std::get<1>(std::get<2>(points)) > 0 && std::get<1>(std::get<3>(points)) > 0;
 }
+
+const std::string Mesh::getType() noexcept
+{
+    return "Mesh";
+}

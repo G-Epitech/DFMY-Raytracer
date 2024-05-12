@@ -368,3 +368,8 @@ bool Cube::_isInsideBoundingBox(const Point3D &point)
     float radiusSquared = std::pow(_radius, 2);
     return distanceSquared <= radiusSquared;
 }
+
+const std::string Cube::getType() noexcept
+{
+    return "Cube";
+}

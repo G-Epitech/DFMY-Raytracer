@@ -52,3 +52,8 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
     };
     return hitInfo;
 }
+
+const std::string Raytracer::Objects::Sphere::getType() noexcept
+{
+    return "Sphere";
+}

@@ -46,6 +46,8 @@ public:
 
     Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
 
+    const std::string getType() noexcept override;
+
 private:
     /// @brief Face point on the mesh. Can be a point of a triangle or a quadrilateral
     typedef std::tuple<int, int, int> FacePoint;

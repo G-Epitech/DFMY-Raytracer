@@ -49,6 +49,8 @@ void RightPanel::_initObjectTree()
 {
     _objectTree = tgui::TreeView::create();
     _objectTree->setSize("100%", "100%");
-    _objectTree->addItem({"caca", "caca"}, true);
+    for (auto &obj : _context.app.scene->objects) {
+        _objectTree->addItem({obj->getType(), obj->getName()}, true);
+    }
     _objectsListWindow->add(_objectTree);
 }
