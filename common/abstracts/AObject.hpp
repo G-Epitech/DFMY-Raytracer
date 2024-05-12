@@ -15,7 +15,6 @@
 namespace Raytracer::Common {
     class AObject : public IObject {
         public:
-
             /**
              * @brief Construct a new Cube object
              * @param name Name of the cube

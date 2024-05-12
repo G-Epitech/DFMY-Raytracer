@@ -8,6 +8,7 @@
 #pragma once
 
 #include <vector>
+#include "common/abstracts/AObject.hpp"
 #include "common/interfaces/IObject.hpp"
 #include "common/interfaces/IObjectProvider.hpp"
 
@@ -17,7 +18,7 @@ namespace Raytracer::Objects {
     class Cube;
 }
 
-class Raytracer::Objects::Cube : public Raytracer::Common::IObject {
+class Raytracer::Objects::Cube : public Raytracer::Common::AObject {
 public:
 
     /**
@@ -42,21 +43,7 @@ public:
 
     Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
 
-    Common::Graphics::Material::Ptr getMaterial() override;
-
 private:
-    /// @brief Name of the cube
-    const std::string &_name;
-
-    /// @brief Material of the cube
-    Common::Graphics::Material::Ptr _material;
-
-    /// @brief Position of the cube
-    const Common::Math::Point3D _position;
-
-    /// @brief Rotation of the cube
-    Common::Math::Vector3D _rotation;
-
     /// @brief Property of the cube
     Common::Math::Float3 _size;
 

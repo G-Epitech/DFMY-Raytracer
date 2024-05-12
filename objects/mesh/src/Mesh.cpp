@@ -47,10 +47,7 @@ Mesh::Mesh(const std::string &name,
         const Common::Math::Vector3D &rotation,
         const Common::Math::Point3D &position,
         const Common::ObjectProperty &property) :
-        _name(name),
-        _material(material),
-        _rotation(rotation),
-        _position(position)
+        AObject(name, material, rotation, position)
 {
     Raytracer::Common::MeshProperty prop = std::get<Raytracer::Common::MeshProperty>(property);
     auto filename = prop.filename;
@@ -142,11 +139,6 @@ bool Mesh::_isInsideSphere(const Point3D &point)
                             std::pow(point.z - _position.z, 2);
     float radiusSquared = std::pow(_radius, 2);
     return distanceSquared <= radiusSquared;
-}
-
-Graphics::Material::Ptr Mesh::getMaterial()
-{
-    return _material;
 }
 
 void Mesh::_loadObj(const std::string &filename)

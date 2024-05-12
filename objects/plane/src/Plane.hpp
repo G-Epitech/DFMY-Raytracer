@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "common/abstracts/AObject.hpp"
 #include "common/interfaces/IObject.hpp"
 #include "common/interfaces/IObjectProvider.hpp"
 
@@ -14,7 +15,7 @@ namespace Raytracer::Objects {
     class Plane;
 }
 
-class Raytracer::Objects::Plane : public Raytracer::Common::IObject {
+class Raytracer::Objects::Plane : public Raytracer::Common::AObject {
 public:
 
     /**
@@ -31,7 +32,7 @@ public:
         const Common::Math::Vector3D &rotation,
         const Common::Math::Point3D &position,
         const Common::ObjectProperty &property);
-    
+
     /**
      * @brief Destroy the Plane object
      */
@@ -39,21 +40,7 @@ public:
 
     Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
 
-    Common::Graphics::Material::Ptr getMaterial() override;
-
 private:
-    /// @brief Name of the plane
-    const std::string &_name;
-
-    /// @brief Material of the plane
-    Common::Graphics::Material::Ptr _material;
-
-    /// @brief Position of the plane
-    const Common::Math::Point3D _position;
-
-    /// @brief Rotation of the plane
-    Common::Math::Vector3D _rotation;
-
     /// @brief Radius of the plane
     Common::Math::Vector3D _normal;
 };
