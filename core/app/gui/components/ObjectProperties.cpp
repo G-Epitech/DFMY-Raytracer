@@ -47,7 +47,7 @@ void ObjectProperties::_initPropertiesName()
     label->setPosition(0, "10 + (20 - height) / 2");
     _objName = tgui::Label::create();
     _objName->setSize("70%", 25);
-    _objName->setPosition("parent.right - width - 23", 10);
+    _objName->setPosition(100, "10 + (20 - height) / 2");
     _objName->setText(_obj->getName());
     _propertiesPanel->add(label);
     _propertiesPanel->add(_objName);
