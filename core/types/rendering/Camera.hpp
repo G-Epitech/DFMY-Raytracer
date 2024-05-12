@@ -35,6 +35,13 @@ namespace Raytracer::Core::Rendering {
             float fov;
         } Config;
 
+        enum ComputeStatus {
+            RUNNING,
+            ABORTED,
+            PAUSED,
+            FINISHED
+        };
+
         /// @brief Parameters of camera computing
         struct ComputeParams {
             /// @brief Number of threads to use
@@ -102,7 +109,14 @@ namespace Raytracer::Core::Rendering {
          * @return Status of the computation
          */
         [[nodiscard]]
-        float getComputeStatus() const;
+        ComputeStatus getComputeStatus() const;
+
+        /**
+         * @brief Get the progress of the computation
+         * @return Progress of the computation
+         */
+        [[nodiscard]]
+        float getComputeProgress() const;
 
         /**
          * @brief Cancel the computation
@@ -110,9 +124,24 @@ namespace Raytracer::Core::Rendering {
         void cancelCompute();
 
         /**
+         * @brief Pause the computation
+         */
+        void pauseCompute();
+
+        /**
+         * @brief Resume the computation
+         */
+        void resumeCompute();
+
+        /**
          * @brief Wait for the threads to teardown
          */
         void waitThreadsTeardown();
+
+        /**
+         * @brief Wait FINISHED status
+         */
+        void waitFinished() const;
 
         /// @brief The position of the camera
         Common::Math::Point3D position;
@@ -124,10 +153,14 @@ namespace Raytracer::Core::Rendering {
         Screen screen;
         /// @brief The name of the camera
         std::string name;
+
+    protected:
         /// @brief Vector of processing threads
         std::vector<std::thread> _threads;
 
-    protected:
+        /// @brief Compute status
+        ComputeStatus _computeStatus = ComputeStatus::FINISHED;
+
         /// @brief Number of processed pixels
         size_t _processedPixels = 0;
 

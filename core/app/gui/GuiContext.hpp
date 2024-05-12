@@ -9,9 +9,14 @@
 
 #include <TGUI/Backend/SFML-Graphics.hpp>
 
+#include "../App.hpp"
+#include "TGui.hpp"
+
 namespace Raytracer::Core::Gui {
     struct GuiContext {
         /// @brief TGUI GUI
-        tgui::Gui gui;
+        Raytracer::Core::Gui::TGui gui;
+        /// @brief App context
+        Raytracer::Core::App::Context &app;
     };
 }

@@ -29,4 +29,18 @@ Raytracer::Core::Graphics::PixelArray &Rendering::Screen::getPixels() {
     return _pixels;
 }
 
+void Rendering::Screen::resize(const Math::Size &newSize) {
+    auto pixelsSize = newSize.width * newSize.height * 4;
+
+    _pixels = std::unique_ptr<sf::Uint8[]>(new sf::Uint8[pixelsSize]);
+    size = newSize;
+}
+
+void Rendering::Screen::clear() {
+    auto pixelsSize = size.width * size.height * 4;
+
+    for (size_t i = 0; i < pixelsSize; i++)
+        _pixels[i] = 0;
+}
+
 Rendering::Screen::~Screen() = default;

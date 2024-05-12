@@ -11,4 +11,10 @@ target_sources(raytracer_core PRIVATE
         RightPanel.hpp
         LeftPanel.cpp
         LeftPanel.hpp
+        CameraPanel.cpp
+        CameraPanel.hpp
+        CameraProperties.cpp
+        CameraProperties.hpp
+        RenderingSettings.cpp
+        RenderingSettings.hpp
 )

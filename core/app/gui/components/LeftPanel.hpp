@@ -9,6 +9,7 @@
 
 #include <TGUI/TGUI.hpp>
 #include "app/gui/GuiContext.hpp"
+#include "CameraPanel.hpp"
 
 namespace Raytracer::Core::Gui {
     class LeftPanel {
@@ -40,16 +41,12 @@ namespace Raytracer::Core::Gui {
         /// @brief Tab container
         tgui::TabContainer::Ptr _tabContainer;
 
+        /// @brief List of all cameras panels
+        std::list<CameraPanel> _camerasPanels;
+
         /**
          * @brief Initialize the tab container
          */
         void _initTabContainer();
-
-        /**
-         * @brief Initialize the tab panel
-         * @param tabPanel Panel to initialize
-         * @param tabName Tab name
-         */
-        static void _initTabPanel(tgui::Panel::Ptr &tabPanel, const std::string &tabName);
     };
 }

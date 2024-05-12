@@ -5,7 +5,6 @@
 ** LeftPanel.cpp
 */
 
-#include <iostream>
 #include "LeftPanel.hpp"
 
 using namespace Raytracer::Core::Gui;
@@ -17,6 +16,7 @@ LeftPanel::~LeftPanel() = default;
 void LeftPanel::init(tgui::Panel::Ptr &mainPanel) {
     _panel = tgui::Panel::create();
     _panel->setSize("80%", "100%");
+    _panel->getRenderer()->setBorders(0);
     _panel->setPosition(0, 0);
     _panel->getRenderer()->setPadding(10);
 
@@ -32,23 +32,22 @@ void LeftPanel::_initTabContainer() {
     _tabContainer->setTabFixedSize(100);
     _tabContainer->setSize("100%", "100%");
     _tabContainer->setTabAlignment(tgui::TabContainer::TabAlign::Top);
+    _tabContainer->onSelectionChanging([this] {
+        auto tabIndex = _tabContainer->getSelectedIndex();
+        size_t i = 0;
 
-    for (int i = 0; i < 3; ++i) {
-        auto name = "Camera " + std::to_string(i + 1);
-        auto tab = _tabContainer->addTab(name);
-        _initTabPanel(tab, "Camera " + std::to_string(i + 1));
-    }
-    _tabContainer->onSelectionChange([](int index){
-        std::cerr << "The tab and panel with index " << index << " is now selected\n";
+        for (auto &panel : _camerasPanels) {
+            if (i == tabIndex)
+                panel.onTabSelected();
+            else
+                panel.onTabUnselected();
+            i += 1;
+        }
     });
+
+    for (auto &[_, camera] : _context.app.scene->cameras) {
+        _camerasPanels.emplace_back(camera, _context, _tabContainer);
+    }
     _panel->add(_tabContainer);
 }
 
-void LeftPanel::_initTabPanel(tgui::Panel::Ptr &tabPanel, const std::string &tabName) {
-    auto button = tgui::Button::create();
-    button->setText("Button inside " + tabName);
-    button->onClick([]{
-        std::cerr << "Button inside tab clicked\n";
-    });
-    tabPanel->add(button);
-}

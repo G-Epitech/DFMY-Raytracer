@@ -18,6 +18,7 @@ void RightPanel::init(tgui::Panel::Ptr &mainPanel) {
     _panel->setSize("20%", "100%");
     _panel->setPosition("&.width - width", 0);
     _panel->getRenderer()->setPadding(10);
+    _panel->getRenderer()->setBorders(0);
 
     _objectsListWindow = tgui::ChildWindow::create();
     _objectsListWindow->setTitle("Objects");

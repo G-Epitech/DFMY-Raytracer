@@ -17,7 +17,9 @@ Camera::Camera(const Config &config) :
         position(config.position),
         direction(config.direction),
         fov(config.fov),
-        name(config.name) {}
+        name(config.name),
+        _computeStatus(FINISHED)
+        {}
 
 void Camera::compute(const ComputeParams &params, std::vector<IObject::Ptr> &objects) {
     if (params.threads % 2 != 0)
@@ -30,6 +32,12 @@ void Camera::compute(const ComputeParams &params, std::vector<IObject::Ptr> &obj
     auto screenOrigin = Math::Point3D(position.x - screenWidth / 2, position.y + 2,
                                       position.z + screenHeight / 2);
 
+    screen.clear();
+    cancelCompute();
+    waitThreadsTeardown();
+
+    _processedPixels = 0;
+    _computeStatus = RUNNING;
     for (size_t y = 0; y < 2; y++) {
         for (size_t x = 0; x < params.threads / 2; x++) {
             Segment config{
@@ -63,6 +71,11 @@ void Camera::_computeSegment(Segment config, std::vector<IObject::Ptr> &objects)
                 Common::Graphics::Color secondFrame = newFrame * weight;
 
                 oldFrame = firstFrame + secondFrame;
+            }
+            if (_computeStatus == ABORTED)
+                return;
+            while (_computeStatus == PAUSED) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
 
             screen.setPixel(x, y, oldFrame.toPixel());
@@ -202,20 +215,38 @@ const char *Camera::ComputeError::what() const noexcept {
     return this->_msg.c_str();
 }
 
-float Camera::getComputeStatus() const {
-    if (this->_processedPixels == screen.size.width * screen.size.height)
-        return 1.0f;
-    return (float) _processedPixels / (float) (screen.size.width * screen.size.height);
+Camera::ComputeStatus Camera::getComputeStatus() const {
+    return _computeStatus;
 }
 
 void Camera::cancelCompute() {
-    for (auto &thread: _threads) {
-        thread.detach();
-    }
+    _computeStatus = ABORTED;
+}
+
+void Camera::pauseCompute() {
+    if (_computeStatus == RUNNING)
+        _computeStatus = PAUSED;
+}
+
+void Camera::resumeCompute() {
+    if (_computeStatus == PAUSED)
+        _computeStatus = RUNNING;
 }
 
 void Camera::waitThreadsTeardown() {
     for (auto &thread : _threads) {
         thread.join();
     }
+    _threads.clear();
+    _computeStatus = FINISHED;
+}
+
+void Camera::waitFinished() const {
+    while (_computeStatus != FINISHED);
+}
+
+float Camera::getComputeProgress() const {
+    if (this->_processedPixels == screen.size.width * screen.size.height)
+        return 1.0f;
+    return (float) _processedPixels / (float) (screen.size.width * screen.size.height);
 }
