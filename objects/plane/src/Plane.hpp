@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2024
 ** raytracer
 ** File description:
-** Sphere
+** Plane
 */
 
 #pragma once
@@ -11,40 +11,49 @@
 #include "common/interfaces/IObjectProvider.hpp"
 
 namespace Raytracer::Objects {
-    class Sphere;
+    class Plane;
 }
 
-class Raytracer::Objects::Sphere : public Raytracer::Common::IObject {
+class Raytracer::Objects::Plane : public Raytracer::Common::IObject {
 public:
 
     /**
-     * @brief Construct a new Sphere object
-     * @param name Name of the sphere
-     * @param material Material of the sphere
-     * @param rotation Rotation of the sphere
-     * @param position Position of the sphere
-     * @param property Property of the sphere
+     * @brief Construct a new Plane object
+     * @param name Name of the plane
+     * @param material Material of the plane
+     * @param rotation Rotation of the plane
+     * @param position Position of the plane
+     * @param property Property of the plane
      */
-    Sphere(
+    Plane(
         const std::string &name,
         Common::Graphics::Material::Ptr material,
         const Common::Math::Vector3D &rotation,
         const Common::Math::Point3D &position,
         const Common::ObjectProperty &property);
-
+    
     /**
-     * @brief Destroy the Sphere object
+     * @brief Destroy the Plane object
      */
-    ~Sphere() override = default;
+    ~Plane() override = default;
 
     Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
 
     Common::Graphics::Material::Ptr getMaterial() override;
 
 private:
+    /// @brief Name of the plane
     const std::string &_name;
+
+    /// @brief Material of the plane
     Common::Graphics::Material::Ptr _material;
-    const Common::Math::Vector3D _rotation;
+
+    /// @brief Position of the plane
     const Common::Math::Point3D _position;
-    float _radius;
+
+    /// @brief Rotation of the plane
+    Common::Math::Vector3D _rotation;
+
+    /// @brief Radius of the plane
+    Common::Math::Vector3D _normal;
 };

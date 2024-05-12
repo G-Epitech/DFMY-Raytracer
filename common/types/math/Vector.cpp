@@ -76,6 +76,10 @@ Math::Vector3D &Math::Vector3D::operator/=(float c) {
     return c == 0 ? *this : operator*=(1 / c);
 }
 
+bool Math::Vector3D::operator==(const Math::Vector3D &other) const {
+    return x == other.x && y == other.y && z == other.z;
+}
+
 float Math::Vector3D::length() const {
     return std::sqrt(x * x + y * y + z * z);
 }

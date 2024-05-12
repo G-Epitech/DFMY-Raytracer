@@ -183,6 +183,14 @@ namespace Raytracer::Common::Math {
         Vector3D &operator/=(float c);
 
         /**
+         * @brief Check if two vectors are equal
+         * @param other Other vector to compare
+         * @return true if vectors are equal, false otherwise
+         */
+        [[nodiscard]]
+        bool operator==(const Vector3D &other) const;
+
+        /**
          * @brief Compute scalar product of given vector
          * @return Computed scalar product
          */

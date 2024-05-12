@@ -149,7 +149,13 @@ Graphics::Color Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, 
             rayColor *= hitConfig.hitColor.color;
         } else {
             Common::Graphics::Color environmentLight = _getEnvironmentLight(ray);
-            Common::Graphics::Color ambientLight = rayColor * environmentLight;
+            Common::Graphics::Color ambientLight = rayColor;
+
+            ambientLight = ambientLight * 0.6f;
+            if (i == 0) {
+                ambientLight = ambientLight * 2.0f;
+                ambientLight *= environmentLight;
+            }
 
             incomingLight += ambientLight;
             break;
@@ -186,9 +192,9 @@ Graphics::Color Camera::_getEnvironmentLight(Math::Ray &ray) {
                                                 Common::Graphics::Color::fromRGB(0, 63, 93), skyGradiantT);
     Common::Graphics::Color groundColor = Common::Graphics::Color::fromRGB(80, 80, 80);
 
-    Math::Vector3D sunDirection = Math::Vector3D(0, -1, 0);
+    Math::Vector3D sunDirection = Math::Vector3D(0, 0, -1);
     float max = std::max<float>(0, ray.direction.dot(sunDirection * -1));
-    float sun = pow(max, 200) * 500;
+    float sun = pow(max, 200) * 10;
 
     float groundToSkyT = _smoothStep(-0.1, 0, ray.direction.z);
     float sunMask = groundToSkyT >= 1 ? 0 : 1;
