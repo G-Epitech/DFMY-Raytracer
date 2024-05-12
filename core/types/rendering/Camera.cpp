@@ -63,8 +63,8 @@ void Camera::_computeSegment(const ComputeParams &params, Segment config, std::v
         for (size_t x = config.origin.width; x < config.origin.width + config.size.width; x++) {
             Common::Graphics::Color oldFrame = this->_computeFrame(config, objects, x, y, params.raysPerPixel,
                                                                    params.rayBounceLimit);
-
-            for (size_t i = 0; i < params.additionalFrames - 1; i++) {
+            for (size_t i = 0; i < params.additionalFrames; i++) {
+                _preventAbort();
                 auto newFrame = this->_computeFrame(config, objects, x, y, params.raysPerPixel, params.rayBounceLimit);
                 float weight = 1.0f / (i + 1);
 
@@ -73,12 +73,7 @@ void Camera::_computeSegment(const ComputeParams &params, Segment config, std::v
 
                 oldFrame = firstFrame + secondFrame;
             }
-            if (_computeStatus == ABORTED)
-                return;
-            while (_computeStatus == PAUSED) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            }
-
+            _preventAbort();
             screen.setPixel(x, y, oldFrame.toPixel());
 
             this->_statusMutex.lock();
@@ -106,6 +101,7 @@ Graphics::Color Camera::_computeFrame(Raytracer::Core::Rendering::Camera::Segmen
     Common::Graphics::Color totalIncomingLight(0, 0, 0);
 
     for (size_t ri = 0; ri < raysPerPixels; ri++) {
+        _preventAbort();
         auto random = pixelIndex + ri;
         auto incomingLight = this->_getIncomingLight(ray, random, objects, bounce);
 
@@ -121,8 +117,8 @@ Math::HitInfo Camera::_computeRayCollision(const Math::Ray &ray, std::vector<IOb
     closestHit.distance = std::numeric_limits<float>::max();
 
     for (auto &object: objects) {
+        _preventAbort();
         auto hitConfig = object->computeCollision(ray);
-
         if (hitConfig.didHit && hitConfig.distance < closestHit.distance) {
             closestHit = hitConfig;
         }
@@ -137,6 +133,7 @@ Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, std::vector<IObj
     Common::Graphics::Color rayColor(1, 1, 1);
 
     for (unsigned int i = 0; i <= bounce; i++) {
+        _preventAbort();
         auto hitConfig = this->_computeRayCollision(ray, objects);
         if (hitConfig.didHit) {
             auto randomSeed = rngState + i;
@@ -266,4 +263,12 @@ float Camera::getComputeProgress() const {
 
 Camera::~Camera() {
     cancelCompute();
+}
+
+void Camera::_preventAbort() {
+    if (_computeStatus == ABORTED)
+        pthread_exit(nullptr);
+    while (_computeStatus == PAUSED) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
 }

@@ -220,5 +220,10 @@ namespace Raytracer::Core::Rendering {
                                              float t);
 
         static  Common::Math::Vector3D _lErp(const Common::Math::Vector3D &a, const  Common::Math::Vector3D &b, float t);
+
+        /**
+         * @brief Prevent the abortion of the computation
+         */
+        inline void _preventAbort();
     };
 }

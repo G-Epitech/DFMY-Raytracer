@@ -12,6 +12,9 @@
 #include "app/gui/widgets/RenderFrame.hpp"
 #include "app/gui/GuiContext.hpp"
 
+#define RENDERING_MAX_FLOAT 1000000
+#define RENDERING_MAX_THREADS 64
+
 namespace Raytracer::Core::Gui {
     class RenderingSettings {
     public:

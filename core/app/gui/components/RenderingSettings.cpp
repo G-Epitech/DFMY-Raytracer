@@ -36,7 +36,7 @@ void RenderingSettings::_initInputs() {
     label->setWidth(150);
     label->setPosition(0, "35 + (25 - height) / 2");
 
-    _threadsCount = tgui::SpinControl::create(1, 64, float(_context.app.args.options.threadsCount), 0, 1);
+    _threadsCount = tgui::SpinControl::create(1, RENDERING_MAX_THREADS, float(_context.app.args.options.threadsCount), 0, 1);
     _threadsCount->setSize("100% - 150", 25);
     _threadsCount->setPosition(150, 35);
 
@@ -47,7 +47,7 @@ void RenderingSettings::_initInputs() {
     label->setWidth(150);
     label->setPosition(0, "70 + (25 - height) / 2");
 
-    _additionalFrames = tgui::SpinControl::create(0, 64, float(_context.app.args.options.additionalFramesCount), 0, 1);
+    _additionalFrames = tgui::SpinControl::create(0, RENDERING_MAX_FLOAT, float(_context.app.args.options.additionalFramesCount), 0, 1);
     _additionalFrames->setSize("100% - 150", 25);
     _additionalFrames->setPosition(150, 70);
     _settingsPanel->add(label);
@@ -57,7 +57,7 @@ void RenderingSettings::_initInputs() {
     label->setWidth(150);
     label->setPosition(0, "105 + (25 - height) / 2");
 
-    _raysPerPixel = tgui::SpinControl::create(1, 64, float(_context.app.args.options.raysPerPixel), 0, 1);
+    _raysPerPixel = tgui::SpinControl::create(1, RENDERING_MAX_FLOAT, float(_context.app.args.options.raysPerPixel), 0, 1);
     _raysPerPixel->setSize("100% - 150", 25);
     _raysPerPixel->setPosition(150, 105);
     _settingsPanel->add(label);
@@ -67,7 +67,7 @@ void RenderingSettings::_initInputs() {
     label->setWidth(150);
     label->setPosition(0, "140 + (25 - height) / 2");
 
-    _maxRayBounce = tgui::SpinControl::create(1, 64, float(_context.app.args.options.rayBounce), 0, 1);
+    _maxRayBounce = tgui::SpinControl::create(1, RENDERING_MAX_FLOAT, float(_context.app.args.options.rayBounce), 0, 1);
     _maxRayBounce->setSize("100% - 150", 25);
     _maxRayBounce->setPosition(150, 140);
     _settingsPanel->add(label);

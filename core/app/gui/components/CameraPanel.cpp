@@ -107,10 +107,6 @@ void Raytracer::Core::Gui::CameraPanel::_onRenderButtonClicked() {
         _propertiesPanel.setEnabled(false);
         _renderingSettingsPanel.setRenderingSensitiveEnabled(false);
         _renderingSettingsPanel.renderButton->setText("Pause rendering");
-        if (_camera->getComputeStatus() > 0) {
-            _camera->cancelCompute();
-            _camera->waitThreadsTeardown();
-        }
         if (_renderingThread.joinable())
             _renderingThread.join();
         _renderingThread = std::thread(&CameraPanel::_render, this);
