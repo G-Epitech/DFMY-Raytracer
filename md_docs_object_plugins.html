@@ -66,11 +66,11 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Baby.gnu-800x800.png" alt="Baby gnu" title="Baby gnu" class="inline"/></p>
-<h1><a class="anchor" id="autotoc_md0"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 DFMY-Raytracer Object Plugins</h1>
 <p>A rendering engine should be extensible. One should be able to add new features without completely rewriting the code.</p>
 <p>For every step of this documentation you can check the Sphere object</p>
-<h3><a class="anchor" id="autotoc_md1"></a>
+<h3><a class="anchor" id="autotoc_md11"></a>
 Build</h3>
 <p>All of the object plugins are found in the <code>objects</code> folder, in the folder we have a CMake that will be automatically called by the CMake at the root that looks like this: </p><div class="fragment"><div class="line"># Set the shared library prefix to an empty string</div>
 <div class="line">set(CMAKE_SHARED_LIBRARY_PREFIX &quot;&quot;)</div>
@@ -96,7 +96,7 @@ Build</h3>
 <div class="line">target_include_directories(raytracer_sphere PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)</div>
 <div class="line">target_include_directories(raytracer_sphere PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../..)</div>
 </div><!-- fragment --><p>You will put all of your files in the <code>tareget_sources</code> section. And we will go over each file later in this documentation.</p>
-<h3><a class="anchor" id="autotoc_md2"></a>
+<h3><a class="anchor" id="autotoc_md12"></a>
 Architecture</h3>
 <p>Every object plugin has a specific architecture, they each need to follow a certain inheritance tree, to be compatible with the rest of the Raytracer.</p>
 <hr  />
