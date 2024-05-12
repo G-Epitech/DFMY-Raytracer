@@ -42,8 +42,17 @@ namespace Raytracer::Core::Gui {
             /// @brief Object direction Z
             tgui::SpinControl::Ptr _objDirectionZ;
 
+            /**
+             * @brief Initialize the name properties
+             */
             void _initPropertiesName();
+            /**
+             * @brief Initialize the position properties
+             */
             void _initPropertiesPosition();
+            /**
+             * @brief Initialize the direction properties
+             */
             void _initPropertiesDirection();
     };
 }

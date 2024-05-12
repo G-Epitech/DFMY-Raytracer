@@ -32,6 +32,7 @@ namespace Raytracer::Core::Gui {
         void init(tgui::Panel::Ptr &mainPanel);
 
     private:
+        /// @brief Selected object index
         std::size_t _selectedObj;
 
         /// @brief GUI context
@@ -46,19 +47,32 @@ namespace Raytracer::Core::Gui {
         /// @brief Objects properties window
         tgui::ChildWindow::Ptr _objectsPropertiesWindow;
 
+        /// @brief Settings group
         tgui::Group::Ptr _settingsGroup;
 
         /// @brief Tree of objects
         tgui::TreeView::Ptr _objectTree;
 
+        /// @brief Object name edit box
         tgui::EditBox::Ptr _objName;
 
+        /// @brief Object properties panel
         ObjectProperties _objProps;
 
+        /// @brief Tree items
         std::vector<std::string> _items;
 
+        /**
+         * @brief Initialize the object tree
+         */
         void _initObjectTree();
+        /**
+         * @brief Initialize the object properties pannel
+         */
         void _initObjectProperties();
+        /**
+         * @brief Update the object tree
+         */
         void _updateObjectTree();
     };
 }
