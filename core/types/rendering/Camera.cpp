@@ -33,14 +33,6 @@ void Camera::compute(const ComputeParams &params, std::vector<IObject::Ptr> &obj
     for (size_t y = 0; y < 2; y++) {
         for (size_t x = 0; x < params.threads / 2; x++) {
             Segment config{
-                    .origin = {
-                            .width = (screen.size.width / (params.threads / 2)) * x,
-                            .height = (screen.size.height / 2) * y
-                    },
-                    .size {
-                            .width = screen.size.width / (params.threads / 2),
-                            .height = screen.size.height / 2
-                    },
                     .localScreenSize = Math::Float2(screenWidth, screenHeight),
                     .localScreenOrigin = screenOrigin
             };
@@ -51,27 +43,31 @@ void Camera::compute(const ComputeParams &params, std::vector<IObject::Ptr> &obj
 }
 
 void Camera::_computeSegment(const ComputeParams &params, Segment config, std::vector<IObject::Ptr> &objects) {
-    for (size_t y = config.origin.height; y < config.origin.height + config.size.height; y++) {
-        for (size_t x = config.origin.width; x < config.origin.width + config.size.width; x++) {
-            Common::Graphics::Color oldFrame = this->_computeFrame(config, objects, x, y, params.raysPerPixel,
-                                                                   params.rayBounceLimit);
-
-            for (size_t i = 0; i < params.additionalFrames - 1; i++) {
-                auto newFrame = this->_computeFrame(config, objects, x, y, params.raysPerPixel, params.rayBounceLimit);
-                float weight = 1.0f / (i + 1);
-
-                Common::Graphics::Color firstFrame = oldFrame * (1 - weight);
-                Common::Graphics::Color secondFrame = newFrame * weight;
-
-                oldFrame = firstFrame + secondFrame;
-            }
-
-            screen.setPixel(x, y, oldFrame.toPixel());
-
-            this->_statusMutex.lock();
-            this->_processedPixels++;
+    while (true) {
+        this->_statusMutex.lock();
+        if (this->_processedPixels >= screen.size.width * screen.size.height) {
             this->_statusMutex.unlock();
+            break;
         }
+        size_t x = this->_processedPixels % screen.size.width;
+        size_t y = this->_processedPixels / screen.size.width;
+        this->_processedPixels++;
+        this->_statusMutex.unlock();
+
+        Common::Graphics::Color oldFrame = this->_computeFrame(config, objects, x, y, params.raysPerPixel,
+                                                               params.rayBounceLimit);
+
+        for (size_t i = 0; i < params.additionalFrames - 1; i++) {
+            auto newFrame = this->_computeFrame(config, objects, x, y, params.raysPerPixel, params.rayBounceLimit);
+            float weight = 1.0f / (i + 1);
+
+            Common::Graphics::Color firstFrame = oldFrame * (1 - weight);
+            Common::Graphics::Color secondFrame = newFrame * weight;
+
+            oldFrame = firstFrame + secondFrame;
+        }
+
+        screen.setPixel(x, y, oldFrame.toPixel());
     }
 }
 
