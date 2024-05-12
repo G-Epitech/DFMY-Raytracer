@@ -328,15 +328,19 @@ Math::HitInfo Cube::computeCollision(const Math::Ray &ray)
         if (_intersect(hitInfo, ray, point1, point2, point3, normal1, normal2, normal3)) {
             if (!closestHitInfo.didHit || hitInfo.distance < closestHitInfo.distance) {
                 closestHitInfo = hitInfo;
+
+                for (auto &emissions : this->_material->emissions) {
+                    if (emissions.direction == normal1) {
+                        closestHitInfo.hitColor.emissionColor = emissions.color;
+                        closestHitInfo.hitColor.emissionStrength = emissions.strength;
+                    }
+                }
             }
         }
     }
-    closestHitInfo.hitColor = {
-        .color = _material->color,
-        .emissionStrength = _material->emissionStrength,
-        .emissionColor = _material->emissionColor,
-        .reflectivity = _material->reflectivity,
-    };
+
+    closestHitInfo.hitColor.color = _material->color;
+    closestHitInfo.hitColor.reflectivity = _material->reflectivity;
 
     return closestHitInfo;
 }
