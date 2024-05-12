@@ -37,7 +37,7 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
     if (discriminant < 0)
         return hitInfo;
 
-    float distance = (-b - fsqrt(discriminant)) / (2.0f * a);
+    float distance = (-b - sqrtf(discriminant)) / (2.0f * a);
 
     if (distance < 0)
         return hitInfo;
@@ -46,13 +46,24 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
     hitInfo.distance = distance;
     auto intersectionNormal = ray.direction * distance;
     Common::Math::Point3D hitPointData(intersectionNormal.x, intersectionNormal.y, intersectionNormal.z);
+
     hitInfo.hitPoint = ray.origin + hitPointData;
     hitInfo.normal = (hitInfo.hitPoint - _position).normalize();
+
     hitInfo.hitColor = {
-        .color = _material->color,
-        .emissionStrength = _material->emissionStrength,
-        .emissionColor = _material->emissionColor
+            .color = _material->color,
+            .emissionStrength = _material->emissionStrength,
+            .emissionColor = _material->emissionColor,
+            .reflectivity = _material->reflectivity,
     };
+
+    for (auto &emission : _material->emissions) {
+        auto angle = std::acos(emission.direction.normalize().dot(hitInfo.normal));
+        if (angle < M_PI_2) {
+            hitInfo.hitColor.emissionColor = emission.color;
+            hitInfo.hitColor.emissionStrength = emission.strength;
+        }
+    }
     return hitInfo;
 }
 
