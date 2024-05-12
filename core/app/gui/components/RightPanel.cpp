@@ -54,10 +54,6 @@ void RightPanel::_initObjectTree()
 {
     _objectTree = tgui::TreeView::create();
     _objectTree->setSize("100%", "100%");
-    _objectTree->onMouseLeave([this]() {
-        if (_context.app.scene->objects.size() != _items.size())
-            _updateObjectTree();
-    });
     for (auto &obj : _context.app.scene->objects) {
         _objectTree->addItem({obj->getType(), obj->getName()}, true);
         _items.push_back(obj->getName());
@@ -68,6 +64,7 @@ void RightPanel::_initObjectTree()
         _objProps.changeObj(_context.app.scene->objects[_selectedObj]);
     });
     _objectTree->collapseAll();
+    _updateObjectTree();
     _objectsListWindow->add(_objectTree);
 }
 
@@ -83,11 +80,16 @@ void RightPanel::_initObjectProperties()
 
 void RightPanel::_updateObjectTree()
 {
-    _objectTree->removeAllItems();
-    _items.clear();
-    for (auto &obj : _context.app.scene->objects) {
-        _objectTree->addItem({obj->getType(), obj->getName()}, true);
-        _items.push_back(obj->getName());
+    if (_context.app.scene->objects.size() != _items.size()) {
+        _objectTree->removeAllItems();
+        _items.clear();
+        for (auto &obj: _context.app.scene->objects) {
+            _objectTree->addItem({obj->getType(), obj->getName()}, true);
+            _items.push_back(obj->getName());
+        }
+        _objectTree->collapseAll();
     }
-    _objectTree->collapseAll();
+    tgui::Timer::scheduleCallback([this]() {
+        _updateObjectTree();
+    }, 1.f);
 }

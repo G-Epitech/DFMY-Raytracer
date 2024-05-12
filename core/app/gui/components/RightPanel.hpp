@@ -67,7 +67,7 @@ namespace Raytracer::Core::Gui {
          */
         void _initObjectTree();
         /**
-         * @brief Initialize the object properties pannel
+         * @brief Initialize the object properties panel
          */
         void _initObjectProperties();
         /**
