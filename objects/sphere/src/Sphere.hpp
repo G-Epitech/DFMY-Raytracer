@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "common/abstracts/AObject.hpp"
 #include "common/interfaces/IObject.hpp"
 #include "common/interfaces/IObjectProvider.hpp"
 
@@ -14,7 +15,7 @@ namespace Raytracer::Objects {
     class Sphere;
 }
 
-class Raytracer::Objects::Sphere : public Raytracer::Common::IObject {
+class Raytracer::Objects::Sphere : public Raytracer::Common::AObject {
 public:
 
     /**
@@ -39,12 +40,8 @@ public:
 
     Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
 
-    Common::Graphics::Material::Ptr getMaterial() override;
+    const std::string getType() noexcept override;
 
 private:
-    const std::string &_name;
-    Common::Graphics::Material::Ptr _material;
-    const Common::Math::Vector3D _rotation;
-    const Common::Math::Point3D _position;
     float _radius;
 };

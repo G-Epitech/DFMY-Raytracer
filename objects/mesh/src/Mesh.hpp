@@ -14,6 +14,7 @@
 #include "interfaces/IFace.hpp"
 #include "faces/TriFace.hpp"
 #include "faces/QuadFace.hpp"
+#include "common/abstracts/AObject.hpp"
 #include "common/interfaces/IObject.hpp"
 #include "common/interfaces/IObjectProvider.hpp"
 
@@ -21,7 +22,7 @@ namespace Raytracer::Objects {
     class Mesh;
 }
 
-class Raytracer::Objects::Mesh : public Raytracer::Common::IObject {
+class Raytracer::Objects::Mesh : public Raytracer::Common::AObject {
 public:
 
     /**
@@ -45,10 +46,9 @@ public:
 
     Common::Math::HitInfo computeCollision(const Common::Math::Ray &ray) override;
 
-    Common::Graphics::Material::Ptr getMaterial() override;
+    const std::string getType() noexcept override;
 
 private:
-
     /// @brief Face point on the mesh. Can be a point of a triangle or a quadrilateral
     typedef std::tuple<int, int, int> FacePoint;
 
@@ -57,18 +57,6 @@ private:
 
     /// @brief Quadrilateral face
     typedef std::tuple<FacePoint, FacePoint, FacePoint, FacePoint> QuadFace;
-
-    /// @brief Name of the object
-    const std::string &_name;
-
-    /// @brief Material of the mesh
-    Common::Graphics::Material::Ptr _material;
-
-    /// @brief Rotation of the mesh
-    const Common::Math::Vector3D _rotation;
-
-    /// @brief Position of the mesh
-    const Common::Math::Point3D _position;
 
     /// @brief Array of vertices
     std::vector<Common::Math::Point3D> _vertices;

@@ -32,5 +32,17 @@ namespace Raytracer::Common {
          * @return Material of the object
          */
         virtual Graphics::Material::Ptr getMaterial() = 0;
+
+        /// @brief Get the name of the object
+        virtual std::string &getName() noexcept = 0;
+
+        /// @brief Get the type of the object
+        virtual const std::string getType() noexcept = 0;
+
+        /// @brief Get the position of the object
+        virtual Math::Point3D &getPosition() noexcept = 0;
+
+        /// @brief Get the rotation of the object
+        virtual Math::Vector3D &getRotation() noexcept = 0;
     };
 }
