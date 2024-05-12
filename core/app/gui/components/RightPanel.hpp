@@ -9,6 +9,7 @@
 
 #include <TGUI/TGUI.hpp>
 #include "app/gui/GuiContext.hpp"
+#include "app/gui/components/ObjectProperties.hpp"
 
 namespace Raytracer::Core::Gui {
     class RightPanel {
@@ -31,6 +32,8 @@ namespace Raytracer::Core::Gui {
         void init(tgui::Panel::Ptr &mainPanel);
 
     private:
+        std::size_t _selectedObj;
+
         /// @brief GUI context
         GuiContext &_context;
 
@@ -43,9 +46,16 @@ namespace Raytracer::Core::Gui {
         /// @brief Objects properties window
         tgui::ChildWindow::Ptr _objectsPropertiesWindow;
 
+        tgui::Group::Ptr _settingsGroup;
+
         /// @brief Tree of objects
         tgui::TreeView::Ptr _objectTree;
 
+        tgui::EditBox::Ptr _objName;
+
+        ObjectProperties _objProps;
+
         void _initObjectTree();
+        void _initObjectProperties();
     };
 }
