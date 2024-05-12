@@ -49,13 +49,16 @@ Mesh::Mesh(const std::string &name,
 {
     Raytracer::Common::MeshProperty prop = std::get<Raytracer::Common::MeshProperty>(property);
     auto filename = prop.filename;
+    auto scale = prop.scale;
 
     _loadObj(filename);
 
-    _setSphereRadius();
     Point3D center = _getObjectCenter();
     _translateObject(center);
-    for (auto &vertex: _vertices) {
+    for (auto &vertex : _vertices) {
+        vertex.x *= scale;
+        vertex.y *= scale;
+        vertex.z *= scale;
         vertex.rotateX(_rotation.x);
         vertex.rotateY(_rotation.y);
         vertex.rotateZ(_rotation.z);
@@ -65,6 +68,7 @@ Mesh::Mesh(const std::string &name,
     }
     Point3D invCenter(-center.x, -center.y, -center.z);
     _translateObject(invCenter);
+    _setSphereRadius();
 
     _loadTriangles();
     _loadQuads();
