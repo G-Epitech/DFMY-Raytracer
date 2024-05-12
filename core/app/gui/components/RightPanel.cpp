@@ -9,7 +9,11 @@
 
 using namespace Raytracer::Core::Gui;
 
-RightPanel::RightPanel(GuiContext &context) : _context(context) {}
+RightPanel::RightPanel(GuiContext &context) :
+    _selectedObj(0),
+    _context(context),
+    _objProps(_context.app.scene->objects[_selectedObj])
+{}
 
 RightPanel::~RightPanel() = default;
 
@@ -29,17 +33,63 @@ void RightPanel::init(tgui::Panel::Ptr &mainPanel) {
     _objectsListWindow->setPositionLocked();
     _objectsListWindow->setTitleAlignment(tgui::ChildWindow::TitleAlignment::Center);
     _objectsListWindow->setTitleButtons(tgui::ChildWindow::TitleButton::None);
+    _initObjectTree();
     _panel->add(_objectsListWindow);
 
-    _objectsListWindow = tgui::ChildWindow::create();
-    _objectsListWindow->setTitle("Properties");
-    _objectsListWindow->setSize("100%", "60% - 10");
-    _objectsListWindow->setPosition(0, "ObjectsList.height + 10");
-    _objectsListWindow->setTextSize(13);
-    _objectsListWindow->setPositionLocked();
+    _objectsPropertiesWindow = tgui::ChildWindow::create();
+    _objectsPropertiesWindow->setTitle("Properties");
+    _objectsPropertiesWindow->setSize("100%", "60% - 10");
+    _objectsPropertiesWindow->setPosition(0, "ObjectsList.height + 10");
+    _objectsPropertiesWindow->setTextSize(13);
+    _objectsPropertiesWindow->setPositionLocked();
     _objectsListWindow->setTitleAlignment(tgui::ChildWindow::TitleAlignment::Center);
-    _objectsListWindow->setTitleButtons(tgui::ChildWindow::TitleButton::None);
-    _panel->add(_objectsListWindow);
+    _objectsPropertiesWindow->setTitleButtons(tgui::ChildWindow::TitleButton::None);
+    _initObjectProperties();
+    _panel->add(_objectsPropertiesWindow);
 
     mainPanel->add(_panel);
+}
+
+void RightPanel::_initObjectTree()
+{
+    _objectTree = tgui::TreeView::create();
+    _objectTree->setSize("100%", "100%");
+    for (auto &obj : _context.app.scene->objects) {
+        _objectTree->addItem({obj->getType(), obj->getName()}, true);
+        _items.push_back(obj->getName());
+    }
+    _objectTree->onDoubleClick([this](const tgui::String &item) {
+        _settingsGroup->setVisible(true);
+        _selectedObj = std::find(_items.begin(), _items.end(), item.toStdString()) - _items.begin();
+        _objProps.changeObj(_context.app.scene->objects[_selectedObj]);
+    });
+    _objectTree->collapseAll();
+    _updateObjectTree();
+    _objectsListWindow->add(_objectTree);
+}
+
+void RightPanel::_initObjectProperties()
+{
+    _settingsGroup = tgui::Group::create({"100%", "100%"});
+    _settingsGroup->setPosition(0, 0);
+    _settingsGroup->getRenderer()->setPadding(0);
+    _settingsGroup->setVisible(false);
+    _objProps.init(_settingsGroup);
+    _objectsPropertiesWindow->add(_settingsGroup);
+}
+
+void RightPanel::_updateObjectTree()
+{
+    if (_context.app.scene->objects.size() != _items.size()) {
+        _objectTree->removeAllItems();
+        _items.clear();
+        for (auto &obj: _context.app.scene->objects) {
+            _objectTree->addItem({obj->getType(), obj->getName()}, true);
+            _items.push_back(obj->getName());
+        }
+        _objectTree->collapseAll();
+    }
+    tgui::Timer::scheduleCallback([this]() {
+        _updateObjectTree();
+    }, 1.f);
 }

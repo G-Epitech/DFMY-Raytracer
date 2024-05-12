@@ -17,4 +17,6 @@ target_sources(raytracer_core PRIVATE
         CameraProperties.hpp
         RenderingSettings.cpp
         RenderingSettings.hpp
+        ObjectProperties.hpp
+        ObjectProperties.cpp
 )

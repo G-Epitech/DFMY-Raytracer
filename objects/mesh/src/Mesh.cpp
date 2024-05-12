@@ -41,14 +41,12 @@ void Mesh::_translateObject(const Point3D &translation) {
 }
 
 Mesh::Mesh(const std::string &name,
-           Common::Graphics::Material::Ptr material,
-           const Common::Math::Vector3D &rotation,
-           const Common::Math::Point3D &position,
-           const Common::ObjectProperty &property) :
-        _name(name),
-        _material(material),
-        _rotation(rotation),
-        _position(position) {
+        Common::Graphics::Material::Ptr material,
+        const Common::Math::Vector3D &rotation,
+        const Common::Math::Point3D &position,
+        const Common::ObjectProperty &property) :
+        AObject(name, material, rotation, position)
+{
     Raytracer::Common::MeshProperty prop = std::get<Raytracer::Common::MeshProperty>(property);
     auto filename = prop.filename;
     auto scale = prop.scale;
@@ -140,10 +138,6 @@ bool Mesh::_isInsideSphere(const Point3D &point) {
                             std::pow(point.z - _position.z, 2);
     float radiusSquared = std::pow(_radius, 2);
     return distanceSquared <= radiusSquared;
-}
-
-Graphics::Material::Ptr Mesh::getMaterial() {
-    return _material;
 }
 
 void Mesh::_loadObj(const std::string &filename) {
@@ -341,4 +335,9 @@ bool Mesh::_allTexturesAreSet(Mesh::TriFace &points) {
 bool Mesh::_allTexturesAreSet(Mesh::QuadFace &points) {
     return std::get<1>(std::get<0>(points)) > 0 && std::get<1>(std::get<1>(points)) > 0 &&
            std::get<1>(std::get<2>(points)) > 0 && std::get<1>(std::get<3>(points)) > 0;
+}
+
+const std::string Mesh::getType() noexcept
+{
+    return "Mesh";
 }

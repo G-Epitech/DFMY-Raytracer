@@ -14,11 +14,8 @@ Raytracer::Objects::Sphere::Sphere(
         Common::Graphics::Material::Ptr material,
         const Common::Math::Vector3D &rotation,
         const Common::Math::Point3D &position,
-        const Common::ObjectProperty &property)
-        : _name(name),
-        _material(std::move(material)),
-        _rotation(rotation),
-        _position(position)
+        const Common::ObjectProperty &property) :
+    Raytracer::Common::AObject(name, material, rotation, position)
 {
     _radius = std::get<float>(property);
 }
@@ -67,7 +64,7 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
     return hitInfo;
 }
 
-Raytracer::Common::Graphics::Material::Ptr Raytracer::Objects::Sphere::getMaterial()
+const std::string Raytracer::Objects::Sphere::getType() noexcept
 {
-    return _material;
+    return "Sphere";
 }
