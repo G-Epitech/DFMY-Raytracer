@@ -20,10 +20,7 @@ Cube::Cube(
     const Common::Math::Vector3D &rotation,
     const Common::Math::Point3D &position,
     const Common::ObjectProperty &property) :
-    _name(name),
-    _material(material),
-    _rotation(rotation),
-    _position(position)
+    AObject(name, material, rotation, position)
 {
     _size = std::get<Common::Math::Float3>(property);
     _radius = std::max(_size.x, std::max(_size.y, _size.z));
@@ -377,7 +374,7 @@ bool Cube::_isInsideBoundingBox(const Point3D &point)
     return distanceSquared <= radiusSquared;
 }
 
-Graphics::Material::Ptr Cube::getMaterial()
+const std::string Cube::getType() noexcept
 {
-    return _material;
+    return "Cube";
 }

@@ -20,10 +20,7 @@ Plane::Plane(
     const Common::Math::Vector3D &rotation,
     const Common::Math::Point3D &position,
     const Common::ObjectProperty &property) :
-    _name(name),
-    _material(material),
-    _rotation(rotation),
-    _position(position)
+    AObject(name, material, rotation, position)
 {
     _normal = std::get<Math::Vector3D>(property);
     _normal = _normal.normalize();
@@ -70,7 +67,7 @@ Math::HitInfo Plane::computeCollision(const Math::Ray &ray)
     return hitInfo;
 }
 
-Graphics::Material::Ptr Plane::getMaterial()
+const std::string Plane::getType() noexcept
 {
-    return _material;
+    return "Plane";
 }
