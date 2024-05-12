@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['scene_318',['Scene',['../classRaytracer_1_1Core_1_1Rendering_1_1Scene.html',1,'Raytracer::Core::Rendering']]],
-  ['sceneconfig_319',['SceneConfig',['../structRaytracer_1_1Core_1_1Config_1_1SceneConfig.html',1,'Raytracer::Core::Config']]],
-  ['screen_320',['Screen',['../classRaytracer_1_1Core_1_1Rendering_1_1Screen.html',1,'Raytracer::Core::Rendering']]],
-  ['segment_321',['Segment',['../structRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1Segment.html',1,'Raytracer::Core::Rendering::Camera']]],
-  ['size_322',['Size',['../structRaytracer_1_1Common_1_1Math_1_1Size.html',1,'Raytracer::Common::Math']]],
-  ['sphere_323',['Sphere',['../classRaytracer_1_1Objects_1_1Sphere.html',1,'Raytracer::Objects']]],
-  ['sphereprovider_324',['SphereProvider',['../classRaytracer_1_1Objects_1_1SphereProvider.html',1,'Raytracer::Objects']]]
+  ['quad_363',['Quad',['../structRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace_1_1Quad.html',1,'Raytracer::Objects::MeshFaces::QuadFace']]],
+  ['quadface_364',['QuadFace',['../classRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace.html',1,'Raytracer::Objects::MeshFaces']]],
+  ['quadnormals_365',['QuadNormals',['../structRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace_1_1QuadNormals.html',1,'Raytracer::Objects::MeshFaces::QuadFace']]],
+  ['quadpoints_366',['QuadPoints',['../structRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace_1_1QuadPoints.html',1,'Raytracer::Objects::MeshFaces::QuadFace']]],
+  ['quadtexturecoordinates_367',['QuadTextureCoordinates',['../structRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace_1_1QuadTextureCoordinates.html',1,'Raytracer::Objects::MeshFaces::QuadFace']]]
 ];

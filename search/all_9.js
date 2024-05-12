@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['iface_80',['IFace',['../classRaytracer_1_1Objects_1_1MeshFaces_1_1IFace.html',1,'Raytracer::Objects::MeshFaces']]],
-  ['ihandler_81',['IHandler',['../classRaytracer_1_1Core_1_1IHandler.html',1,'Raytracer::Core']]],
-  ['image_82',['Image',['../classRaytracer_1_1Core_1_1Graphics_1_1Image.html#a4c03cd37b9f3103061a95290c6419201',1,'Raytracer::Core::Graphics::Image::Image()'],['../classRaytracer_1_1Core_1_1Graphics_1_1Image.html',1,'Raytracer::Core::Graphics::Image']]],
-  ['invalidpathexception_83',['InvalidPathException',['../classRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException.html#a40c1b50c50dac7f342b7d02a7c385836',1,'Raytracer::Core::PluginsManager::InvalidPathException::InvalidPathException()'],['../classRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException.html',1,'Raytracer::Core::PluginsManager::InvalidPathException']]],
-  ['iobject_84',['IObject',['../classRaytracer_1_1Common_1_1IObject.html',1,'Raytracer::Common']]],
-  ['iobjectprovider_85',['IObjectProvider',['../classRaytracer_1_1Common_1_1IObjectProvider.html',1,'Raytracer::Common']]]
+  ['iface_92',['IFace',['../classRaytracer_1_1Objects_1_1MeshFaces_1_1IFace.html',1,'Raytracer::Objects::MeshFaces']]],
+  ['ihandler_93',['IHandler',['../classRaytracer_1_1Core_1_1IHandler.html',1,'Raytracer::Core']]],
+  ['image_94',['Image',['../classRaytracer_1_1Core_1_1Graphics_1_1Image.html#a4c03cd37b9f3103061a95290c6419201',1,'Raytracer::Core::Graphics::Image::Image()'],['../classRaytracer_1_1Core_1_1Graphics_1_1Image.html',1,'Raytracer::Core::Graphics::Image']]],
+  ['init_95',['init',['../classRaytracer_1_1Core_1_1Gui_1_1CameraProperties.html#ad54550ad4fdef267f34fd5987af7c1fa',1,'Raytracer::Core::Gui::CameraProperties::init()'],['../classRaytracer_1_1Core_1_1Gui_1_1Form.html#ac0db3bad849838867da013a110006501',1,'Raytracer::Core::Gui::Form::init()'],['../classRaytracer_1_1Core_1_1Gui_1_1LeftPanel.html#a1c39fdabe82d8b76b753ddc1ae6c0137',1,'Raytracer::Core::Gui::LeftPanel::init()'],['../classRaytracer_1_1Core_1_1Gui_1_1MainPanel.html#afdae445397b557a1b938c5d6fcc79e01',1,'Raytracer::Core::Gui::MainPanel::init()'],['../classRaytracer_1_1Core_1_1Gui_1_1MenuBar.html#a41e133caf8e490518faa15ab3cfa22a1',1,'Raytracer::Core::Gui::MenuBar::init()'],['../classRaytracer_1_1Core_1_1Gui_1_1RenderingSettings.html#ae7b9a0dfa067c29a235565053f9d1aff',1,'Raytracer::Core::Gui::RenderingSettings::init()'],['../classRaytracer_1_1Core_1_1Gui_1_1RightPanel.html#a0213f9376cced212ccbdecdea44e9470',1,'Raytracer::Core::Gui::RightPanel::init()'],['../classRaytracer_1_1Core_1_1Gui_1_1StatusBar.html#a7e7dfac2d1251090a36527b4a2f92fa0',1,'Raytracer::Core::Gui::StatusBar::init()']]],
+  ['invalidpathexception_96',['InvalidPathException',['../classRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException.html#a40c1b50c50dac7f342b7d02a7c385836',1,'Raytracer::Core::PluginsManager::InvalidPathException::InvalidPathException()'],['../classRaytracer_1_1Core_1_1PluginsManager_1_1InvalidPathException.html',1,'Raytracer::Core::PluginsManager::InvalidPathException']]],
+  ['iobject_97',['IObject',['../classRaytracer_1_1Common_1_1IObject.html',1,'Raytracer::Common']]],
+  ['iobjectprovider_98',['IObjectProvider',['../classRaytracer_1_1Common_1_1IObjectProvider.html',1,'Raytracer::Common']]]
 ];

@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['quad_312',['Quad',['../structRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace_1_1Quad.html',1,'Raytracer::Objects::MeshFaces::QuadFace']]],
-  ['quadface_313',['QuadFace',['../classRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace.html',1,'Raytracer::Objects::MeshFaces']]],
-  ['quadnormals_314',['QuadNormals',['../structRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace_1_1QuadNormals.html',1,'Raytracer::Objects::MeshFaces::QuadFace']]],
-  ['quadpoints_315',['QuadPoints',['../structRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace_1_1QuadPoints.html',1,'Raytracer::Objects::MeshFaces::QuadFace']]],
-  ['quadtexturecoordinates_316',['QuadTextureCoordinates',['../structRaytracer_1_1Objects_1_1MeshFaces_1_1QuadFace_1_1QuadTextureCoordinates.html',1,'Raytracer::Objects::MeshFaces::QuadFace']]]
+  ['objectconfig_353',['ObjectConfig',['../structRaytracer_1_1Core_1_1Config_1_1ObjectConfig.html',1,'Raytracer::Core::Config']]],
+  ['objectfactory_354',['ObjectFactory',['../classRaytracer_1_1Core_1_1ObjectFactory.html',1,'Raytracer::Core']]],
+  ['options_355',['Options',['../structRaytracer_1_1Core_1_1App_1_1Options.html',1,'Raytracer::Core::App']]]
 ];

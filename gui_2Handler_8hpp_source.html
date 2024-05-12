@@ -78,27 +78,43 @@ $(function() {
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;app/IHandler.hpp&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>Raytracer::Core::Gui {</div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html">   13</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html">Handler</a> : <span class="keyword">public</span> <a class="code" href="classRaytracer_1_1Core_1_1IHandler.html">IHandler</a> {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#af7033a58161f9f2857ef9f5c2af3bd57">Handler</a>(<a class="code" href="structRaytracer_1_1Core_1_1App_1_1Context.html">App::Context</a> &amp;context);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#aa7086c6286a9c5031edc145a8fab6847">   24</a></span>&#160;        <a class="code" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#aa7086c6286a9c5031edc145a8fab6847">~Handler</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#a0ec563ee24916b836f61bf7f0d883eca">run</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="structRaytracer_1_1Core_1_1App_1_1Context.html">App::Context</a> &amp;_appContext;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    };</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="ttc" id="aclassRaytracer_1_1Core_1_1Gui_1_1Handler_html"><div class="ttname"><a href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html">Raytracer::Core::Gui::Handler</a></div><div class="ttdef"><b>Definition:</b> Handler.hpp:13</div></div>
-<div class="ttc" id="aclassRaytracer_1_1Core_1_1Gui_1_1Handler_html_a0ec563ee24916b836f61bf7f0d883eca"><div class="ttname"><a href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#a0ec563ee24916b836f61bf7f0d883eca">Raytracer::Core::Gui::Handler::run</a></div><div class="ttdeci">int run() override</div><div class="ttdoc">Run the handler.</div><div class="ttdef"><b>Definition:</b> Handler.cpp:17</div></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;TGUI/TGUI.hpp&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;TGUI/Backend/SFML-Graphics.hpp&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;app/IHandler.hpp&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;app/gui/components/Form.hpp&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;GuiContext.hpp&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>Raytracer::Core::Gui {</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html">   17</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html">Handler</a> : <span class="keyword">public</span> <a class="code" href="classRaytracer_1_1Core_1_1IHandler.html">IHandler</a> {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#af7033a58161f9f2857ef9f5c2af3bd57">Handler</a>(<a class="code" href="structRaytracer_1_1Core_1_1App_1_1Context.html">App::Context</a> &amp;context);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#aa7086c6286a9c5031edc145a8fab6847">   28</a></span>&#160;        <a class="code" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#aa7086c6286a9c5031edc145a8fab6847">~Handler</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">int</span> <a class="code" href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#a0ec563ee24916b836f61bf7f0d883eca">run</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <a class="code" href="structRaytracer_1_1Core_1_1App_1_1Context.html">App::Context</a> &amp;_appContext;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        sf::RenderWindow _window;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="structRaytracer_1_1Core_1_1Gui_1_1GuiContext.html">GuiContext</a> _context;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        sf::Image _icon;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="classRaytracer_1_1Core_1_1Gui_1_1Form.html">Form</a> _form;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">void</span> _initGui();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    };</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="ttc" id="aclassRaytracer_1_1Core_1_1Gui_1_1Form_html"><div class="ttname"><a href="classRaytracer_1_1Core_1_1Gui_1_1Form.html">Raytracer::Core::Gui::Form</a></div><div class="ttdef"><b>Definition:</b> Form.hpp:18</div></div>
+<div class="ttc" id="aclassRaytracer_1_1Core_1_1Gui_1_1Handler_html"><div class="ttname"><a href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html">Raytracer::Core::Gui::Handler</a></div><div class="ttdef"><b>Definition:</b> Handler.hpp:17</div></div>
+<div class="ttc" id="aclassRaytracer_1_1Core_1_1Gui_1_1Handler_html_a0ec563ee24916b836f61bf7f0d883eca"><div class="ttname"><a href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#a0ec563ee24916b836f61bf7f0d883eca">Raytracer::Core::Gui::Handler::run</a></div><div class="ttdeci">int run() override</div><div class="ttdoc">Run the handler.</div><div class="ttdef"><b>Definition:</b> Handler.cpp:22</div></div>
 <div class="ttc" id="aclassRaytracer_1_1Core_1_1Gui_1_1Handler_html_aa7086c6286a9c5031edc145a8fab6847"><div class="ttname"><a href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#aa7086c6286a9c5031edc145a8fab6847">Raytracer::Core::Gui::Handler::~Handler</a></div><div class="ttdeci">~Handler() override</div><div class="ttdoc">Default destructor.</div></div>
-<div class="ttc" id="aclassRaytracer_1_1Core_1_1Gui_1_1Handler_html_af7033a58161f9f2857ef9f5c2af3bd57"><div class="ttname"><a href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#af7033a58161f9f2857ef9f5c2af3bd57">Raytracer::Core::Gui::Handler::Handler</a></div><div class="ttdeci">Handler(App::Context &amp;context)</div><div class="ttdoc">Create a new GUI handler.</div><div class="ttdef"><b>Definition:</b> Handler.cpp:13</div></div>
+<div class="ttc" id="aclassRaytracer_1_1Core_1_1Gui_1_1Handler_html_af7033a58161f9f2857ef9f5c2af3bd57"><div class="ttname"><a href="classRaytracer_1_1Core_1_1Gui_1_1Handler.html#af7033a58161f9f2857ef9f5c2af3bd57">Raytracer::Core::Gui::Handler::Handler</a></div><div class="ttdeci">Handler(App::Context &amp;context)</div><div class="ttdoc">Create a new GUI handler.</div><div class="ttdef"><b>Definition:</b> Handler.cpp:12</div></div>
 <div class="ttc" id="aclassRaytracer_1_1Core_1_1IHandler_html"><div class="ttname"><a href="classRaytracer_1_1Core_1_1IHandler.html">Raytracer::Core::IHandler</a></div><div class="ttdef"><b>Definition:</b> IHandler.hpp:13</div></div>
 <div class="ttc" id="astructRaytracer_1_1Core_1_1App_1_1Context_html"><div class="ttname"><a href="structRaytracer_1_1Core_1_1App_1_1Context.html">Raytracer::Core::App::Context</a></div><div class="ttdoc">App context.</div><div class="ttdef"><b>Definition:</b> App.hpp:54</div></div>
+<div class="ttc" id="astructRaytracer_1_1Core_1_1Gui_1_1GuiContext_html"><div class="ttname"><a href="structRaytracer_1_1Core_1_1Gui_1_1GuiContext.html">Raytracer::Core::Gui::GuiContext</a></div><div class="ttdef"><b>Definition:</b> GuiContext.hpp:17</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

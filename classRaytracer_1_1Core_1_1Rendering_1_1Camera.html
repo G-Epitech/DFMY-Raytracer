@@ -109,6 +109,12 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:a3ea65c4f9564328c28c8e0dcd2327dea"><td class="memItemLeft" align="right" valign="top"><a id="a3ea65c4f9564328c28c8e0dcd2327dea"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>ComputeStatus</b> { <b>RUNNING</b>
+, <b>ABORTED</b>
+, <b>PAUSED</b>
+, <b>FINISHED</b>
+ }</td></tr>
+<tr class="separator:a3ea65c4f9564328c28c8e0dcd2327dea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca5c8592bc701b1b028172b48d28d8f7"><td class="memItemLeft" align="right" valign="top"><a id="aca5c8592bc701b1b028172b48d28d8f7"></a>
 typedef std::shared_ptr&lt; <a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html">Camera</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#aca5c8592bc701b1b028172b48d28d8f7">Ptr</a></td></tr>
 <tr class="memdesc:aca5c8592bc701b1b028172b48d28d8f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared pointer to a camera. <br /></td></tr>
@@ -131,20 +137,31 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a0859581a0c983728791e6d371d765bce">Camera</a> ()=delete</td></tr>
 <tr class="memdesc:a0859581a0c983728791e6d371d765bce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
 <tr class="separator:a0859581a0c983728791e6d371d765bce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bf35e132890a2c95f19550f71217b34"><td class="memItemLeft" align="right" valign="top"><a id="a5bf35e132890a2c95f19550f71217b34"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a5bf35e132890a2c95f19550f71217b34">~Camera</a> ()=default</td></tr>
-<tr class="memdesc:a5bf35e132890a2c95f19550f71217b34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor. <br /></td></tr>
-<tr class="separator:a5bf35e132890a2c95f19550f71217b34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1897942d0ccf91052386388a497349f"><td class="memItemLeft" align="right" valign="top"><a id="ad1897942d0ccf91052386388a497349f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#ad1897942d0ccf91052386388a497349f">~Camera</a> ()</td></tr>
+<tr class="memdesc:ad1897942d0ccf91052386388a497349f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor. <br /></td></tr>
+<tr class="separator:ad1897942d0ccf91052386388a497349f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe4837e5533e83e5bf4c2f22f38e08ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#abe4837e5533e83e5bf4c2f22f38e08ab">compute</a> (const <a class="el" href="structRaytracer_1_1Core_1_1Rendering_1_1Camera_1_1ComputeParams.html">ComputeParams</a> &amp;params, std::vector&lt; <a class="el" href="classRaytracer_1_1Common_1_1IObject.html#adcabb9d984b193995b287366047dc85c">Common::IObject::Ptr</a> &gt; &amp;objects)</td></tr>
 <tr class="memdesc:abe4837e5533e83e5bf4c2f22f38e08ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute all pixels of the screen.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#abe4837e5533e83e5bf4c2f22f38e08ab">More...</a><br /></td></tr>
 <tr class="separator:abe4837e5533e83e5bf4c2f22f38e08ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31326ade0516445f9e8275b74af9d89b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a31326ade0516445f9e8275b74af9d89b">getComputeStatus</a> () const</td></tr>
-<tr class="memdesc:a31326ade0516445f9e8275b74af9d89b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the status of the computation.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a31326ade0516445f9e8275b74af9d89b">More...</a><br /></td></tr>
-<tr class="separator:a31326ade0516445f9e8275b74af9d89b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae69c12c6890e6c866ef4eac067d51fe9"><td class="memItemLeft" align="right" valign="top">ComputeStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#ae69c12c6890e6c866ef4eac067d51fe9">getComputeStatus</a> () const</td></tr>
+<tr class="memdesc:ae69c12c6890e6c866ef4eac067d51fe9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the status of the computation.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#ae69c12c6890e6c866ef4eac067d51fe9">More...</a><br /></td></tr>
+<tr class="separator:ae69c12c6890e6c866ef4eac067d51fe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78813145a613b91549d67406638077f4"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a78813145a613b91549d67406638077f4">getComputeProgress</a> () const</td></tr>
+<tr class="memdesc:a78813145a613b91549d67406638077f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the progress of the computation.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a78813145a613b91549d67406638077f4">More...</a><br /></td></tr>
+<tr class="separator:a78813145a613b91549d67406638077f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4f12846857e3b6ba59dfb5c9b3c793c"><td class="memItemLeft" align="right" valign="top"><a id="ab4f12846857e3b6ba59dfb5c9b3c793c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#ab4f12846857e3b6ba59dfb5c9b3c793c">cancelCompute</a> ()</td></tr>
 <tr class="memdesc:ab4f12846857e3b6ba59dfb5c9b3c793c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel the computation. <br /></td></tr>
 <tr class="separator:ab4f12846857e3b6ba59dfb5c9b3c793c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a411d3a63d073af94c9f238ebd66f3799"><td class="memItemLeft" align="right" valign="top"><a id="a411d3a63d073af94c9f238ebd66f3799"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a411d3a63d073af94c9f238ebd66f3799">pauseCompute</a> ()</td></tr>
+<tr class="memdesc:a411d3a63d073af94c9f238ebd66f3799"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pause the computation. <br /></td></tr>
+<tr class="separator:a411d3a63d073af94c9f238ebd66f3799"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedf196951a6ec9089b20b0e314b0a4d1"><td class="memItemLeft" align="right" valign="top"><a id="aedf196951a6ec9089b20b0e314b0a4d1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#aedf196951a6ec9089b20b0e314b0a4d1">resumeCompute</a> ()</td></tr>
+<tr class="memdesc:aedf196951a6ec9089b20b0e314b0a4d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume the computation. <br /></td></tr>
+<tr class="separator:aedf196951a6ec9089b20b0e314b0a4d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e6ffac486cf32401f84022fdbeb8d03"><td class="memItemLeft" align="right" valign="top"><a id="a3e6ffac486cf32401f84022fdbeb8d03"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a3e6ffac486cf32401f84022fdbeb8d03">waitThreadsTeardown</a> ()</td></tr>
 <tr class="memdesc:a3e6ffac486cf32401f84022fdbeb8d03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for the threads to teardown. <br /></td></tr>
@@ -172,10 +189,6 @@ float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#aa3fa0715773e01a36f45e9c4f0c6b0c7">name</a></td></tr>
 <tr class="memdesc:aa3fa0715773e01a36f45e9c4f0c6b0c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the camera. <br /></td></tr>
 <tr class="separator:aa3fa0715773e01a36f45e9c4f0c6b0c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7aebbfde6e2acaaa23330b812853eace"><td class="memItemLeft" align="right" valign="top"><a id="a7aebbfde6e2acaaa23330b812853eace"></a>
-std::vector&lt; std::thread &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a7aebbfde6e2acaaa23330b812853eace">_threads</a></td></tr>
-<tr class="memdesc:a7aebbfde6e2acaaa23330b812853eace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of processing threads. <br /></td></tr>
-<tr class="separator:a7aebbfde6e2acaaa23330b812853eace"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -194,6 +207,10 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a8463346e46430a0fa7a4a460eb2f42c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Common::Math::Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a8463346e46430a0fa7a4a460eb2f42c8">_getRandomDirection</a> (<a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Common::Math::Vector3D</a> &amp;normal, unsigned int &amp;rngState)</td></tr>
 <tr class="memdesc:a8463346e46430a0fa7a4a460eb2f42c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a random direction (hemisphere) from a normal.  <a href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a8463346e46430a0fa7a4a460eb2f42c8">More...</a><br /></td></tr>
 <tr class="separator:a8463346e46430a0fa7a4a460eb2f42c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3801ab62eed515c763100c87902d8cf2"><td class="memItemLeft" align="right" valign="top"><a id="a3801ab62eed515c763100c87902d8cf2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a3801ab62eed515c763100c87902d8cf2">_preventAbort</a> ()</td></tr>
+<tr class="memdesc:a3801ab62eed515c763100c87902d8cf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prevent the abortion of the computation. <br /></td></tr>
+<tr class="separator:a3801ab62eed515c763100c87902d8cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
@@ -212,6 +229,14 @@ static <a class="el" href="classRaytracer_1_1Common_1_1Math_1_1Vector3D.html">Co
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
+<tr class="memitem:a7aebbfde6e2acaaa23330b812853eace"><td class="memItemLeft" align="right" valign="top"><a id="a7aebbfde6e2acaaa23330b812853eace"></a>
+std::vector&lt; std::thread &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a7aebbfde6e2acaaa23330b812853eace">_threads</a></td></tr>
+<tr class="memdesc:a7aebbfde6e2acaaa23330b812853eace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of processing threads. <br /></td></tr>
+<tr class="separator:a7aebbfde6e2acaaa23330b812853eace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11baa9e7255fa0c3fe260ee928c4d7c3"><td class="memItemLeft" align="right" valign="top"><a id="a11baa9e7255fa0c3fe260ee928c4d7c3"></a>
+ComputeStatus&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#a11baa9e7255fa0c3fe260ee928c4d7c3">_computeStatus</a> = ComputeStatus::FINISHED</td></tr>
+<tr class="memdesc:a11baa9e7255fa0c3fe260ee928c4d7c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute status. <br /></td></tr>
+<tr class="separator:a11baa9e7255fa0c3fe260ee928c4d7c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8672ffecc8ab7976459c5efbb1343fd"><td class="memItemLeft" align="right" valign="top"><a id="ac8672ffecc8ab7976459c5efbb1343fd"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRaytracer_1_1Core_1_1Rendering_1_1Camera.html#ac8672ffecc8ab7976459c5efbb1343fd">_processedPixels</a> = 0</td></tr>
 <tr class="memdesc:ac8672ffecc8ab7976459c5efbb1343fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of processed pixels. <br /></td></tr>
@@ -572,14 +597,34 @@ std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 
 </div>
 </div>
-<a id="a31326ade0516445f9e8275b74af9d89b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31326ade0516445f9e8275b74af9d89b">&#9670;&nbsp;</a></span>getComputeStatus()</h2>
+<a id="a78813145a613b91549d67406638077f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78813145a613b91549d67406638077f4">&#9670;&nbsp;</a></span>getComputeProgress()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">float Camera::getComputeStatus </td>
+          <td class="memname">float Camera::getComputeProgress </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the progress of the computation. </p>
+<dl class="section return"><dt>Returns</dt><dd>Progress of the computation </dd></dl>
+
+</div>
+</div>
+<a id="ae69c12c6890e6c866ef4eac067d51fe9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae69c12c6890e6c866ef4eac067d51fe9">&#9670;&nbsp;</a></span>getComputeStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Camera::ComputeStatus Camera::getComputeStatus </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
