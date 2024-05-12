@@ -21,11 +21,25 @@ namespace Raytracer::Core::Gui {
         private:
             Raytracer::Common::IObject::Ptr &_obj;
 
+            tgui::Panel::Ptr _propertiesPanel;
+
             tgui::EditBox::Ptr _objName;
 
-            tgui::Panel::Ptr _propertiesPanel;
+            /// @brief Object position X
+            tgui::SpinControl::Ptr _objPositionX;
+            /// @brief Object position Y
+            tgui::SpinControl::Ptr _objPositionY;
+            /// @brief Object position Z
+            tgui::SpinControl::Ptr _objPositionZ;
+            /// @brief Object direction X
+            tgui::SpinControl::Ptr _objDirectionX;
+            /// @brief Object direction Y
+            tgui::SpinControl::Ptr _objDirectionY;
+            /// @brief Object direction Z
+            tgui::SpinControl::Ptr _objDirectionZ;
 
             void _initPropertiesName();
             void _initPropertiesPosition();
+            void _initPropertiesDirection();
     };
 }
