@@ -21,6 +21,8 @@ namespace Raytracer::Common::Math {
         float emissionStrength;
         /// @brief Emission color of the hit
         Graphics::Color emissionColor;
+        /// @brief Reflectivity of the hit
+        float reflectivity;
     } HitColor;
 
     /// @brief Represent an HitInfo between a ray and a shape
@@ -38,6 +40,7 @@ namespace Raytracer::Common::Math {
             .color = Graphics::Color(0, 0, 0),
             .emissionStrength = 0,
             .emissionColor = Graphics::Color(0, 0, 0),
+            .reflectivity = 0,
         };
     } HitInfo;
 }
