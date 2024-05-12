@@ -56,10 +56,6 @@ namespace Raytracer::Core::Rendering {
 
         /// @brief Segment of the screen
         typedef struct Segment {
-            /// @brief Origin of the segment
-            Common::Math::Size origin;
-            /// @brief Size of the segment
-            Common::Math::Size size;
             /// @brief Local screen size
             Common::Math::Float2 localScreenSize;
             /// @brief Local screen origin
@@ -95,7 +91,7 @@ namespace Raytracer::Core::Rendering {
         Camera() = delete;
 
         /// @brief Default destructor
-        ~Camera() = default;
+        ~Camera();
 
         /**
          * @brief Compute all pixels of the screen
@@ -138,11 +134,6 @@ namespace Raytracer::Core::Rendering {
          */
         void waitThreadsTeardown();
 
-        /**
-         * @brief Wait FINISHED status
-         */
-        void waitFinished() const;
-
         /// @brief The position of the camera
         Common::Math::Point3D position;
         /// @brief The direction of the camera
@@ -169,10 +160,11 @@ namespace Raytracer::Core::Rendering {
 
         /**
          * @brief Compute a segment of the screen
+         * @param params Parameters of the computing
          * @param config Configuration of the segment
          * @param objects Objects to compute
          */
-        void _computeSegment(Segment config, std::vector<Common::IObject::Ptr> &objects);
+        void _computeSegment(const ComputeParams &params, Segment config, std::vector<Common::IObject::Ptr> &objects);
 
         /**
          * @brief Compute a frame of the screen
@@ -180,10 +172,13 @@ namespace Raytracer::Core::Rendering {
          * @param objects Objects to compute
          * @param x X position of the pixel
          * @param y Y position of the pixel
+         * @param raysPerPixels Number of rays per pixel
+         * @param bounce Number of bounces
          * @return Color of the frame
          */
         Common::Graphics::Color
-        _computeFrame(Segment config, std::vector<Common::IObject::Ptr> &objects, size_t x, size_t y);
+        _computeFrame(Segment config, std::vector<Common::IObject::Ptr> &objects, size_t x, size_t y,
+                      size_t raysPerPixels, size_t bounce);
 
         /**
          * @brief Compute the collision of a ray with the objects
@@ -199,10 +194,11 @@ namespace Raytracer::Core::Rendering {
          * @param ray Ray to compute
          * @param rngState Random state
          * @param objects Objects to compute
+         * @param bounce Number of bounces
          * @return Incoming light of the ray
          */
         Common::Graphics::Color _getIncomingLight(Common::Math::Ray ray, unsigned int rngState,
-                                                  std::vector<Common::IObject::Ptr> &objects);
+                                                  std::vector<Common::IObject::Ptr> &objects, size_t bounce);
 
         /**
          * @brief Get a random direction (hemisphere) from a normal
@@ -218,5 +214,12 @@ namespace Raytracer::Core::Rendering {
 
         static Common::Graphics::Color _lErp(const Common::Graphics::Color &a, const Common::Graphics::Color &b,
                                              float t);
+
+        static  Common::Math::Vector3D _lErp(const Common::Math::Vector3D &a, const  Common::Math::Vector3D &b, float t);
+
+        /**
+         * @brief Prevent the abortion of the computation
+         */
+        inline void _preventAbort();
     };
 }

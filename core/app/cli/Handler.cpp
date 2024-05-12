@@ -18,14 +18,6 @@
 
 using namespace Raytracer::Core::Cli;
 
-#if defined(__linux__)
-    #define PLUGIN_PATH "plugins/raytracer_sphere.so"
-#elif defined(__APPLE__)
-    #define PLUGIN_PATH "plugins/raytracer_sphere.dylib"
-#elif defined(_WIN32)
-    #define PLUGIN_PATH "plugins/raytracer_sphere.dll"
-#endif
-
 Handler::Handler(Raytracer::Core::App::Context &context): _appContext(context), _camerasNamesMaxLength(0) {}
 
 Handler::~Handler() = default;

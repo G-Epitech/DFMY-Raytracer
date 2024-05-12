@@ -35,5 +35,17 @@ namespace Raytracer::Core::Gui {
         /// @brief TGUI Menu bar
         tgui::MenuBar::Ptr _menuBar;
 
+        /// @brief About message box
+        tgui::MessageBox::Ptr _aboutBox;
+
+        /**
+         * @brief Initialize the menu bar events
+         */
+        void _initEvents();
+
+        /**
+         * @brief Initialize the about box
+         */
+        void _openAboutBox();
     };
 }

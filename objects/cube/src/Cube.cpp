@@ -331,7 +331,8 @@ Math::HitInfo Cube::computeCollision(const Math::Ray &ray)
     closestHitInfo.hitColor = {
         .color = _material->color,
         .emissionStrength = _material->emissionStrength,
-        .emissionColor = _material->emissionColor
+        .emissionColor = _material->emissionColor,
+        .reflectivity = _material->reflectivity,
     };
 
     return closestHitInfo;

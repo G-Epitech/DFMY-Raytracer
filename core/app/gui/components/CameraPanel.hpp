@@ -96,5 +96,17 @@ namespace Raytracer::Core::Gui {
          * @brief Update the status bar
          */
         void _updateStatusBar();
+
+        /**
+         * @brief Save the camera to file
+         */
+        void _onSaveButtonClicked();
+
+        /**
+         * @brief Save the image to file
+         * @param filename Filename of the image
+         * @param filter Filter of the image
+         */
+        void _saveImage(std::string filename, const std::string& filter);
     };
 }
