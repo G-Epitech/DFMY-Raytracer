@@ -72,9 +72,7 @@ void MenuBar::_openFileExplorer()
         } catch (const std::exception &e) {
             auto messageBox = tgui::MessageBox::create("Error", e.what(), {"OK"});
 
-            messageBox->setSize(300, 100);
             messageBox->setPosition("(&.width - width) / 2", "(&.height - height) / 2");
-            messageBox->setWidth(300);
             messageBox->onButtonPress([this, messageBox]() {
                 _context.gui.remove(messageBox);
             });
