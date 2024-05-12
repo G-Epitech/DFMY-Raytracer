@@ -24,9 +24,9 @@ namespace Raytracer::Common {
              */
             AObject(
                 const std::string &name,
-                Common::Graphics::Material::Ptr material,
-                const Common::Math::Vector3D &rotation,
-                const Common::Math::Point3D &position);
+                Graphics::Material::Ptr material,
+                const Math::Vector3D &rotation,
+                const Math::Point3D &position);
 
             /**
              * @brief Destroy the Cube object
@@ -37,19 +37,25 @@ namespace Raytracer::Common {
             /// @brief Get the material associated to an object
             Graphics::Material::Ptr getMaterial() override;
 
+            /// @brief Get the name of the object
             std::string &getName() noexcept override;
 
+            /// @brief Get the position of the object
+            Math::Point3D &getPosition() noexcept override;
+
+            /// @brief Get the rotation of the object
+            Math::Vector3D &getRotation() noexcept override;
         protected:
             /// @brief Name of the cube
             std::string _name;
 
             /// @brief Material of the cube
-            Common::Graphics::Material::Ptr _material;
+            Graphics::Material::Ptr _material;
 
             /// @brief Position of the cube
-            const Common::Math::Point3D _position;
+            Math::Point3D _position;
 
             /// @brief Rotation of the cube
-            Common::Math::Vector3D _rotation;
+            Math::Vector3D _rotation;
     };
 }

@@ -36,5 +36,9 @@ namespace Raytracer::Common {
         virtual std::string &getName() noexcept = 0;
 
         virtual const std::string getType() noexcept = 0;
+
+        virtual Math::Point3D &getPosition() noexcept = 0;
+
+        virtual Math::Vector3D &getRotation() noexcept = 0;
     };
 }

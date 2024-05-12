@@ -30,3 +30,13 @@ std::string &AObject::getName() noexcept
 {
     return _name;
 }
+
+Math::Point3D &AObject::getPosition() noexcept
+{
+    return _position;
+}
+
+Math::Vector3D &AObject::getRotation() noexcept
+{
+    return _rotation;
+}

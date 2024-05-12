@@ -31,12 +31,12 @@ void ObjectProperties::changeObj(Raytracer::Common::IObject::Ptr &obj)
 {
     _obj = obj;
     _objName->setText(_obj->getName());
-    // _objPositionX->setValue(_obj->getPosition().x);
-    // _objPositionY->setValue(_obj->getPosition().y);
-    // _objPositionZ->setValue(_obj->getPosition().z);
-    // _objDirectionX->setValue(_obj->getDirection().x);
-    // _objDirectionY->setValue(_obj->getDirection().y);
-    // _objDirectionZ->setValue(_obj->getDirection().z);
+    _objPositionX->setValue(_obj->getPosition().x);
+    _objPositionY->setValue(_obj->getPosition().y);
+    _objPositionZ->setValue(_obj->getPosition().z);
+    _objDirectionX->setValue(_obj->getRotation().x);
+    _objDirectionY->setValue(_obj->getRotation().y);
+    _objDirectionZ->setValue(_obj->getRotation().z);
 }
 
 void ObjectProperties::_initPropertiesName()
