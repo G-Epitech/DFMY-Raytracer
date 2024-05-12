@@ -51,7 +51,8 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
     hitInfo.hitColor = {
         .color = _material->color,
         .emissionStrength = _material->emissionStrength,
-        .emissionColor = _material->emissionColor
+        .emissionColor = _material->emissionColor,
+        .reflectivity = _material->reflectivity,
     };
     return hitInfo;
 }

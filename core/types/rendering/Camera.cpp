@@ -128,7 +128,9 @@ Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, std::vector<IObj
         if (hitConfig.didHit) {
             auto randomSeed = rngState + i;
             ray.origin = hitConfig.hitPoint;
-            ray.direction = this->_getRandomDirection(hitConfig.normal, randomSeed);
+            Math::Vector3D diffuseDir = this->_getRandomDirection(hitConfig.normal, randomSeed);
+            Math::Vector3D specularDir = ray.direction - hitConfig.normal * 2 * ray.direction.dot(hitConfig.normal);
+            ray.direction = this->_lErp(diffuseDir, specularDir, hitConfig.hitColor.reflectivity);
 
             Common::Graphics::Color emittedLight =
                     hitConfig.hitColor.emissionColor * hitConfig.hitColor.emissionStrength;
@@ -198,6 +200,12 @@ float Camera::_smoothStep(float edge0, float edge1, float x) {
 
 Graphics::Color Camera::_lErp(const Common::Graphics::Color &a, const Common::Graphics::Color &b, float t) {
     Common::Graphics::Color bt = b * t;
+
+    return a * (1 - t) + bt;
+}
+
+Math::Vector3D Camera::_lErp(const Math::Vector3D &a, const Math::Vector3D &b, float t) {
+    Math::Vector3D bt = b * t;
 
     return a * (1 - t) + bt;
 }

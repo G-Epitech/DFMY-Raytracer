@@ -190,5 +190,7 @@ namespace Raytracer::Core::Rendering {
 
         static Common::Graphics::Color _lErp(const Common::Graphics::Color &a, const Common::Graphics::Color &b,
                                              float t);
+
+        static  Common::Math::Vector3D _lErp(const Common::Math::Vector3D &a, const  Common::Math::Vector3D &b, float t);
     };
 }
