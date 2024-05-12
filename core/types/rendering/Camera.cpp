@@ -152,7 +152,7 @@ Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, std::vector<IObj
             Common::Graphics::Color environmentLight = _getEnvironmentLight(ray);
             Common::Graphics::Color ambientLight = rayColor;
 
-            ambientLight = ambientLight * 0.6f;
+            ambientLight = ambientLight * 0.5f;
             if (i == 0) {
                 ambientLight = ambientLight * 2.0f;
                 ambientLight *= environmentLight;
