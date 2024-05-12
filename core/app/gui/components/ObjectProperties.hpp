@@ -21,7 +21,7 @@ namespace Raytracer::Core::Gui {
         private:
             Raytracer::Common::IObject::Ptr &_obj;
 
-            tgui::Panel::Ptr _propertiesPanel;
+            tgui::ScrollablePanel::Ptr _propertiesPanel;
 
             tgui::EditBox::Ptr _objName;
 
