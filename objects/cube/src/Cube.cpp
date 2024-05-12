@@ -305,6 +305,13 @@ bool Cube::_intersect(HitInfo &hitInfo, const Ray &ray,
     hitInfo.distance = dst;
     hitInfo.normal = (normal1 * w + normal2 * u + normal3 * v).normalize();
 
+    for (auto &emissions : this->_material->emissions) {
+        if (emissions.direction == normal1) {
+            hitInfo.hitColor.emissionColor = emissions.color;
+            hitInfo.hitColor.emissionStrength = emissions.strength;
+        }
+    }
+
     return true;
 }
 
@@ -331,12 +338,11 @@ Math::HitInfo Cube::computeCollision(const Math::Ray &ray)
             }
         }
     }
-    closestHitInfo.hitColor = {
-        .color = _material->color,
-        .emissionStrength = _material->emissionStrength,
-        .emissionColor = _material->emissionColor,
-        .reflectivity = _material->reflectivity,
-    };
+
+    closestHitInfo.hitColor.color = _material->color;
+    closestHitInfo.hitColor.reflectivity = _material->reflectivity;
+    closestHitInfo.hitColor.emissionColor += _material->emissionColor;
+    closestHitInfo.hitColor.emissionStrength += _material->emissionStrength;
 
     return closestHitInfo;
 }
