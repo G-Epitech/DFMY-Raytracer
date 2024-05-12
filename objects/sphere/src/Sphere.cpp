@@ -9,6 +9,12 @@
 #include <utility>
 #include "Sphere.hpp"
 
+#if defined(__linux__)
+    #define COS facos
+#elif defined(__APPLE__)
+    #define COS acosf
+#endif
+
 Raytracer::Objects::Sphere::Sphere(
         const std::string &name,
         Common::Graphics::Material::Ptr material,
@@ -58,7 +64,7 @@ Raytracer::Common::Math::HitInfo Raytracer::Objects::Sphere::computeCollision(co
     };
 
     for (auto &emission : _material->emissions) {
-        auto angle = std::acosf(emission.direction.normalize().dot(hitInfo.normal));
+        auto angle = std::COS(emission.direction.normalize().dot(hitInfo.normal));
         if (angle < M_PI_2) {
             hitInfo.hitColor.emissionColor = emission.color;
             hitInfo.hitColor.emissionStrength = emission.strength;
