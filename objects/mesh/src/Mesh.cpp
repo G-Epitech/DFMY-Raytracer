@@ -18,11 +18,10 @@ using namespace Raytracer::Common;
 using namespace Raytracer::Objects;
 using namespace Math;
 
-Point3D Mesh::_getObjectCenter()
-{
+Point3D Mesh::_getObjectCenter() {
     Point3D center(0, 0, 0);
 
-    for (auto &vertex : _vertices) {
+    for (auto &vertex: _vertices) {
         center.x += vertex.x;
         center.y += vertex.y;
         center.z += vertex.z;
@@ -33,9 +32,8 @@ Point3D Mesh::_getObjectCenter()
     return center;
 }
 
-void Mesh::_translateObject(const Point3D &translation)
-{
-    for (auto &vertex : _vertices) {
+void Mesh::_translateObject(const Point3D &translation) {
+    for (auto &vertex: _vertices) {
         vertex.x -= translation.x;
         vertex.y -= translation.y;
         vertex.z -= translation.z;
@@ -43,15 +41,14 @@ void Mesh::_translateObject(const Point3D &translation)
 }
 
 Mesh::Mesh(const std::string &name,
-        Common::Graphics::Material::Ptr material,
-        const Common::Math::Vector3D &rotation,
-        const Common::Math::Point3D &position,
-        const Common::ObjectProperty &property) :
+           Common::Graphics::Material::Ptr material,
+           const Common::Math::Vector3D &rotation,
+           const Common::Math::Point3D &position,
+           const Common::ObjectProperty &property) :
         _name(name),
         _material(material),
         _rotation(rotation),
-        _position(position)
-{
+        _position(position) {
     Raytracer::Common::MeshProperty prop = std::get<Raytracer::Common::MeshProperty>(property);
     auto filename = prop.filename;
 
@@ -60,7 +57,7 @@ Mesh::Mesh(const std::string &name,
     _setSphereRadius();
     Point3D center = _getObjectCenter();
     _translateObject(center);
-    for (auto &vertex : _vertices) {
+    for (auto &vertex: _vertices) {
         vertex.rotateX(_rotation.x);
         vertex.rotateY(_rotation.y);
         vertex.rotateZ(_rotation.z);
@@ -75,24 +72,22 @@ Mesh::Mesh(const std::string &name,
     _loadQuads();
 }
 
-void Mesh::_setSphereRadius()
-{
-    for (auto &vertex : _vertices) {
+void Mesh::_setSphereRadius() {
+    for (auto &vertex: _vertices) {
         float distance = std::sqrt(std::pow(vertex.x, 2) + std::pow(vertex.y, 2) + std::pow(vertex.z, 2));
         if (distance > _radius)
             _radius = distance;
     }
 }
 
-HitInfo Mesh::computeCollision(const Ray &ray)
-{
+HitInfo Mesh::computeCollision(const Ray &ray) {
     bool didHitOne = false;
     HitInfo hitInfo;
     HitInfo closesHitInfo;
 
     if (!_isInsideSphere(ray.origin) && !_collideSphere(ray))
         return closesHitInfo;
-    for (auto &face : _faces) {
+    for (auto &face: _faces) {
         face->computeCollision(ray, hitInfo);
 
         if (hitInfo.didHit) {
@@ -105,19 +100,19 @@ HitInfo Mesh::computeCollision(const Ray &ray)
         }
     }
     closesHitInfo.hitColor = {
-        .color = _material->color,
-        .emissionStrength = _material->emissionStrength,
-        .emissionColor = _material->emissionColor
+            .color = _material->color,
+            .emissionStrength = _material->emissionStrength,
+            .emissionColor = _material->emissionColor,
+            .reflectivity = _material->reflectivity,
     };
     return closesHitInfo;
 }
 
-bool Mesh::_collideSphere(const Ray &ray)
-{
+bool Mesh::_collideSphere(const Ray &ray) {
     Vector3D oc(
-        ray.origin.x - _position.x,
-        ray.origin.y - _position.y,
-        ray.origin.z - _position.z
+            ray.origin.x - _position.x,
+            ray.origin.y - _position.y,
+            ray.origin.z - _position.z
     );
 
     float a = ray.direction.dot(ray.direction);
@@ -135,8 +130,7 @@ bool Mesh::_collideSphere(const Ray &ray)
     return true;
 }
 
-bool Mesh::_isInsideSphere(const Point3D &point)
-{
+bool Mesh::_isInsideSphere(const Point3D &point) {
     float distanceSquared = std::pow(point.x - _position.x, 2) +
                             std::pow(point.y - _position.y, 2) +
                             std::pow(point.z - _position.z, 2);
@@ -144,13 +138,11 @@ bool Mesh::_isInsideSphere(const Point3D &point)
     return distanceSquared <= radiusSquared;
 }
 
-Graphics::Material::Ptr Mesh::getMaterial()
-{
+Graphics::Material::Ptr Mesh::getMaterial() {
     return _material;
 }
 
-void Mesh::_loadObj(const std::string &filename)
-{
+void Mesh::_loadObj(const std::string &filename) {
     std::string line;
     std::ifstream file(filename);
 
@@ -174,16 +166,14 @@ void Mesh::_loadObj(const std::string &filename)
     }
 }
 
-void Mesh::_loadVertex(std::istringstream &iss)
-{
+void Mesh::_loadVertex(std::istringstream &iss) {
     Point3D vertex;
 
     iss >> vertex.x >> vertex.y >> vertex.z;
     _vertices.push_back(vertex);
 }
 
-void Mesh::_loadFace(std::istringstream &iss, std::string &line)
-{
+void Mesh::_loadFace(std::istringstream &iss, std::string &line) {
     if (std::count(line.begin(), line.end(), ' ') == 3) {
         FacePoint point1, point2, point3;
 
@@ -206,8 +196,7 @@ void Mesh::_loadFace(std::istringstream &iss, std::string &line)
     }
 }
 
-void Mesh::_loadFacePoint(std::istringstream &iss, Mesh::FacePoint &point)
-{
+void Mesh::_loadFacePoint(std::istringstream &iss, Mesh::FacePoint &point) {
     std::string pointStr;
 
     iss >> pointStr;
@@ -227,105 +216,100 @@ void Mesh::_loadFacePoint(std::istringstream &iss, Mesh::FacePoint &point)
     }
 }
 
-void Mesh::_loadNormal(std::istringstream &iss)
-{
+void Mesh::_loadNormal(std::istringstream &iss) {
     Vector3D normal;
 
     iss >> normal.x >> normal.y >> normal.z;
     _normals.push_back(normal);
 }
 
-void Mesh::_loadTextureCoordinate(std::istringstream &iss)
-{
+void Mesh::_loadTextureCoordinate(std::istringstream &iss) {
     Point2D textureCoord;
 
     iss >> textureCoord.x >> textureCoord.y;
     _textureCoordinates.push_back(textureCoord);
 }
 
-void Mesh::_loadTriangles()
-{
-    for (auto &face : _triFaces) {
+void Mesh::_loadTriangles() {
+    for (auto &face: _triFaces) {
 
         if (!_checkFaceIndexes(face))
             continue;
 
-        MeshFaces::TriFace::TriPoints points {
-            _vertices[std::get<0>(std::get<0>(face)) - 1],
-            _vertices[std::get<0>(std::get<1>(face)) - 1],
-            _vertices[std::get<0>(std::get<2>(face)) - 1]
+        MeshFaces::TriFace::TriPoints points{
+                _vertices[std::get<0>(std::get<0>(face)) - 1],
+                _vertices[std::get<0>(std::get<1>(face)) - 1],
+                _vertices[std::get<0>(std::get<2>(face)) - 1]
         };
 
-        MeshFaces::TriFace::TriNormals normals {
-            _normals[std::get<2>(std::get<0>(face)) - 1],
-            _normals[std::get<2>(std::get<1>(face)) - 1],
-            _normals[std::get<2>(std::get<2>(face)) - 1]
+        MeshFaces::TriFace::TriNormals normals{
+                _normals[std::get<2>(std::get<0>(face)) - 1],
+                _normals[std::get<2>(std::get<1>(face)) - 1],
+                _normals[std::get<2>(std::get<2>(face)) - 1]
         };
 
         MeshFaces::TriFace::TriTextureCoordinates textureCoordinates;
 
         if (_allTexturesAreSet(face)) {
             textureCoordinates = {
-                _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
-                _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
-                _textureCoordinates[std::get<1>(std::get<2>(face)) - 1]
+                    _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
+                    _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
+                    _textureCoordinates[std::get<1>(std::get<2>(face)) - 1]
             };
         }
 
-        MeshFaces::TriFace::Tri tri {
-            points,
-            normals,
-            textureCoordinates
+        MeshFaces::TriFace::Tri tri{
+                points,
+                normals,
+                textureCoordinates
         };
 
         _faces.push_back(std::make_shared<MeshFaces::TriFace>(tri));
     }
 }
 
-void Mesh::_loadQuads()
-{
-    for (auto &face : _quadFaces) {
+void Mesh::_loadQuads() {
+    for (auto &face: _quadFaces) {
 
         if (!_checkFaceIndexes(face))
             continue;
 
-        MeshFaces::QuadFace::QuadPoints points {
-            _vertices[std::get<0>(std::get<0>(face)) - 1],
-            _vertices[std::get<0>(std::get<1>(face)) - 1],
-            _vertices[std::get<0>(std::get<2>(face)) - 1],
-            _vertices[std::get<0>(std::get<3>(face)) - 1]
+        MeshFaces::QuadFace::QuadPoints points{
+                _vertices[std::get<0>(std::get<0>(face)) - 1],
+                _vertices[std::get<0>(std::get<1>(face)) - 1],
+                _vertices[std::get<0>(std::get<2>(face)) - 1],
+                _vertices[std::get<0>(std::get<3>(face)) - 1]
         };
 
-        MeshFaces::QuadFace::QuadNormals normals {
-            _normals[std::get<2>(std::get<0>(face)) - 1],
-            _normals[std::get<2>(std::get<1>(face)) - 1],
-            _normals[std::get<2>(std::get<2>(face)) - 1],
-            _normals[std::get<2>(std::get<3>(face)) - 1]
+        MeshFaces::QuadFace::QuadNormals normals{
+                _normals[std::get<2>(std::get<0>(face)) - 1],
+                _normals[std::get<2>(std::get<1>(face)) - 1],
+                _normals[std::get<2>(std::get<2>(face)) - 1],
+                _normals[std::get<2>(std::get<3>(face)) - 1]
         };
 
         MeshFaces::QuadFace::QuadTextureCoordinates textureCoordinates;
 
         if (_allTexturesAreSet(face)) {
             textureCoordinates = {
-                _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
-                _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
-                _textureCoordinates[std::get<1>(std::get<2>(face)) - 1],
-                _textureCoordinates[std::get<1>(std::get<3>(face)) - 1]
+                    _textureCoordinates[std::get<1>(std::get<0>(face)) - 1],
+                    _textureCoordinates[std::get<1>(std::get<1>(face)) - 1],
+                    _textureCoordinates[std::get<1>(std::get<2>(face)) - 1],
+                    _textureCoordinates[std::get<1>(std::get<3>(face)) - 1]
             };
         }
 
-        MeshFaces::QuadFace::Quad quad {
-            points,
-            normals,
-            textureCoordinates
+        MeshFaces::QuadFace::Quad quad{
+                points,
+                normals,
+                textureCoordinates
         };
 
         _faces.push_back(std::make_shared<MeshFaces::QuadFace>(quad));
     }
 }
 
-bool Mesh::_checkPointIndex(Mesh::FacePoint &point)
-{
+bool Mesh::_checkPointIndex(Mesh::FacePoint &point) {
     if (std::get<0>(point) <= 0 || std::get<0>(point) > _vertices.size())
         return false;
     if (std::get<1>(point) < 0 || std::get<1>(point) > _textureCoordinates.size())
@@ -335,22 +319,22 @@ bool Mesh::_checkPointIndex(Mesh::FacePoint &point)
     return true;
 }
 
-bool Mesh::_checkFaceIndexes(Mesh::TriFace &points)
-{
-    return _checkPointIndex(std::get<0>(points)) && _checkPointIndex(std::get<1>(points)) && _checkPointIndex(std::get<2>(points));
+bool Mesh::_checkFaceIndexes(Mesh::TriFace &points) {
+    return _checkPointIndex(std::get<0>(points)) && _checkPointIndex(std::get<1>(points)) &&
+           _checkPointIndex(std::get<2>(points));
 }
 
-bool Mesh::_checkFaceIndexes(Mesh::QuadFace &points)
-{
-    return _checkPointIndex(std::get<0>(points)) && _checkPointIndex(std::get<1>(points)) && _checkPointIndex(std::get<2>(points)) && _checkPointIndex(std::get<3>(points));
+bool Mesh::_checkFaceIndexes(Mesh::QuadFace &points) {
+    return _checkPointIndex(std::get<0>(points)) && _checkPointIndex(std::get<1>(points)) &&
+           _checkPointIndex(std::get<2>(points)) && _checkPointIndex(std::get<3>(points));
 }
 
-bool Mesh::_allTexturesAreSet(Mesh::TriFace &points)
-{
-    return std::get<1>(std::get<0>(points)) > 0 && std::get<1>(std::get<1>(points)) > 0 && std::get<1>(std::get<2>(points)) > 0;
+bool Mesh::_allTexturesAreSet(Mesh::TriFace &points) {
+    return std::get<1>(std::get<0>(points)) > 0 && std::get<1>(std::get<1>(points)) > 0 &&
+           std::get<1>(std::get<2>(points)) > 0;
 }
 
-bool Mesh::_allTexturesAreSet(Mesh::QuadFace &points)
-{
-    return std::get<1>(std::get<0>(points)) > 0 && std::get<1>(std::get<1>(points)) > 0 && std::get<1>(std::get<2>(points)) > 0 && std::get<1>(std::get<3>(points)) > 0;
+bool Mesh::_allTexturesAreSet(Mesh::QuadFace &points) {
+    return std::get<1>(std::get<0>(points)) > 0 && std::get<1>(std::get<1>(points)) > 0 &&
+           std::get<1>(std::get<2>(points)) > 0 && std::get<1>(std::get<3>(points)) > 0;
 }

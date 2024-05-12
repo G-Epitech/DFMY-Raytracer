@@ -53,18 +53,19 @@ void Camera::compute(const ComputeParams &params, std::vector<IObject::Ptr> &obj
                     .localScreenOrigin = screenOrigin
             };
 
-            this->_threads.emplace_back(&Camera::_computeSegment, this, config, std::ref(objects));
+            this->_threads.emplace_back(&Camera::_computeSegment, this, params, config, std::ref(objects));
         }
     }
 }
 
-void Camera::_computeSegment(Segment config, std::vector<IObject::Ptr> &objects) {
+void Camera::_computeSegment(const ComputeParams &params, Segment config, std::vector<IObject::Ptr> &objects) {
     for (size_t y = config.origin.height; y < config.origin.height + config.size.height; y++) {
         for (size_t x = config.origin.width; x < config.origin.width + config.size.width; x++) {
-            Common::Graphics::Color oldFrame = this->_computeFrame(config, objects, x, y);
+            Common::Graphics::Color oldFrame = this->_computeFrame(config, objects, x, y, params.raysPerPixel,
+                                                                   params.rayBounceLimit);
 
-            for (size_t i = 0; i < 0; i++) {
-                auto newFrame = this->_computeFrame(config, objects, x, y);
+            for (size_t i = 0; i < params.additionalFrames - 1; i++) {
+                auto newFrame = this->_computeFrame(config, objects, x, y, params.raysPerPixel, params.rayBounceLimit);
                 float weight = 1.0f / (i + 1);
 
                 Common::Graphics::Color firstFrame = oldFrame * (1 - weight);
@@ -88,7 +89,8 @@ void Camera::_computeSegment(Segment config, std::vector<IObject::Ptr> &objects)
 }
 
 Graphics::Color Camera::_computeFrame(Raytracer::Core::Rendering::Camera::Segment config,
-                                      std::vector<Common::IObject::Ptr> &objects, size_t x, size_t y) {
+                                      std::vector<Common::IObject::Ptr> &objects, size_t x, size_t y,
+                                      size_t raysPerPixels, size_t bounce) {
     float tx = (float) x / ((float) screen.size.width - 1.0f);
     float ty = (float) y / ((float) screen.size.height - 1.0f);
 
@@ -103,10 +105,9 @@ Graphics::Color Camera::_computeFrame(Raytracer::Core::Rendering::Camera::Segmen
 
     Common::Graphics::Color totalIncomingLight(0, 0, 0);
 
-    size_t raysPerPixels = 10;
     for (size_t ri = 0; ri < raysPerPixels; ri++) {
         auto random = pixelIndex + ri;
-        auto incomingLight = this->_getIncomingLight(ray, random, objects);
+        auto incomingLight = this->_getIncomingLight(ray, random, objects, bounce);
 
         totalIncomingLight += incomingLight;
     }
@@ -130,16 +131,19 @@ Math::HitInfo Camera::_computeRayCollision(const Math::Ray &ray, std::vector<IOb
     return closestHit;
 }
 
-Graphics::Color Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, std::vector<IObject::Ptr> &objects) {
+Graphics::Color
+Camera::_getIncomingLight(Math::Ray ray, unsigned int rngState, std::vector<IObject::Ptr> &objects, size_t bounce) {
     Common::Graphics::Color incomingLight(0, 0, 0);
     Common::Graphics::Color rayColor(1, 1, 1);
 
-    for (unsigned int i = 0; i <= 15; i++) {
+    for (unsigned int i = 0; i <= bounce; i++) {
         auto hitConfig = this->_computeRayCollision(ray, objects);
         if (hitConfig.didHit) {
             auto randomSeed = rngState + i;
             ray.origin = hitConfig.hitPoint;
-            ray.direction = this->_getRandomDirection(hitConfig.normal, randomSeed);
+            Math::Vector3D diffuseDir = this->_getRandomDirection(hitConfig.normal, randomSeed);
+            Math::Vector3D specularDir = ray.direction - hitConfig.normal * 2 * ray.direction.dot(hitConfig.normal);
+            ray.direction = this->_lErp(diffuseDir, specularDir, hitConfig.hitColor.reflectivity);
 
             Common::Graphics::Color emittedLight =
                     hitConfig.hitColor.emissionColor * hitConfig.hitColor.emissionStrength;
@@ -213,6 +217,12 @@ Graphics::Color Camera::_lErp(const Common::Graphics::Color &a, const Common::Gr
     return a * (1 - t) + bt;
 }
 
+Math::Vector3D Camera::_lErp(const Math::Vector3D &a, const Math::Vector3D &b, float t) {
+    Math::Vector3D bt = b * t;
+
+    return a * (1 - t) + bt;
+}
+
 Camera::ComputeError::ComputeError(const std::string &msg) {
     this->_msg = msg;
 }
@@ -246,12 +256,6 @@ void Camera::waitThreadsTeardown() {
     }
     _threads.clear();
     _computeStatus = FINISHED;
-}
-
-void Camera::waitFinished() const {
-    while (_computeStatus != FINISHED) {
-        std::cout << "Waiting finished" << std::endl;
-    }
 }
 
 float Camera::getComputeProgress() const {
